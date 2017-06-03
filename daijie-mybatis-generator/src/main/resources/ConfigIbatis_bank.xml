@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+
+<ibatorConfiguration>
+	<classPathEntry location="E:/jars/mysql-connector-java-5.1.13-bin.jar" />
+	<ibatorContext id="FlatJava5" targetRuntime="Ibatis2Java5">
+		<property name="suppressTypeWarnings" value="true" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.AnnotationPlugin" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.SerializablePlugin" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.PaginationPlugin" />
+
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</ibatorPlugin>
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.ServiceImplPlugin">
+			<property name="targetPackage" value="com.whty.bank.service" />
+			<property name="implementationPackage" value="com.whty.bank.service.impl" />
+			<property name="targetProject" value="src" /><!-- 
+			<property name="enableInsert" value="true" />
+			<property name="enableUpdateByExampleSelective" value="true" />
+			<property name="enableInsertSelective" value="true" />
+			<property name="enableUpdateByPrimaryKey" value="true" />
+			<property name="enableDeleteByPrimaryKey" value="true" />
+			<property name="enableDeleteByExample" value="true" />
+			<property name="enableUpdateByPrimaryKeySelective" value="true" />
+			<property name="enableUpdateByExample" value="true" /> -->
+		</ibatorPlugin>
+
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.SqlMapConfigPlugin">
+			<property name="targetPackage" value="config.ibatis" />
+			<property name="targetProject" value="src" />
+		</ibatorPlugin>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/bank" userId="root"
+			password="xinxin" >
+			<property name="remarksReporting" value="true" />
+		</jdbcConnection>
+		<javaModelGenerator targetPackage="com.whty.bank.pojo" targetProject="src">
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.whty.bank.sqlmap" targetProject="src">
+		</sqlMapGenerator>
+
+		<daoGenerator type="SPRING" targetPackage="com.whty.bank.dao" implementationPackage="com.whty.bank.dao.impl"
+			targetProject="src">
+		</daoGenerator>
+
+		<table tableName="account">
+		</table>
+		<table tableName="trade">
+			<columnOverride column="time" jdbcType="Timestamp" />
+		</table>
+		
+		
+		
+		
+	</ibatorContext>
+</ibatorConfiguration>

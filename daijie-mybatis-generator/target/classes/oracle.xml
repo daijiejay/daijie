@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<classPathEntry location="E:/jars/ojdbc/ojdbc14_10.2.0.4.jar" />
+	<context id="Ibatis2Java5" targetRuntime="Ibatis2Java5">
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<plugin type="org.mybatis.generator.plugins.AnnotationPlugin" />
+		<plugin type="org.mybatis.generator.plugins.IbatisCriteriaPlugin" />
+		<plugin type="org.mybatis.generator.plugins.IbatisServicePlugin">
+			<property name="targetPackage" value="oracleibatis2.service" />
+			<property name="implementationPackage" value="oracleibatis2.service.impl" />
+			<property name="targetProject" value="../mybatis-generator-test/src" />
+			<property name="enableInsert" value="true" />
+			<property name="enableUpdateByExampleSelective" value="true" />
+			<property name="enableInsertSelective" value="true" />
+			<property name="enableUpdateByPrimaryKey" value="true" />
+			<property name="enableDeleteByPrimaryKey" value="true" />
+			<property name="enableDeleteByExample" value="true" />
+			<property name="enableUpdateByPrimaryKeySelective" value="true" />
+			<property name="enableUpdateByExample" value="true" />
+		</plugin>
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@10.8.4.249:1521:BROADCAS"
+			userId="chenxin" password="chenxin">
+		</jdbcConnection>
+		
+		<javaModelGenerator targetPackage="oracleibatis2.pojo" targetProject="../mybatis-generator-test/src">
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="oracleibatis2.sqlmap" targetProject="../mybatis-generator-test/src">
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="SPRING" targetPackage="oracleibatis2.dao"
+			targetProject="../mybatis-generator-test/src">
+		</javaClientGenerator>
+
+		<table tableName="TRADE" schema="chenxin">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="TRADE" />
+			<generatedKey column="id" sqlStatement="select sys_guid() from dual" />
+		</table>
+	</context>
+	
+	
+	<context id="MyBatis3" targetRuntime="MyBatis3">
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<plugin type="org.mybatis.generator.plugins.MybatisCriteriaPlugin" />
+		<plugin type="org.mybatis.generator.plugins.MybatisServicePlugin">
+			<property name="targetPackage" value="oraclemybatis.service" />
+			<property name="implementationPackage" value="oraclemybatis.service.impl" />
+			<property name="targetProject" value="../mybatis-generator-test/src" />
+			<property name="enableInsert" value="true" />
+			<property name="enableUpdateByExampleSelective" value="true" />
+			<property name="enableInsertSelective" value="true" />
+			<property name="enableUpdateByPrimaryKey" value="true" />
+			<property name="enableDeleteByPrimaryKey" value="true" />
+			<property name="enableDeleteByExample" value="true" />
+			<property name="enableUpdateByPrimaryKeySelective" value="true" />
+			<property name="enableUpdateByExample" value="true" />
+		</plugin>
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@10.8.4.249:1521:BROADCAS"
+			userId="chenxin" password="chenxin">
+		</jdbcConnection>
+		
+		<javaModelGenerator targetPackage="oraclemybatis.pojo" targetProject="../mybatis-generator-test/src">
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="oraclemybatis.sqlmap" targetProject="../mybatis-generator-test/src">
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER" targetPackage="oraclemybatis.dao"
+			targetProject="../mybatis-generator-test/src">
+		</javaClientGenerator>
+
+		<table tableName="TRADE" schema="chenxin">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="TRADE" />
+			<generatedKey column="id" sqlStatement="select sys_guid() from dual" />
+		</table>
+	</context>
+</generatorConfiguration>

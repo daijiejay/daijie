@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.daijie</groupId>
+  <artifactId>daijie</artifactId>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
+	<parent>
+		<version>1.5.3.RELEASE</version>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+	</parent>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <modules>
+    <module>daijie-core</module>
+    <module>daijie-dome</module>
+    <module>daijie-shiro</module>
+    <module>daijie-mybatis</module>
+    <module>daijie-mybatis-generator</module>
+    <module>daijie-web-SMS</module>
+    <module>daijie-web</module>
+    <module>daijie-webapp</module>
+    <module>daijie-cloud-SMS</module>
+    <module>daijie-model-SMS</module>
+    <module>daijie-webapp-SMS</module>
+    <module>daijie-eureka-service</module>
+  </modules>
+</project>

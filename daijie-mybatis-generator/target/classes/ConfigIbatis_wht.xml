@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+
+<ibatorConfiguration>
+	<classPathEntry location="E:/jars/ojdbc/ojdbc14_10.2.0.4.jar" />
+	<ibatorContext id="FlatJava5" targetRuntime="Ibatis2Java5">
+		<property name="suppressTypeWarnings" value="true" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.AnnotationPlugin" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.SerializablePlugin" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.PaginationPlugin" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</ibatorPlugin>
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.ServiceImplPlugin">
+			<property name="targetPackage" value="com.whty.wht.service" />
+			<property name="implementationPackage" value="com.whty.wht.service.impl" />
+			<property name="targetProject" value="../wht/src" />
+		</ibatorPlugin>
+		<!-- 产生sqlmap.xml 
+		-->
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.SqlMapConfigPlugin">
+			<property name="targetPackage" value="config" />
+			<property name="targetProject" value="../wht/src" />
+		</ibatorPlugin>
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@10.8.4.249:1521:BROADCAS"
+			userId="mfone" password="ty1234">
+			<property name="remarksReporting" value="true" />
+		</jdbcConnection>
+		<javaModelGenerator targetPackage="com.whty.wht.pojo" targetProject="../wht/src">
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.whty.wht.sqlmap" targetProject="../wht/src">
+		</sqlMapGenerator>
+
+		<daoGenerator type="SPRING" targetPackage="com.whty.wht.dao" implementationPackage="com.whty.wht.dao.impl"
+			targetProject="../wht/src">
+		</daoGenerator>
+		<table tableName="T_WHT" schema="MFONE">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="Wht" />
+			<property name="runtimeSchema" value="MFONE" />
+			<!--<columnRenamingRule searchString="^T_" replaceString=""/>
+			--><columnOverride column="time" jdbcType="Timestamp" />
+		</table>
+		<table tableName="SP_INFO">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<!--<property name="runtimeTableName" value="Eota" />
+			--><property name="runtimeSchema" value="EOTA" />
+			<!--<columnRenamingRule searchString="^T_" replaceString=""/>
+			--><columnOverride column="time" jdbcType="Timestamp" />
+		</table>
+	</ibatorContext>
+</ibatorConfiguration>

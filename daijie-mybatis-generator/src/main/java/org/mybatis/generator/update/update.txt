@@ -1,0 +1,20 @@
+1、更新 SerializablePlugin插件变量serialVersionUID的位置 topLevelClass.addField(0,field);
+2、增加了数据库的返回注释，去掉了不必要的一些注释
+3、注释所有的接口方法
+4、为ibatis2增加了个 给dao增加注解的插件
+5、增加公共查询条件类 ibatis 和mybatis
+6、增加了service的生成插件
+7、增加pojo类注释-》table的注释
+8、默认不加入jdbcType属性，如：#{condition.myaccount,jdbcType=VARCHAR}或者 #condition.myaccount:VARCHAR#
+	如果需要使用，在<context 的下面配置
+	<property name="jdbcType" value="true" />即可
+	如：<context id="Ibatis2Java5" targetRuntime="Ibatis2Java5">
+		<property name="jdbcType" value="true" />
+9、增加了获取SQL Server表注释和字段注释的方法，仅测试过SQL Server 2000版本。其他版本不适用时，可以修改方法见：
+	package org.mybatis.generator.internal.db;
+	这个下面的private String getTableRemark(String tableName) 方法和
+	private String getClumnRemark(String tableName, String clumnName)方法
+10、为每个pojo增加serialVersionUID
+11、集中mysql和oracle的分页变量，都叫limit和start
+12、新生成xml的时候，覆盖旧的xml this.isMergeable = isMergeable;
+13、

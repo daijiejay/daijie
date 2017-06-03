@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+
+<ibatorConfiguration>
+	<classPathEntry location="E:/jars/ojdbc/ojdbc14_10.2.0.4.jar" />
+	<ibatorContext id="FlatJava5" targetRuntime="Ibatis2Java5">
+		<property name="suppressTypeWarnings" value="true" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.AnnotationPlugin" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.SerializablePlugin" />
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.PaginationPlugin" />
+
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</ibatorPlugin>
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.ServiceImplPlugin">
+			<property name="targetPackage" value="com.whty.ota.service" />
+			<property name="implementationPackage" value="com.whty.ota.service.impl" />
+			<property name="targetProject" value="src" />
+			<property name="enableInsert" value="true" />
+			<property name="enableUpdateByExampleSelective" value="true" />
+			<property name="enableInsertSelective" value="true" />
+			<property name="enableUpdateByPrimaryKey" value="true" />
+			<property name="enableDeleteByPrimaryKey" value="true" />
+			<property name="enableDeleteByExample" value="true" />
+			<property name="enableUpdateByPrimaryKeySelective" value="true" />
+			<property name="enableUpdateByExample" value="true" />
+		</ibatorPlugin>
+
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.SqlMapConfigPlugin">
+			<property name="targetPackage" value="config.ibatis" />
+			<property name="targetProject" value="src" />
+		</ibatorPlugin>
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@10.8.4.249:1521:BROADCAS"
+			userId="chenxin" password="chenxin">
+			<property name="remarksReporting" value="true" />
+		</jdbcConnection>
+		<javaModelGenerator targetPackage="com.whty.ota.pojo" targetProject="src">
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.whty.ota.sqlmap" targetProject="src">
+		</sqlMapGenerator>
+
+		<daoGenerator type="SPRING" targetPackage="com.whty.ota.dao" implementationPackage="com.whty.ota.dao.impl"
+			targetProject="src">
+		</daoGenerator>
+
+		<table tableName="BASE_MODULES" schema="chenxin">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="BASE_MODULES" />
+			<generatedKey column="MODULE_ID" sqlStatement="select SEQ_BASE_MODULES.nextval from dual" />
+		</table>
+		<table tableName="BASE_ROLES" schema="chenxin">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="BASE_ROLES" />
+			<generatedKey column="ROLE_ID" sqlStatement="select sys_guid() from dual" />
+		</table>
+		<table tableName="BASE_ROLE_MODULE" schema="chenxin">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="BASE_ROLE_MODULE" />
+			<generatedKey column="ROLE_MODULE_ID" sqlStatement="select sys_guid() from dual" />
+		</table>
+		<table tableName="BASE_USERS" schema="chenxin">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="BASE_USERS" />
+			<generatedKey column="USER_ID" sqlStatement="select sys_guid() from dual" />
+			<columnOverride column="LAST_LOGIN_TIME" jdbcType="Timestamp" />
+		</table>
+		<table tableName="BASE_USER_ROLE" schema="chenxin">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+			<property name="runtimeTableName" value="BASE_USER_ROLE" />
+			<generatedKey column="USER_ROLE_ID" sqlStatement="select sys_guid() from dual" />
+		</table>
+	</ibatorContext>
+</ibatorConfiguration>
