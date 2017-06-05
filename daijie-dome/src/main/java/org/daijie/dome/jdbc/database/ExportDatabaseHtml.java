@@ -14,6 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * 导出数据结构文档
+ * 
+ */
 public class ExportDatabaseHtml {
 
 	public String getHtml(String host, String post, String dbName, String user, String password, String path) throws SQLException{

@@ -5,6 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * 表单验证工具类
+ * 
+ */
 public class ValidateTools {
 
 	/// ///

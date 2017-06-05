@@ -1,8 +1,9 @@
 package org.daijie.core.factory;
 
 /**
- * 初始化工厂
+ * 
  * @author daijie
+ * 初始化工厂
  *
  */
 public interface InitialFactory {

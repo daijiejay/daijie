@@ -10,6 +10,13 @@ import javax.crypto.spec.PBEKeySpec;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * 密码对称加密算法工具类
+ * 
+ */
 public class PasswordUtils {
 	private static class SecretKeyFactorySingleTon {
 		private static SecretKeyFactory skf = null;

@@ -29,6 +29,13 @@ import org.apache.http.util.EntityUtils;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * http请求接口工具类
+ * 
+ */
 @SuppressWarnings({ "deprecation", "resource", "restriction" })
 public class HttpUtils {
 
@@ -183,6 +190,12 @@ public class HttpUtils {
         return sbf.toString();
     }
 	
+	/**
+	 * 请求获取图片
+	 * @param urlStr
+	 * @param request
+	 * @return
+	 */
 	public static BufferedImage downloadImage(String urlStr, HttpServletRequest request){
 		/** 网络的url地址 */        
 		URL url = null;              

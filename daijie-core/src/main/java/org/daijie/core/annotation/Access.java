@@ -18,7 +18,15 @@ import org.daijie.core.controller.enums.AccessType;
 @Documented 
 public @interface Access {
 
+	/**
+	 * 权限类型
+	 * @return
+	 */
 	AccessType[] value();
 	
+	/**
+	 * 角色
+	 * @return
+	 */
 	String[] role() default "";
 }

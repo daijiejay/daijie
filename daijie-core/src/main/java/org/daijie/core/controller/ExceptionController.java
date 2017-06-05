@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
- * 定义异常的controller
+ * 处理异常的controller
  * @author daijie
  *
  * @param <E>

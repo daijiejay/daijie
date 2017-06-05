@@ -8,9 +8,11 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * API返回数据工具类
+ * 
  * @author daijie
- *
+ * @date 2017年6月5日
+ * API返回数据工具类
+ * 
  */
 public class ApiResultWrapper implements Serializable {
 

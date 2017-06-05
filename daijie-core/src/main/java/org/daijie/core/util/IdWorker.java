@@ -33,7 +33,7 @@ import java.util.Random;
  * python版详见开源项目https://github.com/erans/pysnowflake。
  * </p>
  *
- * @author hubin
+ * @author daijie
  * @Date 2016-01-22
  */
 public class IdWorker {

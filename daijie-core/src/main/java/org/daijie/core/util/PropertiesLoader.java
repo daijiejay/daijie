@@ -1,28 +1,5 @@
 package org.daijie.core.util;
 
-/**
- * Created by will on 2015-12-27.
- * <p>
- * Copyright (c) 2005-2011 springside.org.cn
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * <p>
- * $Id: PropertiesLoader.java 1690 2012-02-22 13:42:00Z calvinxiu $
- * <p>
- * Copyright (c) 2005-2011 springside.org.cn
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * <p>
- * $Id: PropertiesLoader.java 1690 2012-02-22 13:42:00Z calvinxiu $
- */
-/**
- * Copyright (c) 2005-2011 springside.org.cn
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- *
- * $Id: PropertiesLoader.java 1690 2012-02-22 13:42:00Z calvinxiu $
- */
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -35,9 +12,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
  * Properties文件载入工具类. 可载入多个properties文件, 相同的属性在最后载入的文件中的值将会覆盖之前的值，但以System的Property优先.
- * @author calvin
- * @version 2013-01-15
+ * 
  */
 public class PropertiesLoader {
 
@@ -147,11 +126,7 @@ public class PropertiesLoader {
 	 */
 	private Properties loadProperties(String... resourcesPaths) {
 		Properties props = new Properties();
-
 		for (String location : resourcesPaths) {
-
-//			logger.debug("Loading properties file from:" + location);
-
 			InputStream is = null;
 			try {
 				Resource resource = resourceLoader.getResource(location);

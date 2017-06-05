@@ -37,6 +37,13 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * shiro session集群+redis配置
+ * 
+ */
 public class ShiroConfigure {
 	
 	private PropertiesLoader loader = new PropertiesLoader("bootstrap.properties");
