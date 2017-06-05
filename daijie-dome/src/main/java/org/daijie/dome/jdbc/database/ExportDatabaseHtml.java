@@ -56,7 +56,7 @@ public class ExportDatabaseHtml {
 			buffer.append("		<style>                                                                      \n");
 			buffer.append("			.body{                                                                     \n");
 			buffer.append("				width: 95%;                                                          \n");
-			buffer.append("				height: 1000px;                                                          \n");
+			buffer.append("				height: 600px;                                                          \n");
 			buffer.append("				padding: 10px 20px 10px 20px;                                            \n");
 			buffer.append("				border: 2px solid #000;                                                  \n");
 			buffer.append("			}                                                                          \n");
@@ -94,7 +94,7 @@ public class ExportDatabaseHtml {
 			buffer.append("				font-size: 14px;                                                         \n");
 			buffer.append("				padding: 2px 0 0 10px;                                                   \n");
 			buffer.append("				overflow:scroll;                                                   \n");
-			buffer.append("				height: 1000px;                                                   \n");
+			buffer.append("				height: 100%;                                                   \n");
 			buffer.append("			}                                                                          \n");
 			buffer.append("			.table-right>table{                                                        \n");
 			buffer.append("				font-family:\"Trebuchet MS\", Arial, Helvetica, sans-serif;                \n");
