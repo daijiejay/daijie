@@ -8,7 +8,7 @@ import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.daijie.core.service.IBasicService;
-import org.daijie.core.util.HttpRequestUtil;
+import org.daijie.core.util.http.HttpRequestUtil;
 import org.daijie.shiro.session.ClusterRedisSession;
 import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.RedisSessionFactory;

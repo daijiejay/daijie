@@ -1,4 +1,4 @@
-package org.daijie.core.util;
+package org.daijie.core.util.validate;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

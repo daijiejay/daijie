@@ -1,4 +1,4 @@
-package org.daijie.core.util;
+package org.daijie.core.util.validate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * 表单验证工具类
  * 
  */
-public class ValidateTools {
+public class ValidateUtil {
 
 	/// ///
 	/// 任意字符串 /// 全角字符串 ///
@@ -96,7 +96,7 @@ public class ValidateTools {
 	 * @return
 	 */
 	public static boolean isHasChinese(String str) {
-		if (!ValidateTools.isEmpty(str)) {
+		if (!ValidateUtil.isEmpty(str)) {
 			String regex = ".*[\u4E00-\u9FA5]+.*";
 			return matText(regex, str);
 		}
@@ -268,7 +268,7 @@ public class ValidateTools {
 	}
 
 	public static boolean isNotEmpty(String str) {
-		return !ValidateTools.isEmpty(str);
+		return !ValidateUtil.isEmpty(str);
 	}
 
 	/**

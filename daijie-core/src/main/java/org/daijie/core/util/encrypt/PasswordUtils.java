@@ -1,4 +1,4 @@
-package org.daijie.core.util;
+package org.daijie.core.util.encrypt;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;

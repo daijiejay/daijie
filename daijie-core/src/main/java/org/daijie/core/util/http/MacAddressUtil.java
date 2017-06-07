@@ -1,4 +1,4 @@
-package org.daijie.core.util;
+package org.daijie.core.util.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.Map;
  * 获取request的IP、MAC和城市地址
  * 
  */
-public class MacAddressHelper {
+public class MacAddressUtil {
 	public static String callCmd(String[] cmd) {
 		String result = "";
 		String line = "";

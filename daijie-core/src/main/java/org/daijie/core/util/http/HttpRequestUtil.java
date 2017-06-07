@@ -1,4 +1,4 @@
-package org.daijie.core.util;
+package org.daijie.core.util.http;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,7 +53,7 @@ public class HttpRequestUtil {
 	 */	
 	public String getIPAddress(){
 		try {
-			return MacAddressHelper.ip2Location(getIP());
+			return MacAddressUtil.ip2Location(getIP());
 		} catch (Exception e) {
 			logger.error("IP Address not found!");
 			return "IP Address not found!";
