@@ -14,6 +14,13 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * ibatis数据源配置
+ * 
+ */
 @Configuration
 public class IbatisConfigure {
 

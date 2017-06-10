@@ -1,6 +1,11 @@
 package org.daijie.core.controller.enums;
 
-
+/**
+ * 
+ * @author daijie
+ * 接口数据返回代码枚举
+ *
+ */
 public enum ResultCode {
 
 	CODE_100("100", "数据校验失败"),

@@ -24,6 +24,9 @@ public abstract class ApiController<S, E extends Exception> extends ApiResultIni
 		super();
 	}
 
+	/**
+	 * 异常时，根据异常级别响应默认返回数据
+	 */
 	@Override
 	public Object exceptionHandler(E e) {
 		e.printStackTrace();

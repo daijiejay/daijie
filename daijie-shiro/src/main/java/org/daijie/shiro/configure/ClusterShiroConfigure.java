@@ -44,6 +44,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * shiro session集群+redis集群配置
+ * 
+ */
 public class ClusterShiroConfigure {
 	
 	private PropertiesLoader loader = new PropertiesLoader("bootstrap.properties");

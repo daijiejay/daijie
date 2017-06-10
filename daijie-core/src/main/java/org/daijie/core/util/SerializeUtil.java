@@ -5,9 +5,16 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-public class SerializeUtils {
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * 序列化工具类
+ * 
+ */
+public class SerializeUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(SerializeUtils.class);
+	private static Logger logger = LoggerFactory.getLogger(SerializeUtil.class);
 
 	/**
 	 * 反序列化
@@ -62,7 +69,7 @@ public class SerializeUtils {
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream(128);
 			try {
 				if (!(object instanceof Serializable)) {
-					throw new IllegalArgumentException(SerializeUtils.class.getSimpleName() + " requires a Serializable payload " +
+					throw new IllegalArgumentException(SerializeUtil.class.getSimpleName() + " requires a Serializable payload " +
 							"but received an object of type [" + object.getClass().getName() + "]");
 				}
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteStream);

@@ -1,4 +1,4 @@
-package org.daijie.core.util;
+package org.daijie.core.util.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,11 +20,13 @@ import com.google.gson.reflect.TypeToken;
 import java.util.Map;
 
 /**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
  * 获取request的IP、MAC和城市地址
- * @author daijie_jay
- *
+ * 
  */
-public class MacAddressHelper {
+public class MacAddressUtil {
 	public static String callCmd(String[] cmd) {
 		String result = "";
 		String line = "";

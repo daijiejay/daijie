@@ -1,6 +1,12 @@
 package org.daijie.dome.algorithm;
 
-//Java实现的排序类  
+/**
+ *  
+ * @author daijie
+ * @date 2017年6月5日
+ * 数组排序
+ * 
+ */
 public class NumberSort {   
 	//私有构造方法，禁止实例化  
 	private NumberSort() {   

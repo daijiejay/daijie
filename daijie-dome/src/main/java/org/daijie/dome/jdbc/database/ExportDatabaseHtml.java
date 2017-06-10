@@ -14,6 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
+ * 导出数据结构文档
+ * 
+ */
 public class ExportDatabaseHtml {
 
 	public String getHtml(String host, String post, String dbName, String user, String password, String path) throws SQLException{
@@ -56,7 +63,7 @@ public class ExportDatabaseHtml {
 			buffer.append("		<style>                                                                      \n");
 			buffer.append("			.body{                                                                     \n");
 			buffer.append("				width: 95%;                                                          \n");
-			buffer.append("				height: 1000px;                                                          \n");
+			buffer.append("				height: 600px;                                                          \n");
 			buffer.append("				padding: 10px 20px 10px 20px;                                            \n");
 			buffer.append("				border: 2px solid #000;                                                  \n");
 			buffer.append("			}                                                                          \n");
@@ -94,7 +101,7 @@ public class ExportDatabaseHtml {
 			buffer.append("				font-size: 14px;                                                         \n");
 			buffer.append("				padding: 2px 0 0 10px;                                                   \n");
 			buffer.append("				overflow:scroll;                                                   \n");
-			buffer.append("				height: 1000px;                                                   \n");
+			buffer.append("				height: 100%;                                                   \n");
 			buffer.append("			}                                                                          \n");
 			buffer.append("			.table-right>table{                                                        \n");
 			buffer.append("				font-family:\"Trebuchet MS\", Arial, Helvetica, sans-serif;                \n");

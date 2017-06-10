@@ -1,4 +1,4 @@
-package org.daijie.core.util;
+package org.daijie.core.util.validate;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
+ * 
+ * @author daijie
+ * @date 2017年6月5日
  * 检测访问设备
- * @author daijie_jay
- *
+ * 
  */
 public class DeviceUtil {
 

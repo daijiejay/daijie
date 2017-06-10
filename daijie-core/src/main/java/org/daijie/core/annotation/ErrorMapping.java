@@ -20,5 +20,9 @@ import org.springframework.stereotype.Component;
 @Component
 public @interface ErrorMapping {
 
+	/**
+	 * 要跳转页面的路径
+	 * @return
+	 */
 	String path() default "";
 }

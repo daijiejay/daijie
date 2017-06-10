@@ -1,9 +1,6 @@
 package org.daijie.core.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.daijie.core.annotation.ErrorMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -15,17 +12,23 @@ import org.springframework.context.event.ContextRefreshedEvent;
  *
  */
 public abstract class WebController implements ExceptionController<Exception>, ApplicationListener<ContextRefreshedEvent> {
-	
-	@Autowired
-	protected HttpServletRequest request;
 
+	/**
+	 * 默认错误页面
+	 */
 	private String errorMappingPath = "error";
 	
+	/**
+	 * 异常时返回错误页面
+	 */
 	@Override
 	public Object exceptionHandler(Exception e) {
 		return errorMappingPath;
 	}
 	
+	/**
+	 * 获取controller注解中的异常时返回的页面路径
+	 */
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		ApplicationContext context = event.getApplicationContext();

@@ -8,11 +8,14 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * 
  * @author daijie
+ * spring容器bean工具类
  *
  */
 
 public class ApplicationContextHolder implements ApplicationContextAware {
-	private static ApplicationContext applicationContext;     //Spring应用上下文环境
+	
+	//Spring应用上下文环境
+	private static ApplicationContext applicationContext;     
 
 	/**
 	 * 实现ApplicationContextAware接口的回调方法，设置上下文环境
