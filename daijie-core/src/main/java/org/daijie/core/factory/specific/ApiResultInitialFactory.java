@@ -19,9 +19,7 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	 */
 	@Override
 	public Object init() {
-		return new ApiResultWrapper(ApiResult.SUCCESS,
-				ResultCode.CODE_200.getValue(),
-				ResultCode.CODE_200.getDescription());
+		return new ApiResultWrapper(ApiResult.SUCCESS, ResultCode.CODE_200);
 	}
 
 	/**
@@ -68,7 +66,7 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	 * @param success
 	 * @return
 	 */
-	public static ApiResult build(String msg, boolean success, String code){
+	public static ApiResult build(String msg, boolean success, ResultCode code){
 		return Result.clear().setMsg(msg).setSuccess(success).setCode(code).build();
 	}
 	

@@ -1,5 +1,11 @@
 package org.daijie.core.util.http;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -72,8 +78,48 @@ public class HttpRequestUtil {
 				return getRequest().getParameter(TOKEN_NAME);
 			}else if(!StringUtils.isEmpty(getRequest().getHeader(TOKEN_NAME))){
 				return getRequest().getHeader(TOKEN_NAME);
+			}else if(!StringUtils.isEmpty(CookieUtil.get(getRequest(), TOKEN_NAME))){
+				return CookieUtil.get(getRequest(), TOKEN_NAME);
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * 获取请求Body转换为json字符串
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getBodyString() {
+		StringBuilder sb = new StringBuilder();
+		InputStream inputStream = null;
+		BufferedReader reader = null;
+		try {
+			inputStream = getRequest().getInputStream();
+			reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return sb.toString();
 	}
 }

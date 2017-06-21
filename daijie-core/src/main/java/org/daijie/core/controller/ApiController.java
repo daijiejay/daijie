@@ -33,7 +33,7 @@ public abstract class ApiController<S, E extends Exception> extends ApiResultIni
 		if(e instanceof ApiException){
 			return Result.build(e.getMessage(), ApiResult.ERROR, ((ApiException) e).getCode());
 		}else{
-			return Result.build(e.getMessage(), ApiResult.ERROR, ResultCode.CODE_500.getValue());
+			return Result.build(e.getMessage(), ApiResult.ERROR, ResultCode.CODE_500);
 		}
 	}
 }

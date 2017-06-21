@@ -1,5 +1,7 @@
 package org.daijie.core.controller.exception;
 
+import org.daijie.core.controller.enums.ResultCode;
+
 /**
  * api异常类
  * @author daijie
@@ -9,7 +11,7 @@ package org.daijie.core.controller.exception;
 public class ApiException extends RuntimeException {
 
 	//错误码
-	private String code = "500";
+	private ResultCode code = ResultCode.CODE_500;
 	
 	public ApiException(){
 		super();
@@ -23,21 +25,21 @@ public class ApiException extends RuntimeException {
 		super(throwable);
 	}
 	
-	public ApiException(String code, String msg){
+	public ApiException(ResultCode code, String msg){
 		super(msg);
 		this.code = code;
 	}
 	
-	public ApiException(String code, Throwable throwable, String msg){
+	public ApiException(ResultCode code, Throwable throwable, String msg){
 		super(msg, throwable);
 		this.code = code;
 	}
 
-	public String getCode() {
+	public ResultCode getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(ResultCode code) {
 		this.code = code;
 	}
 }

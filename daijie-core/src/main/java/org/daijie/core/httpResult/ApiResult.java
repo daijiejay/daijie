@@ -31,8 +31,8 @@ public class ApiResult {
 		return code;
 	}
 
-	public void setCode(String code2) {
-		this.code = code2;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public boolean isSuccess() {

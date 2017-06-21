@@ -1,5 +1,6 @@
 package org.daijie.core.httpResult;
 
+import org.daijie.core.controller.enums.ResultCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Conventions;
@@ -30,9 +31,15 @@ public class ApiResultWrapper implements Serializable {
 		apiResult.setSuccess(success);
 	}
 	
-	public ApiResultWrapper(boolean success, String code, String msg) {
+	public ApiResultWrapper(boolean success, ResultCode code) {
 		apiResult.setSuccess(success);
-		apiResult.setCode(code);
+		apiResult.setCode(code.getValue());
+		apiResult.setMsg(code.getDescription());
+	}
+	
+	public ApiResultWrapper(boolean success, ResultCode code, String msg) {
+		apiResult.setSuccess(success);
+		apiResult.setCode(code.getValue());
 		apiResult.setMsg(msg);
 	}
 
@@ -46,8 +53,8 @@ public class ApiResultWrapper implements Serializable {
 		return this;
 	}
 	
-	public ApiResultWrapper setCode(String code) {
-		apiResult.setCode(code);
+	public ApiResultWrapper setCode(ResultCode code) {
+		apiResult.setCode(code.getValue());
 		return this;
 	}
 

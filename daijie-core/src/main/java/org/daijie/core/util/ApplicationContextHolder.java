@@ -11,7 +11,6 @@ import org.springframework.context.ApplicationContextAware;
  * spring容器bean工具类
  *
  */
-
 public class ApplicationContextHolder implements ApplicationContextAware {
 	
 	//Spring应用上下文环境
