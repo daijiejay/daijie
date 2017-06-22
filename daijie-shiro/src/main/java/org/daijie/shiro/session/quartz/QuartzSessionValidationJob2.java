@@ -1,8 +1,5 @@
 package org.daijie.shiro.session.quartz;
 
-/** 
- * Created by koko on 2016/7/20. 
- */  
 import org.apache.shiro.session.mgt.ValidatingSessionManager;  
 import org.quartz.Job;  
 import org.quartz.JobDataMap;  
@@ -12,9 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;  
   
 /** 
- * 基于Quartz 2.* 版本的实现 
- * 
- */  
+ * 基于Quartz 2.* 版本的实现
+ * @author daijie
+ * @date 2017年6月22日
+ */
 public class QuartzSessionValidationJob2 implements Job {  
   
     /** 

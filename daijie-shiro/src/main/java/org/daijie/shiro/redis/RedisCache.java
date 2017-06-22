@@ -1,6 +1,3 @@
-/**
- * Copyright 2017 asiainfo Inc.
- **/
 package org.daijie.shiro.redis;
 
 import org.apache.shiro.cache.Cache;
@@ -13,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * @author zhangsy
+ * 重写
+ * @author daijie
+ * @date 2017年6月22日
  */
 public class RedisCache<K, V> implements Cache<K, V> {
 	

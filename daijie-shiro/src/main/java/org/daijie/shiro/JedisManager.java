@@ -5,14 +5,18 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 /**
- * jedis manager
- *
- * @author michael
+ * redis客服端管理类
+ * @author daijie
+ * @date 2017年6月22日
  */
 public class JedisManager {
 
     private JedisPool jedisPool;
 
+    /**
+     * 建立redis客户端
+     * @return
+     */
     public Jedis getJedis() {
         Jedis jedis = null;
         try {
@@ -33,6 +37,13 @@ public class JedisManager {
             getJedisPool().returnResource(jedis);
     }
 
+    /**
+     * 获取redis数据库中的值
+     * @param dbIndex
+     * @param key
+     * @return
+     * @throws Exception
+     */
     public byte[] getValueByKey(int dbIndex, byte[] key) throws Exception {
         Jedis jedis = null;
         byte[] result = null;
@@ -50,6 +61,13 @@ public class JedisManager {
         return result;
     }
 
+    /**
+     * 删除redis数据库中的值
+     * @param dbIndex
+     * @param key
+     * @return
+     * @throws Exception
+     */
     public void deleteByKey(int dbIndex, byte[] key) throws Exception {
         Jedis jedis = null;
         boolean isBroken = false;
@@ -65,6 +83,13 @@ public class JedisManager {
         }
     }
 
+    /**
+     * 保存redis数据库中的值
+     * @param dbIndex
+     * @param key
+     * @return
+     * @throws Exception
+     */
     public void saveValueByKey(int dbIndex, byte[] key, byte[] value, int expireTime)
             throws Exception {
         Jedis jedis = null;

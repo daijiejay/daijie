@@ -16,14 +16,22 @@ import org.daijie.shiro.authc.ShiroConstants;
 import org.daijie.shiro.session.ClusterRedisSession;
 import org.daijie.shiro.session.RedisSession;
 
+/**
+ * 用户登录令牌匹配器
+ * @author daijie
+ * @date 2017年6月22日
+ */
 public class TokenCredentialsMatcher implements CredentialsMatcher {
+	
+	private boolean isValidation = false;
 
 	private SessionDAO redisSession;
 	
-	private boolean isValidation = false;
-	
 	private Session session;
 	
+	/**
+	 * 用户密码匹配
+	 */
 	@Override
 	public boolean doCredentialsMatch(AuthenticationToken token,
 			AuthenticationInfo info) {

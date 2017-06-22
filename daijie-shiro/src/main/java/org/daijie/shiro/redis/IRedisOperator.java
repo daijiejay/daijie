@@ -1,12 +1,11 @@
-/**
- * Copyright 2017 asiainfo Inc.
- **/
 package org.daijie.shiro.redis;
 
 import java.util.TreeSet;
 
 /**
- * @author zhangsy
+ * redis操作工厂类
+ * @author daijie
+ * @date 2017年6月22日
  */
 public interface IRedisOperator {
   /**

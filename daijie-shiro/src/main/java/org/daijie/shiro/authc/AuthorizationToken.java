@@ -2,6 +2,11 @@ package org.daijie.shiro.authc;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 
+/**
+ * 用于shiro用户登录的实体类
+ * @author daijie
+ * @date 2017年6月22日
+ */
 @SuppressWarnings("serial")
 public class AuthorizationToken extends UsernamePasswordToken {
 

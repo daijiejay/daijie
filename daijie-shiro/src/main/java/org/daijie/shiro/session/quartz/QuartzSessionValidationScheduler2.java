@@ -1,8 +1,5 @@
 package org.daijie.shiro.session.quartz;
 
-/** 
- * Created by koko on 2016/7/20. 
- */  
 import org.apache.shiro.session.mgt.DefaultSessionManager;  
 import org.apache.shiro.session.mgt.SessionValidationScheduler;  
 import org.apache.shiro.session.mgt.ValidatingSessionManager;  
@@ -18,9 +15,11 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;  
 import org.slf4j.LoggerFactory;  
 
-/** 
- * 基于Quartz 2.* 版本的实现 
- */  
+/**
+ * 基于Quartz 2.* 版本的实现  
+ * @author daijie
+ * @date 2017年6月22日
+ */
 public class QuartzSessionValidationScheduler2 implements SessionValidationScheduler {  
 
 	public static final long DEFAULT_SESSION_VALIDATION_INTERVAL = DefaultSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL;  

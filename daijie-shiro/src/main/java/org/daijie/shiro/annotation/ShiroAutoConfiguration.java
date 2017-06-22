@@ -9,7 +9,12 @@ import java.lang.annotation.Target;
 import org.daijie.shiro.configure.ShiroConfigure;
 import org.springframework.context.annotation.Import;
 
-
+/**
+ * 此注解配置shiro
+ * 注解集成了spring boot，在任何被扫描类加上此注册即可使用
+ * @author daijie
+ * @date 2017年6月22日
+ */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

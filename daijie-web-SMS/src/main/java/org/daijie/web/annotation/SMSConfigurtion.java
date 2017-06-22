@@ -11,6 +11,12 @@ import org.daijie.core.util.bean.ApplicationContextHolderBean;
 import org.daijie.web.bean.ShiroRedisSessionBean;
 import org.springframework.context.annotation.Import;
 
+/**
+ * 基于spring+mybatis+shiro框架的集成
+ * 注解集成了spring boot，在任何被扫描类加上此注册即可使用
+ * @author daijie
+ * @date 2017年6月22日
+ */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

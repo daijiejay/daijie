@@ -1,6 +1,3 @@
-/**
- * Copyright 2017 asiainfo Inc.
- **/
 package org.daijie.shiro.redis;
 
 import redis.clients.jedis.JedisCluster;
@@ -8,7 +5,9 @@ import redis.clients.jedis.JedisCluster;
 import java.util.TreeSet;
 
 /**
- * @author zhangsy
+ * 集群redis管理
+ * @author daijie
+ * @date 2017年6月22日
  */
 public class RedisManager {
 

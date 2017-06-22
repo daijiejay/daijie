@@ -1,6 +1,3 @@
-/**
- * Copyright 2017 asiainfo Inc.
- **/
 package org.daijie.shiro.session;
 
 import org.apache.shiro.session.Session;
@@ -15,7 +12,10 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * @author zhangsy
+ * 重写org.crazycake.shiro.RedisSessionDAO
+ * 实现redis集群
+ * @author daijie
+ * @date 2017年6月22日
  */
 public class RedisSessionDAO extends AbstractSessionDAO {
 

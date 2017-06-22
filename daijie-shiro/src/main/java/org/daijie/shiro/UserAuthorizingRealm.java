@@ -16,8 +16,16 @@ import org.apache.shiro.util.ByteSource;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.UserToken;
 
+/**
+ * 用户登录后角色权限注入到shiro管理
+ * @author daijie
+ * @date 2017年6月22日
+ */
 public class UserAuthorizingRealm extends AuthorizingRealm {
 
+	/**
+	 * 设置用户角色信息
+	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
@@ -39,6 +47,9 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
 		return simpleAuthorInfo;
 	}
 
+	/**
+	 * 设置用户登录信息
+	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {

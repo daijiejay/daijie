@@ -2,6 +2,11 @@ package org.daijie.shiro.authc;
 
 import java.util.List;
 
+/**
+ * 用户角色权限实体
+ * @author daijie
+ * @date 2017年6月22日
+ */
 public class UserToken {
 
 	private Object authc;

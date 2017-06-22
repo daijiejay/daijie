@@ -1,6 +1,3 @@
-/**
- * Copyright 2017 asiainfo Inc.
- **/
 package org.daijie.shiro.redis;
 
 import org.apache.shiro.cache.Cache;
@@ -13,7 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * @author zhangsy
+ * 重写
+ * @author daijie
+ * @date 2017年6月22日
  */
 public class RedisCacheManager implements CacheManager {
 

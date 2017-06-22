@@ -1,6 +1,3 @@
-/**
- * Copyright 2017 asiainfo Inc.
- **/
 package org.daijie.shiro.redis;
 
 import java.util.HashSet;
@@ -17,7 +14,9 @@ import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 
 /**
- * @author zhangsy
+ * 集群redis实例工厂
+ * @author daijie
+ * @date 2017年6月22日
  */
 public class JedisClusterFactory extends JedisCluster implements InitializingBean {
 

@@ -1,6 +1,3 @@
-/**
- * Copyright 2017 asiainfo Inc.
- **/
 package org.daijie.shiro.redis;
 
 import org.slf4j.Logger;
@@ -13,7 +10,9 @@ import redis.clients.jedis.JedisPool;
 import java.util.*;
 
 /**
- * @author zhangsy
+ * redis操作具体实现类
+ * @author daijie
+ * @date 2017年6月22日
  */
 public class RedisOperator implements IRedisOperator {
   public final static Logger logger = LoggerFactory.getLogger(RedisOperator.class);
