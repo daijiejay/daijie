@@ -8,9 +8,14 @@ import org.daijie.core.annotation.Access;
 import org.daijie.core.controller.enums.AccessType;
 import org.daijie.core.factory.specific.AspectFactory;
 import org.daijie.core.httpResult.ApiResult;
-import org.daijie.web.service.BasicService;
+import org.daijie.web.session.ShiroRedisSession.Redis;
 
-public abstract class AccessServiceAspect<MAPPER> extends BasicService<MAPPER> implements AspectFactory {
+/**
+ * 基于aop实现访问权限
+ * @author daijie
+ * @date 2017年6月22日
+ */
+public abstract class AccessServiceAspect implements AspectFactory {
 
 	@Override
 	@Before("targets()")
@@ -27,7 +32,7 @@ public abstract class AccessServiceAspect<MAPPER> extends BasicService<MAPPER> i
 
 	public Access validAccess(JoinPoint jp) throws Exception {
 		Access access = getAccess(jp);
-		MySession.initSession();
+		Redis.initSession();
 		AccessType[] accessTypes = access.value();
 		for (AccessType accessType : accessTypes) {
 			if(accessType.equals(AccessType.NONE)){
@@ -48,7 +53,7 @@ public abstract class AccessServiceAspect<MAPPER> extends BasicService<MAPPER> i
 	}
 	
 	public void validSession() throws Exception{
-		if(session == null){
+		if(Redis.getSession() == null){
 			throw new Exception("Invalid token, cannot access resources.");
 		}
 	}
