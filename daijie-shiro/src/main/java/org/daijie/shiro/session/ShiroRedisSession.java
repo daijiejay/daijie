@@ -1,4 +1,4 @@
-package org.daijie.web.session;
+package org.daijie.shiro.session;
 
 import java.io.Serializable;
 

@@ -1,6 +1,6 @@
-package org.daijie.web.bean;
+package org.daijie.shiro.session.bean;
 
-import org.daijie.web.session.ShiroRedisSession;
+import org.daijie.shiro.session.ShiroRedisSession;
 import org.springframework.context.annotation.Bean;
 
 /**

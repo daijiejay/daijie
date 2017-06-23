@@ -8,7 +8,7 @@ import org.daijie.core.annotation.Access;
 import org.daijie.core.controller.enums.AccessType;
 import org.daijie.core.factory.specific.AspectFactory;
 import org.daijie.core.httpResult.ApiResult;
-import org.daijie.web.session.ShiroRedisSession.Redis;
+import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
  * 基于aop实现访问权限

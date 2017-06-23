@@ -16,6 +16,9 @@
         <dependent-module archiveName="daijie-shiro-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/daijie-shiro/daijie-shiro">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="daijie-model-SMS-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/daijie-model-SMS/daijie-model-SMS">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="daijie-webapp-SMS"/>
         <property name="java-output-path" value="/daijie-webapp-SMS Maven Webapp/target/classes"/>
     </wb-module>

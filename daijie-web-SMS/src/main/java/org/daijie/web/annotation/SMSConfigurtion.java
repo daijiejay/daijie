@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 
 import org.daijie.core.annotation.ParametersFilter;
 import org.daijie.core.util.bean.ApplicationContextHolderBean;
-import org.daijie.web.bean.ShiroRedisSessionBean;
+import org.daijie.shiro.annotation.ShiroAutoConfiguration;
+import org.daijie.shiro.session.bean.ShiroRedisSessionBean;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -24,4 +25,5 @@ import org.springframework.context.annotation.Import;
 @Import({ShiroRedisSessionBean.class, ApplicationContextHolderBean.class})
 public @interface SMSConfigurtion {
 
+	Class<?> shiroAnnotationClass() default ShiroAutoConfiguration.class;
 }

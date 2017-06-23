@@ -1,7 +1,7 @@
 package org.daijie.webapp.controller;
 
 import org.daijie.core.factory.specific.ApiResultInitialFactory.Result;
-import org.daijie.web.session.ShiroRedisSession.Redis;
+import org.daijie.shiro.session.ShiroRedisSession.Redis;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
