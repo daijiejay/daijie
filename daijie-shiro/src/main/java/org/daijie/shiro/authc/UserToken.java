@@ -1,5 +1,6 @@
 package org.daijie.shiro.authc;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,12 +8,23 @@ import java.util.List;
  * @author daijie
  * @date 2017年6月22日
  */
-public class UserToken {
+public class UserToken implements Serializable {
 
+	private static final long serialVersionUID = 8853216751953336466L;
+
+	/**
+	 * 登录缓存对象
+	 */
 	private Object authc;
 	
+	/**
+	 * 用户角色集合
+	 */
 	private List<String> roles;
 	
+	/**
+	 * 用户权限集合
+	 */
 	private List<String> permissions;
 
 	public Object getAuthc() {

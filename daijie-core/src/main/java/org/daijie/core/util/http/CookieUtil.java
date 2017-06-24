@@ -1,7 +1,6 @@
 package org.daijie.core.util.http;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -17,8 +16,8 @@ public class CookieUtil {
 	 * @param key
 	 * @return
 	 */
-	public static String get(HttpServletRequest request, String key) {
-		Cookie cookie[] = request.getCookies();
+	public static String get(String key) {
+		Cookie cookie[] = HttpConversationUtil.getRequest().getCookies();
 		if (cookie == null || cookie.length == 0) {
 			return null;
 		}
@@ -38,7 +37,8 @@ public class CookieUtil {
 	 * @param time
 	 * @return
 	 */
-	public static HttpServletResponse set(HttpServletResponse response, String key, String value, Integer time) {
+	public static HttpServletResponse set(String key, String value, Integer time) {
+		HttpServletResponse response = HttpConversationUtil.getResponse();
 		Cookie cookie = new Cookie(key, value);
 		if (time != null) {
 			cookie.setMaxAge(time);

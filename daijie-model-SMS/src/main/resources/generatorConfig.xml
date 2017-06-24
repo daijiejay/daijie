@@ -11,6 +11,9 @@
         <!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(")，在Mysql中不能这么写，所以还要将这两个默认值改为**反单引号(`)**，配置如下：  -->
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
+        
+        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
 
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
             <property name="mappers" value="${mapper.mappers}"/>

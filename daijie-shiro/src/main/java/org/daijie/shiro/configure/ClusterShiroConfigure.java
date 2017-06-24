@@ -30,6 +30,7 @@ import org.daijie.shiro.redis.RedisCacheManager;
 import org.daijie.shiro.redis.RedisManager;
 import org.daijie.shiro.redis.RedisOperator;
 import org.daijie.shiro.session.ClusterRedisSession;
+import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.quartz.QuartzSessionValidationScheduler2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -120,15 +121,17 @@ public class ClusterShiroConfigure {
 	@Bean(name = "authorizingRealm")
 	@Primary
 	public AuthorizingRealm initAuthorizingRealm(@Qualifier("credentialsMatcher") CredentialsMatcher credentialsMatcher){
-		AuthorizingRealm authorizingRealm = new UserAuthorizingRealm();
+		UserAuthorizingRealm authorizingRealm = new UserAuthorizingRealm();
 		authorizingRealm.setCredentialsMatcher(credentialsMatcher);
 		return authorizingRealm;
 	}
 	
 	@Bean(name = "credentialsMatcher")
 	@Primary
-	public CredentialsMatcher initCredentialsMatcher(){
-		return new TokenCredentialsMatcher();
+	public CredentialsMatcher initCredentialsMatcher(@Qualifier("redisSession") RedisSession redisSession){
+		TokenCredentialsMatcher tokenCredentialsMatcher = new TokenCredentialsMatcher();
+		tokenCredentialsMatcher.setRedisSession(redisSession);
+		return tokenCredentialsMatcher;
 	}
 	
 	@Bean(name = "cacheManager")
@@ -236,7 +239,7 @@ public class ClusterShiroConfigure {
 	@Bean(name = "simpleCookie")
 	@Primary
 	public SimpleCookie initSimpleCookie(){
-		return new SimpleCookie(StringUtils.isEmpty(loader.getProperty("shiro.sessionid"))?"mySessionId":loader.getProperty("shiro.sessionid"));
+		return new SimpleCookie(StringUtils.isEmpty(loader.getProperty("shiro.sessionid"))?"mysessionid":loader.getProperty("shiro.sessionid"));
 	}
 	
 	@Bean(name = "sessionValidationScheduler")

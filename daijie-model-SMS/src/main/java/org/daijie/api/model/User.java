@@ -1,10 +1,15 @@
 package org.daijie.api.model;
 
+import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.*;
 
-public class User {
-    /**
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
+	/**
      * id
      */
     @Id

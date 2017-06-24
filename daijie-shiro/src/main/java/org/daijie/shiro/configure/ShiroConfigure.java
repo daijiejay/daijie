@@ -113,7 +113,7 @@ public class ShiroConfigure {
 	@Bean(name = "authorizingRealm")
 	@Primary
 	public AuthorizingRealm initAuthorizingRealm(@Qualifier("credentialsMatcher") CredentialsMatcher credentialsMatcher){
-		AuthorizingRealm authorizingRealm = new UserAuthorizingRealm();
+		UserAuthorizingRealm authorizingRealm = new UserAuthorizingRealm();
 		authorizingRealm.setCredentialsMatcher(credentialsMatcher);
 		return authorizingRealm;
 	}
@@ -197,7 +197,7 @@ public class ShiroConfigure {
 	@Bean(name = "simpleCookie")
 	@Primary
 	public SimpleCookie initSimpleCookie(){
-		return new SimpleCookie(StringUtils.isEmpty(loader.getProperty("shiro.sessionid"))?"mySessionId":loader.getProperty("shiro.sessionid"));
+		return new SimpleCookie(StringUtils.isEmpty(loader.getProperty("shiro.sessionid"))?"mysessionid":loader.getProperty("shiro.sessionid"));
 	}
 	
 	@Bean(name = "sessionValidationScheduler")

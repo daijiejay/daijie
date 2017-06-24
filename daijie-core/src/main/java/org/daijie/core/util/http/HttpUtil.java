@@ -108,7 +108,7 @@ public class HttpUtil {
 		conn.setRequestMethod(method);  
 		conn.setDoOutput(true);  
 		conn.setDoInput(true); 
-		conn.setRequestProperty("token", HttpRequestUtil.getToken());
+		conn.setRequestProperty(HttpConversationUtil.TOKEN_NAME, HttpConversationUtil.getToken());
 		conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         conn.setRequestProperty("Content-Length", String.valueOf(data.length));
         OutputStream outStream = conn.getOutputStream();

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,14 +19,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * 
  * @author daijie
  * @date 2017年6月5日
- * 获取http请求数据的工具类
+ * 获取http会话数据的工具类
  * 
  */
-public class HttpRequestUtil {
+public class HttpConversationUtil {
 	
-	private static Logger logger = LoggerFactory.getLogger(HttpRequestUtil.class);
+	private static Logger logger = LoggerFactory.getLogger(HttpConversationUtil.class);
 
-	private final static String TOKEN_NAME = "token";
+	public static final String TOKEN_NAME = "token";
 	
 	/**
 	 * 获取当前请求会话
@@ -33,6 +34,14 @@ public class HttpRequestUtil {
 	 */
 	public static HttpServletRequest getRequest(){
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+	}
+	
+	/**
+	 * 获取当前响应会话
+	 * @return
+	 */
+	public static HttpServletResponse getResponse(){
+		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
 	}
 
 	/**
@@ -68,6 +77,7 @@ public class HttpRequestUtil {
 
 	/**
 	 * 获取当前请求会话token
+	 * @param tokenName 
 	 * @return
 	 */
 	public static String getToken(){
@@ -78,8 +88,8 @@ public class HttpRequestUtil {
 				return getRequest().getParameter(TOKEN_NAME);
 			}else if(!StringUtils.isEmpty(getRequest().getHeader(TOKEN_NAME))){
 				return getRequest().getHeader(TOKEN_NAME);
-			}else if(!StringUtils.isEmpty(CookieUtil.get(getRequest(), TOKEN_NAME))){
-				return CookieUtil.get(getRequest(), TOKEN_NAME);
+			}else if(!StringUtils.isEmpty(CookieUtil.get(TOKEN_NAME))){
+				return CookieUtil.get(TOKEN_NAME);
 			}
 		}
 		return null;

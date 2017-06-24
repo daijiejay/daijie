@@ -7,14 +7,14 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.daijie.core.util.encrypt.PasswordUtils;
 import org.daijie.core.util.encrypt.RSAUtils;
-import org.daijie.core.util.http.HttpRequestUtil;
+import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.ShiroConstants;
 import org.daijie.shiro.session.ClusterRedisSession;
 import org.daijie.shiro.session.RedisSession;
+import org.daijie.shiro.session.RedisSessionFactory;
 
 /**
  * 用户登录令牌匹配器
@@ -25,7 +25,7 @@ public class TokenCredentialsMatcher implements CredentialsMatcher {
 	
 	private boolean isValidation = false;
 
-	private SessionDAO redisSession;
+	private RedisSessionFactory redisSession;
 	
 	private Session session;
 	
@@ -41,7 +41,9 @@ public class TokenCredentialsMatcher implements CredentialsMatcher {
 		AuthorizationToken authcToken = (AuthorizationToken) token;
 		SimpleAuthenticationInfo authcInfo = (SimpleAuthenticationInfo) info;
 		if(redisSession instanceof RedisSession || redisSession instanceof ClusterRedisSession){
-			session = redisSession.readSession(HttpRequestUtil.getToken());
+			session = ((RedisSession) redisSession).readSession(HttpConversationUtil.getToken());
+		}else{
+			session = ((ClusterRedisSession) redisSession).readSession(HttpConversationUtil.getToken());
 		}
 		String privateKey = (String) session.getAttribute(ShiroConstants.RSA_PRIVATE_KEY + session.getId());
 		if(StringUtils.isBlank(privateKey)){
@@ -62,11 +64,11 @@ public class TokenCredentialsMatcher implements CredentialsMatcher {
 		return true;
 	}
 
-	public SessionDAO getRedisSession() {
+	public RedisSessionFactory getRedisSession() {
 		return redisSession;
 	}
 
-	public void setRedisSession(SessionDAO redisSession) {
+	public void setRedisSession(RedisSessionFactory redisSession) {
 		this.redisSession = redisSession;
 	}
 

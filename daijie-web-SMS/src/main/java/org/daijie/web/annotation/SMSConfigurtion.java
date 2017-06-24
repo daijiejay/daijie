@@ -12,6 +12,8 @@ import org.daijie.shiro.annotation.ShiroAutoConfiguration;
 import org.daijie.shiro.session.bean.ShiroRedisSessionBean;
 import org.springframework.context.annotation.Import;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 /**
  * 基于spring+mybatis+shiro框架的集成
  * 注解集成了spring boot，在任何被扫描类加上此注册即可使用
@@ -22,6 +24,7 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @ParametersFilter
+@EnableSwagger2
 @Import({ShiroRedisSessionBean.class, ApplicationContextHolderBean.class})
 public @interface SMSConfigurtion {
 

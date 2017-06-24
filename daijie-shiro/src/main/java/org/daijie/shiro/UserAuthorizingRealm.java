@@ -12,7 +12,10 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
+import org.daijie.core.util.http.CookieUtil;
+import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.UserToken;
 
@@ -55,28 +58,30 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
 			AuthenticationToken token) throws AuthenticationException {
 		AuthorizationToken authorizationToken = (AuthorizationToken) token;
 		String username = (String)token.getPrincipal();
-		SimpleAuthenticationInfo authcInfo = null;
-        Session session = SecurityUtils.getSubject().getSession();
-        if(authorizationToken.getUser() != null){
-        	authcInfo = new SimpleAuthenticationInfo(
-    				authorizationToken.getUser(), 
-    				authorizationToken.getPassword(), 
-    				ByteSource.Util.bytes(username), 
-    				getName()
-    				);
-        	session.setAttribute(authorizationToken.getAuthcKey(), authorizationToken.getUser());
-        }else{
-        	authcInfo = new SimpleAuthenticationInfo(
-        			authorizationToken.getUsername(), 
-    				authorizationToken.getPassword(), 
-    				ByteSource.Util.bytes(username), 
-    				getName()
-    				);
-        	session.setAttribute(authorizationToken.getAuthcKey(), username);
-        }
-        if(authorizationToken.getSalt() != null){
-        	authcInfo.setCredentialsSalt(ByteSource.Util.bytes(authorizationToken.getSalt()));
-        }
+		SimpleAuthenticationInfo authcInfo = null; 
+		Subject subject = SecurityUtils.getSubject();
+		Session session = subject.getSession();
+		if(authorizationToken.getUser() != null){
+			authcInfo = new SimpleAuthenticationInfo(
+					authorizationToken.getUser(), 
+					authorizationToken.getPassword(), 
+					ByteSource.Util.bytes(username), 
+					getName()
+					);
+			session.setAttribute(authorizationToken.getAuthcKey(), authorizationToken.getUser());
+		}else{
+			authcInfo = new SimpleAuthenticationInfo(
+					authorizationToken.getUsername(), 
+					authorizationToken.getPassword(), 
+					ByteSource.Util.bytes(username), 
+					getName()
+					);
+			session.setAttribute(authorizationToken.getAuthcKey(), username);
+		}
+		if(authorizationToken.getSalt() != null){
+			authcInfo.setCredentialsSalt(ByteSource.Util.bytes(authorizationToken.getSalt()));
+		}
+		CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), null);
 		return authcInfo;
 	}
 

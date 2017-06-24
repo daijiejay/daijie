@@ -7,10 +7,7 @@ import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.daijie.core.util.ApplicationContextHolder;
-import org.daijie.core.util.http.HttpRequestUtil;
-import org.daijie.shiro.session.ClusterRedisSession;
-import org.daijie.shiro.session.RedisSession;
-import org.daijie.shiro.session.RedisSessionFactory;
+import org.daijie.core.util.http.HttpConversationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,10 +127,11 @@ public class ShiroRedisSession {
 
 		/**
 		 * 获取当前会话中的凭证
+		 * @param string 
 		 * @return
 		 */
 		public static String getToken(){
-			return HttpRequestUtil.getToken();
+			return HttpConversationUtil.getToken();
 		}
 	}
 	

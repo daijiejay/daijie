@@ -16,7 +16,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import org.daijie.core.util.http.HttpRequestUtil;
+import org.daijie.core.util.http.HttpConversationUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,7 +41,7 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 			System.out.println(name + " = " + value);
 
 		}
-		String bodyString = HttpRequestUtil.getBodyString();
+		String bodyString = HttpConversationUtil.getBodyString();
 		if (bodyString == null || "".equals(bodyString)) {
 			body = new byte[0];
 			params = new HashMap<>();
