@@ -7,8 +7,8 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.session.Session;
-import org.daijie.core.util.encrypt.PasswordUtils;
-import org.daijie.core.util.encrypt.RSAUtils;
+import org.daijie.core.util.encrypt.PasswordUtil;
+import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.ShiroConstants;
@@ -23,6 +23,9 @@ import org.daijie.shiro.session.RedisSessionFactory;
  */
 public class TokenCredentialsMatcher implements CredentialsMatcher {
 	
+	/**
+	 * 是否开通匹配器
+	 */
 	private boolean isValidation = false;
 
 	private RedisSessionFactory redisSession;
@@ -50,8 +53,8 @@ public class TokenCredentialsMatcher implements CredentialsMatcher {
 			throw new AuthenticationException("The data has expired. Please refresh retry!");
 		}
 		try {
-			String password=new String(RSAUtils.decryptByPrivateKeyForJS(new String(authcToken.getPassword()).getBytes(), privateKey));
-			password=PasswordUtils.generatePassword(password, authcInfo.getCredentialsSalt().getBytes());
+			String password=new String(RSAUtil.decryptByPrivateKeyForJS(new String(authcToken.getPassword()).getBytes(), privateKey));
+			password=PasswordUtil.generatePassword(password, authcInfo.getCredentialsSalt().getBytes());
 			if(password.equals(authcInfo.getCredentials())){
 				return true;
 			}
@@ -62,6 +65,14 @@ public class TokenCredentialsMatcher implements CredentialsMatcher {
 			session.removeAttribute(ShiroConstants.RSA_PRIVATE_KEY + session.getId());
 		}
 		return true;
+	}
+
+	public boolean isValidation() {
+		return isValidation;
+	}
+
+	public void setValidation(boolean isValidation) {
+		this.isValidation = isValidation;
 	}
 
 	public RedisSessionFactory getRedisSession() {

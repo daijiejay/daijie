@@ -29,11 +29,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 	private final byte[] body;
-	
-	private Map<?, ?> params;
+
+	private Map<String, Object> params = new HashMap<String, Object>();
 
 	public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
 		super(request);
+		params.putAll(request.getParameterMap());
 		Enumeration<?> e = request.getHeaderNames();
 		while (e.hasMoreElements()) {
 			String name = (String) e.nextElement();
@@ -44,7 +45,6 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 		String bodyString = HttpConversationUtil.getBodyString();
 		if (bodyString == null || "".equals(bodyString)) {
 			body = new byte[0];
-			params = new HashMap<>();
 			return;
 		}
 		body = bodyString.getBytes(Charset.forName("UTF-8"));

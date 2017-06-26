@@ -73,9 +73,9 @@ public class ClusterShiroConfigure {
 				}
 			}
 			shiroFilterFactoryBean.setFilters(filterMap);
-			shiroFilterFactoryBean.setLoginUrl(StringUtils.isEmpty(loader.getProperty("shiro.loginUrl"))?"/login":loader.getProperty("shiro.loginUrl"));
-			shiroFilterFactoryBean.setSuccessUrl(StringUtils.isEmpty(loader.getProperty("shiro.successUrl"))?"/":loader.getProperty("shiro.successUrl"));
-			shiroFilterFactoryBean.setUnauthorizedUrl(StringUtils.isEmpty(loader.getProperty("shiro.unauthorizedUrl"))?"/403":loader.getProperty("shiro.unauthorizedUrl"));
+			shiroFilterFactoryBean.setLoginUrl(loader.getProperty("shiro.loginUrl", "/login"));
+			shiroFilterFactoryBean.setSuccessUrl(loader.getProperty("shiro.successUrl", "/"));
+			shiroFilterFactoryBean.setUnauthorizedUrl(loader.getProperty("shiro.unauthorizedUrl", "/403"));
 			Map<String, String> filterChainDefinitionMap = new HashMap<String, String>();
 			if(!StringUtils.isEmpty(loader.getProperty("shiro.filterChainDefinitions"))){
 				for (String definition : loader.getProperty("shiro.filterChainDefinitions").split(",")) {
@@ -131,6 +131,7 @@ public class ClusterShiroConfigure {
 	public CredentialsMatcher initCredentialsMatcher(@Qualifier("redisSession") RedisSession redisSession){
 		TokenCredentialsMatcher tokenCredentialsMatcher = new TokenCredentialsMatcher();
 		tokenCredentialsMatcher.setRedisSession(redisSession);
+		tokenCredentialsMatcher.setValidation(loader.getBoolean("shiro.isValidation", false));
 		return tokenCredentialsMatcher;
 	}
 	
@@ -157,15 +158,14 @@ public class ClusterShiroConfigure {
 	@Primary
 	public JedisCluster initJedisCluster(){
 		JedisClusterFactory jedisCluster = new JedisClusterFactory(
-				new HostAndPort(
-						StringUtils.isEmpty(loader.getProperty("shiro.redis.host"))?"127.0.0.1":loader.getProperty("shiro.redis.host"), 
-								loader.getInteger("shiro.redis.port")==null?6379:loader.getInteger("shiro.redis.port")
+				new HostAndPort(loader.getProperty("shiro.redis.host", "127.0.0.1"), 
+						loader.getInteger("shiro.redis.port", 6379)
 						));
-		jedisCluster.setPassword(StringUtils.isEmpty(loader.getProperty("shiro.redis.cluster.password"))?"":loader.getProperty("shiro.redis.cluster.password"));
+		jedisCluster.setPassword(loader.getProperty("shiro.redis.cluster.password", ""));
 		jedisCluster.setAddressConfig(new DefaultResourceLoader().getResource("classpath:bootstrap.properties"));
 		jedisCluster.setAddressKeyPrefix("shiro.redis.cluster.address");
-		jedisCluster.setTimeout(loader.getInteger("shiro.redis.timeout")==null?360000:loader.getInteger("shiro.redis.timeout"));
-		jedisCluster.setConnectionTimeout(loader.getInteger("shiro.redis.connectionTimeout")==null?1000:loader.getInteger("shiro.redis.connectionTimeout"));
+		jedisCluster.setTimeout(loader.getInteger("shiro.redis.timeout", 360000));
+		jedisCluster.setConnectionTimeout(loader.getInteger("shiro.redis.connectionTimeout", 10000));
 		jedisCluster.setGenericObjectPoolConfig(initGenericObjectPoolConfig());
 		return jedisCluster;
 	}
@@ -239,7 +239,7 @@ public class ClusterShiroConfigure {
 	@Bean(name = "simpleCookie")
 	@Primary
 	public SimpleCookie initSimpleCookie(){
-		return new SimpleCookie(StringUtils.isEmpty(loader.getProperty("shiro.sessionid"))?"mysessionid":loader.getProperty("shiro.sessionid"));
+		return new SimpleCookie(loader.getProperty("shiro.sessionid", "mysessionid"));
 	}
 	
 	@Bean(name = "sessionValidationScheduler")

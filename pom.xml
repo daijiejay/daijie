@@ -25,14 +25,10 @@
     <module>daijie-core</module>
     <module>daijie-dome</module>
     <module>daijie-shiro</module>
+    <module>daijie-shiro-web</module>
     <module>daijie-mybatis</module>
+    <module>daijie-mybatis-cloud</module>
     <module>daijie-mybatis-generator</module>
-    <module>daijie-web-SMS</module>
-    <module>daijie-web</module>
-    <module>daijie-webapp</module>
-    <module>daijie-cloud-SMS</module>
-    <module>daijie-model-SMS</module>
-    <module>daijie-webapp-SMS</module>
     <module>daijie-eureka-service</module>
   </modules>
 </project>

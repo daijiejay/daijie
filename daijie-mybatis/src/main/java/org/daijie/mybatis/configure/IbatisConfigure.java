@@ -7,7 +7,6 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -21,7 +20,6 @@ import com.alibaba.druid.pool.DruidDataSource;
  * ibatis数据源配置
  * 
  */
-@Configuration
 public class IbatisConfigure {
 
 	@Value("${jdbc.driverClass}")
