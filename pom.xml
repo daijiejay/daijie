@@ -27,7 +27,7 @@
     <module>daijie-shiro</module>
     <module>daijie-mybatis</module>
     <module>daijie-mybatis-cloud</module>
-    <module>daijie-mybatis-generator</module>
+    
     <module>daijie-eureka-service</module>
     <module>daijie-mybatis-model</module>
     <module>daijie-shiro-web Maven Webapp</module>

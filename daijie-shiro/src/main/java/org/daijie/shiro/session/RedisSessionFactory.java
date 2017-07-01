@@ -17,4 +17,24 @@ public interface RedisSessionFactory {
 	 * @return
 	 */
 	public Session getSession(Serializable sessionId);
+	
+	/**
+	 * 保存session
+	 * @param sessionId
+	 * @return
+	 */
+	public Session saveSession(Serializable sessionId);
+	
+	/**
+	 * 删除session
+	 * @param sessionId
+	 * @return
+	 */
+	public Session removeSession(Serializable sessionId);
+	
+	/**
+	 * 更新Session
+	 * @param session
+	 */
+	public void updateSession(Session session);
 }

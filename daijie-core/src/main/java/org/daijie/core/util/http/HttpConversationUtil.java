@@ -90,6 +90,8 @@ public class HttpConversationUtil {
 				return getRequest().getHeader(TOKEN_NAME);
 			}else if(!StringUtils.isEmpty(CookieUtil.get(TOKEN_NAME))){
 				return CookieUtil.get(TOKEN_NAME);
+			}else if(!StringUtils.isEmpty(getRequest().getSession().getAttribute(TOKEN_NAME))){
+				return (String) getRequest().getSession().getAttribute(TOKEN_NAME);
 			}
 		}
 		return null;

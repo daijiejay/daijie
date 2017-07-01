@@ -21,7 +21,7 @@ public class ExportDatabaseHtmlTest {
 //			String db = "recordcenter_db";
 //			String db = "platform_db";
 			String db = "zima_user";
-			edh.getHtml("10.0.4.1", "3306", db, "root", "123456", path);
+			edh.getHtml("114.113.112.197", "18081", db, "javagroup", "jN2hbH0Saht#GaQKzUQJ*RM3wO=a", path);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

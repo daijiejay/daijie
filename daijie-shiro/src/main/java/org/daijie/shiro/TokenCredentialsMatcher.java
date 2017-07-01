@@ -9,12 +9,12 @@ import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.session.Session;
 import org.daijie.core.util.encrypt.PasswordUtil;
 import org.daijie.core.util.encrypt.RSAUtil;
-import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.ShiroConstants;
 import org.daijie.shiro.session.ClusterRedisSession;
 import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.RedisSessionFactory;
+import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
  * 用户登录令牌匹配器
@@ -43,20 +43,21 @@ public class TokenCredentialsMatcher implements CredentialsMatcher {
 		}
 		AuthorizationToken authcToken = (AuthorizationToken) token;
 		SimpleAuthenticationInfo authcInfo = (SimpleAuthenticationInfo) info;
-		if(redisSession instanceof RedisSession || redisSession instanceof ClusterRedisSession){
-			session = ((RedisSession) redisSession).readSession(HttpConversationUtil.getToken());
-		}else{
-			session = ((ClusterRedisSession) redisSession).readSession(HttpConversationUtil.getToken());
+		if(redisSession instanceof RedisSession){
+			session = ((RedisSession) redisSession).readSession(Redis.getToken());
+		}else if(redisSession instanceof ClusterRedisSession){
+			session = ((ClusterRedisSession) redisSession).readSession(Redis.getToken());
 		}
 		String privateKey = (String) session.getAttribute(ShiroConstants.RSA_PRIVATE_KEY + session.getId());
 		if(StringUtils.isBlank(privateKey)){
 			throw new AuthenticationException("The data has expired. Please refresh retry!");
 		}
 		try {
-			String password=new String(RSAUtil.decryptByPrivateKeyForJS(new String(authcToken.getPassword()).getBytes(), privateKey));
-			password=PasswordUtil.generatePassword(password, authcInfo.getCredentialsSalt().getBytes());
-			if(password.equals(authcInfo.getCredentials())){
-				return true;
+			RSAUtil.set(null, privateKey);
+			String password = RSAUtil.decryptByPriKey(new String(authcToken.getPubEncryptPassword()));
+			password = PasswordUtil.generatePassword(password, authcInfo.getCredentialsSalt().getBytes());
+			if(!password.equals(new String((char[]) authcInfo.getCredentials()))){
+				throw new AuthenticationException("password error!");
 			}
 		}  catch (Exception e) {
 			e.printStackTrace();

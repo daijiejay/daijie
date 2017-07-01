@@ -12,11 +12,23 @@ import org.crazycake.shiro.RedisSessionDAO;
  */
 public class RedisSession extends RedisSessionDAO implements RedisSessionFactory {
 
-	/**
-	 * 获取session
-	 */
 	@Override
 	public Session getSession(Serializable sessionId){
 		return doReadSession(sessionId);
+	}
+
+	@Override
+	public Session saveSession(Serializable sessionId) {
+		return saveSession(sessionId);
+	}
+
+	@Override
+	public Session removeSession(Serializable sessionId) {
+		return removeSession(sessionId);
+	}
+
+	@Override
+	public void updateSession(Session session) {
+		update(session);
 	}
 }

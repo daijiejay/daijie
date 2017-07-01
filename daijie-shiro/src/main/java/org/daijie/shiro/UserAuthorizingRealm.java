@@ -2,7 +2,6 @@ package org.daijie.shiro;
 
 import java.util.List;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -12,12 +11,12 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.UserToken;
+import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
  * 用户登录后角色权限注入到shiro管理
@@ -59,8 +58,7 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
 		AuthorizationToken authorizationToken = (AuthorizationToken) token;
 		String username = (String)token.getPrincipal();
 		SimpleAuthenticationInfo authcInfo = null; 
-		Subject subject = SecurityUtils.getSubject();
-		Session session = subject.getSession();
+		Session session = Redis.getSession();
 		if(authorizationToken.getUser() != null){
 			authcInfo = new SimpleAuthenticationInfo(
 					authorizationToken.getUser(), 

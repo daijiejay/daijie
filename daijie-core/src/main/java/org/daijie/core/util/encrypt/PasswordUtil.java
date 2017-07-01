@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
  * 
  * @author daijie
  * @date 2017年6月5日
- * 密码对称加密算法工具类
+ * 密码盐加密工具类
  * 
  */
 public class PasswordUtil {
@@ -68,19 +68,5 @@ public class PasswordUtil {
 		} else {
 			return hex;
 		}
-	}
-
-	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		long start=System.currentTimeMillis();
-		String salt = generateSalt();
-		long end=System.currentTimeMillis();
-		System.out.println(end-start);
-		System.out.println(salt);
-		salt = generateSalt();
-		System.out.println(salt);
-		salt = generateSalt();
-		System.out.println(salt);
-		salt = generateSalt();
-		System.out.println(salt);
 	}
 }

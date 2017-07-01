@@ -2,16 +2,14 @@ package org.daijie.shiro.session;
 
 import java.io.Serializable;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.daijie.core.util.ApplicationContextHolder;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
 /**
  * shiro redis管理类
@@ -44,23 +42,18 @@ public class ShiroRedisSession {
 		 * 初始化当前会话中的session
 		 */
 		public static void initSession(){
-			if(!StringUtils.isEmpty(getToken())){
-				if(session != null && session.getId().equals(getToken())){
-					return;
-				}
-				if(redisSession == null){
-					logger.error("redisSession is null!");
-				}else{
-					try {
-						session = ((AbstractSessionDAO) redisSession).readSession(getToken());
-					} catch (UnknownSessionException e) {
-						logger.error(e.getMessage());
-						session = null;
-					}
-				}
+			if(session != null && session.getId().equals(getToken())){
+				return;
+			}
+			if(redisSession == null){
+				logger.error("redisSession is null!");
 			}else{
-				logger.error("token is null!");
-				session = null;
+				try {
+					session = ((AbstractSessionDAO) redisSession).readSession(getToken());
+				} catch (UnknownSessionException e) {
+					logger.error(e.getMessage());
+					session = null;
+				}
 			}
 		}
 
@@ -72,7 +65,7 @@ public class ShiroRedisSession {
 		public static void setAttribute(Object key, Object value){
 			initSession();
 			session.setAttribute(key, value);
-			((SessionDAO) redisSession).update(session);
+			agentRedisSession().updateSession(session);
 		}
 		
 		/**
@@ -84,7 +77,7 @@ public class ShiroRedisSession {
 			initSession();
 			session.setAttribute(key, value);
 			session.setTimeout(maxIdleTimeInMillis);
-			((SessionDAO) redisSession).update(session);
+			agentRedisSession().updateSession(session);
 		}
 
 		/**
@@ -105,7 +98,7 @@ public class ShiroRedisSession {
 		public static void removeAttribute(Object key){
 			initSession();
 			session.removeAttribute(key);
-			((SessionDAO) redisSession).update(session);
+			agentRedisSession().updateSession(session);
 		}
 		
 		/**
@@ -122,7 +115,28 @@ public class ShiroRedisSession {
 		 * @param sessionId
 		 */
 		public static void deleteSession(Serializable sessionId){
-			((SessionDAO) redisSession).delete(redisSession.getSession(sessionId));
+			agentRedisSession().removeSession(sessionId);
+		}
+		
+		/**
+		 * 保存当前会话中的session
+		 * @param sessionId
+		 */
+		public static void saveSession(Serializable sessionId){
+			agentRedisSession().saveSession(sessionId);
+		}
+		
+		/**
+		 * 代理获取RedisSessionFactory实现类
+		 * @return
+		 */
+		public static <T extends RedisSessionFactory> RedisSessionFactory agentRedisSession(){
+			if(redisSession instanceof RedisSession){
+				return (RedisSession) redisSession;
+			}else if(redisSession instanceof ClusterRedisSession){
+				return (ClusterRedisSession) redisSession;
+			}
+			return null;
 		}
 
 		/**
@@ -131,7 +145,11 @@ public class ShiroRedisSession {
 		 * @return
 		 */
 		public static String getToken(){
-			return HttpConversationUtil.getToken();
+			String token = HttpConversationUtil.getToken();
+			if(token == null){
+				token = SecurityUtils.getSubject().getSession().getId().toString();
+			}
+			return token;
 		}
 	}
 	
@@ -160,11 +178,9 @@ public class ShiroRedisSession {
 		public static void set(String key, String value, int expire){
 			if(redisSession instanceof RedisSession){
 				RedisSession redis = (RedisSession) redisSession;
-				redis.setRedisManager((org.crazycake.shiro.RedisManager)ApplicationContextHolder.getBean("redisManager"));
 				redis.getRedisManager().set((key+getToken()).getBytes(), value.getBytes(), expire);
 			}else if(redisSession instanceof ClusterRedisSession){
 				ClusterRedisSession redis = (ClusterRedisSession) redisSession;
-				redis.setRedisManager((org.daijie.shiro.redis.RedisManager)ApplicationContextHolder.getBean("redisManager"));
 				redis.getRedisManager().set((key+getToken()).getBytes(), value.getBytes(), expire);
 			}
 		}
@@ -178,12 +194,13 @@ public class ShiroRedisSession {
 			byte[] value = {};
 			if(redisSession instanceof RedisSession){
 				RedisSession redis = (RedisSession) redisSession;
-				redis.setRedisManager((org.crazycake.shiro.RedisManager)ApplicationContextHolder.getBean("redisManager"));
 				value = redis.getRedisManager().get((key+getToken()).getBytes());
 			}else if(redisSession instanceof ClusterRedisSession){
 				ClusterRedisSession redis = (ClusterRedisSession) redisSession;
-				redis.setRedisManager((org.daijie.shiro.redis.RedisManager)ApplicationContextHolder.getBean("redisManager"));
 				value = redis.getRedisManager().get((key+getToken()).getBytes());
+			}
+			if(value == null){
+				return "";
 			}
 			return new String(value);
 		}

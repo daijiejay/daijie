@@ -25,6 +25,7 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.daijie.core.util.PropertiesLoader;
 import org.daijie.shiro.TokenCredentialsMatcher;
 import org.daijie.shiro.UserAuthorizingRealm;
+import org.daijie.shiro.filter.CredentialFilter;
 import org.daijie.shiro.redis.JedisClusterFactory;
 import org.daijie.shiro.redis.RedisCacheManager;
 import org.daijie.shiro.redis.RedisManager;
@@ -72,6 +73,9 @@ public class ClusterShiroConfigure {
 					}
 				}
 			}
+			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
+				filterMap.put("credential", new CredentialFilter());
+			}
 			shiroFilterFactoryBean.setFilters(filterMap);
 			shiroFilterFactoryBean.setLoginUrl(loader.getProperty("shiro.loginUrl", "/login"));
 			shiroFilterFactoryBean.setSuccessUrl(loader.getProperty("shiro.successUrl", "/"));
@@ -90,6 +94,9 @@ public class ClusterShiroConfigure {
 				filterChainDefinitionMap = map;
 			}else{
 				filterChainDefinitionMap.put("*/**", "anon");
+			}
+			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
+				filterChainDefinitionMap.put("/login", "credential");
 			}
 			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		} catch (ClassNotFoundException e) {

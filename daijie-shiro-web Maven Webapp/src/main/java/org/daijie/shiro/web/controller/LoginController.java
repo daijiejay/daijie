@@ -8,8 +8,11 @@ import org.apache.shiro.subject.Subject;
 import org.daijie.core.controller.ApiController;
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.httpResult.ApiResult;
+import org.daijie.core.util.encrypt.PasswordUtil;
+import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.mybatis.model.User;
 import org.daijie.shiro.authc.AuthorizationToken;
+import org.daijie.shiro.authc.ShiroConstants;
 import org.daijie.shiro.authc.UserToken;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 import org.daijie.shiro.web.cloud.UserCloud;
@@ -24,13 +27,18 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 
 	@ApiOperation(notes = "登录", value = "登录")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Object login(@RequestParam String username, @RequestParam String password){
+	public Object login(@RequestParam String username, @RequestParam String password) throws Exception{
+		String publicKey = (String) Redis.getAttribute(ShiroConstants.RSA_PUBLIC_KEY + Redis.getSession().getId());
+		RSAUtil.set(publicKey, null);
 		UserToken userToken = new UserToken();
 		User user = new User();
 		user.setId(1);
 		user.setNickName("张三");
 		userToken.setAuthc(user);
-		AuthorizationToken token = new AuthorizationToken(username, password, null, "user", userToken);
+		String salt = "468feb7da20c6c95c2c356652c312f29ffe17950a1423feb1d02d78aa860fee1";
+		AuthorizationToken token = new AuthorizationToken(username, 
+				PasswordUtil.generatePassword(password, salt.getBytes()), 
+				RSAUtil.encryptByPubKey(password), salt, "user", userToken);
 		token.setRememberMe(true);  
 	    Subject subject = SecurityUtils.getSubject();
 	    subject.login(token);

@@ -26,6 +26,7 @@ import org.crazycake.shiro.RedisManager;
 import org.daijie.core.util.PropertiesLoader;
 import org.daijie.shiro.TokenCredentialsMatcher;
 import org.daijie.shiro.UserAuthorizingRealm;
+import org.daijie.shiro.filter.CredentialFilter;
 import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.quartz.QuartzSessionValidationScheduler2;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -64,6 +65,9 @@ public class ShiroConfigure {
 					}
 				}
 			}
+			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
+				filterMap.put("credential", new CredentialFilter());
+			}
 			shiroFilterFactoryBean.setFilters(filterMap);
 			shiroFilterFactoryBean.setLoginUrl(loader.getProperty("shiro.loginUrl", "/login"));
 			shiroFilterFactoryBean.setSuccessUrl(loader.getProperty("shiro.successUrl", "/"));
@@ -82,6 +86,9 @@ public class ShiroConfigure {
 				filterChainDefinitionMap = map;
 			}else{
 				filterChainDefinitionMap.put("*/**", "anon");
+			}
+			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
+				filterChainDefinitionMap.put("/login", "credential");
 			}
 			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		} catch (ClassNotFoundException e) {
