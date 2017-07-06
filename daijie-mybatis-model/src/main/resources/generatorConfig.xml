@@ -34,14 +34,14 @@
             <property name="forceBigDecimals" value="false"/>  
         </javaTypeResolver>  
          
-        <javaModelGenerator targetPackage="org.daijie.api.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="org.daijie.mybatis.model" targetProject="src/main/java">
             <property name="trimStrings" value="true"/>  
         </javaModelGenerator> 
         
         <sqlMapGenerator targetPackage="mybatis-mapper" targetProject="src/main/resources">
         </sqlMapGenerator>   
         
-        <javaClientGenerator type="XMLMAPPER" targetPackage="org.daijie.api.mapper" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.daijie.mybatis.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>  
         </javaClientGenerator>
         
@@ -49,7 +49,7 @@
         <table tableName="user_verify" domainObjectName="UserVerify" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="user_addr_area" domainObjectName="UserAddrArea" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> -->
         <!-- <table tableName="user_feedback" domainObjectName="UserFeedback" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> -->
-        <table tableName="user_addr_change_log" domainObjectName="UserAddrChangeLog" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="user_location_record" domainObjectName="UserLocationRecord" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <!-- <table tableName="user_feedback_record" domainObjectName="UserFeedbackRecord" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table> -->
     </context>  
     <!-- mvn mybatis-generator:generate -->
