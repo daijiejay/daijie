@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -134,4 +137,27 @@ public class HttpConversationUtil {
 		}
 		return sb.toString();
 	}
+	
+    /**
+     * 得到所有的参数的值
+     * @param request
+     * @return
+     */
+    public static Map<String,Object> handelRequest(){
+        Map<String,Object> obj = new HashMap<String,Object>();
+        Enumeration<String> coll =  getRequest().getParameterNames();
+        while(coll.hasMoreElements()){
+            String key = coll.nextElement();
+            obj.put(key,  getRequest().getParameter(key)==null?"":getRequest().getParameter(key) );
+        }
+        if(obj.get("pageSize")!=null || obj.get("pageNumber")!=null){
+            int pageSize = Integer.valueOf(obj.get("pageSize").toString());
+            int pageNumber = Integer.valueOf(obj.get("pageNumber").toString());
+            int startIndex = (pageNumber - 1) * pageSize;
+            obj.put("startIndex", startIndex);
+            obj.put("pageSize", pageSize);
+            obj.put("pageNumber", pageNumber);
+        }
+        return obj;
+    }
 }

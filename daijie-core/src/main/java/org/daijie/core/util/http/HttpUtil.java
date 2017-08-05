@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanMap;
@@ -37,9 +39,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageDecoder;
-
 /**
  * 
  * @author daijie
@@ -47,7 +46,7 @@ import com.sun.image.codec.jpeg.JPEGImageDecoder;
  * http请求接口工具类
  * 
  */
-@SuppressWarnings({ "deprecation", "resource", "restriction" })
+@SuppressWarnings({ "deprecation", "resource" })
 public class HttpUtil {
 
 	private static final String POST = "POST";
@@ -279,9 +278,9 @@ public class HttpUtil {
 		BufferedImage image = null;
 		try{     
 			url = new URL(urlStr);  
-			httpConn = (HttpURLConnection) url.openConnection();  
-			JPEGImageDecoder decoderFile = JPEGCodec.createJPEGDecoder(httpConn.getInputStream());
-			image = decoderFile.decodeAsBufferedImage();
+			httpConn = (HttpURLConnection) url.openConnection();
+			InputStream inputStream = httpConn.getInputStream();
+			image = ImageIO.read(inputStream);	
 		} catch (Exception ex) {   
 
 		} finally{   
