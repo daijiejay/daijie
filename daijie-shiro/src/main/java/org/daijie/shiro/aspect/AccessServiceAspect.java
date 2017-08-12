@@ -1,8 +1,9 @@
-package org.daijie.web.service.aspect;
+package org.daijie.shiro.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.daijie.core.annotation.Access;
 import org.daijie.core.controller.enums.AccessType;
@@ -16,6 +17,9 @@ import org.daijie.shiro.session.ShiroRedisSession.Redis;
  * @date 2017年6月22日
  */
 public abstract class AccessServiceAspect implements AspectFactory {
+	
+	@Pointcut("@annotation(org.springframework.web.bind.annotation.RestController)") 
+	public void targets(){}
 
 	@Override
 	@Before("targets()")

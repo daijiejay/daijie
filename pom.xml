@@ -31,6 +31,7 @@
     <module>daijie-eureka-service</module>
     <module>daijie-mybatis-model</module>
     <module>daijie-shiro-web Maven Webapp</module>
-    <module>daijie-rabbit</module>
+    
+    <module>daijie-rabbit-cloud</module>
   </modules>
 </project>

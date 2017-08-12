@@ -35,7 +35,7 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 		user.setId(1);
 		user.setNickName("张三");
 		userToken.setAuthc(user);
-		String salt = "468feb7da20c6c95c2c356652c312f29ffe17950a1423feb1d02d78aa860fee1";
+		String salt = PasswordUtil.generateSalt();
 		AuthorizationToken token = new AuthorizationToken(username, 
 				PasswordUtil.generatePassword(password, salt.getBytes()), 
 				RSAUtil.encryptByPubKey(password), salt, "user", userToken);

@@ -1,6 +1,6 @@
-package org.daijie.shiro.web.controller;
+package org.daijie.rabbit.cloud.controller;
 
-import org.daijie.shiro.web.mq.producer.ProducerTest;
+import org.daijie.rabbit.cloud.mq.producer.ProducerTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +14,7 @@ public class RabbitMQController {
 
 	@RequestMapping(value = "/rabbit/send", method = RequestMethod.POST)
 	public Object send(){
-		producerTest.send1();
-		producerTest.send2();
+		producerTest.send();
 		return "seccess";
 	}
 }
