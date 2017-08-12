@@ -33,5 +33,6 @@
     <module>daijie-shiro-web Maven Webapp</module>
     
     <module>daijie-rabbit-cloud</module>
+    <module>daijie-quartz-cloud</module>
   </modules>
 </project>
