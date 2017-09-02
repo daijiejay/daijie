@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.httpclient.HttpException;
@@ -272,7 +271,7 @@ public class HttpUtil {
 	 * @param request
 	 * @return
 	 */
-	public static BufferedImage downloadImage(String urlStr, HttpServletRequest request){
+	public static BufferedImage downloadImage(String urlStr){
 		URL url = null;              
 		HttpURLConnection httpConn = null;  
 		BufferedImage image = null;
@@ -283,8 +282,10 @@ public class HttpUtil {
 			image = ImageIO.read(inputStream);	
 		} catch (Exception ex) {   
 
-		} finally{   
-			httpConn.disconnect();
+		} finally{
+			if(httpConn != null){
+				httpConn.disconnect();
+			}
 		}       
 		return image;
 	}
