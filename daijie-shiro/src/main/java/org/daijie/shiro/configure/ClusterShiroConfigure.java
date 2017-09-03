@@ -69,11 +69,12 @@ public class ClusterShiroConfigure {
 					if(filterClassName.trim().length() > 0){
 						@SuppressWarnings("unchecked")
 						Class<? extends Filter> cls = (Class<? extends Filter>) Class.forName(filterClassName);
-						filterMap.put(filterClassName.substring(filterClassName.lastIndexOf(".")), cls.newInstance());
+						String name = filterClassName.substring(filterClassName.lastIndexOf(".")+1).replace("Filter", "");
+						filterMap.put(name.substring(0,1).toLowerCase()+name.substring(1), cls.newInstance());
 					}
 				}
 			}
-			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
+			if(loader.getBoolean("shiro.isCredential") != null && loader.getBoolean("shiro.isCredential")){
 				filterMap.put("credential", new CredentialFilter());
 			}
 			shiroFilterFactoryBean.setFilters(filterMap);
@@ -95,7 +96,7 @@ public class ClusterShiroConfigure {
 			}else{
 				filterChainDefinitionMap.put("*/**", "anon");
 			}
-			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
+			if(loader.getBoolean("shiro.isCredential") != null && loader.getBoolean("shiro.isCredential")){
 				filterChainDefinitionMap.put("/login", "credential");
 			}
 			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

@@ -42,9 +42,6 @@ public class ShiroRedisSession {
 		 * 初始化当前会话中的session
 		 */
 		public static void initSession(){
-			if(session != null && session.getId().equals(getToken())){
-				return;
-			}
 			if(redisSession == null){
 				logger.error("redisSession is null!");
 			}else{
@@ -52,7 +49,7 @@ public class ShiroRedisSession {
 					session = ((AbstractSessionDAO) redisSession).readSession(getToken());
 				} catch (UnknownSessionException e) {
 					logger.error(e.getMessage());
-					session = null;
+					session = SecurityUtils.getSubject().getSession();
 				}
 			}
 		}
