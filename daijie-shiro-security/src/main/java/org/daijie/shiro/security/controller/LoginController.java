@@ -9,7 +9,6 @@ import org.apache.shiro.subject.Subject;
 import org.daijie.core.controller.ApiController;
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.httpResult.ApiResult;
-import org.daijie.core.util.encrypt.PasswordUtil;
 import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
@@ -39,11 +38,10 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 		UserToken userToken = new UserToken();
 		User user = service.getUser(username);
 		String salt = user.getSalt();
-		String saltPassword = PasswordUtil.generatePassword(password, salt.getBytes());
 		RSAUtil.set(publicKey, null);
 		userToken.setAuthc(user);
 		AuthorizationToken token = new AuthorizationToken(username, 
-				saltPassword, 
+				user.getPassword(), 
 				password, salt, "user", userToken);
 		token.setRememberMe(true);  
 	    Subject subject = SecurityUtils.getSubject();

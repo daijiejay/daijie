@@ -17,10 +17,21 @@ public class AuthorizationToken extends UsernamePasswordToken {
 	 */
 	private String salt;
 	
+	/**
+	 * 公钥加密的密码
+	 */
 	private String pubEncryptPassword;
 	
 	private String authcKey = "user";
 	
+	/**
+	 * 
+	 * @param username 用户名
+	 * @param password 用户密码
+	 * @param pubEncryptPassword 用户公钥加密提交的密码
+	 * @param authcKey 用户缓存key
+	 * @param user 用户缓存对象
+	 */
 	public AuthorizationToken(String username, String password, String pubEncryptPassword, String authcKey, UserToken user){
 		super(username, password);
 		this.pubEncryptPassword = pubEncryptPassword;
@@ -28,6 +39,15 @@ public class AuthorizationToken extends UsernamePasswordToken {
 		this.user = user;
 	}
 	
+	/**
+	 * 
+	 * @param username 用户名
+	 * @param password 用户密码
+	 * @param pubEncryptPassword 用户公钥加密提交的密码
+	 * @param salt 加密盐
+	 * @param authcKey 用户缓存key
+	 * @param user 用户缓存对象
+	 */
 	public AuthorizationToken(String username, String password, String pubEncryptPassword, String salt, String authcKey, UserToken user){
 		super(username, password);
 		this.salt = salt;

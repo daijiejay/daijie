@@ -73,7 +73,7 @@ public class ClusterShiroConfigure {
 					}
 				}
 			}
-			if(loader.getBoolean("shiro.isCredential") != null && loader.getBoolean("shiro.isCredential")){
+			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
 				filterMap.put("credential", new CredentialFilter());
 			}
 			shiroFilterFactoryBean.setFilters(filterMap);
