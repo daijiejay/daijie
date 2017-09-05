@@ -31,7 +31,6 @@ import org.daijie.shiro.redis.RedisCacheManager;
 import org.daijie.shiro.redis.RedisManager;
 import org.daijie.shiro.redis.RedisOperator;
 import org.daijie.shiro.session.ClusterRedisSession;
-import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.quartz.QuartzSessionValidationScheduler2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -39,12 +38,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.util.StringUtils;
 
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisCluster;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisCluster;
 
 /**
  * 
@@ -96,9 +95,6 @@ public class ClusterShiroConfigure {
 			}else{
 				filterChainDefinitionMap.put("*/**", "anon");
 			}
-			if(loader.getBoolean("shiro.isCredential") != null && loader.getBoolean("shiro.isCredential")){
-				filterChainDefinitionMap.put("/login", "credential");
-			}
 			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -136,7 +132,7 @@ public class ClusterShiroConfigure {
 	
 	@Bean(name = "credentialsMatcher")
 	@Primary
-	public CredentialsMatcher initCredentialsMatcher(@Qualifier("redisSession") RedisSession redisSession){
+	public CredentialsMatcher initCredentialsMatcher(@Qualifier("redisSession") ClusterRedisSession redisSession){
 		TokenCredentialsMatcher tokenCredentialsMatcher = new TokenCredentialsMatcher();
 		tokenCredentialsMatcher.setRedisSession(redisSession);
 		tokenCredentialsMatcher.setValidation(loader.getBoolean("shiro.isValidation", false));

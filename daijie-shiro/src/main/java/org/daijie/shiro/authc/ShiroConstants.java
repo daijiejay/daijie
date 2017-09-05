@@ -16,4 +16,14 @@ public class ShiroConstants {
 	 * 私钥
 	 */
 	public final static String RSA_PRIVATE_KEY = "RSA_PRIVATE_KEY:";
+	
+	/**
+	 * 反向代理设置uri的key
+	 */
+	public final static String REDIRECT_URI = "redirect_uri";
+	
+	/**
+	 * 反向代理设置method的key
+	 */
+	public final static String REDIRECT_METHOD = "redirect_method";
 }

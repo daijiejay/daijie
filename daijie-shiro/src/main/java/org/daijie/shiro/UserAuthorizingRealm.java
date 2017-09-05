@@ -66,7 +66,7 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
 					ByteSource.Util.bytes(username), 
 					getName()
 					);
-			session.setAttribute(authorizationToken.getAuthcKey(), authorizationToken.getUser());
+			Redis.setAttribute(authorizationToken.getAuthcKey(), authorizationToken.getUser());
 		}else{
 			authcInfo = new SimpleAuthenticationInfo(
 					authorizationToken.getUsername(), 
@@ -74,7 +74,7 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
 					ByteSource.Util.bytes(username), 
 					getName()
 					);
-			session.setAttribute(authorizationToken.getAuthcKey(), username);
+			Redis.setAttribute(authorizationToken.getAuthcKey(), username);
 		}
 		if(authorizationToken.getSalt() != null){
 			authcInfo.setCredentialsSalt(ByteSource.Util.bytes(authorizationToken.getSalt()));

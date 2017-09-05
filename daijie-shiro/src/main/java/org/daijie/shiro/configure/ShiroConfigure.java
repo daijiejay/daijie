@@ -88,9 +88,6 @@ public class ShiroConfigure {
 			}else{
 				filterChainDefinitionMap.put("*/**", "anon");
 			}
-			if(loader.getBoolean("shiro.isCredential") != null && loader.getBoolean("shiro.isCredential")){
-				filterChainDefinitionMap.put("/login", "credential");
-			}
 			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

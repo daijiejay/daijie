@@ -22,6 +22,6 @@ public class ConsumerTest {
 	public void process(Message message){
 		byte[] body = message.getBody();
 		User user = (User) SerializeUtil.deserialize(body);
-		System.out.println(user.getMobile());
+		System.out.println(user.getUserName());
 	}
 }

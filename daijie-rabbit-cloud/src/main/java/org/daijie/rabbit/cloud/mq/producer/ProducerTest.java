@@ -18,7 +18,7 @@ public class ProducerTest {
 	
 	public void send(){
 		User user = new User();
-		user.setMobile("18911351016");
+		user.setUserName("admin");
 		rabbitTemplate.convertAndSend("hello", user);
 	}
 }

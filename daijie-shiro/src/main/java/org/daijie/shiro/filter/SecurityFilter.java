@@ -6,12 +6,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.daijie.core.controller.exception.ApiException;
+import org.daijie.shiro.authc.ShiroConstants;
+import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
  * 请求拦截器
@@ -34,10 +33,8 @@ public class SecurityFilter extends UserFilter {
 		if(service == null){
 			throw new ApiException("lack of parameter 'service-name' to header");
 		}
-		Subject subject = SecurityUtils.getSubject();
-		Session session = subject.getSession();
-		session.setAttribute("redirect_uri", uri);
-		session.setAttribute("redirect_method", method);
+		Redis.setAttribute(ShiroConstants.REDIRECT_URI, uri);
+		Redis.setAttribute(ShiroConstants.REDIRECT_METHOD, method);
 		redirectToSecurity(request, response, service);
 		return false;
 	}

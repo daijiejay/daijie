@@ -17,13 +17,13 @@ public class ClusterRedisSession extends RedisSessionDAO implements RedisSession
 	}
 
 	@Override
-	public Session saveSession(Serializable sessionId) {
-		return saveSession(sessionId);
+	public void saveSession(Session session) {
+		update(session);
 	}
 
 	@Override
-	public Session removeSession(Serializable sessionId) {
-		return removeSession(sessionId);
+	public void removeSession(Session session) {
+		delete(session);
 	}
 
 	@Override

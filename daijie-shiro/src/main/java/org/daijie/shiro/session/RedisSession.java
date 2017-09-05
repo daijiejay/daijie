@@ -18,13 +18,13 @@ public class RedisSession extends RedisSessionDAO implements RedisSessionFactory
 	}
 
 	@Override
-	public Session saveSession(Serializable sessionId) {
-		return saveSession(sessionId);
+	public void saveSession(Session session) {
+		update(session);
 	}
 
 	@Override
-	public Session removeSession(Serializable sessionId) {
-		return removeSession(sessionId);
+	public void removeSession(Session session) {
+		delete(session);
 	}
 
 	@Override

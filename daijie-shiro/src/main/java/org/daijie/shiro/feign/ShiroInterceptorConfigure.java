@@ -4,10 +4,8 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.daijie.core.util.SerializeUtil;
+import org.daijie.shiro.authc.ShiroConstants;
+import org.daijie.shiro.session.ShiroRedisSession.Redis;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -36,12 +34,8 @@ public class ShiroInterceptorConfigure {
 						template.header(name, values);
 					}
 				}
-				Subject subject = SecurityUtils.getSubject();
-				Session session = subject.getSession();
-				byte[] serialize = SerializeUtil.serialize(session.getAttribute("user"));
-				template.header("reqest-anth", serialize.toString());
-				template.method(session.getAttribute("redirect_method").toString());
-				template.insert(0, session.getAttribute("redirect_uri").toString());
+				template.method(Redis.getAttribute(ShiroConstants.REDIRECT_METHOD).toString());
+				template.insert(0, Redis.getAttribute(ShiroConstants.REDIRECT_URI).toString());
 			}
 		};
 	}

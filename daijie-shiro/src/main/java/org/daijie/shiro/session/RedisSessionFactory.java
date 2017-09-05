@@ -23,14 +23,14 @@ public interface RedisSessionFactory {
 	 * @param sessionId
 	 * @return
 	 */
-	public Session saveSession(Serializable sessionId);
+	public void saveSession(Session session);
 	
 	/**
 	 * 删除session
 	 * @param sessionId
 	 * @return
 	 */
-	public Session removeSession(Serializable sessionId);
+	public void removeSession(Session session);
 	
 	/**
 	 * 更新Session

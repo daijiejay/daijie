@@ -5,30 +5,15 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
-    <result column="login_key" jdbcType="VARCHAR" property="loginKey" />
-    <result column="user_type" jdbcType="VARCHAR" property="userType" />
-    <result column="enable" jdbcType="BIT" property="enable" />
-    <result column="defriend" jdbcType="BIT" property="defriend" />
-    <result column="fictitious" jdbcType="BIT" property="fictitious" />
-    <result column="status" jdbcType="BIT" property="status" />
-    <result column="reg_time" jdbcType="TIMESTAMP" property="regTime" />
-    <result column="registe_ip" jdbcType="VARCHAR" property="registeIp" />
-    <result column="registe_device_type" jdbcType="VARCHAR" property="registeDeviceType" />
-    <result column="registe_user_agent" jdbcType="VARCHAR" property="registeUserAgent" />
-    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
     -->
-    id, email, mobile, nick_name, password, passwd, login_key, user_type, enable, defriend, 
-    fictitious, status, reg_time, registe_ip, registe_device_type, registe_user_agent, 
-    channel
+    user_id, user_name, password, salt
   </sql>
 </mapper>

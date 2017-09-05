@@ -1,11 +1,10 @@
 package org.daijie.shiro.session;
 
-import java.io.Serializable;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.daijie.core.util.SerializeUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,7 @@ public class ShiroRedisSession {
 					session = ((AbstractSessionDAO) redisSession).readSession(getToken());
 				} catch (UnknownSessionException e) {
 					logger.error(e.getMessage());
-					session = SecurityUtils.getSubject().getSession();
+					session = null;
 				}
 			}
 		}
@@ -111,23 +110,25 @@ public class ShiroRedisSession {
 		 * 清除当前会话中的session
 		 * @param sessionId
 		 */
-		public static void deleteSession(Serializable sessionId){
-			agentRedisSession().removeSession(sessionId);
+		public static void deleteSession(){
+			initSession();
+			SecurityUtils.getSubject().logout();
 		}
 		
 		/**
 		 * 保存当前会话中的session
 		 * @param sessionId
 		 */
-		public static void saveSession(Serializable sessionId){
-			agentRedisSession().saveSession(sessionId);
+		public static void saveSession(){
+			initSession();
+			agentRedisSession().saveSession(session);
 		}
 		
 		/**
 		 * 代理获取RedisSessionFactory实现类
 		 * @return
 		 */
-		public static <T extends RedisSessionFactory> RedisSessionFactory agentRedisSession(){
+		private static <T extends RedisSessionFactory> RedisSessionFactory agentRedisSession(){
 			if(redisSession instanceof RedisSession){
 				return (RedisSession) redisSession;
 			}else if(redisSession instanceof ClusterRedisSession){
@@ -162,8 +163,14 @@ public class ShiroRedisSession {
 		 * @param key
 		 * @param value
 		 */
-		public static void set(String key, String value){
-			set(key, value, 360000);
+		public static void set(String key, Object value){
+			if(redisSession instanceof RedisSession){
+				RedisSession redis = (RedisSession) redisSession;
+				redis.getRedisManager().set((key+getToken()).getBytes(), SerializeUtil.serialize(value));
+			}else if(redisSession instanceof ClusterRedisSession){
+				ClusterRedisSession redis = (ClusterRedisSession) redisSession;
+				redis.getRedisManager().set((key+getToken()).getBytes(), SerializeUtil.serialize(value));
+			}
 		}
 		
 		/**
@@ -172,13 +179,13 @@ public class ShiroRedisSession {
 		 * @param value
 		 * @param expire
 		 */
-		public static void set(String key, String value, int expire){
+		public static void set(String key, Object value, int expire){
 			if(redisSession instanceof RedisSession){
 				RedisSession redis = (RedisSession) redisSession;
-				redis.getRedisManager().set((key+getToken()).getBytes(), value.getBytes(), expire);
+				redis.getRedisManager().set((key+getToken()).getBytes(), SerializeUtil.serialize(value), expire);
 			}else if(redisSession instanceof ClusterRedisSession){
 				ClusterRedisSession redis = (ClusterRedisSession) redisSession;
-				redis.getRedisManager().set((key+getToken()).getBytes(), value.getBytes(), expire);
+				redis.getRedisManager().set((key+getToken()).getBytes(), SerializeUtil.serialize(value), expire);
 			}
 		}
 		
@@ -187,7 +194,7 @@ public class ShiroRedisSession {
 		 * @param key
 		 * @return
 		 */
-		public static String get(String key){
+		public static Object get(String key){
 			byte[] value = {};
 			if(redisSession instanceof RedisSession){
 				RedisSession redis = (RedisSession) redisSession;
@@ -196,10 +203,10 @@ public class ShiroRedisSession {
 				ClusterRedisSession redis = (ClusterRedisSession) redisSession;
 				value = redis.getRedisManager().get((key+getToken()).getBytes());
 			}
-			if(value == null){
-				return "";
+			if(value != null){
+				return SerializeUtil.deserialize(value);
 			}
-			return new String(value);
+			return value;
 		}
 	}
 }
