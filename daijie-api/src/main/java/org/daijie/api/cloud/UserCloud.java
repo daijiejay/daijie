@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value="${feign.mybatis-cloud}")
 public interface UserCloud {
 	
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
 	public Object getUser(@RequestParam(name = "userId") Integer userId);
 }

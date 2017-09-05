@@ -31,7 +31,7 @@ public class RegisterController extends ApiController<UserCloud, Exception> {
 		//公钥传给客户端
 		String publicKey = (String) Redis.getAttribute(ShiroConstants.RSA_PUBLIC_KEY + Redis.getSession().getId());
 		//客户端调用登录接口时进行公钥加密后传参
-		password = RSAUtil.encryptByPubKey(password);
+		String pubEncryptPassword = RSAUtil.encryptByPubKey(password);
 
 		User user = service.getUser(username);
 		if(user != null){
@@ -52,7 +52,7 @@ public class RegisterController extends ApiController<UserCloud, Exception> {
 		userToken.setAuthc(user);
 		AuthorizationToken token = new AuthorizationToken(username, 
 				saltPassword, 
-				password, salt, "user", userToken);
+				pubEncryptPassword, salt, "user", userToken);
 		token.setRememberMe(true);  
 		Subject subject = SecurityUtils.getSubject();
 		subject.login(token);

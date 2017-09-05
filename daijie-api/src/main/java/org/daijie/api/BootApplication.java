@@ -1,11 +1,14 @@
 package org.daijie.api;
 
+import org.daijie.shiro.annotation.ShiroConfigurtion;
+import org.daijie.shiro.configure.ShiroConfigure;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
+@ShiroConfigurtion(ShiroConfigure.class)
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients

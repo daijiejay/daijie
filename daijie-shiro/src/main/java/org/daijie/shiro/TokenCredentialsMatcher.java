@@ -50,18 +50,17 @@ public class TokenCredentialsMatcher implements CredentialsMatcher {
 		}
 		String privateKey = (String) session.getAttribute(ShiroConstants.RSA_PRIVATE_KEY + session.getId());
 		if(StringUtils.isBlank(privateKey)){
-			throw new AuthenticationException("The data has expired. Please refresh retry!");
+			throw new AuthenticationException("数据已经过期。请刷新重试!");
 		}
 		try {
 			RSAUtil.set(null, privateKey);
 			String password = RSAUtil.decryptByPriKey(new String(authcToken.getPubEncryptPassword()));
 			password = PasswordUtil.generatePassword(password, authcInfo.getCredentialsSalt().getBytes());
 			if(!password.equals(new String((char[]) authcInfo.getCredentials()))){
-				throw new AuthenticationException("password error!");
+				throw new AuthenticationException("密码错误!");
 			}
 		}  catch (Exception e) {
-			e.printStackTrace();
-			throw new AuthenticationException("Validation failure!");
+			throw new AuthenticationException("密码错误!");
 		} finally {
 			session.removeAttribute(ShiroConstants.RSA_PRIVATE_KEY + session.getId());
 		}
