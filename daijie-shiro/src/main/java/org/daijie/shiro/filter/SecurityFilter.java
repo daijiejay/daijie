@@ -23,15 +23,16 @@ public class SecurityFilter extends UserFilter {
 
 	@Override
 	public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-		if(!(isAccessAllowed(request, response, mappedValue) || onAccessDenied(request, response, mappedValue))){
-			throw new ApiException("login invalid");
+		boolean status = super.onPreHandle(request, response, mappedValue);
+		if(Redis.getSession() == null || status){
+			throw new ApiException("请先登录");
 		}
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		String uri = httpServletRequest.getRequestURI();
 		String method = httpServletRequest.getMethod();
 		String service = httpServletRequest.getHeader("service-name");
 		if(service == null){
-			throw new ApiException("lack of parameter 'service-name' to header");
+			throw new ApiException("请求header中没有参数'service-name'");
 		}
 		Redis.setAttribute(ShiroConstants.REDIRECT_URI, uri);
 		Redis.setAttribute(ShiroConstants.REDIRECT_METHOD, method);

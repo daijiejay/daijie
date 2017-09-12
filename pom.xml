@@ -35,6 +35,8 @@
     <module>daijie-rabbit-cloud</module>
     <module>daijie-quartz-cloud</module>
     <module>daijie-shiro-security</module>
-    <module>daijie-api</module>
+    
+    
+    <module>daijie-shiro-api</module>
   </modules>
 </project>

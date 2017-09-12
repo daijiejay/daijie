@@ -13,7 +13,7 @@ public class MiddlewareController {
 	@Autowired
 	private ApiCloud api;
 
-	@RequestMapping(value = "api", method = RequestMethod.GET)
+	@RequestMapping(value = "shiro-api", method = RequestMethod.GET)
 	public Object excute(){
 		return api.excute();
 	}
