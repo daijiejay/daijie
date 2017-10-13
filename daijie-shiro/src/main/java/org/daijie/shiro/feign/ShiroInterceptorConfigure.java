@@ -5,7 +5,6 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 
 import org.daijie.shiro.authc.ShiroConstants;
-import org.daijie.shiro.session.ShiroRedisSession.Redis;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -34,8 +33,8 @@ public class ShiroInterceptorConfigure {
 						template.header(name, values);
 					}
 				}
-				template.method(Redis.getAttribute(ShiroConstants.REDIRECT_METHOD).toString());
-				template.insert(0, Redis.getAttribute(ShiroConstants.REDIRECT_URI).toString());
+				template.method(request.getHeader(ShiroConstants.REDIRECT_METHOD));
+				template.insert(0, request.getHeader(ShiroConstants.REDIRECT_URI));
 			}
 		};
 	}
