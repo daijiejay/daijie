@@ -23,16 +23,22 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	}
 
 	/**
-	 * 添加返回属性，如果为value为null自动转换为空字符串
+	 * 添加返回属性，默认key为data
+	 * @param value
+	 * @return
+	 */
+	public static ApiResultWrapper addData(Object value){
+		return Result.clear().addData("data", value);
+	}
+	
+	/**
+	 * 添加返回属性
 	 * @param key
 	 * @param value
 	 * @return
 	 */
 	public static ApiResultWrapper addData(String key, Object value){
-		if(value == null)
-			return Result.clear().addData(key, "");
-		else
-			return Result.clear().addData(key, value);
+		return Result.clear().addData(key, value);
 	}
 	
 	/**
