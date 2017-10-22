@@ -28,7 +28,7 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	 * @return
 	 */
 	public static ApiResultWrapper addData(Object value){
-		return Result.clear().addData("data", value);
+		return Result.clear().addData("result", value);
 	}
 	
 	/**

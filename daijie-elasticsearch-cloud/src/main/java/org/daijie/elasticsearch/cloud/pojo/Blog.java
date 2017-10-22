@@ -2,14 +2,19 @@ package org.daijie.elasticsearch.cloud.pojo;
 
 import java.io.Serializable;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
-@Document(indexName="lucene",type="blog",indexStoreType="fs",shards=5,replicas=1,refreshInterval="-1")
+@Entity(name="blog")
+@Table(name="blog")
 public class Blog implements Serializable {
 
 	@Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
 	private Integer id;
 	
 	private String title;
