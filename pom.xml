@@ -35,5 +35,6 @@
     <module>daijie-shiro-api</module>
     <module>daijie-activiti-cloud</module>
     <module>daijie-elasticsearch-cloud</module>
+    <module>daijie-jpa-cloud</module>
   </modules>
 </project>

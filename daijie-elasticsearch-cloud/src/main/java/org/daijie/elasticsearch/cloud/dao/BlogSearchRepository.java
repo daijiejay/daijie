@@ -1,8 +1,8 @@
 package org.daijie.elasticsearch.cloud.dao;
 
 import org.daijie.elasticsearch.cloud.pojo.Blog;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.daijie.elasticsearch.cloud.service.base.BaseSearchRepository;
 
-public interface BlogSearchRepository extends PagingAndSortingRepository<Blog, Integer>{
+public interface BlogSearchRepository extends BaseSearchRepository<Blog, Integer>{
 
 }

@@ -1,17 +1,15 @@
-package org.daijie.elasticsearch.cloud.service.base;
+package org.daijie.jpa.cloud.service.base;
 
 import java.io.Serializable;
-import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-@NoRepositoryBean
-public abstract class BaseSearchService <E,ID extends Serializable,R extends BaseSearchRepository<E,ID>>{
+public abstract class BaseSearchService <E,ID extends Serializable,R extends PagingAndSortingRepository<E,ID>>{
 
-    private Logger logger = Logger.getLogger(this.getClass());
+    @SuppressWarnings("unused")
+	private Logger logger = Logger.getLogger(this.getClass());
 
     private R repository;
 
@@ -42,15 +40,6 @@ public abstract class BaseSearchService <E,ID extends Serializable,R extends Bas
 
     public void deleteById(ID id){
         getRepository().delete(id);
-    }
-
-    public E getByKey(String fieldName, Object value){
-        try{
-            return getRepository().search(QueryBuilders.matchQuery(fieldName, value)).iterator().next();
-        }catch(NoSuchElementException e){
-        	logger.debug(e);
-            return null;
-        }
     }
 
 }
