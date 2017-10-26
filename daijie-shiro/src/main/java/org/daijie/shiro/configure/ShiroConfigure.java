@@ -23,14 +23,16 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
-import org.daijie.core.util.PropertiesLoader;
 import org.daijie.shiro.TokenCredentialsMatcher;
 import org.daijie.shiro.UserAuthorizingRealm;
 import org.daijie.shiro.filter.CredentialFilter;
 import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.quartz.QuartzSessionValidationScheduler2;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.util.StringUtils;
 
@@ -45,9 +47,48 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * shiro session集群+redis配置
  * 
  */
+@RefreshScope
+@Configuration
 public class ShiroConfigure {
 	
-	private PropertiesLoader loader = new PropertiesLoader("bootstrap.properties");
+	@Value("${shiro.filterClassNames:}")
+	private String filterClassNames;
+	
+	@Value("${shiro.isValidation:false}")
+	private Boolean isValidation;
+	
+	@Value("${shiro.loginUrl:/login}")
+	private String loginUrl;
+	
+	@Value("${shiro.successUrl:/}")
+	private String successUrl;
+	
+	@Value("${shiro.unauthorizedUrl:/403}")
+	private String unauthorizedUrl;
+	
+	@Value("${shiro.filterChainDefinitions:}")
+	private String filterChainDefinitions;
+	
+	@Value("${shiro.filterChainDefinitionMap:}")
+	private String filterChainDefinitionMap;
+	
+	@Value("${shiro.redis.host:127.0.0.1}")
+	private String redisHost;
+	
+	@Value("${shiro.redis.port:6379}")
+	private Integer redisPort;
+	
+	@Value("${shshiro.redis.password:}")
+	private String redisPassword;
+	
+	@Value("${shiro.redis.timeout:360000}")
+	private Integer redisTimeout;
+	
+	@Value("${shiro.redis.expire:1800}")
+	private Integer redisExpire;
+	
+	@Value("${shiro.sessionid:mysessionid}")
+	private String sessionid;
 	
 	@Bean(name = "shiroFilter")
 	@Primary
@@ -56,8 +97,8 @@ public class ShiroConfigure {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		try {
 			shiroFilterFactoryBean.setSecurityManager(securityManager);
-			if(!StringUtils.isEmpty(loader.getProperty("shiro.filterClassNames"))){
-				for (String filterClassName : loader.getProperty("shiro.filterClassNames").split(",")) {
+			if(!StringUtils.isEmpty(this.filterClassNames)){
+				for (String filterClassName : this.filterClassNames.split(",")) {
 					if(filterClassName.trim().length() > 0){
 						@SuppressWarnings("unchecked")
 						Class<? extends Filter> cls = (Class<? extends Filter>) Class.forName(filterClassName);
@@ -66,24 +107,24 @@ public class ShiroConfigure {
 					}
 				}
 			}
-			if(loader.getBoolean("shiro.isValidation") != null && loader.getBoolean("shiro.isValidation")){
+			if(this.isValidation){
 				filterMap.put("credential", new CredentialFilter());
 			}
 			shiroFilterFactoryBean.setFilters(filterMap);
-			shiroFilterFactoryBean.setLoginUrl(loader.getProperty("shiro.loginUrl", "/login"));
-			shiroFilterFactoryBean.setSuccessUrl(loader.getProperty("shiro.successUrl", "/"));
-			shiroFilterFactoryBean.setUnauthorizedUrl(loader.getProperty("shiro.unauthorizedUrl", "/403"));
+			shiroFilterFactoryBean.setLoginUrl(this.loginUrl);
+			shiroFilterFactoryBean.setSuccessUrl(this.successUrl);
+			shiroFilterFactoryBean.setUnauthorizedUrl(this.unauthorizedUrl);
 			Map<String, String> filterChainDefinitionMap = new HashMap<String, String>();
-			if(!StringUtils.isEmpty(loader.getProperty("shiro.filterChainDefinitions"))){
-				for (String definition : loader.getProperty("shiro.filterChainDefinitions").split(",")) {
+			if(!StringUtils.isEmpty(this.filterChainDefinitions)){
+				for (String definition : this.filterChainDefinitions.split(",")) {
 					if(definition.contains("=")){
 						filterChainDefinitionMap.put(definition.split("=")[0], definition.split("=")[1]);
 					}
 				}
-			}else if(!StringUtils.isEmpty(loader.getProperty("shiro.filterChainDefinitionMap"))){
+			}else if(!StringUtils.isEmpty(filterChainDefinitionMap)){
 				ObjectMapper mapper = new ObjectMapper();
 				@SuppressWarnings("unchecked")
-				Map<String, String> map = mapper.readValue(loader.getProperty("shiro.filterChainDefinitionMap"), Map.class);
+				Map<String, String> map = mapper.readValue(this.filterChainDefinitionMap, Map.class);
 				filterChainDefinitionMap = map;
 			}else{
 				filterChainDefinitionMap.put("*/**", "anon");
@@ -128,7 +169,7 @@ public class ShiroConfigure {
 	public CredentialsMatcher initCredentialsMatcher(@Qualifier("redisSession") RedisSession redisSession){
 		TokenCredentialsMatcher tokenCredentialsMatcher = new TokenCredentialsMatcher();
 		tokenCredentialsMatcher.setRedisSession(redisSession);
-		tokenCredentialsMatcher.setValidation(loader.getBoolean("shiro.isValidation", false));
+		tokenCredentialsMatcher.setValidation(this.isValidation);
 		return tokenCredentialsMatcher;
 	}
 	
@@ -144,11 +185,11 @@ public class ShiroConfigure {
 	@Primary
 	public RedisManager initRedisManager(){
 		RedisManager redisManager = new RedisManager();
-		redisManager.setHost(loader.getProperty("shiro.redis.host", "127.0.0.1"));
-		redisManager.setPort(loader.getInteger("shiro.redis.port", 6379));
-		redisManager.setPassword(loader.getProperty("shiro.redis.password", ""));
-		redisManager.setTimeout(loader.getInteger("shiro.redis.timeout", 360000));
-		redisManager.setExpire(loader.getInteger("shiro.redis.expire", 1800));
+		redisManager.setHost(this.redisHost);
+		redisManager.setPort(this.redisPort);
+		redisManager.setPassword(this.redisPassword);
+		redisManager.setTimeout(this.redisTimeout);
+		redisManager.setExpire(this.redisExpire);
 		return redisManager;
 	}
 	
@@ -203,7 +244,7 @@ public class ShiroConfigure {
 	@Bean(name = "simpleCookie")
 	@Primary
 	public SimpleCookie initSimpleCookie(){
-		return new SimpleCookie(loader.getProperty("shiro.sessionid", "mysessionid"));
+		return new SimpleCookie(this.sessionid);
 	}
 	
 	@Bean(name = "sessionValidationScheduler")
