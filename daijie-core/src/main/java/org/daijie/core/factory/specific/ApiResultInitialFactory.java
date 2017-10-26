@@ -83,28 +83,12 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	 */
 	public static class Result extends ApiResultInitialFactory{
 		
-		private static Result result;
-		
-		static{
-			if(result == null){
-				result = new Result();
-			}
-		}
-		
-		/**
-		 * 默认初始化父类返回结果
-		 * @return
-		 */
-		private static ApiResultWrapper initApiResultWrapper(){
-			return (ApiResultWrapper) result.init();
-		}
-		
 		/**
 		 * 默认初始化返回结果的辅助方法 
 		 * @return
 		 */
 		private static ApiResultWrapper clear(){
-			return initApiResultWrapper();
+			return new ApiResultWrapper(ApiResult.SUCCESS, ResultCode.CODE_200);
 		}
 	}
 }
