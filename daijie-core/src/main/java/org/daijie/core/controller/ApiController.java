@@ -4,7 +4,7 @@ import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.controller.exception.ApiException;
 import org.daijie.core.factory.specific.ApiResultInitialFactory;
 import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
-import org.daijie.core.httpResult.ApiResult;
+import org.daijie.core.result.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 

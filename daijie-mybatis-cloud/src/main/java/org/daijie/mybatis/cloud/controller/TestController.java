@@ -2,7 +2,7 @@ package org.daijie.mybatis.cloud.controller;
 
 import org.daijie.core.controller.ApiController;
 import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
-import org.daijie.core.httpResult.ModelResult;
+import org.daijie.core.result.ModelResult;
 import org.daijie.mybatis.cloud.service.UserService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

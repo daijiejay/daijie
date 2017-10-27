@@ -2,9 +2,9 @@ package org.daijie.core.factory.specific;
 
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.factory.InitialFactory;
-import org.daijie.core.httpResult.ApiResult;
-import org.daijie.core.httpResult.ModelResult;
-import org.daijie.core.httpResult.ModelResultWrapper;
+import org.daijie.core.result.ApiResult;
+import org.daijie.core.result.ModelResult;
+import org.daijie.core.result.ModelResultWrapper;
 
 /**
  * 实例工厂，实例具体返回对象

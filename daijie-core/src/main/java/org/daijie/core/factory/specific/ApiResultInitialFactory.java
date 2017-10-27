@@ -2,8 +2,8 @@ package org.daijie.core.factory.specific;
 
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.factory.InitialFactory;
-import org.daijie.core.httpResult.ApiResult;
-import org.daijie.core.httpResult.ApiResultWrapper;
+import org.daijie.core.result.ApiResult;
+import org.daijie.core.result.ApiResultWrapper;
 
 /**
  * 

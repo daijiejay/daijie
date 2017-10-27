@@ -1,7 +1,7 @@
 package org.daijie.core.factory.specific;
 
 import org.aspectj.lang.JoinPoint;
-import org.daijie.core.httpResult.ApiResult;
+import org.daijie.core.result.ApiResult;
 
 /**
  * 

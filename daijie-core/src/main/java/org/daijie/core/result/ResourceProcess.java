@@ -1,4 +1,4 @@
-package org.daijie.core.httpResult;
+package org.daijie.core.result;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

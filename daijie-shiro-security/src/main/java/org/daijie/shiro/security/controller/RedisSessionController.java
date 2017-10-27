@@ -1,7 +1,7 @@
 package org.daijie.shiro.security.controller;
 
 import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
-import org.daijie.core.httpResult.ModelResult;
+import org.daijie.core.result.ModelResult;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,4 +1,4 @@
-package org.daijie.core.httpResult;
+package org.daijie.core.result;
 
 import java.util.HashMap;
 import java.util.Map;

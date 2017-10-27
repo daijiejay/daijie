@@ -1,4 +1,4 @@
-package org.daijie.core.httpResult;
+package org.daijie.core.result;
 
 import org.daijie.core.controller.enums.ResultCode;
 import org.slf4j.Logger;
