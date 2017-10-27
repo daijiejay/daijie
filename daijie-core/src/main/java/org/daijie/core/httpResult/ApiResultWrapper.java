@@ -88,11 +88,6 @@ public class ApiResultWrapper implements Serializable {
 	}
 
 	public ApiResult build() {
-		try {
-//			logger.info(Thread.currentThread().getStackTrace()[2].toString() + "\nApiResult:" + JsonHelper.getInstance().toPrettyJson(apiResult));
-		} catch (Exception ex) {
-
-		}
 		return apiResult;
 	}
 }
