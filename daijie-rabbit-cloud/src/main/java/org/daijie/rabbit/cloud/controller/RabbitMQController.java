@@ -15,6 +15,6 @@ public class RabbitMQController {
 	@RequestMapping(value = "/rabbit/send", method = RequestMethod.POST)
 	public Object send(){
 		producerTest.send();
-		return "seccess";
+		return "success";
 	}
 }
