@@ -91,7 +91,7 @@
 		<dependency>
 		   <groupId>com.github.xiaoymin</groupId>
 		   <artifactId>swagger-bootstrap-ui</artifactId>
-		   <version>1.5</version>
+		   <version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>jp.sourceforge.qrcode</groupId>

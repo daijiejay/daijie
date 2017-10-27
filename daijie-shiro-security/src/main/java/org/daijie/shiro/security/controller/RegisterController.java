@@ -7,7 +7,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.daijie.core.controller.ApiController;
 import org.daijie.core.controller.enums.ResultCode;
+import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
 import org.daijie.core.httpResult.ApiResult;
+import org.daijie.core.httpResult.ModelResult;
 import org.daijie.core.util.encrypt.PasswordUtil;
 import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.mybatis.model.User;
@@ -27,7 +29,7 @@ public class RegisterController extends ApiController<UserCloud, Exception> {
 
 	@ApiOperation(notes = "注册", value = "注册")
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ApiResult register(@RequestParam String username, @RequestParam String password) throws Exception{
+	public ModelResult<Object> register(@RequestParam String username, @RequestParam String password) throws Exception{
 		//公钥传给客户端
 		String publicKey = (String) Redis.getAttribute(ShiroConstants.RSA_PUBLIC_KEY + Redis.getSession().getId());
 		//客户端调用登录接口时进行公钥加密后传参

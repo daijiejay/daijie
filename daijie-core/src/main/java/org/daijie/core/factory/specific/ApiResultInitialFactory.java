@@ -15,14 +15,6 @@ import org.daijie.core.httpResult.ApiResultWrapper;
 public abstract class ApiResultInitialFactory implements InitialFactory {
 
 	/**
-	 * 默认初始化返回结果
-	 */
-	@Override
-	public Object init() {
-		return new ApiResultWrapper(ApiResult.SUCCESS, ResultCode.CODE_200);
-	}
-
-	/**
 	 * 添加返回属性，默认key为data
 	 * @param value
 	 * @return
@@ -83,7 +75,7 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	 * @author daijie
 	 * @date 2017年5月15日
 	 */
-	public static class Result extends ApiResultInitialFactory{
+	private static class Result extends ApiResultInitialFactory{
 		
 		/**
 		 * 默认初始化返回结果的辅助方法 

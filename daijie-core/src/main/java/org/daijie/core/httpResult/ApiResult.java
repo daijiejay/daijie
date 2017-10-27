@@ -14,12 +14,15 @@ public class ApiResult {
 	public static final boolean SUCCESS = true;
 	public static final boolean ERROR = false;
 
-	//状态标识
+	//请求状态码
 	protected String code;
-	//状态码
+	
+	//请求是否成功
 	protected boolean success;
+	
 	//返回消息提示
 	protected String msg;
+	
 	//返回数据
 	protected Map<String, java.lang.Object> data;
 

@@ -7,6 +7,5 @@ package org.daijie.core.factory;
  *
  */
 public interface InitialFactory {
-
-	Object init();
+	
 }

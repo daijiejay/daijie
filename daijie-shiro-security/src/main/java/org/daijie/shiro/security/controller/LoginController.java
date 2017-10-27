@@ -8,7 +8,9 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.daijie.core.controller.ApiController;
 import org.daijie.core.controller.enums.ResultCode;
+import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
 import org.daijie.core.httpResult.ApiResult;
+import org.daijie.core.httpResult.ModelResult;
 import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
@@ -29,7 +31,7 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 
 	@ApiOperation(notes = "登录", value = "登录")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ApiResult login(@RequestParam String username, @RequestParam String password) throws Exception{
+	public ModelResult<Object> login(@RequestParam String username, @RequestParam String password) throws Exception{
 		//公钥传给客户端
 		String publicKey = (String) Redis.getAttribute(ShiroConstants.RSA_PUBLIC_KEY + Redis.getSession().getId());
 		//客户端调用登录接口时进行公钥加密后传参
@@ -52,7 +54,7 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 	
 	@ApiOperation(notes = "退出", value = "退出")
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public ApiResult logout(){
+	public ModelResult<Object> logout(){
 		Session session = Redis.getSession();
 		Redis.deleteSession();
 		CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), 0);
@@ -61,7 +63,7 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 	
 	@ApiOperation(notes = "获取登录用户", value = "获取登录用户")
 	@RequestMapping(value = "/getLoginUser", method = RequestMethod.POST)
-	public ApiResult getUser(){
-		return Result.addData("user", Redis.getAttribute("user")).build();
+	public ModelResult<User> getUser(){
+		return Result.build((User)Redis.getAttribute("user"), "退出成功", ApiResult.SUCCESS, ResultCode.CODE_200);
 	}
 }

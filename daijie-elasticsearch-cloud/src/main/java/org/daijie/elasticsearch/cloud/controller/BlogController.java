@@ -1,7 +1,10 @@
 package org.daijie.elasticsearch.cloud.controller;
 
+import java.util.Iterator;
+
 import org.daijie.core.controller.ApiController;
-import org.daijie.core.httpResult.ApiResult;
+import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
+import org.daijie.core.httpResult.ModelResult;
 import org.daijie.elasticsearch.cloud.pojo.Blog;
 import org.daijie.elasticsearch.cloud.service.BlogService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,17 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class BlogController extends ApiController<BlogService, Exception> {
 
 	@RequestMapping(value="/searchBlogs", method=RequestMethod.GET)
-	public ApiResult getBlog(){
-		return Result.addData(service.listAll().iterator()).build();
+	public ModelResult<Iterator<Blog>> getBlog(){
+		return Result.build(service.listAll().iterator());
 	}
 	
 	@RequestMapping(value="/searchBlog/{id}", method=RequestMethod.GET)
-	public ApiResult getBlog(@PathVariable Integer id){
-		return Result.addData(service.getById(id)).build();
+	public ModelResult<Blog> getBlog(@PathVariable Integer id){
+		return Result.build(service.getById(id));
 	}
 	
 	@RequestMapping(value="/addBlog", method=RequestMethod.POST)
-	public ApiResult saveBlog(@RequestBody Blog blog){
+	public ModelResult<Object> saveBlog(@RequestBody Blog blog){
 		service.save(blog);
 		return Result.build();
 	}
