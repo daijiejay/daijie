@@ -1,13 +1,12 @@
 package org.daijie.activiti.cloud.service;
 
-import org.activiti.engine.delegate.DelegateTask;
-import org.activiti.engine.delegate.TaskListener;
+import org.activiti.engine.delegate.DelegateExecution;
+import org.activiti.engine.delegate.JavaDelegate;
 
-@SuppressWarnings("serial")
-public class PersonnelManagerTaskService  implements TaskListener {
+public class PersonnelManagerTaskService implements JavaDelegate {
 
 	@Override
-	public void notify(DelegateTask delegateTask) {
+	public void execute(DelegateExecution execution) {
 		System.out.println(this.getClass().getName() + "审批通过！");
 	}
 
