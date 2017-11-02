@@ -38,7 +38,7 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 		password = RSAUtil.encryptByPubKey(password);
 		
 		UserToken userToken = new UserToken();
-		User user = service.getUser(username);
+		User user = service.getUser(username).getData();
 		String salt = user.getSalt();
 		RSAUtil.set(publicKey, null);
 		userToken.setAuthc(user);

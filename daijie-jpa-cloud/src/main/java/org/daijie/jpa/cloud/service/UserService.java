@@ -1,8 +1,8 @@
 package org.daijie.jpa.cloud.service;
 
 import org.daijie.jpa.cloud.dao.UserSearchRepository;
-import org.daijie.jpa.cloud.model.User;
 import org.daijie.jpa.cloud.service.base.BaseSearchService;
+import org.daijie.mybatis.model.User;
 import org.springframework.stereotype.Service;
 
 @Service

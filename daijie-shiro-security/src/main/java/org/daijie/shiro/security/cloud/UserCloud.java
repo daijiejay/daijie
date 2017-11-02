@@ -1,5 +1,6 @@
 package org.daijie.shiro.security.cloud;
 
+import org.daijie.core.result.ModelResult;
 import org.daijie.mybatis.model.User;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface UserCloud {
 
 	@RequestMapping(value = "/user/username/{userName}", method = RequestMethod.GET)
-	public User getUser(@PathVariable(name = "userName") String userName);
+	public ModelResult<User> getUser(@PathVariable(name = "userName") String userName);
 	
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public boolean addUser(@RequestBody User user);
+	public ModelResult<Boolean> addUser(@RequestBody User user);
 }

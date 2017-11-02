@@ -35,7 +35,7 @@ public class RegisterController extends ApiController<UserCloud, Exception> {
 		//客户端调用登录接口时进行公钥加密后传参
 		String pubEncryptPassword = RSAUtil.encryptByPubKey(password);
 
-		User user = service.getUser(username);
+		User user = service.getUser(username).getData();
 		if(user != null){
 			return Result.build("该账号已注册", ApiResult.SUCCESS, ResultCode.CODE_200);
 		}
@@ -45,7 +45,7 @@ public class RegisterController extends ApiController<UserCloud, Exception> {
 		user.setSalt(salt);
 		user.setUserName(username);
 		user.setPassword(saltPassword);
-		boolean result = service.addUser(user);
+		boolean result = service.addUser(user).getData();
 		if(!result){
 			return Result.build("注册失败", ApiResult.SUCCESS, ResultCode.CODE_200);
 		}
