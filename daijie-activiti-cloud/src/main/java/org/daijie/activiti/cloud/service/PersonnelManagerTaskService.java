@@ -9,6 +9,4 @@ public class PersonnelManagerTaskService implements JavaDelegate {
 	public void execute(DelegateExecution execution) {
 		System.out.println(this.getClass().getName() + "审批通过！");
 	}
-
-	
 }

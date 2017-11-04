@@ -1,5 +1,9 @@
 package org.daijie.activiti.cloud.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
+@Api(description = "请假流程案例")
 @RestController
 public class ActivitiController extends ApiController<TaskService, Exception> {
 	
@@ -38,8 +44,10 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 	@Autowired
 	private RepositoryService repositoryService;
 	
+	@ApiOperation(value = "根据审批人ID获取当前待处理的任务")
 	@RequestMapping(value = "/getTasks/{checkUserId}", method = RequestMethod.GET)
-	public ModelResult<Object> getTasks(@PathVariable Integer checkUserId){
+	public ModelResult<Object> getTasks(
+			@ApiParam(value = "审批人ID") @PathVariable Integer checkUserId){
 		List<Map<String, Object>> rows = new ArrayList<>();
 		PageResult<Map<String, Object>> datas = new PageResult<>();
 		TaskQuery query = service.createTaskQuery().processVariableValueEquals("checkUserId", checkUserId);
@@ -53,6 +61,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			row.put("assignee", task.getAssignee());
 			row.put("category", task.getCategory());
 			row.put("claimTime", task.getClaimTime());
+			row.put("createTime", task.getCreateTime());
 			row.put("delegationState", task.getDelegationState());
 			row.put("description", task.getDescription());
 			row.put("dueDate", task.getDueDate());
@@ -64,8 +73,6 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			row.put("processDefinitionId", task.getProcessDefinitionId());
 			row.put("processInstanceId", task.getProcessInstanceId());
 			row.put("taskDefinitionKey", task.getTaskDefinitionKey());
-			row.put("tenantId", task.getTenantId());
-			row.put("taskLocalVariables", task.getTaskLocalVariables());
 			row.put("username", runtimeVariables.get("username"));
 			row.put("days", runtimeVariables.get("days"));
 			row.put("checkUserId", taskVariables.get("checkUserId"));
@@ -80,6 +87,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 	 * 查询所有申请订单流程
 	 * @return
 	 */
+	@ApiOperation(value = "获取所有流程")
 	@RequestMapping(value = "/getActivities", method = RequestMethod.GET)
 	public ModelResult<Object> getActivities(){
 		List<Map<String, Object>> rows = new ArrayList<>();
@@ -117,86 +125,92 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 	 * @param days
 	 * @return
 	 */
+	@ApiOperation(value = "请假申请")
 	@RequestMapping(value = "/applyLeave", method = RequestMethod.POST)
-	public ModelResult<Object> applyLeave(@RequestParam String username, @RequestParam Integer days){
+	public ModelResult<Object> applyLeave(
+			@ApiParam(value = "请假人") @RequestParam String username, 
+			@ApiParam(value = "请假天数") @RequestParam Integer days){
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("username", username);
         variables.put("days", days);
-		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("dome", variables);
-		Task task = service.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-		//设置下一流程审核人ID
-		service.setVariable(task.getId(), "checkUserId", 1);
+		runtimeService.startProcessInstanceByKey("leave", variables);
 		return Result.build();
 	}
 	
 	/**
-	 * 项目组长审核
+	 * 项目组长审批
 	 * @param userId
 	 * @param checkStatus
 	 * @return
 	 */
+	@ApiOperation(value = "项目组长审批")
 	@RequestMapping(value = "/projectLeaderCheck", method = RequestMethod.POST)
-	public ModelResult<Object> projectLeaderCheck(@RequestParam String processInstanceId, @RequestParam Integer userId, 
-			@RequestParam Boolean checkStatus){
+	public ModelResult<Object> projectLeaderCheck(
+			@ApiParam(value = "流程ID") @RequestParam String processInstanceId, 
+			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
+			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
 		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
 				.processVariableValueEquals("checkUserId", userId)
 				.singleResult();
 		if(task == null){
 			return Result.build("没有需要审批的订单！", ApiResult.ERROR);
 		}
+		//执行项目组长审批
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("checkStatus", checkStatus);
-        variables.put("userId", userId);
+        variables.put("projectLeaderId", userId);
 		service.complete(task.getId(), variables);
-		//设置下一流程审核人ID
-		task = service.createTaskQuery().processInstanceId(processInstanceId).singleResult();
-		service.setVariable(task.getId(), "checkUserId", 2);
 		return Result.build();
 	}
 	
 	/**
-	 * 项目经理审核
+	 * 项目经理审批
 	 * @param userId
 	 * @param checkStatus
 	 * @return
 	 */
+	@ApiOperation(value = "项目经理审批")
 	@RequestMapping(value = "/projectManagerCheck", method = RequestMethod.POST)
-	public ModelResult<Object> projectManagerCheck(@RequestParam String processInstanceId, @RequestParam Integer userId, 
-			@RequestParam Boolean checkStatus){
+	public ModelResult<Object> projectManagerCheck(
+			@ApiParam(value = "流程ID") @RequestParam String processInstanceId, 
+			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
+			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
 		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
 				.processVariableValueEquals("checkUserId", userId)
 				.singleResult();
 		if(task == null){
 			return Result.build("没有需要审批的订单！", ApiResult.ERROR);
 		}
+		//执行项目经理审批
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("checkStatus", checkStatus);
-        variables.put("userId", userId);
+        variables.put("projectManagerId", userId);
 		service.complete(task.getId(), variables);
-		//设置下一流程审核人ID
-		task = service.createTaskQuery().processInstanceId(processInstanceId).singleResult();
-		service.setVariable(task.getId(), "checkUserId", 3);
 		return Result.build();
 	}
 	
 	/**
-	 * 部门经理审核
+	 * 部门经理审批
 	 * @param userId
 	 * @param checkStatus
 	 * @return
 	 */
+	@ApiOperation(value = "部门经理审批")
 	@RequestMapping(value = "/departmentManagerCheck", method = RequestMethod.POST)
-	public ModelResult<Object> departmentManagerCheck(@RequestParam String processInstanceId, @RequestParam Integer userId, 
-			@RequestParam Boolean checkStatus){
+	public ModelResult<Object> departmentManagerCheck(
+			@ApiParam(value = "流程ID") @RequestParam String processInstanceId, 
+			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
+			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
 		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
 				.processVariableValueEquals("checkUserId", userId)
 				.singleResult();
 		if(task == null){
 			return Result.build("没有需要审批的订单！", ApiResult.ERROR);
 		}
+		//执行部门经理审批
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("checkStatus", checkStatus);
-        variables.put("userId", userId);
+        variables.put("departmentManagerId", userId);
 		service.complete(task.getId(), variables);
 		return Result.build();
 	}

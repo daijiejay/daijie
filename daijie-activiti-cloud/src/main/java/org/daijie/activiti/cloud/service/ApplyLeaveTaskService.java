@@ -5,12 +5,13 @@ import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
 
 @SuppressWarnings("serial")
-public class ProjectManagerTaskService implements TaskListener {
+public class ApplyLeaveTaskService implements TaskListener {
 
 	@Override
 	public void notify(DelegateTask delegateTask) {
-		System.out.println(this.getClass().getName() + "审批通过！");
+		System.out.println(this.getClass().getName() + "申请请假！");
+		//设置下一流程审批人ID
 		ProcessEngines.getDefaultProcessEngine().getTaskService()
-			.setVariable(delegateTask.getId(), "checkUserId", 3);
+			.setVariable(delegateTask.getId(), "checkUserId", 1);
 	}
 }
