@@ -7,7 +7,11 @@
         <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.service.ApplyLeaveTaskService"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <userTask id="projectLeader" name="项目组长审批" activiti:assignee="#{projectLeaderId}"></userTask>
+    <userTask id="projectLeader" name="项目组长审批" activiti:assignee="#{projectLeaderId}">
+      <extensionElements>
+        <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.service.ProjectLeaderTaskService"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
     <userTask id="projectManager" name="项目经理审批" activiti:assignee="#{projectManagerId}">
       <extensionElements>
         <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.service.ProjectManagerTaskService"></activiti:taskListener>
@@ -55,8 +59,8 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == true && days < 5}]]></conditionExpression>
     </sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
-    <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_leave">
+    <bpmndi:BPMNPlane bpmnElement="leave" id="BPMNPlane_leave">
       <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
         <omgdc:Bounds height="35.0" width="35.0" x="40.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -106,7 +110,7 @@
         <omgdi:waypoint x="490.0" y="197.0"></omgdi:waypoint>
         <omgdi:waypoint x="540.0" y="197.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="56.0" width="100.0" x="479.0" y="0.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="100.0" x="479.0" y="0.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="projectManager-projectManagerJudge" id="BPMNEdge_projectManager-projectManagerJudge">
@@ -117,7 +121,7 @@
         <omgdi:waypoint x="760.0" y="197.0"></omgdi:waypoint>
         <omgdi:waypoint x="850.0" y="197.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="56.0" width="100.0" x="750.0" y="211.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="100.0" x="750.0" y="211.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="departmentManager-departmentManagerJudge" id="BPMNEdge_departmentManager-departmentManagerJudge">
@@ -128,7 +132,7 @@
         <omgdi:waypoint x="1070.0" y="197.0"></omgdi:waypoint>
         <omgdi:waypoint x="1150.0" y="197.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="1059.0" y="211.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="96.0" x="1059.0" y="211.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="personnelManager-end" id="BPMNEdge_personnelManager-end">
@@ -165,7 +169,7 @@
         <omgdi:waypoint x="1203.0" y="-17.0"></omgdi:waypoint>
         <omgdi:waypoint x="1202.0" y="170.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="56.0" width="100.0" x="480.0" y="296.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="100.0" x="480.0" y="296.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="projectManagerJudge-personnelManager" id="BPMNEdge_projectManagerJudge-personnelManager">
@@ -174,7 +178,7 @@
         <omgdi:waypoint x="1202.0" y="65.0"></omgdi:waypoint>
         <omgdi:waypoint x="1202.0" y="170.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="56.0" width="100.0" x="751.0" y="81.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="100.0" x="751.0" y="81.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
