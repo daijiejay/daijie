@@ -18,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * 基于spring+shiro框架的集成
  * 注解集成了spring boot，在任何被扫描类加上此注册即可使用
+ * 适用于单机版redis和集群版redis，区分在ShiroConfigure和ClusterShiroConfigure装置类
  * @author daijie
  * @date 2017年6月22日
  */
@@ -27,7 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Inherited
 @EnableSwagger2
 @Import({ShiroRedisSessionBean.class, ApplicationContextHolderBean.class})
-public @interface ShiroConfigurtion {
+public @interface EnableShiro {
 
 	@AliasFor(annotation = Import.class, attribute = "value")
 	Class<?>[] value() default {ShiroConfigure.class};
