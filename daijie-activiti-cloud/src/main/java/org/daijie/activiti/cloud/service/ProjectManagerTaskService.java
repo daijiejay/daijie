@@ -1,6 +1,5 @@
 package org.daijie.activiti.cloud.service;
 
-import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
 
@@ -10,7 +9,5 @@ public class ProjectManagerTaskService implements TaskListener {
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		System.out.println(this.getClass().getName() + "审批通过！");
-		ProcessEngines.getDefaultProcessEngine().getTaskService()
-			.setVariable(delegateTask.getId(), "checkUserId", 3);
 	}
 }

@@ -60,7 +60,6 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			row.put("taskName", task.getName());
 			row.put("assignee", task.getAssignee());
 			row.put("category", task.getCategory());
-			row.put("claimTime", task.getClaimTime());
 			row.put("createTime", task.getCreateTime());
 			row.put("delegationState", task.getDelegationState());
 			row.put("description", task.getDescription());
@@ -133,7 +132,13 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("username", username);
         variables.put("days", days);
-		runtimeService.startProcessInstanceByKey("leave", variables);
+		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leave", variables);
+		Task task = service.createTaskQuery().processInstanceId(processInstance.getId())
+				.singleResult();
+		variables = new HashMap<String, Object>();
+		//设置下一流程审批人ID
+        variables.put("projectLeaderId", 1);
+        service.complete(task.getId(), variables);
 		return Result.build();
 	}
 	
@@ -150,7 +155,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
 			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
 		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
-				.processVariableValueEquals("checkUserId", userId)
+				.taskAssignee(userId.toString())
 				.singleResult();
 		if(task == null){
 			return Result.build("没有需要审批的订单！", ApiResult.ERROR);
@@ -158,7 +163,8 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 		//执行项目组长审批
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("checkStatus", checkStatus);
-        variables.put("projectLeaderId", userId);
+		//设置下一流程审批人ID
+        variables.put("projectManagerId", 2);
 		service.complete(task.getId(), variables);
 		return Result.build();
 	}
@@ -176,7 +182,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
 			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
 		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
-				.processVariableValueEquals("checkUserId", userId)
+				.taskAssignee(userId.toString())
 				.singleResult();
 		if(task == null){
 			return Result.build("没有需要审批的订单！", ApiResult.ERROR);
@@ -184,7 +190,8 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 		//执行项目经理审批
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("checkStatus", checkStatus);
-        variables.put("projectManagerId", userId);
+		//设置下一流程审批人ID
+        variables.put("departmentManagerId", 3);
 		service.complete(task.getId(), variables);
 		return Result.build();
 	}
@@ -202,7 +209,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
 			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
 		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
-				.processVariableValueEquals("checkUserId", userId)
+				.taskAssignee(userId.toString())
 				.singleResult();
 		if(task == null){
 			return Result.build("没有需要审批的订单！", ApiResult.ERROR);
@@ -210,7 +217,6 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 		//执行部门经理审批
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("checkStatus", checkStatus);
-        variables.put("departmentManagerId", userId);
 		service.complete(task.getId(), variables);
 		return Result.build();
 	}
