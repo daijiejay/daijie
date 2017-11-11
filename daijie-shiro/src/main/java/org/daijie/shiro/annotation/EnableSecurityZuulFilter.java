@@ -13,6 +13,6 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(SecurityZuulFilterBean.class)
-public @interface SecurityZuulFilterConfigurtion {
+public @interface EnableSecurityZuulFilter {
 
 }

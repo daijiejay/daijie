@@ -62,8 +62,13 @@ public class LoginController extends ApiController<UserCloud, Exception> {
 	}
 	
 	@ApiOperation(notes = "获取登录用户", value = "获取登录用户")
-	@RequestMapping(value = "/getLoginUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/getLoginUser", method = RequestMethod.GET)
 	public ModelResult<User> getUser(){
 		return Result.build((User)Redis.getAttribute("user"), "退出成功", ApiResult.SUCCESS, ResultCode.CODE_200);
+	}
+
+	@RequestMapping(value = "/invalid", method = RequestMethod.GET)
+	public ModelResult<Boolean> invalid(){
+		return Result.build(null, "登录过期", ApiResult.ERROR, ResultCode.CODE_300);
 	}
 }

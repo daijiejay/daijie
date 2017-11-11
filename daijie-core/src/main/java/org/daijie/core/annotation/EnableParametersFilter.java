@@ -13,6 +13,6 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(ParametersFilterBean.class)
-public @interface ParametersFilterConfigurtion {
+public @interface EnableParametersFilter {
 
 }

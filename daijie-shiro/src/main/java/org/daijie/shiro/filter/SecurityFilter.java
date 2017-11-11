@@ -4,8 +4,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.apache.shiro.web.filter.authc.UserFilter;
-import org.daijie.core.controller.enums.ResultCode;
-import org.daijie.core.controller.exception.ApiException;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
@@ -20,7 +18,7 @@ public class SecurityFilter extends UserFilter {
 	public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		boolean status = super.onPreHandle(request, response, mappedValue);
 		if(Redis.getSession() == null || !status){
-			throw new ApiException(ResultCode.CODE_300, "登录过期");
+			return false;
 		}
 		return true;
 	}

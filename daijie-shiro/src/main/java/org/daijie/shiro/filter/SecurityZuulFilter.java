@@ -1,6 +1,8 @@
 package org.daijie.shiro.filter;
 
-import org.daijie.core.controller.exception.ApiException;
+import org.daijie.core.controller.enums.ResultCode;
+import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
+import org.daijie.core.result.ApiResult;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 import com.netflix.zuul.ZuulFilter;
@@ -20,7 +22,7 @@ public class SecurityZuulFilter extends ZuulFilter {
 	@Override
 	public Object run() {
 		if(Redis.getSession() == null){
-			throw new ApiException("请先登录");
+			return Result.build(null, "登录过期", ApiResult.ERROR, ResultCode.CODE_300);
 		}
 		return null;
 	}
