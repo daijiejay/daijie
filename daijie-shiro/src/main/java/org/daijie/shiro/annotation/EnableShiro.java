@@ -7,6 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.daijie.core.kisso.KissoConfigure;
 import org.daijie.core.util.bean.ApplicationContextHolderBean;
 import org.daijie.shiro.configure.ShiroConfigure;
 import org.daijie.shiro.session.bean.ShiroRedisSessionBean;
@@ -27,7 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Documented
 @Inherited
 @EnableSwagger2
-@Import({ShiroRedisSessionBean.class, ApplicationContextHolderBean.class})
+@Import({ShiroRedisSessionBean.class, ApplicationContextHolderBean.class, KissoConfigure.class})
 public @interface EnableShiro {
 
 	@AliasFor(annotation = Import.class, attribute = "value")

@@ -12,18 +12,24 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.daijie.core.kisso.KissoSecurityFactory;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.UserToken;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
+import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.security.token.SSOToken;
+
 /**
  * 用户登录后角色权限注入到shiro管理
  * @author daijie
  * @date 2017年6月22日
  */
-public class UserAuthorizingRealm extends AuthorizingRealm {
+public class UserAuthorizingRealm extends AuthorizingRealm implements KissoSecurityFactory {
+
+	public Boolean kissoEnable = true;
 
 	/**
 	 * 设置用户角色信息
@@ -79,8 +85,26 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
 		if(authorizationToken.getSalt() != null){
 			authcInfo.setCredentialsSalt(ByteSource.Util.bytes(authorizationToken.getSalt()));
 		}
-		CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), null);
+		if(kissoEnable){
+			SSOToken ssoToken = SSOToken.create()
+					.setIp(HttpConversationUtil.getRequest())
+					.setId(1000)
+					.setIssuer(session.getId().toString());
+			SSOHelper.setCookie(HttpConversationUtil.getRequest(), 
+					HttpConversationUtil.getResponse(), 
+					ssoToken, 
+					false);
+			SSOHelper.attrToken(HttpConversationUtil.getRequest());
+			Redis.setAttribute("kissoEnable", kissoEnable);
+		}else{
+			CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), null);
+		}
 		return authcInfo;
+	}
+
+	@Override
+	public void setKissoEnable(Boolean kissoEnable) {
+		this.kissoEnable = kissoEnable;
 	}
 
 }

@@ -18,6 +18,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.baomidou.kisso.SSOHelper;
+
 /**
  * 
  * @author daijie
@@ -85,7 +87,9 @@ public class HttpConversationUtil {
 	 */
 	public static String getToken(){
 		if(getRequest() != null){
-			if(!StringUtils.isEmpty(getRequest().getAttribute(TOKEN_NAME))){
+			if(SSOHelper.attrToken(getRequest()) != null && !StringUtils.isEmpty(SSOHelper.attrToken(getRequest()).getIssuer())){
+				return SSOHelper.attrToken(getRequest()).getIssuer();
+			}else if(!StringUtils.isEmpty(getRequest().getAttribute(TOKEN_NAME))){
 				return getRequest().getAttribute(TOKEN_NAME).toString();
 			}else if(!StringUtils.isEmpty(getRequest().getParameter(TOKEN_NAME))){
 				return getRequest().getParameter(TOKEN_NAME);

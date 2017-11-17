@@ -64,6 +64,9 @@ public class ClusterShiroConfigure {
 	@Value("${shiro.isValidation:false}")
 	private Boolean isValidation;
 	
+	@Value("${shiro.kissoEnable:true}")
+	private Boolean kissoEnable;
+	
 	@Value("${shiro.loginUrl:/login}")
 	private String loginUrl;
 	
@@ -168,6 +171,7 @@ public class ClusterShiroConfigure {
 	public AuthorizingRealm initAuthorizingRealm(@Qualifier("credentialsMatcher") CredentialsMatcher credentialsMatcher){
 		UserAuthorizingRealm authorizingRealm = new UserAuthorizingRealm();
 		authorizingRealm.setCredentialsMatcher(credentialsMatcher);
+		authorizingRealm.setKissoEnable(this.kissoEnable);
 		return authorizingRealm;
 	}
 	

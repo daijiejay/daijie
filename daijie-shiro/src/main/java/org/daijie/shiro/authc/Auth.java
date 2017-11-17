@@ -11,6 +11,8 @@ import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
+import com.baomidou.kisso.SSOHelper;
+
 /**
  * 登录用户管理类
  * @author daijie_jay
@@ -64,8 +66,12 @@ public final class Auth {
 	 */
 	public static void logOut(){
 		Session session = Redis.getSession();
+		if(session.getAttribute("kissoEnable") != null && (boolean) session.getAttribute("kissoEnable")){
+			SSOHelper.clearLogin(HttpConversationUtil.getRequest(), HttpConversationUtil.getResponse());
+		}else{
+			CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), 0);
+		}
 		Redis.deleteSession();
-		CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), 0);
 	}
 
 	/**
