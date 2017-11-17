@@ -6,9 +6,8 @@ import javax.servlet.ServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.PathMatchingFilter;
-import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
-import org.daijie.shiro.authc.ShiroConstants;
+import org.daijie.shiro.authc.Auth;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
@@ -24,9 +23,7 @@ public class CredentialFilter extends PathMatchingFilter {
 			Subject subject = SecurityUtils.getSubject();
 			request.setAttribute(HttpConversationUtil.TOKEN_NAME, subject.getSession().getId());
 		}
-		RSAUtil.init();
-		Redis.setAttribute(ShiroConstants.RSA_PUBLIC_KEY + Redis.getSession().getId(), RSAUtil.getPubKey());
-		Redis.setAttribute(ShiroConstants.RSA_PRIVATE_KEY + Redis.getSession().getId(), RSAUtil.getPriKey());
+		Auth.initSecretKey();
 		return true;
 	}
 

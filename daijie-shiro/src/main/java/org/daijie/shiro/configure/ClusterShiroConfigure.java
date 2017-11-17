@@ -128,7 +128,7 @@ public class ClusterShiroConfigure {
 						filterChainDefinitionMap.put(definition.split("=")[0], definition.split("=")[1]);
 					}
 				}
-			}else if(!StringUtils.isEmpty(filterChainDefinitionMap)){
+			}else if(!StringUtils.isEmpty(this.filterChainDefinitionMap)){
 				ObjectMapper mapper = new ObjectMapper();
 				@SuppressWarnings("unchecked")
 				Map<String, String> map = mapper.readValue(this.filterChainDefinitionMap, Map.class);
