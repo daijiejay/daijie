@@ -48,7 +48,11 @@ public class IbatisConfigure {
 	
 	@Value("${mybatis.packages}")
 	private String packages;
+	
+	@Value("${mybatis.configLocation}")
+	private String configLocation;
 
+	@SuppressWarnings("deprecation")
 	@Bean(name = "dataSource")
     @Primary
 	public DataSource dataSource(){
@@ -57,6 +61,9 @@ public class IbatisConfigure {
 		dataSource.setUrl(url);
 		dataSource.setUsername(username);
 		dataSource.setPassword(password);
+		dataSource.setMaxActive(maxActive);
+		dataSource.setMaxIdle(maxIdel);
+		dataSource.setMaxWait(maxWait);
 		return dataSource;
 	}
 
@@ -67,6 +74,7 @@ public class IbatisConfigure {
 		try {
 			bean.setDataSource(dataSource);
 			bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));
+			bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(configLocation));
 			return bean.getObject();
 		} catch (Exception e) {
 			e.printStackTrace();

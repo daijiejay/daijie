@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.daijie.mybatis.configure.IbatisConfigure;
+import org.daijie.mybatis.configure.MybatisConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
@@ -16,7 +16,7 @@ import org.springframework.core.annotation.AliasFor;
  * 
  * @author daijie
  * @date 2017年6月5日
- * 通过IbatisAutoConfiguration注解加载ibatis配置
+ * 通过ClusterIbatisAutoConfiguration注解加载ibatis集群配置
  * 
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
@@ -24,8 +24,8 @@ import org.springframework.core.annotation.AliasFor;
 @Documented
 @Inherited
 @MapperScan
-@Import(IbatisConfigure.class)
-public @interface IbatisAutoConfiguration {
+@Import(MybatisConfiguration.class)
+public @interface ClusterIbatisAutoConfiguration {
 
 	@AliasFor(annotation = MapperScan.class, attribute = "basePackages")
 	String[] basePackages() default {};
