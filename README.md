@@ -4,6 +4,7 @@
 ## daijie-core
 * 框架主要工程，集成spring-cloud与spring-boot系列jar包，所有的子工程都依赖本工程。
 * 封装RESTful风格统一返回参数实体，包括正常返回及异常返回，Controller异常全局处理。
+* 集成swagger生成api文档。
 * 微服务请求报文与客服端请求报文一致性处理。
 * 单点登录集成Kisso管理客服端cookie。
 * 提供一些常用工具类。
@@ -13,4 +14,28 @@
 ## daijie-shiro
 * 集成shiro，提供单机和集群redis自动配置。
 * shiro使用登录登出简单化，实现了session集群，任何工程只需依赖本工程就可获取当前登录用户信息和角色权限信息。
-* shiro的cookie优化为更安全kisso进行管理。
+* shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
+* shiro配置修改为properties和yml读取。
+* 登录方法实现了RSA非对称加密算法。
+## daijie-eureka-service
+* eureka注册中心服务器。
+## daijie-config
+* 配置中心集中式配置文件。
+## daijie-config-service
+* 配置中心服务器。
+## daijie-seluth-service
+* 微服务监控服务器。
+## daijie-mybatis-model
+* 集成mybatis-generator工具自动生成model和mapper的实例。
+* 工程角色定义为与数据库对应实体统一管理，不做人工代码修改，利于数据库结构变动只需重新生成即可。
+## daijie-mybatis-cloud
+* 对数据库进行crud操作实例。
+* 工程角色定义为产品模块化的分布式直接访问数据库，可以有对业务性逻辑处理，但此工程不与客户端业务直接交互，比如获取客户端请求报文不在此工程处理。
+## daijie-shiro-api
+* 依赖daijie-shiro提供客服端RESTful api接口实例。
+* 完成在此工程操作集群session中的登录用户信息实例。
+* 工程角色定义为产品模块化的分布式接口提供，并形成swagger可视化接口文档，由此工程请求其它的cloud服务，注意的是此工程不提供给客户端直接访问，只提供给shiro-security工程访问。
+## daijie-shiro-security
+* 依赖daijie-shiro完成单点登录，session集群，cookie安全实例。
+* 此工程集成了zuul，实现反向代理请求api工程。
+* 工程角色定义为单点登录，shiro自定义请求权限统一管理，由客户端直接请求。
