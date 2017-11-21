@@ -20,7 +20,7 @@
 ## daijie-eureka-service
 * eureka注册中心服务器。
 ## daijie-config
-* 配置中心集中式配置文件。
+* 配置中心集中式配置文件管理。
 ## daijie-config-service
 * 配置中心服务器。
 ## daijie-seluth-service
@@ -28,7 +28,7 @@
 ## daijie-mybatis-model
 * 集成mybatis-generator工具自动生成model和mapper的实例。
 * 工程角色定义为与数据库对应实体统一管理，不做人工代码修改，利于数据库结构变动只需重新生成即可。
-## daijie-mybatis-cloud
+## daijie-mybatis-cloud & daijie-jpa-cloud
 * 对数据库进行crud操作实例。
 * 工程角色定义为产品模块化的分布式直接访问数据库，可以有对业务性逻辑处理，但此工程不与客户端业务直接交互，比如获取客户端请求报文不在此工程处理。
 ## daijie-shiro-api
@@ -39,3 +39,12 @@
 * 依赖daijie-shiro完成单点登录，session集群，cookie安全实例。
 * 此工程集成了zuul，实现反向代理请求api工程。
 * 工程角色定义为单点登录，shiro自定义请求权限统一管理，由客户端直接请求。
+## daijie-elasticsearch-cloud
+* 依赖elasticsearch完成搜索实例。
+* 工程角色定义为数据搜索业务，搜索引擎通过api工程调用。
+## daijie-rabbit-cloud
+* 依赖rabbit完成生产消费消息实例。
+* 工程角色定义为部分高并发，复杂算法，无需即时回馈的业务处理，自己生产自己消费，或其它集群rabbit服务消费，通过api工程调用。
+## daijie-quaryz-cloud
+* 依赖quaryz完成定时任务实例。
+* 工程角色定义为处理系统自动执行的业务。
