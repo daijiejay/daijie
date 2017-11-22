@@ -28,8 +28,9 @@
 ## daijie-mybatis-model
 * 集成mybatis-generator工具自动生成model和mapper的实例。
 * 工程作用定义：与数据库对应实体统一管理，不做人工代码修改，利于数据库结构变动只需重新生成即可。
-## daijie-mybatis-cloud & daijie-jpa-cloud
+## daijie-mybatis-cloud & daijie-jpa-cloud & daijie-mybatis-shardingjdbc-cloud
 * 对数据库进行crud操作实例。
+* mybatis-shardingjdbc-cloud工程集成sharding-jdbc完成分表操作实例，sharding-jdbc对分库分表水平拆分做了很好支持。
 * 工程作用定义：产品模块化的分布式直接访问数据库，可以有对业务性逻辑处理，但此工程不与客户端业务直接交互，比如获取客户端请求报文不在此工程处理。
 ## daijie-shiro-api
 * 依赖daijie-shiro提供客服端RESTful api接口实例。

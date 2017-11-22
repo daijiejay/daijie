@@ -17,6 +17,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.daijie</groupId>
+			<artifactId>daijie-mybatis</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.daijie</groupId>
 			<artifactId>daijie-mybatis-model</artifactId>
 			<version>0.0.1</version>
 		</dependency>
