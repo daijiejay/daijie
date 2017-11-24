@@ -18,6 +18,6 @@ public class KissoConfigure extends WebMvcConfigurerAdapter {
 
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SSOSpringInterceptor()).addPathPatterns("/**").excludePathPatterns("/login");
+        registry.addInterceptor(new SSOSpringInterceptor()).excludePathPatterns("/**");
     }
 }
