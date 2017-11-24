@@ -8,6 +8,7 @@
 * 微服务请求报文与客服端请求报文一致性处理。
 * 单点登录集成Kisso管理客服端cookie。
 * 提供一些常用工具类。
+* 加入了redis和zookeeper分布式锁，可配置单机或集群的redis及zookeeper，由@EnableRedisLock和@EnableZKLock开启自动装置。(注意：redis用到了avel命令，只支持2.6版本以上服务器)
 ## daijie-mybatis
 * 集成tk-mybatis，提供单机和集群数据库自动配置。
 * mybatis配置修改为properties和yml读取。
@@ -34,7 +35,8 @@
 * 工程作用定义：产品模块化的分布式直接访问数据库，可以有对业务性逻辑处理，但此工程不与客户端业务直接交互，比如获取客户端请求报文不在此工程处理。
 ## daijie-shiro-api
 * 依赖daijie-shiro提供客服端RESTful api接口实例。
-* 完成在此工程操作集群session中的登录用户信息实例。
+* 完成在此工程操作集群session中的登录用户信息实例及redis单独使用实例。
+* 完成一个简单的分布式锁实例。
 * 工程作用定义：产品模块化的分布式接口提供，并形成swagger可视化接口文档，由此工程请求其它的cloud服务，注意的是此工程不提供给客户端直接访问，只提供给shiro-security工程访问。
 ## daijie-shiro-security
 * 依赖daijie-shiro完成单点登录，session集群，cookie安全实例。

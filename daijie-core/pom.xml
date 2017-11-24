@@ -74,8 +74,8 @@
 			<version>3.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>commons-beanutils</groupId>
-		    <artifactId>commons-beanutils</artifactId>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-net</groupId>
@@ -93,14 +93,22 @@
 			<version>2.7.0</version>
 		</dependency>
 		<dependency>
-		   <groupId>com.github.xiaoymin</groupId>
-		   <artifactId>swagger-bootstrap-ui</artifactId>
-		   <version>1.6</version>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>swagger-bootstrap-ui</artifactId>
+			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>jp.sourceforge.qrcode</groupId>
 			<artifactId>qrcode</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -112,8 +120,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-zookeeper-dependencies</artifactId> 
-				<version>1.0.1.RELEASE</version> <type>pom</type> <scope>import</scope> </dependency> -->
 		</dependencies>
 	</dependencyManagement>
 </project>
