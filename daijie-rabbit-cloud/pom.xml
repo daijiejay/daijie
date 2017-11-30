@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-mybatis-model</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.mybatis.spring.boot</groupId>
