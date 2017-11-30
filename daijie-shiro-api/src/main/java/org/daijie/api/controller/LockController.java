@@ -1,5 +1,8 @@
 package org.daijie.api.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
 import org.daijie.core.lock.Callback;
 import org.daijie.core.lock.LockTool;
@@ -13,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @author daijie_jay
  * @date 2017年11月24日
  */
+@Api(description="分布式锁测试")
 @RestController
 public class LockController {
 
+	@ApiOperation(notes = "锁测试", value = "锁测试")
 	@RequestMapping(value = "testLock", method = RequestMethod.GET)
 	public ModelResult<Object> testLock(){
 		Object result = LockTool.execute("test", 1000, new Callback() {

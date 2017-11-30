@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.daijie</groupId>
-		<artifactId>daijie</artifactId>
-		<version>0.0.1</version>
+		<artifactId>daijie-parent-spring-boot-starter</artifactId>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>daijie-mybatis-shardingjdbc-cloud</artifactId>
 	<name>daijie-mybatis-shardingjdbc-cloud</name>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-mybatis-model</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>

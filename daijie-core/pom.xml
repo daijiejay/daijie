@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.daijie</groupId>
-		<artifactId>daijie</artifactId>
-		<version>0.0.1</version>
+		<artifactId>daijie-parent-spring-boot-starter</artifactId>
+		<version>1.0.0</version>
 	</parent>
-	<artifactId>daijie-core</artifactId>
+	<artifactId>daijie-core-spring-boot-starter</artifactId>
 	<name>daijie-core</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -102,13 +102,18 @@
 			<artifactId>qrcode</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-recipes</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.xiaoleilu</groupId>
+			<artifactId>hutool</artifactId>
+			<version>2.16.2</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

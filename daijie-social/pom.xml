@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.daijie</groupId>
+		<artifactId>daijie-parent-spring-boot-starter</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>daijie-social-spring-boot-starter</artifactId>
+	<name>daijie-social</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.daijie</groupId>
+			<artifactId>daijie-core-spring-boot-starter</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>com.mxixm</groupId>
+			<artifactId>fastboot-weixin</artifactId>
+			<version>0.3.3</version>
+		</dependency> -->
+		<!-- 支付宝登陆 -->
+		<dependency>
+			<groupId>com.aliyun.jdk</groupId>
+			<artifactId>aliyun-java-jdk</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/lib/alipay-sdk-java20171027120314.jar</systemPath>
+		</dependency>
+		<!-- 支付宝登陆 end -->
+	</dependencies>
+</project>

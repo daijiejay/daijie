@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.daijie</groupId>
-		<artifactId>daijie</artifactId>
-		<version>0.0.1</version>
+		<artifactId>daijie-parent-spring-boot-starter</artifactId>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>daijie-shiro-security</artifactId>
 	<name>daijie-shiro-security</name>
@@ -17,13 +17,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.daijie</groupId>
-			<artifactId>daijie-shiro</artifactId>
-			<version>0.0.1</version>
+			<artifactId>daijie-shiro-spring-boot-starter</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-mybatis-model</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.mybatis.spring.boot</groupId>

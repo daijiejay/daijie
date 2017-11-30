@@ -18,6 +18,9 @@
 * shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
 * shiro配置修改为properties和yml读取。
 * 登录方法实现了RSA非对称加密算法。
+## daijie-social
+* 集成第三方接口，提供QQ、微信、支付宝、新浪、百度登录。
+* 实现了web端第三方授权跳转页登录。
 ## daijie-eureka-service
 * eureka注册中心服务器。
 ## daijie-config
@@ -54,3 +57,6 @@
 ## daijie-activiti-cloud
 * 依赖activiti完成流程实例。
 * 工程作用定义：流程业务逻辑集中式处理，由api工程调用，此工程只处理流程中的业务逻辑和提供可视化的流程图，订单的处理人、处理结果、状态、历史记录等等需要维护到具体业务的数据库中。
+## daijie-social-cloud
+* 依赖social完成第三方登录实例。
+* 工程作用定义：与第三方交互。

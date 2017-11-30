@@ -32,5 +32,5 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public @interface EnableShiro {
 
 	@AliasFor(annotation = Import.class, attribute = "value")
-	Class<?>[] value() default {ShiroConfigure.class};
+	Class<?> value() default ShiroConfigure.class;
 }
