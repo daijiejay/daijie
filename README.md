@@ -172,7 +172,7 @@ public class BootApplication {
 	}
 }
 ```
-* properties相关配置：
+* properties相关配置，使用微信登录前缀为weixin，还有其它的baidu、ali、sina、qq登录配置
 ```
 weixin.login.appid=
 weixin.login.appsecret=
