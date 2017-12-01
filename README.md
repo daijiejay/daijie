@@ -9,6 +9,60 @@
 * 单点登录集成Kisso管理客服端cookie。
 * 提供一些常用工具类。
 * 加入了redis和zookeeper分布式锁，可配置单机或集群的redis及zookeeper，由@EnableRedisLock和@EnableZKLock开启自动装置。(注意：redis用到了avel命令，只支持2.6版本以上服务器)
+### 使用说明
+#### 分布式锁
+* 启动类引用`@EnableRedisLock`开启redis分布式锁，引用`@EnableZKLock`开启zookeeper分布式锁
+```
+@EnableRedisLock
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* properties相关配置：
+```
+#redis分布式锁配置-----------------------------start
+#redis地址，集群服务以“,”号隔开
+lock.redis.addresses=127.0.0.1:6379
+#redis密码，没有不需要配置
+#lock.redis.password=
+#redis分布式锁配置-----------------------------end
+
+##zookeeper分布式锁配置-----------------------------start
+##zookeeper地址，多个服务以“,”号隔开
+#lock.zk.addresses=127.0.0.1:2181
+##重试间隔时间
+#lock.zk.baseSleepTimeMs=1000
+##重试次数
+#lock.zk.maxRetries=3
+##zookeeper分布式锁配置-----------------------------end
+```
+* 工具类使用
+```
+@RestController
+public class LockController {
+	private static final Logger logger = Logger.getLogger(SocialLoginController.class);
+	
+	@RequestMapping(value = "testLock", method = RequestMethod.GET)
+	public ModelResult<Object> testLock(){
+		Object result = LockTool.execute("test", 1000, new Callback() {
+			@Override
+			public Object onTimeout() throws InterruptedException {
+				logger.info("锁超时业务处理");
+				return 0;
+			}
+			@Override
+			public Object onGetLock() throws InterruptedException {
+				logger.info("获取锁业务处理");
+				return 1;
+			}
+		});
+		return Result.build(result);
+	}
+}
+```
 ## daijie-mybatis
 * 集成tk-mybatis，提供单机和集群数据库自动配置。
 * mybatis配置修改为properties和yml读取。
@@ -18,11 +72,97 @@
 * shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
 * shiro配置修改为properties和yml读取。
 * 登录方法实现了RSA非对称加密算法。
+### 使用说明
+#### 分布式锁
+* 启动类引用`@EnableShiro`，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
+```
+@EnableShiro
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* properties相关配置：
+```
+#添加自定义Filter，以“,”号隔开
+shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
+#登录过期跳转的访问路径
+shiro.loginUrl=/invalid
+#登录成功跳转的访问路径
+shiro.successUrl=/
+#无权限时跳转的访问路径
+shiro.unauthorizedUrl=/error
+#拦截访问路径，以“,”号隔开
+shiro.filterChainDefinitions=/**=anon,/login=credential,/api/user/**=security
+#拦截访问路径，json对象格式
+#shiro.filterChainDefinitionMap={"*/**":"anon"}
+#开启凭证验证
+shiro.isValidation=true
+#定义sessionIDq名称
+shiro.sessionid=mysessionid
+
+#单机redis配置---------------------------------
+#主机地址
+shiro.redis.host=127.0.0.1
+#主机端口
+shiro.redis.port=6379
+#访问密码，没有则不用设置
+#shiro.redis.password=
+#默认连接超时时间
+shiro.redis.timeout=5000
+#默认存储超时时间
+shiro.redis.expire=360000
+#最大连接数
+shiro.redis.maxRedirections=1
+
+#集群redis配置---------------------------------
+#主机地址
+#shiro.redis.cluster.address=127.0.0.1:16379,127.0.0.1:16380,127.0.0.1:16381
+#访问密码
+#shiro.redis.cluster.password=123456
+
+#是否开启kisso cookie机制
+shiro.kissoEnable=true
+#加密随机码
+kisso.config.signkey=C691d971EJ3H376G81
+#cookie名称
+kisso.config.cookieName=token
+#cookie的作用域
+kisso.config.cookieDomain=daijie.org
+```
+* 工具类使用
+```
+@RestController
+public class LoginController extends ApiController<UserCloud, Exception>  {
+	private static final Logger logger = Logger.getLogger(SocialLoginController.class);
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelResult<Object> login(@RequestParam String username, @RequestParam String password) throws Exception{
+		//公钥传给客户端
+		String publicKey = Auth.getPublicKey();
+		//客户端调用登录接口时进行公钥加密后传参调用此接口
+		password = RSAUtil.encryptByPubKey(password, publicKey);
+		
+		//以下正式走登录流程
+		User user = service.getUser(username).getData();
+		Auth.login(username, password, user.getSalt(), user.getPassword(), "user", user);
+		return Result.build("登录成功", ApiResult.SUCCESS, ResultCode.CODE_200);
+	}
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public ModelResult<Object> logout(){
+		Auth.logOut();
+		return Result.build("退出成功", ApiResult.SUCCESS, ResultCode.CODE_200);
+	}
+}
+```
 ## daijie-social
 * 集成第三方接口，提供QQ、微信、支付宝、新浪、百度登录。
 * 实现了web端第三方授权跳转页登录。
-###使用说明
-*启动类引用`@EnableSocialLogin`：
+### 使用说明
+#### 第三方登录
+* 启动类引用`@EnableSocialLogin`：
 ```
 @EnableSocialLogin
 @SpringBootApplication
@@ -32,7 +172,7 @@ public class BootApplication {
 	}
 }
 ```
-*配置中心相关配置：
+* properties相关配置：
 ```
 weixin.login.appid=
 weixin.login.appsecret=
@@ -40,7 +180,7 @@ weixin.login.redirectUri=/index
 weixin.login.errorUri=/error
 weixin.login.callbackUri=/weixin/callback
 ```
-*工具类使用
+* 工具类使用
 ```
 @Controller
 public class SocialLoginController {
