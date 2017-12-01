@@ -43,7 +43,7 @@ lock.redis.addresses=127.0.0.1:6379
 ```
 @RestController
 public class LockController {
-	private static final Logger logger = Logger.getLogger(SocialLoginController.class);
+	private static final Logger logger = Logger.getLogger(LockController.class);
 	
 	@RequestMapping(value = "testLock", method = RequestMethod.GET)
 	public ModelResult<Object> testLock(){
@@ -73,7 +73,7 @@ public class LockController {
 * shiro配置修改为properties和yml读取。
 * 登录方法实现了RSA非对称加密算法。
 ### 使用说明
-#### OSS登录实现
+#### SSO登录实现
 * 启动类引用`@EnableShiro`，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
 ```
 @EnableShiro(ShiroConfigure.class)
