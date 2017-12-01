@@ -76,7 +76,7 @@ public class LockController {
 #### 分布式锁
 * 启动类引用`@EnableShiro`，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
 ```
-@EnableShiro
+@EnableShiro(ShiroConfigure.class)
 @SpringBootApplication
 public class BootApplication {
 	public static void main(String[] args) {
