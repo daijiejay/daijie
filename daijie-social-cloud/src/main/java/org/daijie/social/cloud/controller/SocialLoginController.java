@@ -27,7 +27,7 @@ public class SocialLoginController {
 	 * 访问微信二维码
 	 * @param response
 	 */
-	@RequestMapping(value = "weixin/qrcod", method = RequestMethod.GET)
+	@RequestMapping(value = "weixin/qrcode", method = RequestMethod.GET)
 	public String loadQrcode(String state, HttpServletResponse response){
 		return LoginTool.loadQrcode(state, SocialLoginEnum.WEIXIN);
 	}
