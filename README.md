@@ -63,6 +63,11 @@ public class LockController {
 	}
 }
 ```
+#### 图形验证码工具使用
+```
+Captcha captcha = CaptchaTool.getCaptcha();
+String randomStr = captcha.getChallenge();
+```
 ## daijie-mybatis
 * 集成tk-mybatis，提供单机和集群数据库自动配置。
 * mybatis配置修改为properties和yml读取。
@@ -136,7 +141,7 @@ kisso.config.cookieDomain=daijie.org
 ```
 @RestController
 public class LoginController extends ApiController<UserCloud, Exception>  {
-	private static final Logger logger = Logger.getLogger(SocialLoginController.class);
+	private static final Logger logger = Logger.getLogger(LoginController.class);
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelResult<Object> login(@RequestParam String username, @RequestParam String password) throws Exception{
