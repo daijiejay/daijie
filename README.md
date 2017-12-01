@@ -73,7 +73,7 @@ public class LockController {
 * shiro配置修改为properties和yml读取。
 * 登录方法实现了RSA非对称加密算法。
 ### 使用说明
-#### 分布式锁
+#### OSS登录实现
 * 启动类引用`@EnableShiro`，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
 ```
 @EnableShiro(ShiroConfigure.class)
