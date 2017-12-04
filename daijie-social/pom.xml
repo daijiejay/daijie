@@ -25,7 +25,7 @@
 			<artifactId>fastboot-weixin</artifactId>
 			<version>0.3.3</version>
 		</dependency> -->
-		<!-- 支付宝登陆 -->
+		<!-- 支付宝登陆 start -->
 		<dependency>
 			<groupId>com.aliyun.jdk</groupId>
 			<artifactId>aliyun-java-jdk</artifactId>
@@ -34,5 +34,32 @@
 			<systemPath>${project.basedir}/src/main/resources/lib/alipay-sdk-java20171027120314.jar</systemPath>
 		</dependency>
 		<!-- 支付宝登陆 end -->
+		<!-- 第三方支付 start -->
+		<dependency>
+		    <groupId>com.egzosn</groupId>
+		    <artifactId>pay-java-common</artifactId>
+		    <version>2.0.4-RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.egzosn</groupId>
+		    <artifactId>pay-java-fuiou</artifactId>
+		    <version>2.0.4-RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.egzosn</groupId>
+		    <artifactId>pay-java-ali</artifactId>
+		    <version>2.0.4-RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.egzosn</groupId>
+		    <artifactId>pay-java-wx</artifactId>
+		    <version>2.0.4-RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.egzosn</groupId>
+		    <artifactId>pay-java-wx-youdian</artifactId>
+		    <version>2.0.4-RELEASE</version>
+		</dependency>
+		<!-- 第三方支付 end -->
 	</dependencies>
 </project>

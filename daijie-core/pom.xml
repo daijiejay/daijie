@@ -117,8 +117,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.xiaoleilu</groupId>
-			<artifactId>hutool</artifactId>
-			<version>2.16.2</version>
+			<artifactId>hutool-all</artifactId>
+			<version>3.2.2</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

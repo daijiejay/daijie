@@ -196,7 +196,7 @@ public class SocialLoginController {
 	 */
 	@RequestMapping(value = "weixin/qrcode", method = RequestMethod.GET)
 	public String loadQrcode(String state, HttpServletResponse response){
-		return LoginTool.loadQrcode(state, SocialLoginEnum.WEIXIN);
+		return LoginTool.loadQrcode(state, SocialLoginType.WEIXIN);
 	}
 	/**
 	 * 微信扫码回调登录业务处理
@@ -206,7 +206,7 @@ public class SocialLoginController {
 	 */
 	@RequestMapping(value = "weixin/callback", method = RequestMethod.GET)
 	public String wxCallback(@RequestParam String code, String state){
-		return LoginTool.login(code, SocialLoginEnum.WEIXIN, new WeixinLoginCallback() {
+		return LoginTool.login(code, SocialLoginType.WEIXIN, new WeixinLoginCallback() {
 			@Override
 			public void handle(WeixinUserInfo userInfo) {
 				logger.info("登录成功业务处理");

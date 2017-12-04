@@ -5,7 +5,7 @@ package org.daijie.social.login;
  * @author daijie_jay
  * @date 2017年11月30日
  */
-public enum SocialLoginEnum {
+public enum SocialLoginType {
 
 	ALI,
 	

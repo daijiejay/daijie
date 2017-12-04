@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.daijie.social.login.LoginTool;
-import org.daijie.social.login.SocialLoginEnum;
+import org.daijie.social.login.SocialLoginType;
 import org.daijie.social.login.weixin.callback.WeixinLoginCallback;
 import org.daijie.social.login.weixin.model.WeixinError;
 import org.daijie.social.login.weixin.model.WeixinUserInfo;
@@ -29,7 +29,7 @@ public class SocialLoginController {
 	 */
 	@RequestMapping(value = "weixin/qrcode", method = RequestMethod.GET)
 	public String loadQrcode(String state, HttpServletResponse response){
-		return LoginTool.loadQrcode(state, SocialLoginEnum.WEIXIN);
+		return LoginTool.loadQrcode(state, SocialLoginType.WEIXIN);
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class SocialLoginController {
 	 */
 	@RequestMapping(value = "weixin/callback", method = RequestMethod.GET)
 	public String wxCallback(@RequestParam String code, String state){
-		return LoginTool.login(code, SocialLoginEnum.WEIXIN, new WeixinLoginCallback() {
+		return LoginTool.login(code, SocialLoginType.WEIXIN, new WeixinLoginCallback() {
 			@Override
 			public void handle(WeixinUserInfo userInfo) {
 				logger.info("登录成功业务处理");

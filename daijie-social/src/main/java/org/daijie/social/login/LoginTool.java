@@ -29,7 +29,7 @@ public class LoginTool {
 	 * 获取第三方登录属性配置
 	 * @return
 	 */
-	public static <T extends LoginProperties> T getProperties(SocialLoginEnum socialLogin){
+	public static <T extends LoginProperties> T getProperties(SocialLoginType socialLogin){
 		switch (socialLogin) {
 		case ALI:
 			return (T) ApplicationContextHolder.getBean("aliLoginProperties", AliLoignProperties.class);
@@ -45,7 +45,7 @@ public class LoginTool {
 		return null;
 	}
 	
-	private static <T extends LoginService> T getService(SocialLoginEnum socialLogin){
+	private static <T extends LoginService> T getService(SocialLoginType socialLogin){
 		switch (socialLogin) {
 		case ALI:
 			return (T) ApplicationContextHolder.getBean("aliLoginService", AliLoginService.class);
@@ -69,7 +69,7 @@ public class LoginTool {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static String login(String appAuthCode, SocialLoginEnum socialLogin, LoginCallback callback){
+	public static String login(String appAuthCode, SocialLoginType socialLogin, LoginCallback callback){
 		switch (socialLogin) {
 		case ALI:
 			return AliLoginTool.login(appAuthCode, (AliLoginCallback) callback);
@@ -91,7 +91,7 @@ public class LoginTool {
 	 * @param socialLogin
 	 * @return
 	 */
-	public static String loadQrcode(String state, SocialLoginEnum socialLogin){
+	public static String loadQrcode(String state, SocialLoginType socialLogin){
 		return getService(socialLogin).loadQrcode(state);
 	}
 	
@@ -101,7 +101,7 @@ public class LoginTool {
 	 * @param socialLogin
 	 * @return
 	 */
-	public static String loadAuthPage(String state, SocialLoginEnum socialLogin){
+	public static String loadAuthPage(String state, SocialLoginType socialLogin){
 		return getService(socialLogin).loadAuthPage(state);
 	}
 }
