@@ -2,23 +2,18 @@ package org.daijie.social.login;
 
 import org.daijie.core.util.ApplicationContextHolder;
 import org.daijie.social.login.ali.AliLoginTool;
-import org.daijie.social.login.ali.AliLoignProperties;
 import org.daijie.social.login.ali.callback.AliLoginCallback;
 import org.daijie.social.login.ali.service.AliLoginService;
 import org.daijie.social.login.baidu.BaiduLoginTool;
-import org.daijie.social.login.baidu.BaiduLoignProperties;
 import org.daijie.social.login.baidu.callback.BaiduLoginCallback;
 import org.daijie.social.login.baidu.service.BaiduLoginService;
 import org.daijie.social.login.qq.QQLoginTool;
-import org.daijie.social.login.qq.QQLoignProperties;
 import org.daijie.social.login.qq.callback.QQLoginCallback;
 import org.daijie.social.login.qq.service.QQLoginService;
 import org.daijie.social.login.sina.SinaLoginTool;
-import org.daijie.social.login.sina.SinaLoignProperties;
 import org.daijie.social.login.sina.callback.SinaLoginCallback;
 import org.daijie.social.login.sina.service.SinaLoginService;
 import org.daijie.social.login.weixin.WeixinLoginTool;
-import org.daijie.social.login.weixin.WeixinLoignProperties;
 import org.daijie.social.login.weixin.callback.WeixinLoginCallback;
 import org.daijie.social.login.weixin.service.WeixinLoginService;
 
@@ -30,19 +25,11 @@ public class LoginTool {
 	 * @return
 	 */
 	public static <T extends LoginProperties> T getProperties(SocialLoginType socialLogin){
-		switch (socialLogin) {
-		case ALI:
-			return (T) ApplicationContextHolder.getBean("aliLoginProperties", AliLoignProperties.class);
-		case BAIDU:
-			return (T) ApplicationContextHolder.getBean("baiduLoginProperties", BaiduLoignProperties.class);
-		case QQ:
-			return (T) ApplicationContextHolder.getBean("qqLoginProperties", QQLoignProperties.class);
-		case SINA:
-			return (T) ApplicationContextHolder.getBean("sinaLoginProperties", SinaLoignProperties.class);
-		case WEIXIN:
-			return (T) ApplicationContextHolder.getBean("weixinLoginProperties", WeixinLoignProperties.class);
+		if(getService(socialLogin) == null){
+			return null;
+		}else{
+			return (T) getService(socialLogin).getProperties();
 		}
-		return null;
 	}
 	
 	private static <T extends LoginService> T getService(SocialLoginType socialLogin){

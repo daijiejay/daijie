@@ -6,6 +6,8 @@ package org.daijie.social.login;
  * @date 2017年11月29日
  */
 public interface LoginService {
+	
+	public <T extends LoginProperties> T getProperties();
 
 	/**
 	 * 加载第三方二维码

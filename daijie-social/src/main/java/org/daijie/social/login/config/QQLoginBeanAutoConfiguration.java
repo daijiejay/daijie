@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({QQLoignProperties.class})
 public class QQLoginBeanAutoConfiguration {
 
-	@Bean
+	@Bean("qqLoginService")
     public QQLoginService loginService() {
 		return new QQLoginService();
 	}

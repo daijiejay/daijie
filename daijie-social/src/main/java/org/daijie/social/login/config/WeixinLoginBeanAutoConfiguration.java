@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({WeixinLoignProperties.class})
 public class WeixinLoginBeanAutoConfiguration {
 
-	@Bean
+	@Bean("weixinLoginService")
     public WeixinLoginService loginService() {
 		return new WeixinLoginService();
 	}

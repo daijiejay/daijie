@@ -5,9 +5,9 @@ import org.daijie.social.login.baidu.BaiduLoginTool;
 import org.daijie.social.login.qq.QQLoginTool;
 import org.daijie.social.login.sina.SinaLoginTool;
 import org.daijie.social.login.weixin.WeixinLoginTool;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
  * 支付宝登录自动装置
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Import;
 	SinaLoginBeanAutoConfiguration.class,
 	WeixinLoginBeanAutoConfiguration.class
 	})
-@Import({
+@AutoConfigureAfter({
 	AliLoginTool.class,
 	BaiduLoginTool.class,
 	QQLoginTool.class,

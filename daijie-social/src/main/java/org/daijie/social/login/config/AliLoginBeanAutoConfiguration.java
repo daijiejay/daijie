@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({AliLoignProperties.class})
 public class AliLoginBeanAutoConfiguration {
 
-	@Bean
+	@Bean("aliLoginService")
     public AliLoginService loginService() {
 		return new AliLoginService();
 	}

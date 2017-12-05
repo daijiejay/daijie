@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.daijie.core.util.ApplicationContextHolder;
+import org.daijie.social.SocialBeanAutoConfiguration;
 import org.daijie.social.login.config.SocialLoginBeanAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.context.annotation.Import;
@@ -16,7 +17,7 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ImportAutoConfiguration({SocialLoginBeanAutoConfiguration.class})
+@ImportAutoConfiguration({SocialBeanAutoConfiguration.class, SocialLoginBeanAutoConfiguration.class})
 @Import({ApplicationContextHolder.class})
 public @interface EnableSocialLogin {
 

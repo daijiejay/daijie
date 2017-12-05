@@ -1,7 +1,6 @@
 package org.daijie.social.login;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -13,10 +12,10 @@ public abstract class AbstractLoginService<T extends LoginProperties> implements
 	
 	protected static final String REDIRECT = "redirect:";
 
-	@Resource
+	@Autowired
 	protected RestTemplate restTemplate;
 	
-	@Resource
+	@Autowired
 	protected T properties;
 	
 	public String getRedirectUrl() {
@@ -25,6 +24,12 @@ public abstract class AbstractLoginService<T extends LoginProperties> implements
 	
 	public String getErrorUrl() {
 		return REDIRECT + properties.getErrorUri();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public T getProperties(){
+		return properties;
 	}
 
 	@Override

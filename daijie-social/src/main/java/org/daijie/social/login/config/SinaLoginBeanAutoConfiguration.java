@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({SinaLoignProperties.class})
 public class SinaLoginBeanAutoConfiguration {
 
-	@Bean
+	@Bean("sinaLoginService")
     public SinaLoginService loginService() {
 		return new SinaLoginService();
 	}

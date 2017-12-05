@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({BaiduLoignProperties.class})
 public class BaiduLoginBeanAutoConfiguration {
 
-	@Bean
+	@Bean("baiduLoginService")
     public BaiduLoginService loginService() {
 		return new BaiduLoginService();
 	}

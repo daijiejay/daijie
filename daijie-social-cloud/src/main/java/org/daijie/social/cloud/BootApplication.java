@@ -1,5 +1,6 @@
 package org.daijie.social.cloud;
 
+import org.daijie.social.captcha.EnableSocialCaptcha;
 import org.daijie.social.login.annotation.EnableSocialLogin;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,6 +11,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSocialCaptcha
 @EnableSocialLogin
 @EnableSwagger2
 @EnableDiscoveryClient

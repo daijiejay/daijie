@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.daijie.social.SocialBeanAutoConfiguration;
 import org.daijie.social.login.config.WeixinLoginBeanAutoConfiguration;
 import org.daijie.social.login.weixin.WeixinLoginTool;
 import org.springframework.context.annotation.Import;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Import;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({WeixinLoginBeanAutoConfiguration.class, WeixinLoginTool.class})
+@Import({SocialBeanAutoConfiguration.class, WeixinLoginBeanAutoConfiguration.class, WeixinLoginTool.class})
 public @interface EnableWeixinLogin {
 
 }
