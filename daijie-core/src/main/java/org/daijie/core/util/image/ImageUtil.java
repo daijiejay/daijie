@@ -11,17 +11,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.daijie.core.util.http.HttpUtil;
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 
 /**
@@ -35,7 +30,6 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  * @修改内容
  * @修改时间
  */
-@SuppressWarnings("restriction")
 public class ImageUtil {
     
     /**
@@ -142,34 +136,6 @@ public class ImageUtil {
     	g2.drawImage(image, 0, 0, null);
     	g2.dispose();
     	return output;
-    }
-    
-    /**
-     * 
-     * @param image 文件
-     * @param tfile 写入本地文件路径
-     * @param quality 图片质量
-     * @throws IOException
-     */
-	public static void write(BufferedImage image, String tfile, float quality) throws IOException{
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(new File(tfile));  
-            // Encodes image as a JPEG data stream  
-            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);  
-            JPEGEncodeParam param = encoder  
-                    .getDefaultJPEGEncodeParam(image);  
-            param.setQuality(quality, true);  
-            encoder.setJPEGEncodeParam(param);  
-            encoder.encode(image); 
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-        }
     }
 	
 	/**

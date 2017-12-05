@@ -14,10 +14,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import com.baomidou.kisso.common.util.EnvUtil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.Map;
+import com.xiaoleilu.hutool.json.JSONObject;
+import com.xiaoleilu.hutool.json.JSONUtil;
 
 /**
  * 
@@ -208,7 +206,7 @@ public class MacAddressUtil {
 	 * @return ip String
 	 * @throws Exception
 	 */
-	 public static String ip2Location(String ip) {
+	public static String ip2Location(String ip) {
 	        String result = "";
 	        try {
 	        	
@@ -225,18 +223,16 @@ public class MacAddressUtil {
 	            e.printStackTrace();
 	        }
 	        String json = result.substring(result.indexOf("=") + 1, result.length() - 1);
-	        Gson gson = new Gson();
-	        Map<String, String> map = gson.fromJson(json, new TypeToken<Map<String, String>>() {
-	        }.getType());
+	        JSONObject jsonObject = JSONUtil.parseObj(json);
 	        StringBuilder location = new StringBuilder();
-	        if (map.get("country") != null) {
-	            location.append(map.get("country"));
+	        if (jsonObject.getStr("country") != null) {
+	            location.append(jsonObject.getStr("country"));
 	        }
-	        if (map.get("province") != null) {
-	            location.append(map.get("province"));
+	        if (jsonObject.getStr("province") != null) {
+	            location.append(jsonObject.getStr("province"));
 	        }
-	        if (map.get("city") != null) {
-	            location.append(map.get("city"));
+	        if (jsonObject.getStr("city") != null) {
+	            location.append(jsonObject.getStr("city"));
 	        }
 	        return location.toString();
 	 }      

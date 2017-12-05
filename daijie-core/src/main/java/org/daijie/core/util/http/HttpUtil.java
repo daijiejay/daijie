@@ -1,9 +1,6 @@
 package org.daijie.core.util.http;
 import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +18,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.methods.DeleteMethod;
@@ -30,13 +28,6 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 
 /**
  * 
@@ -45,7 +36,6 @@ import org.apache.http.util.EntityUtils;
  * http请求接口工具类
  * 
  */
-@SuppressWarnings({ "deprecation", "resource" })
 public class HttpUtil {
 
 	private static final String POST = "POST";
@@ -288,61 +278,6 @@ public class HttpUtil {
 			}
 		}       
 		return image;
-	}
-
-	/** 
-	 * 下载文件保存到本地 
-	 * @param path文件保存位置 
-	 * @param url 文件地址 
-	 * @throws IOException 
-	 */  
-	public static void downloadFile(String path, String url) throws IOException {
-		HttpClient client = null;
-		try {  
-			// 创建HttpClient对象  
-			client = new DefaultHttpClient();  
-			// 获得HttpGet对象  
-			HttpGet httpGet = new HttpGet(getHttpParams(url, null, null));  
-			// 发送请求获得返回结果  
-			HttpResponse response = client.execute(httpGet);  
-			// 如果成功  
-			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {  
-				byte[] result = EntityUtils.toByteArray(response.getEntity());  
-				if(path == null || "".equals(path)){
-					BufferedOutputStream bw = null;  
-					try {  
-						// 创建文件对象  
-						File f = new File(path);  
-						// 创建文件路径  
-						if (!f.getParentFile().exists())  
-							f.getParentFile().mkdirs();  
-						// 写入文件  
-						bw = new BufferedOutputStream(new FileOutputStream(path));  
-						bw.write(result);  
-					} catch (Exception e) {  
-						e.printStackTrace(); 
-					} finally {  
-						try {  
-							if (bw != null)  
-								bw.close();  
-						} catch (Exception e) {  
-							e.printStackTrace();
-						}  
-					}
-				}
-			} else {
-				
-			}  
-		} catch (ClientProtocolException e) {   
-			throw e;  
-		} catch (IOException e) {   
-			throw e;  
-		} finally {  
-			try {  
-				client.getConnectionManager().shutdown();  
-			} catch (Exception e) {   
-			}  
-		}  
 	}
 	
 	/** 
