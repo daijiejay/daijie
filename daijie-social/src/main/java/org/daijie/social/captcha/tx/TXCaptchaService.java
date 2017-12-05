@@ -1,6 +1,5 @@
 package org.daijie.social.captcha.tx;
 
-import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -10,8 +9,8 @@ import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.social.captcha.SocialCaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.xiaoleilu.hutool.json.JSONObject;
+import com.xiaoleilu.hutool.json.JSONUtil;
 
 /**
  * 腾讯验证码服务
@@ -38,12 +37,11 @@ public class TXCaptchaService implements SocialCaptchaService {
 			args.put("businessId", txCaptchaProperties.getBusinessId());
 			ApiResponse resp = api.getJsUrl(args);
 			String content = (String)resp.getBody();
-			Gson gson = new Gson();
-			HashMap<String, String> map = gson.fromJson(content, new TypeToken<HashMap<String, String>>(){}.getType());
-			if (Integer.parseInt(map.get("code")) == 0) {
-				jsUrl = map.get("url");
+			JSONObject json = JSONUtil.parseObj(content);
+			if (json.getInt("code") == 0) {
+				jsUrl = json.getStr("url");
 			} else {
-				logger.debug(map.toString());
+				logger.debug(json);
 			}
 		} catch (Exception e) {
 			logger.debug(e.getMessage(), e);
@@ -63,12 +61,11 @@ public class TXCaptchaService implements SocialCaptchaService {
 			try {
 				ApiResponse resp = api.check(args);
 				String content = (String)resp.getBody();
-				Gson gson = new Gson();
-				HashMap<String, String> map = gson.fromJson(content, new TypeToken<HashMap<String, String>>(){}.getType());
-				if (Integer.parseInt(map.get("code")) == 0) {
+				JSONObject json = JSONUtil.parseObj(content);
+				if (json.getInt("code") == 0) {
 					return true;
 				} else {
-					logger.debug(map.toString());
+					logger.debug(json);
 					return false;
 				}
 			} catch (Exception e) {
