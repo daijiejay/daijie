@@ -33,10 +33,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(description = "请假流程案例")
 @RestController
-public class ActivitiController extends ApiController<TaskService, Exception> {
+public class ActivitiController extends ApiController {
 	
 	@Autowired
-    private RuntimeService runtimeService;
+    private TaskService taskService;
+	
+	@Autowired
+	private RuntimeService runtimeService;
 	
 	@Autowired
 	private HistoryService historyService;
@@ -50,11 +53,11 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			@ApiParam(value = "审批人ID") @PathVariable Integer checkUserId){
 		List<Map<String, Object>> rows = new ArrayList<>();
 		PageResult<Map<String, Object>> datas = new PageResult<>();
-		TaskQuery query = service.createTaskQuery().processVariableValueEquals("checkUserId", checkUserId);
+		TaskQuery query = taskService.createTaskQuery().processVariableValueEquals("checkUserId", checkUserId);
 		List<Task> tasks = query.list();
 		tasks.forEach(task ->{
 			Map<String, Object> runtimeVariables = runtimeService.getVariables(task.getExecutionId());
-			Map<String, Object> taskVariables = service.getVariables(task.getId());
+			Map<String, Object> taskVariables = taskService.getVariables(task.getId());
 			Map<String, Object> row = new HashMap<>();
 			row.put("taskId", task.getId());
 			row.put("taskName", task.getName());
@@ -99,9 +102,9 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			Map<String, Object> row = new HashMap<>();
 			row.put("processInstanceId", processInstance.getId());
 			if(historicActivityInstance != null){
-				Task task = service.createTaskQuery().taskId(historicActivityInstance.getTaskId()).singleResult();
+				Task task = taskService.createTaskQuery().taskId(historicActivityInstance.getTaskId()).singleResult();
 				Map<String, Object> runtimeVariables = runtimeService.getVariables(historicActivityInstance.getExecutionId());
-				Map<String, Object> taskVariables = service.getVariables(task.getId());
+				Map<String, Object> taskVariables = taskService.getVariables(task.getId());
 				row.put("activityName", historicActivityInstance.getActivityName());
 				row.put("taskId", historicActivityInstance.getTaskId());
 				row.put("createTime", task.getCreateTime());
@@ -133,12 +136,12 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
         variables.put("username", username);
         variables.put("days", days);
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("leave", variables);
-		Task task = service.createTaskQuery().processInstanceId(processInstance.getId())
+		Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId())
 				.singleResult();
 		variables = new HashMap<String, Object>();
 		//设置下一流程审批人ID
         variables.put("projectLeaderId", 1);
-        service.complete(task.getId(), variables);
+        taskService.complete(task.getId(), variables);
 		return Result.build();
 	}
 	
@@ -154,7 +157,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			@ApiParam(value = "流程ID") @RequestParam String processInstanceId, 
 			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
 			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
-		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
+		Task task = taskService.createTaskQuery().processInstanceId(processInstanceId)
 				.taskAssignee(userId.toString())
 				.singleResult();
 		if(task == null){
@@ -165,7 +168,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
         variables.put("checkStatus", checkStatus);
 		//设置下一流程审批人ID
         variables.put("projectManagerId", 2);
-		service.complete(task.getId(), variables);
+        taskService.complete(task.getId(), variables);
 		return Result.build();
 	}
 	
@@ -181,7 +184,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			@ApiParam(value = "流程ID") @RequestParam String processInstanceId, 
 			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
 			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
-		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
+		Task task = taskService.createTaskQuery().processInstanceId(processInstanceId)
 				.taskAssignee(userId.toString())
 				.singleResult();
 		if(task == null){
@@ -192,7 +195,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
         variables.put("checkStatus", checkStatus);
 		//设置下一流程审批人ID
         variables.put("departmentManagerId", 3);
-		service.complete(task.getId(), variables);
+        taskService.complete(task.getId(), variables);
 		return Result.build();
 	}
 	
@@ -208,7 +211,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 			@ApiParam(value = "流程ID") @RequestParam String processInstanceId, 
 			@ApiParam(value = "处理人ID") @RequestParam Integer userId, 
 			@ApiParam(value = "审批意见") @RequestParam Boolean checkStatus){
-		Task task = service.createTaskQuery().processInstanceId(processInstanceId)
+		Task task = taskService.createTaskQuery().processInstanceId(processInstanceId)
 				.taskAssignee(userId.toString())
 				.singleResult();
 		if(task == null){
@@ -217,7 +220,7 @@ public class ActivitiController extends ApiController<TaskService, Exception> {
 		//执行部门经理审批
 		Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("checkStatus", checkStatus);
-		service.complete(task.getId(), variables);
+        taskService.complete(task.getId(), variables);
 		return Result.build();
 	}
 }

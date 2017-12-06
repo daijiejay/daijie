@@ -2,18 +2,48 @@ package org.daijie.mybatis.shardingjdbc.cloud.service;
 
 import java.util.List;
 
+import org.daijie.api.UserCloud;
+import org.daijie.core.controller.ApiController;
+import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
+import org.daijie.core.result.ModelResult;
+import org.daijie.mybatis.mapper.UserMapper;
 import org.daijie.mybatis.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-
-public interface UserService {
-
-	public User getUser(Integer userId);
+@RestController
+public class UserService extends ApiController implements UserCloud {
 	
-	public User getUserByUserName(String userName);
-	
-	public boolean updateUser(User user);
-	
-	public boolean addUser(User user);
+	@Autowired
+	private UserMapper userMapper;
 
-	public List<User> getUserAll();
+	@Override
+	public ModelResult<User> getUser(@PathVariable(name = "userId") Integer userId) {
+		User user = userMapper.selectByPrimaryKey(userId);
+		return Result.build(user);
+	}
+
+	@Override
+	public ModelResult<User> getUser(@PathVariable(name = "userName") String userName) {
+		User user = new User();
+		user.setUserName(userName);
+		return Result.build(userMapper.selectOne(user));
+	}
+
+	@Override
+	public ModelResult<List<User>> getUserAll() {
+		return Result.build(userMapper.selectAll());
+	}
+
+	@Override
+	public ModelResult<Boolean> updateUser(User user) {
+		return Result.build(userMapper.updateByPrimaryKey(user) > 0);
+	}
+
+	@Override
+	public ModelResult<Boolean> addUser(User user) {
+		return Result.build(userMapper.insertSelective(user) > 0);
+	}
+
 }

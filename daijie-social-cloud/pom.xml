@@ -20,5 +20,10 @@
 			<artifactId>daijie-social-spring-boot-starter</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.daijie</groupId>
+			<artifactId>daijie-social-cloud-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 </project>

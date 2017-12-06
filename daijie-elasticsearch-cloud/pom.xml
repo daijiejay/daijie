@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.daijie</groupId>
-			<artifactId>daijie-core-spring-boot-starter</artifactId>
+			<artifactId>daijie-se-cloud-api</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>

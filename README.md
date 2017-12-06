@@ -11,7 +11,7 @@
 * 加入了redis和zookeeper分布式锁，可配置单机或集群的redis及zookeeper，由@EnableRedisLock和@EnableZKLock开启自动装置。(注意：redis用到了avel命令，只支持2.6版本以上服务器)
 ### 使用说明
 #### 分布式锁
-* 启动类引用`@EnableRedisLock`开启redis分布式锁，引用`@EnableZKLock`开启zookeeper分布式锁
+* 启动类引用`@EnableRedisLock`注解开启redis分布式锁，引用`@EnableZKLock`注解开启zookeeper分布式锁
 ```
 @EnableRedisLock
 @SpringBootApplication
@@ -73,13 +73,23 @@ String randomStr = captcha.getChallenge();
 * mybatis配置修改为properties和yml读取。
 ## daijie-shiro
 * 集成shiro，提供单机和集群redis自动配置。
-* shiro使用登录登出简单化，实现了session集群，任何工程只需依赖本工程就可获取当前登录用户信息和角色权限信息。
+* shiro工具类封装，使用登录登出简单化，实现了session集群，任何工程只需依赖本工程就可获取当前登录用户信息和角色权限信息。
 * shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
 * shiro配置修改为properties和yml读取。
 * 登录方法实现了RSA非对称加密算法。
+* 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重写向到对应的子微服务。
 ### 使用说明
+#### 启动shiro安全服务
+* 启动类引用`@EnableShiroSecurityServer`注解，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
+@EnableShiroSecurityServer(ShiroConfigure.class)
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
 #### SSO登录实现
-* 启动类引用`@EnableShiro`，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
+* 启动类引用`@EnableShiro`注解，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
 ```
 @EnableShiro(ShiroConfigure.class)
 @SpringBootApplication
@@ -140,8 +150,10 @@ kisso.config.cookieDomain=daijie.org
 * 工具类使用
 ```
 @RestController
-public class LoginController extends ApiController<UserCloud, Exception>  {
+public class LoginController extends ApiController {
 	private static final Logger logger = Logger.getLogger(LoginController.class);
+	@Autowired
+	private UserCloud service;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelResult<Object> login(@RequestParam String username, @RequestParam String password) throws Exception{
@@ -233,16 +245,15 @@ public class SocialLoginController {
 * 工程作用定义：与数据库对应实体统一管理，不做人工代码修改，利于数据库结构变动只需重新生成即可。
 ## daijie-mybatis-cloud & daijie-jpa-cloud & daijie-mybatis-shardingjdbc-cloud
 * 对数据库进行crud操作实例。
-* mybatis-shardingjdbc-cloud工程集成sharding-jdbc完成分表操作实例，sharding-jdbc对分库分表水平拆分做了很好支持。
+* mybatis-shardingjdbc-cloud工程集成sharding-jdbc完成分表操作实例，sharding-jdbc对分库分表水平拆分做了很好支持，适当的解决了分布式事务。
 * 工程作用定义：产品模块化的分布式直接访问数据库，可以有对业务性逻辑处理，但此工程不与客户端业务直接交互，比如获取客户端请求报文不在此工程处理。
 ## daijie-shiro-api
-* 依赖daijie-shiro提供客服端RESTful api接口实例。
+* 依赖daijie-shiro提供客服端RESTful api接口，完成单点登录，session集群，cookie安全实例。
 * 完成在此工程操作集群session中的登录用户信息实例及redis单独使用实例。
 * 完成一个简单的分布式锁实例。
 * 工程作用定义：产品模块化的分布式接口提供，并形成swagger可视化接口文档，由此工程请求其它的cloud服务，注意的是此工程不提供给客户端直接访问，只提供给shiro-security工程访问。
 ## daijie-shiro-security
-* 依赖daijie-shiro完成单点登录，session集群，cookie安全实例。
-* 此工程集成了zuul，实现反向代理请求api工程。
+* 依赖daijie-shiro启动引用`@EnableShiroSecurityServer`注解安全控制实例。
 * 工程作用定义：单点登录，shiro自定义请求权限统一管理，由客户端直接请求。
 ## daijie-elasticsearch-cloud
 * 依赖elasticsearch完成搜索实例。

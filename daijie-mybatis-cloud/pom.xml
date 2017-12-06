@@ -25,5 +25,10 @@
 			<artifactId>daijie-mybatis-model</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.daijie</groupId>
+			<artifactId>daijie-db-cloud-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 </project>

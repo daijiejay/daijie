@@ -11,7 +11,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * 程序出现运行时异常时默认跳转“/error”页面
  *
  */
-public abstract class WebController implements ExceptionController<Exception>, ApplicationListener<ContextRefreshedEvent> {
+public abstract class WebController implements ExceptionController, ApplicationListener<ContextRefreshedEvent> {
 
 	/**
 	 * 默认错误页面

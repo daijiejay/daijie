@@ -3,10 +3,11 @@ package org.daijie.jpa.cloud.service.base;
 import java.io.Serializable;
 
 import org.apache.log4j.Logger;
+import org.daijie.core.controller.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public abstract class BaseSearchService <E,ID extends Serializable,R extends PagingAndSortingRepository<E,ID>>{
+public abstract class BaseSearchService <E,ID extends Serializable,R extends PagingAndSortingRepository<E,ID>> extends ApiController {
 
     @SuppressWarnings("unused")
 	private Logger logger = Logger.getLogger(this.getClass());

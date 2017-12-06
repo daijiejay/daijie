@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @param <E>
  */
 @ControllerAdvice
-public interface ExceptionController<E extends Exception> extends Controller {
+public interface ExceptionController extends Controller {
 
 	/**
 	 * 异常处理
@@ -18,5 +18,5 @@ public interface ExceptionController<E extends Exception> extends Controller {
 	 * @return
 	 */
 	@ExceptionHandler(Exception.class)
-	Object exceptionHandler(E e);
+	Object exceptionHandler(Exception e);
 }
