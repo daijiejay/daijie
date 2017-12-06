@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
-			<version>1.4.0.RELEASE</version>
+			<version>${spring.cloud.version}</version>
 		</dependency>
 	</dependencies>
 </project>
