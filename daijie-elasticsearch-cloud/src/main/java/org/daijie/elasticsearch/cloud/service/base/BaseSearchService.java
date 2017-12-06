@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
+import org.daijie.core.controller.ApiController;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public abstract class BaseSearchService <E,ID extends Serializable,R extends BaseSearchRepository<E,ID>>{
+public abstract class BaseSearchService <E,ID extends Serializable,R extends BaseSearchRepository<E,ID>> extends ApiController {
 
     private Logger logger = Logger.getLogger(this.getClass());
 
