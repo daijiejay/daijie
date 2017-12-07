@@ -3,6 +3,7 @@ package org.daijie.mybatis.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+@Entity
 public class User implements Serializable {
     /**
      * 用户ID

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-parent-spring-boot-starter</artifactId>
@@ -75,10 +76,10 @@
 		<module>daijie-sleuth-server</module>
 		<module>daijie-eureka-server</module>
 		<module>daijie-config-server</module>
-    <module>daijie-mq-cloud-api</module>
-    <module>daijie-se-cloud-api</module>
-    <module>daijie-social-cloud-api</module>
-  </modules>
+		<module>daijie-mq-cloud-api</module>
+		<module>daijie-se-cloud-api</module>
+		<module>daijie-social-cloud-api</module>
+	</modules>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>

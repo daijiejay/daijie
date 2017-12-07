@@ -1,19 +1,9 @@
 package org.daijie.jpa.cloud.dao;
 
-import java.util.List;
-
 import org.daijie.mybatis.model.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface UserSearchRepository extends PagingAndSortingRepository<User, Integer>{
 
 	User getUserByUserName(String userName);
-	
-	User getUserByUserId(Integer userId);
-	
-	List<User> getUserAll();
-	
-	Boolean updateUser(User user);
-	
-	Boolean addUser(User user);
 }
