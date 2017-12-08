@@ -77,10 +77,11 @@ String randomStr = captcha.getChallenge();
 * shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
 * shiro配置修改为properties和yml读取。
 * 登录方法实现了RSA非对称加密算法。
-* 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重写向到对应的子微服务。
+* 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重定向到对应的子微服务。
 ### 使用说明
 #### 启动shiro安全服务
 * 启动类引用`@EnableShiroSecurityServer`注解，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
+```
 @EnableShiroSecurityServer(ShiroConfigure.class)
 @SpringBootApplication
 public class BootApplication {
@@ -88,6 +89,7 @@ public class BootApplication {
 		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
 	}
 }
+```
 #### SSO登录实现
 * 启动类引用`@EnableShiro`注解，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
 ```
