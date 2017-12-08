@@ -56,7 +56,7 @@
 					<dependency>
 						<groupId>tk.mybatis</groupId>
 						<artifactId>mapper</artifactId>
-						<version>3.4.0</version>
+						<version>3.4.5</version>
 					</dependency>
 				</dependencies>
 			</plugin>
