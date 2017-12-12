@@ -1,85 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="leave" name="leave" isExecutable="true">
-    <startEvent id="start" name="请假申请开始"></startEvent>
-    <userTask id="applyLeave" name="申请请假" activiti:assignee="#{username}">
+    <startEvent id="START" name="请假申请开始"></startEvent>
+    <userTask id="APPLY" name="申请请假" activiti:assignee="#{username}">
       <extensionElements>
-        <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.service.ApplyLeaveTaskService"></activiti:taskListener>
+        <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.listener.ApplyLeaveTaskListener"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <userTask id="projectLeader" name="项目组长审批" activiti:assignee="#{projectLeaderId}">
+    <userTask id="PROJECT_LEADER" name="项目组长审批" activiti:assignee="#{projectLeaderId}">
       <extensionElements>
-        <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.service.ProjectLeaderTaskService"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="org.daijie.activiti.cloud.listener.ProjectLeaderTaskListener"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <userTask id="projectManager" name="项目经理审批" activiti:assignee="#{projectManagerId}">
+    <userTask id="PROJECT_MANAGER" name="项目经理审批" activiti:assignee="#{projectManagerId}">
       <extensionElements>
-        <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.service.ProjectManagerTaskService"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="org.daijie.activiti.cloud.listener.ProjectManagerTaskListener"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <userTask id="departmentManager" name="部门经理审批" activiti:assignee="#{departmentManagerId}">
+    <userTask id="DEPARTMENT_MANAGER" name="部门经理审批" activiti:assignee="#{departmentManagerId}">
       <extensionElements>
-        <activiti:taskListener event="assignment" class="org.daijie.activiti.cloud.service.DepartmentManagerTaskService"></activiti:taskListener>
+        <activiti:taskListener event="complete" class="org.daijie.activiti.cloud.listener.DepartmentManagerTaskListener"></activiti:taskListener>
       </extensionElements>
     </userTask>
-    <serviceTask id="personnelManager" name="人事经理记录" activiti:class="org.daijie.activiti.cloud.service.PersonnelManagerTaskService"></serviceTask>
-    <endEvent id="end" name="申请完成"></endEvent>
+    <serviceTask id="PERSONNEL" name="人事经理记录" activiti:class="org.daijie.activiti.cloud.listener.PersonnelManagerTaskListener"></serviceTask>
+    <endEvent id="COMPLATE" name="申请完成"></endEvent>
     <exclusiveGateway id="projectLeaderJudge" name="项目组长审批后条件判断"></exclusiveGateway>
     <exclusiveGateway id="departmentManagerJudge" name="部门经理审批后条件判断"></exclusiveGateway>
     <exclusiveGateway id="projectManagerJudge" name="项目经理审批后条件判断"></exclusiveGateway>
-    <sequenceFlow id="start-applyLeave" sourceRef="start" targetRef="applyLeave"></sequenceFlow>
-    <sequenceFlow id="applyLeave-projectLeader" sourceRef="applyLeave" targetRef="projectLeader"></sequenceFlow>
-    <sequenceFlow id="projectLeader-projectLeaderJugde" sourceRef="projectLeader" targetRef="projectLeaderJudge"></sequenceFlow>
-    <sequenceFlow id="projectLeaderJudge-projectManager" name="项目组长审批通过且请假天数大于3天" sourceRef="projectLeaderJudge" targetRef="projectManager">
+    <sequenceFlow id="start-applyLeave" sourceRef="START" targetRef="APPLY"></sequenceFlow>
+    <sequenceFlow id="applyLeave-projectLeader" sourceRef="APPLY" targetRef="PROJECT_LEADER"></sequenceFlow>
+    <sequenceFlow id="projectLeader-projectLeaderJugde" sourceRef="PROJECT_LEADER" targetRef="projectLeaderJudge"></sequenceFlow>
+    <sequenceFlow id="projectLeaderJudge-projectManager" name="项目组长审批通过且请假天数大于3天" sourceRef="projectLeaderJudge" targetRef="PROJECT_MANAGER">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == true && days >= 3}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="projectManager-projectManagerJudge" sourceRef="projectManager" targetRef="projectManagerJudge"></sequenceFlow>
-    <sequenceFlow id="projectManagerJudge-departmentManager" name="项目经理审批通过且请假天数大于5天" sourceRef="projectManagerJudge" targetRef="departmentManager">
+    <sequenceFlow id="projectManager-projectManagerJudge" sourceRef="PROJECT_MANAGER" targetRef="projectManagerJudge"></sequenceFlow>
+    <sequenceFlow id="projectManagerJudge-departmentManager" name="项目经理审批通过且请假天数大于5天" sourceRef="projectManagerJudge" targetRef="DEPARTMENT_MANAGER">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == true && days >= 5}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="departmentManager-departmentManagerJudge" sourceRef="departmentManager" targetRef="departmentManagerJudge"></sequenceFlow>
-    <sequenceFlow id="departmentManagerJudge-personnelManager" name="部门经理审批通过" sourceRef="departmentManagerJudge" targetRef="personnelManager">
+    <sequenceFlow id="departmentManager-departmentManagerJudge" sourceRef="DEPARTMENT_MANAGER" targetRef="departmentManagerJudge"></sequenceFlow>
+    <sequenceFlow id="departmentManagerJudge-personnelManager" name="部门经理审批通过" sourceRef="departmentManagerJudge" targetRef="PERSONNEL">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == true}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="personnelManager-end" sourceRef="personnelManager" targetRef="end"></sequenceFlow>
-    <endEvent id="refuse" name="申请拒绝"></endEvent>
-    <sequenceFlow id="projectLeaderJudge-refuse" name="项目组长审批不通过" sourceRef="projectLeaderJudge" targetRef="refuse">
+    <sequenceFlow id="personnelManager-end" sourceRef="PERSONNEL" targetRef="COMPLATE"></sequenceFlow>
+    <endEvent id="REFUSE" name="申请拒绝"></endEvent>
+    <sequenceFlow id="projectLeaderJudge-refuse" name="项目组长审批不通过" sourceRef="projectLeaderJudge" targetRef="REFUSE">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="projectManagerJudge-refuse" name="项目经理审批不通过" sourceRef="projectManagerJudge" targetRef="refuse">
+    <sequenceFlow id="projectManagerJudge-refuse" name="项目经理审批不通过" sourceRef="projectManagerJudge" targetRef="REFUSE">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="departmentManagerJudge-refuse" name="部门经理审批不通过" sourceRef="departmentManagerJudge" targetRef="refuse">
+    <sequenceFlow id="departmentManagerJudge-refuse" name="部门经理审批不通过" sourceRef="departmentManagerJudge" targetRef="REFUSE">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="projectLeaderJudge-personnelManager" name="项目组长审批通过且请假天数小于3天" sourceRef="projectLeaderJudge" targetRef="personnelManager">
+    <sequenceFlow id="projectLeaderJudge-personnelManager" name="项目组长审批通过且请假天数小于3天" sourceRef="projectLeaderJudge" targetRef="PERSONNEL">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == true && days < 3}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="projectManagerJudge-personnelManager" name="项目经理审批通过且请假天数小于5天" sourceRef="projectManagerJudge" targetRef="personnelManager">
+    <sequenceFlow id="projectManagerJudge-personnelManager" name="项目经理审批通过且请假天数小于5天" sourceRef="projectManagerJudge" targetRef="PERSONNEL">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == true && days < 5}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_leave">
     <bpmndi:BPMNPlane bpmnElement="leave" id="BPMNPlane_leave">
-      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+      <bpmndi:BPMNShape bpmnElement="START" id="BPMNShape_START">
         <omgdc:Bounds height="35.0" width="35.0" x="40.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="applyLeave" id="BPMNShape_applyLeave">
+      <bpmndi:BPMNShape bpmnElement="APPLY" id="BPMNShape_APPLY">
         <omgdc:Bounds height="55.0" width="105.0" x="130.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="projectLeader" id="BPMNShape_projectLeader">
+      <bpmndi:BPMNShape bpmnElement="PROJECT_LEADER" id="BPMNShape_PROJECT_LEADER">
         <omgdc:Bounds height="55.0" width="105.0" x="290.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="projectManager" id="BPMNShape_projectManager">
+      <bpmndi:BPMNShape bpmnElement="PROJECT_MANAGER" id="BPMNShape_PROJECT_MANAGER">
         <omgdc:Bounds height="55.0" width="105.0" x="540.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="departmentManager" id="BPMNShape_departmentManager">
+      <bpmndi:BPMNShape bpmnElement="DEPARTMENT_MANAGER" id="BPMNShape_DEPARTMENT_MANAGER">
         <omgdc:Bounds height="55.0" width="105.0" x="850.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="personnelManager" id="BPMNShape_personnelManager">
+      <bpmndi:BPMNShape bpmnElement="PERSONNEL" id="BPMNShape_PERSONNEL">
         <omgdc:Bounds height="55.0" width="105.0" x="1150.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+      <bpmndi:BPMNShape bpmnElement="COMPLATE" id="BPMNShape_COMPLATE">
         <omgdc:Bounds height="35.0" width="35.0" x="1310.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="projectLeaderJudge" id="BPMNShape_projectLeaderJudge">
@@ -91,7 +91,7 @@
       <bpmndi:BPMNShape bpmnElement="projectManagerJudge" id="BPMNShape_projectManagerJudge">
         <omgdc:Bounds height="40.0" width="40.0" x="720.0" y="177.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="refuse" id="BPMNShape_refuse">
+      <bpmndi:BPMNShape bpmnElement="REFUSE" id="BPMNShape_REFUSE">
         <omgdc:Bounds height="35.0" width="35.0" x="1310.0" y="350.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="start-applyLeave" id="BPMNEdge_start-applyLeave">
@@ -110,7 +110,7 @@
         <omgdi:waypoint x="490.0" y="197.0"></omgdi:waypoint>
         <omgdi:waypoint x="540.0" y="197.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="479.0" y="0.0"></omgdc:Bounds>
+          <omgdc:Bounds height="64.0" width="100.0" x="479.0" y="0.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="projectManager-projectManagerJudge" id="BPMNEdge_projectManager-projectManagerJudge">
@@ -121,7 +121,7 @@
         <omgdi:waypoint x="760.0" y="197.0"></omgdi:waypoint>
         <omgdi:waypoint x="850.0" y="197.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="750.0" y="211.0"></omgdc:Bounds>
+          <omgdc:Bounds height="64.0" width="100.0" x="750.0" y="211.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="departmentManager-departmentManagerJudge" id="BPMNEdge_departmentManager-departmentManagerJudge">
@@ -132,7 +132,7 @@
         <omgdi:waypoint x="1070.0" y="197.0"></omgdi:waypoint>
         <omgdi:waypoint x="1150.0" y="197.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="96.0" x="1059.0" y="211.0"></omgdc:Bounds>
+          <omgdc:Bounds height="48.0" width="100.0" x="1059.0" y="211.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="personnelManager-end" id="BPMNEdge_personnelManager-end">
@@ -144,7 +144,7 @@
         <omgdi:waypoint x="470.0" y="367.0"></omgdi:waypoint>
         <omgdi:waypoint x="1310.0" y="367.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="480.0" y="217.0"></omgdc:Bounds>
+          <omgdc:Bounds height="48.0" width="100.0" x="480.0" y="217.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="projectManagerJudge-refuse" id="BPMNEdge_projectManagerJudge-refuse">
@@ -152,7 +152,7 @@
         <omgdi:waypoint x="740.0" y="367.0"></omgdi:waypoint>
         <omgdi:waypoint x="1310.0" y="367.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="751.0" y="301.0"></omgdc:Bounds>
+          <omgdc:Bounds height="48.0" width="100.0" x="751.0" y="301.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="departmentManagerJudge-refuse" id="BPMNEdge_departmentManagerJudge-refuse">
@@ -160,7 +160,7 @@
         <omgdi:waypoint x="1050.0" y="367.0"></omgdi:waypoint>
         <omgdi:waypoint x="1310.0" y="367.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="1060.0" y="301.0"></omgdc:Bounds>
+          <omgdc:Bounds height="48.0" width="100.0" x="1060.0" y="301.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="projectLeaderJudge-personnelManager" id="BPMNEdge_projectLeaderJudge-personnelManager">
@@ -169,7 +169,7 @@
         <omgdi:waypoint x="1203.0" y="-17.0"></omgdi:waypoint>
         <omgdi:waypoint x="1202.0" y="170.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="480.0" y="296.0"></omgdc:Bounds>
+          <omgdc:Bounds height="64.0" width="100.0" x="480.0" y="296.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="projectManagerJudge-personnelManager" id="BPMNEdge_projectManagerJudge-personnelManager">
@@ -178,7 +178,7 @@
         <omgdi:waypoint x="1202.0" y="65.0"></omgdi:waypoint>
         <omgdi:waypoint x="1202.0" y="170.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="42.0" width="100.0" x="751.0" y="81.0"></omgdc:Bounds>
+          <omgdc:Bounds height="64.0" width="100.0" x="751.0" y="81.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

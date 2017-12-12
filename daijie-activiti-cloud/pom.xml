@@ -17,13 +17,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.daijie</groupId>
-			<artifactId>daijie-core-spring-boot-starter</artifactId>
+			<artifactId>daijie-workflow-cloud-api</artifactId>
 			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.activiti</groupId>
-		    <artifactId>activiti-spring-boot-starter-basic</artifactId>
-		    <version>6.0.0</version>
 		</dependency>
 	</dependencies>
 </project>

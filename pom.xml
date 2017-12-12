@@ -79,6 +79,7 @@
 		<module>daijie-mq-cloud-api</module>
 		<module>daijie-se-cloud-api</module>
 		<module>daijie-social-cloud-api</module>
+		<module>daijie-workflow-cloud-api</module>
 	</modules>
 	<licenses>
 		<license>
