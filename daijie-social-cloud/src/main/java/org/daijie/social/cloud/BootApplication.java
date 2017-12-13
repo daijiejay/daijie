@@ -1,5 +1,6 @@
 package org.daijie.social.cloud;
 
+import org.daijie.core.swagger.EnableMySwagger;
 import org.daijie.social.captcha.EnableSocialCaptcha;
 import org.daijie.social.login.annotation.EnableSocialLogin;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,11 +10,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 @EnableSocialCaptcha
 @EnableSocialLogin
-@EnableSwagger2
+@EnableMySwagger
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableEurekaClient

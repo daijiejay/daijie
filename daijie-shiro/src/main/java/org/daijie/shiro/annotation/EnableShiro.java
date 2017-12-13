@@ -8,13 +8,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.daijie.core.kisso.KissoConfigure;
+import org.daijie.core.swagger.EnableMySwagger;
 import org.daijie.core.util.bean.ApplicationContextHolderBean;
 import org.daijie.shiro.configure.ShiroConfigure;
 import org.daijie.shiro.session.bean.ShiroRedisSessionBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
-
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * 基于spring+shiro框架的集成
@@ -27,7 +26,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@EnableSwagger2
+@EnableMySwagger
 @Import({ShiroRedisSessionBean.class, ApplicationContextHolderBean.class, KissoConfigure.class})
 public @interface EnableShiro {
 
