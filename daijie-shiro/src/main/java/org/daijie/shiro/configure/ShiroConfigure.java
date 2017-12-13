@@ -54,7 +54,7 @@ public class ShiroConfigure {
 	@Value("${shiro.filterClassNames:}")
 	private String filterClassNames;
 	
-	@Value("${shiro.isValidation:false}")
+	@Value("${shiro.isValidation:true}")
 	private Boolean isValidation;
 	
 	@Value("${shiro.kissoEnable:true}")

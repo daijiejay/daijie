@@ -49,29 +49,29 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${vote < 3}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="APPOINTENT" name="预约实物线下终审" activiti:assignee="${customerService}" activiti:dueDate="${customerServiceDate}"></userTask>
-    <sequenceFlow id="flow16" sourceRef="APPOINTENT" targetRef="parallelgateway1"></sequenceFlow>
-    <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
-    <sequenceFlow id="flow17" sourceRef="parallelgateway1" targetRef="LAST_TRIAL"></sequenceFlow>
-    <sequenceFlow id="flow18" sourceRef="parallelgateway1" targetRef="APPOINTENT"></sequenceFlow>
+    <sequenceFlow id="flow16" sourceRef="APPOINTENT" targetRef="exclusivegateway5"></sequenceFlow>
+    <sequenceFlow id="flow17" sourceRef="exclusivegateway5" targetRef="LAST_TRIAL"></sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="exclusivegateway5" targetRef="APPOINTENT"></sequenceFlow>
     <serviceTask id="REFUND" name="退款"></serviceTask>
     <sequenceFlow id="flow20" sourceRef="exclusivegateway2" targetRef="REFUND">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkStatus == 3 && repeat >= 3}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow21" sourceRef="REFUND" targetRef="CANCEL"></sequenceFlow>
-    <parallelGateway id="parallelgateway2" name="Parallel Gateway"></parallelGateway>
-    <sequenceFlow id="flow22" sourceRef="parallelgateway2" targetRef="TRIAL"></sequenceFlow>
+    <sequenceFlow id="flow22" sourceRef="exclusivegateway7" targetRef="TRIAL"></sequenceFlow>
     <userTask id="CANCEL_RECORD" name="取消备案"></userTask>
-    <sequenceFlow id="flow23" sourceRef="parallelgateway2" targetRef="CANCEL_RECORD"></sequenceFlow>
-    <sequenceFlow id="flow24" sourceRef="CANCEL_RECORD" targetRef="exclusivegateway5"></sequenceFlow>
-    <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow25" sourceRef="parallelgateway1" targetRef="CANCEL_RECORD"></sequenceFlow>
-    <sequenceFlow id="flow26" sourceRef="exclusivegateway5" targetRef="REFUND">
+    <sequenceFlow id="flow23" sourceRef="exclusivegateway7" targetRef="CANCEL_RECORD"></sequenceFlow>
+    <sequenceFlow id="flow24" sourceRef="CANCEL_RECORD" targetRef="exclusivegateway6"></sequenceFlow>
+    <sequenceFlow id="flow25" sourceRef="exclusivegateway5" targetRef="CANCEL_RECORD"></sequenceFlow>
+    <sequenceFlow id="flow26" sourceRef="exclusivegateway6" targetRef="REFUND">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${refund == true}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow27" sourceRef="exclusivegateway5" targetRef="CANCEL">
+    <sequenceFlow id="flow27" sourceRef="exclusivegateway6" targetRef="CANCEL">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${refund == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow28" sourceRef="PAY" targetRef="parallelgateway2"></sequenceFlow>
+    <sequenceFlow id="flow28" sourceRef="PAY" targetRef="exclusivegateway7"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway5" name="Parallel Gateway"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway7" name="Parallel Gateway"></exclusiveGateway>
   </process>
   <process id="process_pool1" name="process_pool1" isExecutable="true">
     <laneSet id="laneSet_process_pool1">
@@ -122,20 +122,20 @@
       <bpmndi:BPMNShape bpmnElement="APPOINTENT" id="BPMNShape_APPOINTENT">
         <omgdc:Bounds height="71.0" width="105.0" x="790.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallelgateway1" id="BPMNShape_parallelgateway1">
-        <omgdc:Bounds height="40.0" width="40.0" x="930.0" y="197.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="REFUND" id="BPMNShape_REFUND">
         <omgdc:Bounds height="55.0" width="105.0" x="1000.0" y="280.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallelgateway2" id="BPMNShape_parallelgateway2">
-        <omgdc:Bounds height="40.0" width="40.0" x="250.0" y="197.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="CANCEL_RECORD" id="BPMNShape_CANCEL_RECORD">
         <omgdc:Bounds height="55.0" width="105.0" x="790.0" y="336.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
+        <omgdc:Bounds height="40.0" width="40.0" x="930.0" y="197.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
         <omgdc:Bounds height="40.0" width="40.0" x="930.0" y="343.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway7" id="BPMNShape_exclusivegateway7">
+        <omgdc:Bounds height="40.0" width="40.0" x="250.0" y="197.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="54.0" y="216.0"></omgdi:waypoint>

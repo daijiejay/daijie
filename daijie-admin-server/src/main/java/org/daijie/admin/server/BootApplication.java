@@ -1,18 +1,18 @@
-package org.daijie.activiti.cloud;
+package org.daijie.admin.server;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.turbine.EnableTurbine;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import de.codecentric.boot.admin.config.EnableAdminServer;
 
-@EnableCircuitBreaker
 @SpringBootApplication
-@EnableDiscoveryClient
-@RefreshScope
-@EnableSwagger2
+@EnableTurbine
+@EnableAdminServer
+@EnableEurekaClient
+@EnableDiscoveryClient  
 public class BootApplication {
 
 	public static void main(String[] args) {
