@@ -1,7 +1,7 @@
 package org.daijie.core.factory.specific;
 
 import org.aspectj.lang.JoinPoint;
-import org.daijie.core.result.ApiResult;
+import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
  * 
@@ -30,5 +30,13 @@ public interface AspectFactory {
 	 * @return
 	 * @throws Exception
 	 */
-	public ApiResult after(Object result) throws Exception;
+	public Object after(Object result) throws Exception;
+	
+	/**
+	 * 进入方法前后运行的方法
+	 * @param result
+	 * @return
+	 * @throws Exception
+	 */
+	public Object proceed(ProceedingJoinPoint proceedingJoinPoint) throws Throwable;
 }

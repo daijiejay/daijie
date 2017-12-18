@@ -1,14 +1,14 @@
 package org.daijie.mybatis.cloud;
 
 import org.daijie.core.swagger.EnableMySwagger;
-import org.daijie.mybatis.annotation.ClusterIbatisAutoConfiguration;
+import org.daijie.jdbc.annotation.EnableMybatis;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @EnableMySwagger
-@ClusterIbatisAutoConfiguration(basePackages = {"org.daijie.mybatis.mapper"})
+@EnableMybatis(basePackages = {"org.daijie.mybatis.mapper"})
 @SpringBootApplication
 @EnableDiscoveryClient
 @RefreshScope

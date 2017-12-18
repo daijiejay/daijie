@@ -17,11 +17,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.daijie</groupId>
-			<artifactId>daijie-mybatis-spring-boot-starter</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.daijie</groupId>
 			<artifactId>daijie-mybatis-model</artifactId>
 			<version>1.0.0</version>
 		</dependency>

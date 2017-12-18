@@ -80,6 +80,7 @@
 		<module>daijie-social-cloud-api</module>
 		<module>daijie-workflow-cloud-api</module>
     <module>daijie-admin-server</module>
+    <module>daijie-jdbc</module>
   </modules>
 	<licenses>
 		<license>
