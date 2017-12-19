@@ -26,7 +26,7 @@ public class TestController extends ApiController {
 @Controller
 public class HomeController extends WebController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelResult<String> getData(){
+	public String getData(){
 		return "index";
 	}
 }
