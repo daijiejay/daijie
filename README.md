@@ -19,7 +19,9 @@ public class TestController extends ApiController {
 	public ModelResult<String> getData(){
 		return Result.build("data");
 	}
-
+}
+```
+```
 @ErrorMapping(path="/error")
 @Controller
 public class HomeController extends WebController {
@@ -27,6 +29,7 @@ public class HomeController extends WebController {
 	public ModelResult<String> getData(){
 		return "index";
 	}
+}
 ```
 #### 分布式锁
 * 启动类引用`@EnableRedisLock`注解开启redis分布式锁，引用`@EnableZKLock`注解开启zookeeper分布式锁
