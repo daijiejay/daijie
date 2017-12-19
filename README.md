@@ -126,6 +126,16 @@ spring.datasource.password=123456
 #jpa配置需要添加扫描实体的包路径，多个以“,”号隔开
 #spring.datasource.jpaEntityPackages=org.daijie.mybatis.model
 ```
+* 多数据源下选择哪个数据源，service引用`@SelectDataSource`注解，不配置将使用默认配置的defaultName数据源。
+```
+@SelectDataSource("demo1")
+@Service
+public class UserService{
+	@Autowired
+	private UserMapper userMapper;
+	...
+}
+```
 
 ## daijie-mybatis
 * 集成tk-mybatis，提供单机和集群数据库自动配置。
