@@ -104,7 +104,7 @@ public class BootApplication {
 	}
 }
 ```
-* 目前只支付mybatis和jpa配置，配置基本一样，单数据源保持原来的配置不变，多数据源需要定义names和defaultName。
+* 目前只支付mybatis和jpa配置，配置基本一样，单数据源保持spirng-boot-autoconfigure的配置不变，多数据源需要定义names和defaultName。
 ```
 #单数据源配置
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
