@@ -10,6 +10,24 @@
 * 提供一些常用工具类。
 * 加入了redis和zookeeper分布式锁，可配置单机或集群的redis及zookeeper，由@EnableRedisLock和@EnableZKLock开启自动装置。(注意：redis用到了avel命令，只支持2.6版本以上服务器)
 ### 使用说明
+#### 基础说明
+* 接口统一返回`ModelResult`实体，自定义`RestController`与`Controller`需要分别继承`ApiController`与`WebController`，其目的是需要统一管理Controller，目前已实现了异常处理，`ApiController`与`WebController`保证反给消费者的是`ModelResult`实体与`String`路径，`WebController`异常默认返回路径是“/error”，可以在加`@ErrorMapping`类注解自定义错误路径。
+```
+@RestController
+public class TestController extends ApiController {
+	@RequestMapping(value = "/data", method = RequestMethod.GET)
+	public ModelResult<String> getData(){
+		return Result.build("data");
+	}
+
+@ErrorMapping(path="/error")
+@Controller
+public class HomeController extends WebController {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelResult<String> getData(){
+		return "index";
+	}
+```
 #### 分布式锁
 * 启动类引用`@EnableRedisLock`注解开启redis分布式锁，引用`@EnableZKLock`注解开启zookeeper分布式锁
 ```
@@ -68,9 +86,48 @@ public class LockController {
 Captcha captcha = CaptchaTool.getCaptcha();
 String randomStr = captcha.getChallenge();
 ```
+
+## daijie-jdbc
+* 替代daijie-mybatis，集成多个ORM框架，加入动态多数据源配置。
+### 使用说明
+#### 多数据源配置
+* 启动类需要引用`@EnableMybatis`或`@EnableJpa`注解。
+```
+@EnableMybatis
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* 目前只支付mybatis和jpa配置，配置基本一样，单数据源保持原来的配置不变，多数据源需要定义names和defaultName。
+```
+#单数据源配置
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8
+spring.datasource.username=root
+spring.datasource.password=123456
+#多数据源配置
+#spring.datasource.dataSourceType=com.alibaba.druid.pool.DruidDataSource
+#spring.datasource.names=demo1,demo2
+#spring.datasource.defaultName=demo1
+#spring.datasource.demo1.driver-class-name=com.mysql.jdbc.Driver
+#spring.datasource.demo1.url=jdbc:mysql://localhost:3306/demo1?characterEncoding=UTF-8
+#spring.datasource.demo1.username=root
+#spring.datasource.demo1.password=123456
+#spring.datasource.demo2.driver-class-name=com.mysql.jdbc.Driver
+#spring.datasource.demo2.url=jdbc:mysql://localhost:3306/demo2?characterEncoding=UTF-8
+#spring.datasource.demo2.username=root
+#spring.datasource.demo2.password=123456
+#jpa配置需要添加扫描实体的包路径，多个以“,”号隔开
+#spring.datasource.jpaEntityPackages=org.daijie.mybatis.model
+```
+
 ## daijie-mybatis
 * 集成tk-mybatis，提供单机和集群数据库自动配置。
 * mybatis配置修改为properties和yml读取。
+
 ## daijie-shiro
 * 集成shiro，提供单机和集群redis自动配置。
 * shiro工具类封装，使用登录登出简单化，实现了session集群，任何工程只需依赖本工程就可获取当前登录用户信息和角色权限信息。
@@ -176,6 +233,7 @@ public class LoginController extends ApiController {
 	}
 }
 ```
+
 ## daijie-social
 * 集成第三方接口，提供QQ、微信、支付宝、新浪、百度登录。
 * 实现了web端第三方授权跳转页登录。
@@ -234,6 +292,8 @@ public class SocialLoginController {
 	}
 }
 ```
+
+---
 ## daijie-eureka-service
 * eureka注册中心服务器。
 ## daijie-config
@@ -242,6 +302,10 @@ public class SocialLoginController {
 * 配置中心服务器。
 ## daijie-seluth-service
 * 微服务监控服务器。
+## daijie-admin-service
+* 微服务监控与管理服务器。
+
+---
 ## daijie-mybatis-model
 * 集成mybatis-generator工具自动生成model和mapper的实例。
 * 工程作用定义：与数据库对应实体统一管理，不做人工代码修改，利于数据库结构变动只需重新生成即可。
