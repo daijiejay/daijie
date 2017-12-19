@@ -1,11 +1,10 @@
 package org.daijie.shiro.security;
 
 import org.daijie.shiro.annotation.EnableShiroSecurityServer;
-import org.daijie.shiro.configure.ShiroConfigure;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@EnableShiroSecurityServer(ShiroConfigure.class)
+@EnableShiroSecurityServer
 @SpringBootApplication
 public class BootApplication {
 

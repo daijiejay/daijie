@@ -2,7 +2,6 @@ package org.daijie.api;
 
 import org.daijie.core.lock.redis.EnableRedisLock;
 import org.daijie.shiro.annotation.EnableShiro;
-import org.daijie.shiro.configure.ShiroConfigure;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -10,7 +9,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
-@EnableShiro(ShiroConfigure.class)
+@EnableShiro
 @EnableRedisLock
 @SpringBootApplication
 @EnableDiscoveryClient

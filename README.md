@@ -150,7 +150,7 @@ public class UserService{
 * 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重定向到对应的子微服务。
 ### 使用说明
 #### 启动shiro安全服务
-* 启动类引用`@EnableShiroSecurityServer`注解，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
+* 启动类引用`@EnableShiroSecurityServer`注解
 ```
 @EnableShiroSecurityServer(ShiroConfigure.class)
 @SpringBootApplication
@@ -160,18 +160,7 @@ public class BootApplication {
 	}
 }
 ```
-#### SSO登录实现
-* 启动类引用`@EnableShiro`注解，属性定义ShiroConfigure为单机redis，定义ClusterShiroConfigure为集群redis
-```
-@EnableShiro(ShiroConfigure.class)
-@SpringBootApplication
-public class BootApplication {
-	public static void main(String[] args) {
-		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
-	}
-}
-```
-* properties相关配置：
+* shiro安全服务properties相关配置：
 ```
 #添加自定义Filter，以“,”号隔开
 shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
@@ -185,30 +174,61 @@ shiro.unauthorizedUrl=/error
 shiro.filterChainDefinitions=/**=anon,/login=credential,/api/user/**=security
 #拦截访问路径，json对象格式
 #shiro.filterChainDefinitionMap={"*/**":"anon"}
-#开启凭证验证
-shiro.isValidation=true
-#定义sessionIDq名称
-shiro.sessionid=mysessionid
 
-#单机redis配置---------------------------------
-#主机地址
-shiro.redis.host=127.0.0.1
-#主机端口
-shiro.redis.port=6379
+#是否开启redis集群
+shiro.redis.cluster=false
+#服务地址
+shiro.redis.address=127.0.0.1:6379
 #访问密码，没有则不用设置
 #shiro.redis.password=
 #默认连接超时时间
+shiro.redis.connectionTimeout=5000
+#返回值的超时时间
 shiro.redis.timeout=5000
 #默认存储超时时间
 shiro.redis.expire=360000
-#最大连接数
-shiro.redis.maxRedirections=1
+#出现异常最大重试次数
+shiro.redis.maxAttempts=1
 
-#集群redis配置---------------------------------
-#主机地址
-#shiro.redis.cluster.address=127.0.0.1:16379,127.0.0.1:16380,127.0.0.1:16381
-#访问密码
-#shiro.redis.cluster.password=123456
+#忽略已经添加的服务
+zuul.ignored-services=*
+#全局设置
+zuul.sensitive-headers=
+#监控路径
+zuul.routes.api.path=/**
+#重定向到指定服务
+zuul.routes.api.serviceId=daijie-api-cloud
+#为true时，访问/api/** = daijie-api-cloud/**，为false时，访问/api/** = daijie-api-cloud/api/**
+zuul.routes.api.stripPrefix=false
+
+```
+#### SSO登录实现
+* 启动类引用`@EnableShiro`注解
+```
+@EnableShiro(ShiroConfigure.class)
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* properties相关配置：
+```
+#是否开启redis集群
+shiro.redis.cluster=false
+#服务地址
+shiro.redis.address=127.0.0.1:6379
+#访问密码，没有则不用设置
+#shiro.redis.password=
+#默认连接超时时间
+shiro.redis.connectionTimeout=5000
+#返回值的超时时间
+shiro.redis.timeout=5000
+#默认存储超时时间
+shiro.redis.expire=360000
+#出现异常最大重试次数
+shiro.redis.maxAttempts=1
 
 #是否开启kisso cookie机制
 shiro.kissoEnable=true
@@ -225,7 +245,7 @@ kisso.config.cookieDomain=daijie.org
 public class LoginController extends ApiController {
 	private static final Logger logger = Logger.getLogger(LoginController.class);
 	@Autowired
-	private UserCloud service;
+	private UserCloud userCloud;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelResult<Object> login(@RequestParam String username, @RequestParam String password) throws Exception{
@@ -235,7 +255,7 @@ public class LoginController extends ApiController {
 		password = RSAUtil.encryptByPubKey(password, publicKey);
 		
 		//以下正式走登录流程
-		User user = service.getUser(username).getData();
+		User user = userCloud.getUser(username).getData();
 		Auth.login(username, password, user.getSalt(), user.getPassword(), "user", user);
 		return Result.build("登录成功", ApiResult.SUCCESS, ResultCode.CODE_200);
 	}
@@ -243,6 +263,12 @@ public class LoginController extends ApiController {
 	public ModelResult<Object> logout(){
 		Auth.logOut();
 		return Result.build("退出成功", ApiResult.SUCCESS, ResultCode.CODE_200);
+	}
+	@ApiOperation(notes = "获取当前登录用户信息", value = "获取当前登录用户信息")
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public ModelResult<User> getUser(){
+		User user = (User) Auth.getAuthc("user");
+		return userCloud.getUser(user.getUserId());
 	}
 }
 ```

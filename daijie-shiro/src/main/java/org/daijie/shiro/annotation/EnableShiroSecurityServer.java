@@ -7,13 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.daijie.shiro.configure.ShiroConfigure;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.core.annotation.AliasFor;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -27,7 +25,4 @@ import org.springframework.core.annotation.AliasFor;
 @EnableEurekaClient
 @RefreshScope
 public @interface EnableShiroSecurityServer {
-
-	@AliasFor(annotation = EnableShiro.class, attribute = "value")
-	Class<?>[] value() default {ShiroConfigure.class};
 }

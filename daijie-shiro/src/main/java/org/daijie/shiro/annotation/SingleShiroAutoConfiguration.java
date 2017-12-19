@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.daijie.core.util.bean.ApplicationContextHolderBean;
-import org.daijie.shiro.configure.ShiroConfigure;
+import org.daijie.shiro.configure.SingleShiroConfigure;
 import org.daijie.shiro.session.bean.ShiroRedisSessionBean;
 import org.springframework.context.annotation.Import;
 
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ShiroConfigure.class, ShiroRedisSessionBean.class, ApplicationContextHolderBean.class})
+@Import({SingleShiroConfigure.class, ShiroRedisSessionBean.class, ApplicationContextHolderBean.class})
 public @interface SingleShiroAutoConfiguration {
 
 }

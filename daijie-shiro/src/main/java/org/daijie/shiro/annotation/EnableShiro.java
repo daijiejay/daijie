@@ -11,14 +11,11 @@ import org.daijie.core.kisso.KissoConfigure;
 import org.daijie.core.swagger.EnableMySwagger;
 import org.daijie.core.util.bean.ApplicationContextHolderBean;
 import org.daijie.shiro.configure.ShiroConfigure;
-import org.daijie.shiro.session.bean.ShiroRedisSessionBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.annotation.AliasFor;
 
 /**
  * 基于spring+shiro框架的集成
  * 注解集成了spring boot，在任何被扫描类加上此注册即可使用
- * 适用于单机版redis和集群版redis，区分在ShiroConfigure和ClusterShiroConfigure装置类
  * @author daijie
  * @date 2017年6月22日
  */
@@ -27,9 +24,10 @@ import org.springframework.core.annotation.AliasFor;
 @Documented
 @Inherited
 @EnableMySwagger
-@Import({ShiroRedisSessionBean.class, ApplicationContextHolderBean.class, KissoConfigure.class})
+@Import({
+	ShiroConfigure.class, 
+	ApplicationContextHolderBean.class, 
+	KissoConfigure.class
+	})
 public @interface EnableShiro {
-
-	@AliasFor(annotation = Import.class, attribute = "value")
-	Class<?>[] value() default {ShiroConfigure.class};
 }

@@ -3,6 +3,8 @@ package org.daijie.shiro.session;
 import java.io.Serializable;
 
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
+import org.daijie.shiro.redis.RedisManager;
 
 /**
  * 集群redis服务
@@ -10,6 +12,15 @@ import org.apache.shiro.session.Session;
  * @date 2017年6月22日
  */
 public class ClusterRedisSession extends RedisSessionDAO implements RedisSessionFactory {
+	
+	public ClusterRedisSession(){
+		
+	}
+	
+	public ClusterRedisSession(RedisManager redisManager, SessionIdGenerator sessionIdGenerator){
+		this.setRedisManager(redisManager);
+		this.setSessionIdGenerator(sessionIdGenerator);
+	}
 
 	@Override
 	public Session getSession(Serializable sessionId){
