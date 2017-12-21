@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 /**
  * 重写EnableSwagger注解，改成可配置的文档生成
  * @author daijie_jay
@@ -17,6 +19,7 @@ import org.springframework.context.annotation.Import;
 @Target(value = {ElementType.TYPE })
 @Documented
 @Import({SwaggerConfiguration.class})
+@EnableSwagger2
 public @interface EnableMySwagger {
 
 }

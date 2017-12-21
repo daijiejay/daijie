@@ -4,7 +4,7 @@
 ## daijie-core
 * 框架主要工程，集成spring-cloud与spring-boot系列jar包，所有的子工程都依赖本工程。
 * 封装RESTful风格统一返回参数实体，包括正常返回及异常返回，Controller异常全局处理。
-* 集成swagger生成api文档，可配置需要指定生成的包路径。
+* 集成swagger生成api文档，以配置形式自定义docket，可配置需要指定生成的组、包路径等。
 * 微服务请求报文与客服端请求报文一致性处理。
 * 单点登录集成Kisso管理客服端cookie。
 * 提供一些常用工具类。
@@ -44,12 +44,28 @@ public class BootApplication {
 ```
 * properties相关配置
 ```
-swagger.basePackage=org.daijie
-swagger.title=文档标题
-swagger.description=文档描述
+#文档生成需要扫描的包路径，多个以“,”号隔开
+swagger.basePackage=org.daijie.api
+#标题
+swagger.title=
+#描述
+swagger.description=
+#路径
 swagger.termsOfServiceUrl=
+#联系方式
 swagger.contact=
+#版本
 swagger.version=1.0
+
+文档组配置
+#文档组名称，多个以“,”号隔开
+swagger.groupNames=user
+swagger.user.basePackage=org.daijie.api
+swagger.user.title=
+swagger.user.description=
+swagger.user.termsOfServiceUrl=
+swagger.user.contact=
+swagger.user.version=1.0
 ```
 #### 分布式锁
 * 启动类引用`@EnableRedisLock`注解开启redis分布式锁，引用`@EnableZKLock`注解开启zookeeper分布式锁

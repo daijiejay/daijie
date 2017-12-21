@@ -9,6 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties("swagger")
 public class SwaggerProperties {
+	
+	private String groupName;
 
 	private String basePackage;
 	
@@ -21,6 +23,14 @@ public class SwaggerProperties {
 	private String contact;
 	
 	private String version;
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 
 	public String getBasePackage() {
 		return basePackage;

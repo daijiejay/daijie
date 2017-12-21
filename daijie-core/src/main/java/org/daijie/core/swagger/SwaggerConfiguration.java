@@ -1,47 +1,46 @@
 package org.daijie.core.swagger;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.List;
 
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
+
+import com.xiaoleilu.hutool.bean.BeanUtil;
 
 /**
  * 初始化swagger配置
  * @author daijie_jay
  * @date 2017年12月13日
  */
-@Configuration
-@EnableConfigurationProperties({SwaggerProperties.class})
-@EnableSwagger2
-public class SwaggerConfiguration {
+public class SwaggerConfiguration extends ApiInfoDocketFactory implements EnvironmentAware {
 
-	@Bean
-	@ConditionalOnMissingBean
-	public Docket createRestApi(SwaggerProperties swaggerProperties) {
-		return new Docket(DocumentationType.SWAGGER_2)
-		.apiInfo(apiInfo(swaggerProperties))
-		.select()
-		.apis(RequestHandlerSelectors.basePackage(StringUtils.isNotEmpty(swaggerProperties.getBasePackage())?swaggerProperties.getBasePackage():"org.daijie"))
-		.paths(PathSelectors.any())
-		.build();
+	private Environment environment;
+	
+	@Override
+	public void setEnvironment(Environment environment) {
+		this.environment = environment;
 	}
-	@SuppressWarnings("deprecation")
-	private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
-		return new ApiInfoBuilder()
-		.title(swaggerProperties.getTitle())
-		.description(swaggerProperties.getDescription())
-		.termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
-		.contact(swaggerProperties.getContact())
-		.version(swaggerProperties.getVersion())
-		.build();
+	
+	@Override
+	public void docket(List<SwaggerProperties> properties, BeanDefinitionRegistry registry){
+		RelaxedPropertyResolver propertyResolver = new RelaxedPropertyResolver(environment, "swagger.");
+		String[] groupNames = org.springframework.util.StringUtils.tokenizeToStringArray(propertyResolver.getProperty("groupNames"), 
+				ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+		if(groupNames == null || groupNames.length == 0){
+			SwaggerProperties swaggerProperties = BeanUtil.mapToBean(propertyResolver.getSubProperties(""), 
+					SwaggerProperties.class, true);
+			swaggerProperties.setGroupName("swaggerDocment");
+			properties.add(swaggerProperties);
+		}else{
+			for (String groupName : groupNames) {
+				SwaggerProperties swaggerProperties = BeanUtil.mapToBean(propertyResolver.getSubProperties(groupName + "."), 
+						SwaggerProperties.class, true);
+				swaggerProperties.setGroupName(groupName);
+				properties.add(swaggerProperties);
+			}
+		}
 	}
 }
