@@ -188,7 +188,7 @@ public class UserService{
 #### 启动shiro安全服务
 * 启动类引用`@EnableShiroSecurityServer`注解
 ```
-@EnableShiroSecurityServer(ShiroConfigure.class)
+@EnableShiroSecurityServer
 @SpringBootApplication
 public class BootApplication {
 	public static void main(String[] args) {
@@ -241,7 +241,7 @@ zuul.routes.api.stripPrefix=false
 #### SSO登录实现
 * 启动类引用`@EnableShiro`注解
 ```
-@EnableShiro(ShiroConfigure.class)
+@EnableShiro
 @SpringBootApplication
 public class BootApplication {
 	public static void main(String[] args) {
