@@ -11,7 +11,7 @@
 * 加入了redis和zookeeper分布式锁，可配置单机或集群的redis及zookeeper，由@EnableRedisLock和@EnableZKLock开启自动装置。(注意：redis用到了avel命令，只支持2.6版本以上服务器)
 ### 使用说明
 #### 基础说明
-* 接口统一返回`ModelResult`实体，自定义`RestController`与`Controller`需要分别继承`ApiController`与`WebController`，其目的是需要统一管理Controller，目前已实现了异常处理，`ApiController`与`WebController`保证反给消费者的是`ModelResult`实体与`String`路径，`WebController`异常默认返回路径是“/error”，可以在加`@ErrorMapping`类注解自定义错误路径。
+* 自定义`RestController`与`Controller`需要分别继承`ApiController`与`WebController`，其目的是需要统一管理Controller，目前已实现了异常处理，`ApiController`与`WebController`保证反给消费者的是`ModelResult`实体与`String`路径，`WebController`异常默认返回路径是“/error”，可以在`Controller`上加`@ErrorMapping`类注解自定义异常时跳转路径。
 ```
 @RestController
 public class TestController extends ApiController {
@@ -32,7 +32,7 @@ public class HomeController extends WebController {
 }
 ```
 #### 生成api文档
-* 启动类引用`@EnableMySwagger`注解
+* 启动类引用`@EnableMySwagger`注解，官方的`@EnableSwagger2`注解被重写
 ```
 @EnableMySwagger
 @SpringBootApplication
