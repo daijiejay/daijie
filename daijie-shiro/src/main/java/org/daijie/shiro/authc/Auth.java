@@ -118,6 +118,15 @@ public final class Auth {
 	 * @param key
 	 * @return
 	 */
+	public static void refreshAuthc(Object authc){
+		refreshAuthc(Redis.getToken(), authc);
+	}
+	
+	/**
+	 * 刷新登录用户基本信息
+	 * @param key
+	 * @return
+	 */
 	public static void refreshAuthc(String key, Object authc){
 		Object value = Redis.getAttribute(key);
 		if(value instanceof UserToken){
@@ -132,6 +141,15 @@ public final class Auth {
 	 * @param key
 	 * @return
 	 */
+	public static void refreshPermissions(List<String> permissions){
+		refreshPermissions(Redis.getToken(), permissions);
+	}
+	
+	/**
+	 * 刷新登录用户权限集
+	 * @param key
+	 * @return
+	 */
 	public static void refreshPermissions(String key, List<String> permissions){
 		Object value = Redis.getAttribute(key);
 		if(value instanceof UserToken){
@@ -139,6 +157,15 @@ public final class Auth {
 			userToken.setPermissions(permissions);
 			Redis.setAttribute(key, userToken);
 		}
+	}
+	
+	/**
+	 * 刷新登录用户角色集
+	 * @param key
+	 * @return
+	 */
+	public static void refreshRoles(List<String> roles){
+		refreshRoles(Redis.getToken(), roles);
 	}
 	
 	/**

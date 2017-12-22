@@ -174,13 +174,14 @@ public class ShiroConfigure {
 	@Bean(name = "sessionManager")
 	@Primary
 	public SessionManager initSessionManager(@Qualifier("redisSession") SessionDAO redisSession, @Qualifier("simpleCookie") SimpleCookie simpleCookie,
-			@Qualifier("sessionValidationScheduler") SessionValidationScheduler sessionValidationScheduler){
+			@Qualifier("sessionValidationScheduler") SessionValidationScheduler sessionValidationScheduler,
+			ShiroProperties shiroProperties){
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		sessionManager.setSessionDAO(redisSession);
 		sessionManager.setSessionIdCookie(simpleCookie);
 		sessionManager.setSessionValidationScheduler(sessionValidationScheduler);
 		sessionManager.setSessionValidationSchedulerEnabled(true);
-		sessionManager.setSessionIdCookieEnabled(true);
+		sessionManager.setSessionIdCookieEnabled(!shiroProperties.getKissoEnable());
 		sessionManager.setGlobalSessionTimeout(360000);
 		return sessionManager;
 	}

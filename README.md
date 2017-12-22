@@ -140,7 +140,7 @@ public class BootApplication {
 	}
 }
 ```
-* 目前只支付mybatis和jpa配置，配置基本一样，单数据源保持spirng-boot-autoconfigure的配置不变，多数据源需要定义names和defaultName。
+* 目前只支持mybatis和jpa配置，配置基本一样，单数据源保持spirng-boot-autoconfigure的配置不变，多数据源需要定义names和defaultName。
 ```
 #单数据源配置
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
@@ -181,7 +181,7 @@ public class UserService{
 * 集成shiro，提供单机和集群redis自动配置。
 * shiro工具类封装，使用登录登出简单化，实现了session集群，任何工程只需依赖本工程就可获取当前登录用户信息和角色权限信息。
 * shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
-* shiro配置修改为properties和yml读取。
+* shiro配置修改为properties和yml读取，保留shiro原来的配置方式一致，filterClassNames的名字前缀与filterChainDefinitions必须要一致，第一个字母小写，比如UserFilter对应user。
 * 登录方法实现了RSA非对称加密算法。
 * 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重定向到对应的子微服务。
 ### 使用说明
@@ -196,7 +196,7 @@ public class BootApplication {
 	}
 }
 ```
-* shiro安全服务properties相关配置：
+* shiro安全服务properties相关配置
 ```
 #添加自定义Filter，以“,”号隔开
 shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
@@ -238,6 +238,12 @@ zuul.routes.api.serviceId=daijie-api-cloud
 zuul.routes.api.stripPrefix=false
 
 ```
+* shiro角色权限properties相关配置
+```
+shiro.filterClassNames=org.daijie.shiro.filter.RolesFilter
+#允许admin这个角色的用户访问，需要调用Auth.refreshRoles(new ArrayList<String>())添加权限
+shiro.filterChainDefinitions=/api/user/**=roles[admin]
+```
 #### SSO登录实现
 * 启动类引用`@EnableShiro`注解
 ```
@@ -272,7 +278,7 @@ shiro.kissoEnable=true
 kisso.config.signkey=C691d971EJ3H376G81
 #cookie名称
 kisso.config.cookieName=token
-#cookie的作用域
+#cookie的作用域，kisso只能是域名才生效，如果是本地调试，可以配置host或者关闭kisso
 kisso.config.cookieDomain=daijie.org
 ```
 * 工具类使用
@@ -293,6 +299,8 @@ public class LoginController extends ApiController {
 		//以下正式走登录流程
 		User user = userCloud.getUser(username).getData();
 		Auth.login(username, password, user.getSalt(), user.getPassword(), "user", user);
+		//加入角色权限
+		Auth.refreshRoles(Redis.getToken(), new ArrayList<String>());
 		return Result.build("登录成功", ApiResult.SUCCESS, ResultCode.CODE_200);
 	}
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
