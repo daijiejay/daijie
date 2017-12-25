@@ -54,7 +54,12 @@ public abstract class ApiInfoDocketFactory implements DocketFactory, ImportBeanD
 	}
 	
 	public ApiSelector apiSelector(SwaggerProperties swaggerProperties){
-		Predicate<RequestHandler> requestHandlerSelectors = RequestHandlerSelectors.basePackage(StringUtils.isNotEmpty(swaggerProperties.getBasePackage())?swaggerProperties.getBasePackage():"org.daijie");
+		Predicate<RequestHandler> requestHandlerSelectors = null;
+		if(StringUtils.isNotEmpty(swaggerProperties.getBasePackage())){
+			requestHandlerSelectors = RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage());
+		}else{
+			requestHandlerSelectors = ApiSelector.DEFAULT.getRequestHandlerSelector();
+		}
 		return new ApiSelector(Predicates.and(requestHandlerSelectors, transform(PathSelectors.any())), PathSelectors.any());
 	}
 	
