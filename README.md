@@ -461,9 +461,12 @@ public class SocialLoginController {
 * 完成在此工程操作集群session中的登录用户信息实例及redis单独使用实例。
 * 完成一个简单的分布式锁实例。
 * 工程作用定义：产品模块化的分布式接口提供，并形成swagger可视化接口文档，由此工程请求其它的cloud服务，注意的是此工程不提供给客户端直接访问，只提供给shiro-security工程访问。
-## daijie-shiro-security
-* 依赖daijie-shiro启动引用`@EnableShiroSecurityServer`注解安全控制实例。
+## daijie-shiro-server
+* 依赖daijie-shiro-security启动引用`@EnableShiroSecurityServer`注解安全控制实例。
 * 工程作用定义：单点登录，shiro自定义请求权限统一管理，由客户端直接请求。
+## daijie-oauth2-server
+* 依赖daijie-shiro-oauth2启动引用`@EnableShiroOauth2SecurityServer`注解安全控制实例。
+* 工程作用定义：oauth2协议服务，由第三方访问。
 ## daijie-elasticsearch-cloud
 * 依赖elasticsearch完成搜索实例。
 * 工程作用定义：数据搜索业务，搜索引擎通过api工程调用。
