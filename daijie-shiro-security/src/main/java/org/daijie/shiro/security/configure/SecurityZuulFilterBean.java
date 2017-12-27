@@ -1,12 +1,17 @@
-package org.daijie.shiro.filter.bean;
+package org.daijie.shiro.security.configure;
 
-import org.daijie.shiro.filter.SecurityZuulFilter;
+import org.daijie.shiro.security.filter.SecurityZuulFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+/**
+ * 初始化shiro zuul加关bean
+ * @author daijie_jay
+ * @date 2017年12月27日
+ */
 public class SecurityZuulFilterBean {
 
 	@Bean

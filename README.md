@@ -183,67 +183,7 @@ public class UserService{
 * shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
 * shiro配置修改为properties和yml读取，保留shiro原来的配置方式一致，filterClassNames的名字前缀与filterChainDefinitions必须要一致，第一个字母小写，比如UserFilter对应user。
 * 登录方法实现了RSA非对称加密算法。
-* 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重定向到对应的子微服务。
 ### 使用说明
-#### 启动shiro安全服务
-* 启动类引用`@EnableShiroSecurityServer`注解
-```
-@EnableShiroSecurityServer
-@SpringBootApplication
-public class BootApplication {
-	public static void main(String[] args) {
-		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
-	}
-}
-```
-* shiro安全服务properties相关配置
-```
-#添加自定义Filter，以“,”号隔开
-shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
-#登录过期跳转的访问路径
-shiro.loginUrl=/invalid
-#登录成功跳转的访问路径
-shiro.successUrl=/
-#无权限时跳转的访问路径
-shiro.unauthorizedUrl=/error
-#拦截访问路径，以“,”号隔开
-shiro.filterChainDefinitions=/**=anon,/login=credential,/api/user/**=security
-#拦截访问路径，json对象格式
-#shiro.filterChainDefinitionMap={"*/**":"anon"}
-
-#是否开启redis集群
-shiro.redis.cluster=false
-#服务地址
-shiro.redis.address=127.0.0.1:6379
-#访问密码，没有则不用设置
-#shiro.redis.password=
-#默认连接超时时间
-shiro.redis.connectionTimeout=5000
-#返回值的超时时间
-shiro.redis.timeout=5000
-#默认存储超时时间
-shiro.redis.expire=360000
-#出现异常最大重试次数
-shiro.redis.maxAttempts=1
-
-#忽略已经添加的服务
-zuul.ignored-services=*
-#全局设置
-zuul.sensitive-headers=
-#监控路径
-zuul.routes.api.path=/**
-#重定向到指定服务
-zuul.routes.api.serviceId=daijie-api-cloud
-#为true时，访问/api/** = daijie-api-cloud/**，为false时，访问/api/** = daijie-api-cloud/api/**
-zuul.routes.api.stripPrefix=false
-
-```
-* shiro角色权限properties相关配置
-```
-shiro.filterClassNames=org.daijie.shiro.filter.RolesFilter
-#允许admin这个角色的用户访问，需要调用Auth.refreshRoles(new ArrayList<String>())添加权限
-shiro.filterChainDefinitions=/api/user/**=roles[admin]
-```
 #### SSO登录实现
 * 启动类引用`@EnableShiro`注解
 ```
@@ -315,6 +255,139 @@ public class LoginController extends ApiController {
 		return userCloud.getUser(user.getUserId());
 	}
 }
+```
+
+## daijie-shiro-security
+* 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重定向到对应的子微服务。
+###使用说明
+#### 启动shiro安全服务
+* 启动类引用`@EnableShiroSecurityServer`注解
+```
+@EnableShiroSecurityServer
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* shiro安全服务properties相关配置
+```
+#添加自定义Filter，以“,”号隔开
+shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
+#登录过期跳转的访问路径
+shiro.loginUrl=/invalid
+#登录成功跳转的访问路径
+shiro.successUrl=/
+#无权限时跳转的访问路径
+shiro.unauthorizedUrl=/error
+#拦截访问路径，以“,”号隔开
+shiro.filterChainDefinitions=/**=anon,/login=credential,/api/user/**=security
+#拦截访问路径，json对象格式
+#shiro.filterChainDefinitionMap={"*/**":"anon"}
+
+#是否开启redis集群
+shiro.redis.cluster=false
+#服务地址
+shiro.redis.address=127.0.0.1:6379
+#访问密码，没有则不用设置
+#shiro.redis.password=
+#默认连接超时时间
+shiro.redis.connectionTimeout=5000
+#返回值的超时时间
+shiro.redis.timeout=5000
+#默认存储超时时间
+shiro.redis.expire=360000
+#出现异常最大重试次数
+shiro.redis.maxAttempts=1
+
+#忽略已经添加的服务
+zuul.ignored-services=*
+#全局设置
+zuul.sensitive-headers=
+#监控路径
+zuul.routes.api.path=/**
+#重定向到指定服务
+zuul.routes.api.serviceId=daijie-api-cloud
+#为true时，访问/api/** = daijie-api-cloud/**，为false时，访问/api/** = daijie-api-cloud/api/**
+zuul.routes.api.stripPrefix=false
+
+```
+* shiro角色权限properties相关配置
+```
+shiro.filterClassNames=org.daijie.shiro.filter.RolesFilter
+#允许admin这个角色的用户访问，需要调用Auth.refreshRoles(new ArrayList<String>())添加权限
+shiro.filterChainDefinitions=/api/user/**=roles[admin]
+```
+
+## daijie-shiro-oauth2
+* 在daijie-shiro-security基础上集成spring-security-oauth2
+###使用说明
+#### 启动shiro安全服务
+* 启动类引用`@EnableShiroSecurityServer`注解
+```
+@EnableShiroOauth2SecurityServer
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* shiro安全服务properties相关配置
+```
+#添加自定义Filter，以“,”号隔开
+shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
+#登录过期跳转的访问路径
+shiro.loginUrl=/invalid
+#登录成功跳转的访问路径
+shiro.successUrl=/
+#无权限时跳转的访问路径
+shiro.unauthorizedUrl=/error
+#拦截访问路径，以“,”号隔开
+shiro.filterChainDefinitions=/**=anon,/login=credential,/api/user/**=security
+#拦截访问路径，json对象格式
+#shiro.filterChainDefinitionMap={"*/**":"anon"}
+
+#是否开启redis集群
+shiro.redis.cluster=false
+#服务地址
+shiro.redis.address=127.0.0.1:6379
+#访问密码，没有则不用设置
+#shiro.redis.password=
+#默认连接超时时间
+shiro.redis.connectionTimeout=5000
+#返回值的超时时间
+shiro.redis.timeout=5000
+#默认存储超时时间
+shiro.redis.expire=360000
+#出现异常最大重试次数
+shiro.redis.maxAttempts=1
+
+#是否开启kisso cookie机制
+shiro.kissoEnable=true
+#加密随机码
+kisso.config.signkey=C691d971EJ3H376G81
+#cookie名称
+kisso.config.cookieName=token
+#cookie的作用域
+kisso.config.cookieDomain=daijie.org
+
+#用户授权登录请求接口
+shiro.oauth2.loginUrl=http://daijie.org/login
+#用户授权登录请求接口方式
+shiro.oauth2.loginMethod=post
+
+#忽略已经添加的服务
+zuul.ignored-services=*
+#全局设置
+zuul.sensitive-headers=
+#监控路径
+zuul.routes.api.path=/api/**
+#重定向到指定服务
+zuul.routes.api.serviceId=daijie-api-cloud
+#为true时，访问/api/** = daijie-api-cloud/**，为false时，访问/api/** = daijie-api-cloud/api/**
+zuul.routes.api.stripPrefix=true
 ```
 
 ## daijie-social

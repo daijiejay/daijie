@@ -8,8 +8,8 @@
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>daijie-shiro-security-spring-boot-starter</artifactId>
-	<name>daijie-shiro-security-spring-boot-starter</name>
+	<artifactId>daijie-shiro-server</artifactId>
+	<name>daijie-shiro-server</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,13 +17,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.daijie</groupId>
-			<artifactId>daijie-shiro-spring-boot-starter</artifactId>
+			<artifactId>daijie-shiro-security-spring-boot-starter</artifactId>
 			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-zuul</artifactId>
-			<version>1.4.0.RELEASE</version>
 		</dependency>
 	</dependencies>
 </project>

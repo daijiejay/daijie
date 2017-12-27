@@ -11,3 +11,4 @@ daijie-quartz-cloud:12805
 daijie-social-cloud:12811
 daijie-shiro-api:12803
 daijie-shiro-security:12802
+daijie-oauth2-security:12813

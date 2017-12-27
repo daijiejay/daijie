@@ -1,4 +1,4 @@
-package org.daijie.shiro.filter;
+package org.daijie.shiro.security.filter;
 
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;

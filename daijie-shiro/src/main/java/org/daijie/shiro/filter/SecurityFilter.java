@@ -3,7 +3,7 @@ package org.daijie.shiro.filter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.shiro.web.filter.authc.UserFilter;
+import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
@@ -12,12 +12,11 @@ import org.daijie.shiro.session.ShiroRedisSession.Redis;
  * @author daijie
  * @date 2017年9月3日
  */
-public class SecurityFilter extends UserFilter {
+public class SecurityFilter extends PathMatchingFilter {
 
 	@Override
 	public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-		boolean status = super.onPreHandle(request, response, mappedValue);
-		if(Redis.getSession() == null || !status){
+		if(Redis.getSession() == null){
 			return false;
 		}
 		return true;

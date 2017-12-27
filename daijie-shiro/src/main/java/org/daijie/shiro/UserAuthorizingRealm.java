@@ -1,5 +1,6 @@
 package org.daijie.shiro;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -15,12 +16,14 @@ import org.apache.shiro.util.ByteSource;
 import org.daijie.core.kisso.KissoSecurityFactory;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
+import org.daijie.shiro.authc.Auth;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.UserToken;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
+import com.xiaoleilu.hutool.bean.BeanUtil;
 
 /**
  * 用户登录后角色权限注入到shiro管理
@@ -72,7 +75,15 @@ public class UserAuthorizingRealm extends AuthorizingRealm implements KissoSecur
 					ByteSource.Util.bytes(username), 
 					getName()
 					);
-			Redis.setAttribute(authorizationToken.getAuthcKey(), authorizationToken.getUser());
+			if(authorizationToken.getUser() instanceof Serializable && authorizationToken.getUser() instanceof UserToken){
+				UserToken userToken = (UserToken)authorizationToken.getUser();
+				if(userToken.getAuthc() instanceof Serializable){
+					userToken.setAuthc(BeanUtil.beanToMap(userToken.getAuthc()));
+				}
+				Redis.setAttribute(authorizationToken.getAuthcKey(), userToken);
+			}else{
+				Redis.setAttribute(authorizationToken.getAuthcKey(), authorizationToken.getUser());
+			}
 		}else{
 			authcInfo = new SimpleAuthenticationInfo(
 					authorizationToken.getUsername(), 
@@ -82,6 +93,7 @@ public class UserAuthorizingRealm extends AuthorizingRealm implements KissoSecur
 					);
 			Redis.setAttribute(authorizationToken.getAuthcKey(), username);
 		}
+		Redis.set(Auth.AUTH_KEY, authorizationToken.getAuthcKey());
 		if(authorizationToken.getSalt() != null){
 			authcInfo.setCredentialsSalt(ByteSource.Util.bytes(authorizationToken.getSalt()));
 		}
@@ -94,8 +106,6 @@ public class UserAuthorizingRealm extends AuthorizingRealm implements KissoSecur
 					HttpConversationUtil.getResponse(), 
 					ssoToken, 
 					false);
-			SSOHelper.attrToken(HttpConversationUtil.getRequest());
-			Redis.setAttribute("kissoEnable", kissoEnable);
 		}else{
 			CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), null);
 		}

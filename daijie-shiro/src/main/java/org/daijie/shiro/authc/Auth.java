@@ -2,6 +2,7 @@ package org.daijie.shiro.authc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -12,6 +13,7 @@ import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 import com.baomidou.kisso.SSOHelper;
+import com.xiaoleilu.hutool.bean.BeanUtil;
 
 /**
  * 登录用户管理类
@@ -19,6 +21,8 @@ import com.baomidou.kisso.SSOHelper;
  * @date 2017年11月15日
  */
 public final class Auth {
+	
+	public static final String AUTH_KEY = "USER";
 	
 	private static UserToken userToken;
 	
@@ -73,18 +77,46 @@ public final class Auth {
 		}
 		Redis.deleteSession();
 	}
+	
+	public static String getAuthcKey(){
+		return (String) Redis.getAttribute(AUTH_KEY);
+	}
 
 	/**
 	 * 获取登录用户基本信息
+	 * @param className
+	 * @return
+	 */
+	public static <T> T getAuthc(Class<T> className){
+		return getAuthc(getAuthcKey(), className);
+	}
+	
+	/**
+	 * 获取登录用户基本信息
+	 * @param key
+	 * @param className
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T getAuthc(String key, Class<T> className){
+		Object value = Redis.getAttribute(key);
+		if(value instanceof UserToken){
+			Object authc = ((UserToken) value).getAuthc();
+			if(authc instanceof Map){
+				return BeanUtil.mapToBean((Map<?, ?>)authc, className, true);
+			}
+			return (T) authc;
+		}
+		return null;
+	}
+	
+	/**
+	 * 获取登录用户权限集
 	 * @param key
 	 * @return
 	 */
-	public static Object getAuthc(String key){
-		Object value = Redis.getAttribute(key);
-		if(value instanceof UserToken){
-			return ((UserToken) value).getAuthc();
-		}
-		return null;
+	public static List<String> getPermissions(){
+		return getPermissions(getAuthcKey());
 	}
 	
 	/**
@@ -98,6 +130,15 @@ public final class Auth {
 			return ((UserToken) value).getPermissions();
 		}
 		return new ArrayList<String>();
+	}
+	
+	/**
+	 * 获取登录用户角色集
+	 * @param key
+	 * @return
+	 */
+	public static List<String> getRoles(){
+		return getRoles(getAuthcKey());
 	}
 	
 	/**
@@ -119,7 +160,7 @@ public final class Auth {
 	 * @return
 	 */
 	public static void refreshAuthc(Object authc){
-		refreshAuthc(Redis.getToken(), authc);
+		refreshAuthc(getAuthcKey(), authc);
 	}
 	
 	/**
@@ -142,7 +183,7 @@ public final class Auth {
 	 * @return
 	 */
 	public static void refreshPermissions(List<String> permissions){
-		refreshPermissions(Redis.getToken(), permissions);
+		refreshPermissions(getAuthcKey(), permissions);
 	}
 	
 	/**
@@ -165,7 +206,7 @@ public final class Auth {
 	 * @return
 	 */
 	public static void refreshRoles(List<String> roles){
-		refreshRoles(Redis.getToken(), roles);
+		refreshRoles(getAuthcKey(), roles);
 	}
 	
 	/**

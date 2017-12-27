@@ -1,6 +1,6 @@
-package org.daijie.shiro.security;
+package org.daijie.shiro.server;
 
-import org.daijie.shiro.annotation.EnableShiroSecurityServer;
+import org.daijie.shiro.security.annotation.EnableShiroSecurityServer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 

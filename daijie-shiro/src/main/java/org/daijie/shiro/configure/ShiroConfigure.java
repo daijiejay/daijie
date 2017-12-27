@@ -96,6 +96,7 @@ public class ShiroConfigure {
 				filterChainDefinitionMap = map;
 			}else{
 				filterChainDefinitionMap.put("*/**", "anon");
+				filterChainDefinitionMap.put("/login/**", "credential");
 			}
 			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		} catch (ClassNotFoundException e) {
