@@ -19,6 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.security.token.SSOToken;
 
 /**
  * 
@@ -87,8 +88,14 @@ public class HttpConversationUtil {
 	 */
 	public static String getToken(){
 		if(getRequest() != null){
-			if(SSOHelper.attrToken(getRequest()) != null && !StringUtils.isEmpty(SSOHelper.attrToken(getRequest()).getIssuer())){
-				return SSOHelper.attrToken(getRequest()).getIssuer();
+			SSOToken ssoToken = null;
+			try {
+				ssoToken = SSOHelper.getSSOToken(getRequest());
+			} catch (Exception e) {
+				logger.debug("ssoToken获取失败");
+			}
+			if(ssoToken != null && !StringUtils.isEmpty(ssoToken.getIssuer())){
+				return ssoToken.getIssuer();
 			}else if(!StringUtils.isEmpty(getRequest().getAttribute(TOKEN_NAME))){
 				return getRequest().getAttribute(TOKEN_NAME).toString();
 			}else if(!StringUtils.isEmpty(getRequest().getParameter(TOKEN_NAME))){
