@@ -1,5 +1,5 @@
 # 架构拓朴图
-![架构拓朴图](http://a1.qpic.cn/psb?/V14KUPlZ1oRvxL/9kRazxnujXv0imPslwT*YCJr93o73Oaucso7uxJUexc!/b/dPMAAAAAAAAA&bo=CQOAAgAAAAARAL8!&rf=viewer_4&t=5)
+![架构拓朴图](http://m.qpic.cn/psb?/V14KUPlZ1oRvxL/J822aSfSQFFJm4Gxj9tS7URLXaYb*cgq6uIcKYmB6jQ!/b/dPMAAAAAAAAA&bo=*QKAAgAAAAADB18!&rf=viewer_4&t=5)
 # 工程简介
 ## daijie-core
 * 框架主要工程，集成spring-cloud与spring-boot系列jar包，所有的子工程都依赖本工程。
@@ -336,19 +336,6 @@ public class BootApplication {
 ```
 * shiro安全服务properties相关配置
 ```
-#添加自定义Filter，以“,”号隔开
-shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
-#登录过期跳转的访问路径
-shiro.loginUrl=/invalid
-#登录成功跳转的访问路径
-shiro.successUrl=/
-#无权限时跳转的访问路径
-shiro.unauthorizedUrl=/error
-#拦截访问路径，以“,”号隔开
-shiro.filterChainDefinitions=/**=anon,/login=credential,/api/user/**=security
-#拦截访问路径，json对象格式
-#shiro.filterChainDefinitionMap={"*/**":"anon"}
-
 #是否开启redis集群
 shiro.redis.cluster=false
 #服务地址
