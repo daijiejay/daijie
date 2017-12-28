@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>daijie-social-cloud-api</artifactId>
 	<name>daijie-social-cloud-api</name>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-core-spring-boot-starter</artifactId>
-			<version>1.0.0</version>
+			<version>${daijie.version}</version>
 		</dependency>
 	</dependencies>
 </project>

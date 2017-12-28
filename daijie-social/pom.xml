@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>daijie-social-spring-boot-starter</artifactId>
 	<name>daijie-social</name>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-core-spring-boot-starter</artifactId>
-			<version>1.0.0</version>
+			<version>${daijie.version}</version>
 		</dependency>
 		<!-- <dependency>
 			<groupId>com.mxixm</groupId>
@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.aliyun.jdk</groupId>
 			<artifactId>aliyun-java-jdk</artifactId>
-			<version>1.0.0</version>
+			<version>${daijie.version}</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/resources/lib/alipay-sdk-java20171027120314.jar</systemPath>
 		</dependency>

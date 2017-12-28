@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>daijie-rabbit-cloud</artifactId>
 	<name>daijie-rabbit-cloud</name>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-mq-cloud-api</artifactId>
-			<version>1.0.0</version>
+			<version>${daijie.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

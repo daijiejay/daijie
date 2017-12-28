@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-parent-spring-boot-starter</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<version>1.5.9.RELEASE</version>
@@ -15,6 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
 		<spring.cloud.version>1.4.0.RELEASE</spring.cloud.version>
+		<daijie.version>1.0.0-SNAPSHOT</daijie.version>
 		<!-- 打包跳过单元测试 -->
 		<skipTests>true</skipTests>
 		<destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}</destDir>
@@ -108,11 +109,13 @@
 	</developers>
 	<distributionManagement>
 		<snapshotRepository>
-			<id>oss</id>
+			<id>snapshots</id>
+			<name>Nexus Snapshot Repository</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
 		<repository>
-			<id>oss</id>
+			<id>releases</id>
+			<name>Nexus Release Repository</name>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
