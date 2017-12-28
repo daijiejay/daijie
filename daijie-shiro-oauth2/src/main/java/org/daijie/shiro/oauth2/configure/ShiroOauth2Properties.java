@@ -15,6 +15,8 @@ public class ShiroOauth2Properties {
 	private String loginUrl;
 	
 	private String loginMethod;
+	
+	private String matchersRole;
 
 	public String getLoginUrl() {
 		return loginUrl;
@@ -30,6 +32,14 @@ public class ShiroOauth2Properties {
 
 	public void setLoginMethod(String loginMethod) {
 		this.loginMethod = loginMethod;
+	}
+
+	public String getMatchersRole() {
+		return matchersRole;
+	}
+
+	public void setMatchersRole(String matchersRole) {
+		this.matchersRole = matchersRole;
 	}
 	
 }

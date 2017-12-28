@@ -37,9 +37,13 @@ public class LoginController extends ApiController {
 		
 		//以下正式走登录流程
 		User user = userCloud.getUser(username).getData();
-		Auth.login(username, password, user.getSalt(), user.getPassword(), "user", user);
+		Auth.login(username, password, user.getSalt(), user.getPassword(), user);
 		//加入角色权限
 		Auth.refreshRoles(new ArrayList<String>());
+		ArrayList<String> permissions = new ArrayList<String>();
+		permissions.add("USER");
+		Auth.refreshPermissions(permissions);
+		Auth.getPermissions();
 		return Result.build("登录成功", ApiResult.SUCCESS, ResultCode.CODE_200);
 	}
 	

@@ -22,7 +22,9 @@ import com.xiaoleilu.hutool.bean.BeanUtil;
  */
 public final class Auth {
 	
-	public static final String AUTH_KEY = "USER";
+	public static final String AUTH_KEY = "_AUTH_KEY_USER";
+	
+	public static final String AUTHC_KEY = "user";
 	
 	private static UserToken userToken;
 	
@@ -50,6 +52,18 @@ public final class Auth {
 	 * @param pubPwd 登录公钥加密密码
 	 * @param salt 登录账号加密盐
 	 * @param saltPwd 登录账号盐加密后的密码
+	 * @param authc 缓存登录账号信息的值
+	 */
+	public static void login(String username, String pubPwd, String salt, String saltPwd, Object authc){
+		login(username, pubPwd, salt, saltPwd, AUTHC_KEY, authc);
+	}
+	
+	/**
+	 * 用户登录
+	 * @param username 登录账号
+	 * @param pubPwd 登录公钥加密密码
+	 * @param salt 登录账号加密盐
+	 * @param saltPwd 登录账号盐加密后的密码
 	 * @param authcKey 缓存登录账号信息的键
 	 * @param authc 缓存登录账号信息的值
 	 */
@@ -60,9 +74,9 @@ public final class Auth {
 				saltPwd, 
 				pubPwd, salt, authcKey, userToken);
 		token.setRememberMe(true);  
-	    Subject subject = SecurityUtils.getSubject();
-	    subject.login(token);
-	    subject.isAuthenticated();
+		Subject subject = SecurityUtils.getSubject();
+		subject.login(token);
+		subject.isAuthenticated();
 	}
 	
 	/**

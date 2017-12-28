@@ -25,14 +25,14 @@ public class UserController extends ApiController {
 	@ApiOperation(notes = "获取当前登录用户信息", value = "获取当前登录用户信息")
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelResult<User> getUser(){
-		User user = Auth.getAuthc("user", User.class);
+		User user = Auth.getAuthc(User.class);
 		return userCloud.getUser(user.getUserId());
 	}
 
 	@ApiOperation(notes = "修改登录密码", value = "修改登录密码")
 	@RequestMapping(value = "/modify/password", method = RequestMethod.POST)
 	public ModelResult<Boolean> modifyPassword(@RequestParam(name = "password") String password){
-		User user = Auth.getAuthc("user", User.class);
+		User user = Auth.getAuthc(User.class);
 		user.setPassword(password);
 		return userCloud.updateUser(user);
 	}

@@ -93,7 +93,7 @@ public class UserAuthorizingRealm extends AuthorizingRealm implements KissoSecur
 					);
 			Redis.setAttribute(authorizationToken.getAuthcKey(), username);
 		}
-		Redis.set(Auth.AUTH_KEY, authorizationToken.getAuthcKey());
+		Redis.setAttribute(Auth.AUTH_KEY, authorizationToken.getAuthcKey());
 		if(authorizationToken.getSalt() != null){
 			authcInfo.setCredentialsSalt(ByteSource.Util.bytes(authorizationToken.getSalt()));
 		}

@@ -33,6 +33,9 @@ public class ShiroAuthenticationManager implements AuthenticationManager, Authen
 		String[] authorityList = new String[]{};
 		if(!Auth.getPermissions().isEmpty()){
 			authorityList = Auth.getPermissions().toArray(authorityList);
+			for (int i = 0; i < authorityList.length; i++) {
+				authorityList[i] = "ROLE_" + authorityList[i];
+			}
 		}
 		return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), 
 				AuthorityUtils.createAuthorityList(authorityList));

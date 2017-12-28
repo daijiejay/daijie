@@ -1,9 +1,9 @@
 package org.daijie.shiro.oauth2;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.daijie.core.result.ModelResult;
+import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.configure.ShiroProperties;
 import org.daijie.shiro.oauth2.configure.ShiroOauth2Properties;
@@ -25,6 +25,8 @@ import com.baomidou.kisso.security.token.SSOToken;
  * @date 2017年12月27日
  */
 public class RequestAuthenticationMatch implements AuthenticationMatch {
+	
+	private static final String HEADER_COOKIE_KEY = "Set-Cookie";
 	
 	@Autowired
 	private ShiroOauth2Properties shiroOauth2Properties;
@@ -61,12 +63,11 @@ public class RequestAuthenticationMatch implements AuthenticationMatch {
 			throw new ShiroOauth2MatchException("只能是GET或POST请求");
 		}
 		HttpServletRequest request = HttpConversationUtil.getRequest();
-		HttpServletResponse response = HttpConversationUtil.getResponse();
 		for (String key : result.getHeaders().keySet()) {
 			for(String value : result.getHeaders().get(key)){
-				response.addHeader(key, value);
-				if(value.contains(HttpConversationUtil.TOKEN_NAME)){
+				if(key.contains(HEADER_COOKIE_KEY) && value.contains(HttpConversationUtil.TOKEN_NAME)){
 					String token = value.split(";")[0].split("=")[1];
+					CookieUtil.set(HttpConversationUtil.TOKEN_NAME, token, null);
 					if(shiroProperties.getKissoEnable()){
 						request.setAttribute(HttpConversationUtil.TOKEN_NAME, SSOToken.parser(token, false).getIssuer());
 					}else{
