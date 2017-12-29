@@ -6,18 +6,21 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.daijie.jdbc.interceptor.DefaultRoutingDataSource;
+import org.daijie.jdbc.interceptor.SelectDataSourceInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
+@Import(SelectDataSourceInterceptor.class)
 @Configuration
 public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {
 

@@ -28,7 +28,7 @@ public class SelectDataSourceInterceptor implements Ordered, AspectFactory {
     public static final Logger logger = LoggerFactory.getLogger(SelectDataSourceInterceptor.class);
 
     @Override
-    @Around("@annotation(SelectDataSource)")
+    @Around("@within(org.daijie.jdbc.annotation.SelectDataSource)")
     public Object proceed(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         try {
             logger.info("set database connection to read only");
