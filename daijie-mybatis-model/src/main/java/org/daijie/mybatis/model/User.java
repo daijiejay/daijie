@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
     /**
      * 用户ID
@@ -21,11 +22,13 @@ public class User implements Serializable {
     /**
      * 密码
      */
+    @Column(name = "password")
     private String password;
 
     /**
      * 盐
      */
+    @Column(name = "salt")
     private String salt;
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +40,11 @@ public class User implements Serializable {
      */
     public Integer getUserId() {
         return userId;
+    }
+
+    public User withUserId(Integer userId) {
+        this.setUserId(userId);
+        return this;
     }
 
     /**
@@ -57,6 +65,11 @@ public class User implements Serializable {
         return userName;
     }
 
+    public User withUserName(String userName) {
+        this.setUserName(userName);
+        return this;
+    }
+
     /**
      * 设置用户名
      *
@@ -73,6 +86,11 @@ public class User implements Serializable {
      */
     public String getPassword() {
         return password;
+    }
+
+    public User withPassword(String password) {
+        this.setPassword(password);
+        return this;
     }
 
     /**
@@ -93,6 +111,11 @@ public class User implements Serializable {
         return salt;
     }
 
+    public User withSalt(String salt) {
+        this.setSalt(salt);
+        return this;
+    }
+
     /**
      * 设置盐
      *
@@ -100,5 +123,49 @@ public class User implements Serializable {
      */
     public void setSalt(String salt) {
         this.salt = salt == null ? null : salt.trim();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", userId=").append(userId);
+        sb.append(", userName=").append(userName);
+        sb.append(", password=").append(password);
+        sb.append(", salt=").append(salt);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        User other = (User) that;
+        return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
+            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
+            && (this.getSalt() == null ? other.getSalt() == null : this.getSalt().equals(other.getSalt()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
+        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
+        result = prime * result + ((getSalt() == null) ? 0 : getSalt().hashCode());
+        return result;
     }
 }
