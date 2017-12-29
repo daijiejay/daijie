@@ -48,6 +48,9 @@ public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {
 				targetDataResources.put(DbContextHolder.DATA_SOURCE, dataSource);
 				proxy.setDefaultTargetDataSource(dataSource);
 			}else{
+				if(StringUtils.isEmpty(multipleDataSourceProperties.getDefaultName())){
+					throw new JdbcException("Can't find datasource default name!");
+				}
 				String[] names = StringUtils.tokenizeToStringArray(multipleDataSourceProperties.getNames(), 
 						ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 				for (String name : names) {
@@ -56,8 +59,6 @@ public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {
 					targetDataResources.put(name, dataSource);
 					if(name.equals(multipleDataSourceProperties.getDefaultName())){
 						proxy.setDefaultTargetDataSource(dataSource);
-					}else{
-						throw new JdbcException("Can't find datasource default name!");
 					}
 				}
 			}
