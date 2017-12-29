@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0-RELEASE</version>
 	</parent>
 	<artifactId>daijie-mybatis-shardingjdbc-cloud</artifactId>
 	<name>daijie-mybatis-shardingjdbc-cloud</name>
