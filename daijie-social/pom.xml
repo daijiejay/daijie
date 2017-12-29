@@ -20,46 +20,67 @@
 			<artifactId>daijie-core-spring-boot-starter</artifactId>
 			<version>${daijie.version}</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.mxixm</groupId>
-			<artifactId>fastboot-weixin</artifactId>
-			<version>0.3.3</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.mxixm</groupId> <artifactId>fastboot-weixin</artifactId> 
+			<version>0.3.3</version> </dependency> -->
 		<!-- 支付宝登陆 start -->
 		<dependency>
 			<groupId>com.aliyun.jdk</groupId>
 			<artifactId>aliyun-java-jdk</artifactId>
-			<version>${daijie.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/resources/lib/alipay-sdk-java20171027120314.jar</systemPath>
+			<version>1.0.0</version>
 		</dependency>
 		<!-- 支付宝登陆 end -->
 		<!-- 第三方支付 start -->
 		<dependency>
-		    <groupId>com.egzosn</groupId>
-		    <artifactId>pay-java-common</artifactId>
-		    <version>2.0.4-RELEASE</version>
+			<groupId>com.egzosn</groupId>
+			<artifactId>pay-java-common</artifactId>
+			<version>2.0.4-RELEASE</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.egzosn</groupId>
-		    <artifactId>pay-java-fuiou</artifactId>
-		    <version>2.0.4-RELEASE</version>
+			<groupId>com.egzosn</groupId>
+			<artifactId>pay-java-fuiou</artifactId>
+			<version>2.0.4-RELEASE</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.egzosn</groupId>
-		    <artifactId>pay-java-ali</artifactId>
-		    <version>2.0.4-RELEASE</version>
+			<groupId>com.egzosn</groupId>
+			<artifactId>pay-java-ali</artifactId>
+			<version>2.0.4-RELEASE</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.egzosn</groupId>
-		    <artifactId>pay-java-wx</artifactId>
-		    <version>2.0.4-RELEASE</version>
+			<groupId>com.egzosn</groupId>
+			<artifactId>pay-java-wx</artifactId>
+			<version>2.0.4-RELEASE</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.egzosn</groupId>
-		    <artifactId>pay-java-wx-youdian</artifactId>
-		    <version>2.0.4-RELEASE</version>
+			<groupId>com.egzosn</groupId>
+			<artifactId>pay-java-wx-youdian</artifactId>
+			<version>2.0.4-RELEASE</version>
 		</dependency>
 		<!-- 第三方支付 end -->
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install-external</id>
+						<phase>clean</phase>
+						<configuration>
+							<file>${project.basedir}/src/main/resources/lib/alipay-sdk-java20171027120314.jar</file>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>com.aliyun.jdk</groupId>
+							<artifactId>aliyun-java-jdk</artifactId>
+							<version>1.0.0</version>
+							<packaging>jar</packaging>
+							<generatePom>true</generatePom>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
