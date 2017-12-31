@@ -24,6 +24,16 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zuul</artifactId>
 			<version>1.4.0.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.netflix.servo</groupId>
+					<artifactId>servo-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>

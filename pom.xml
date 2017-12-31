@@ -74,30 +74,8 @@
 		<module>daijie-mybatis</module>
 		<module>daijie-shiro</module>
 		<module>daijie-social</module>
-		<module>daijie-dome</module>
-		<module>daijie-mybatis-model</module>
-		<module>daijie-mybatis-cloud</module>
-		<module>daijie-mybatis-shardingjdbc-cloud</module>
-		<module>daijie-rabbit-cloud</module>
-		<module>daijie-quartz-cloud</module>
-		<module>daijie-shiro-api</module>
 		<module>daijie-shiro-security</module>
-		<module>daijie-activiti-cloud</module>
-		<module>daijie-elasticsearch-cloud</module>
-		<module>daijie-jpa-cloud</module>
-		<module>daijie-social-cloud</module>
-		<module>daijie-db-cloud-api</module>
-		<module>daijie-sleuth-server</module>
-		<module>daijie-eureka-server</module>
-		<module>daijie-config-server</module>
-		<module>daijie-mq-cloud-api</module>
-		<module>daijie-se-cloud-api</module>
-		<module>daijie-social-cloud-api</module>
-		<module>daijie-workflow-cloud-api</module>
-		<module>daijie-admin-server</module>
 		<module>daijie-jdbc</module>
-		<module>daijie-shiro-server</module>
-		<module>daijie-oauth2-server</module>
 		<module>daijie-shiro-oauth2</module>
 	</modules>
 	<licenses>

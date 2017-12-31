@@ -40,6 +40,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka</artifactId>
 			<version>1.4.0.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -48,18 +54,7 @@
 			<exclusions>
 				<exclusion>
 					<groupId>com.netflix.hystrix</groupId>
-    				<artifactId>hystrix-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-zuul</artifactId>
-			<version>1.4.0.RELEASE</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.netflix.servo</groupId>
-    				<artifactId>servo-core</artifactId>
+					<artifactId>hystrix-core</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -135,9 +130,15 @@
 			<artifactId>jedis</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.curator</groupId>
-		    <artifactId>curator-recipes</artifactId>
-		    <version>3.3.0</version>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>3.3.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.xiaoleilu</groupId>
