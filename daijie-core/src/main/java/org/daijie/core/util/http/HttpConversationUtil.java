@@ -22,11 +22,10 @@ import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * 获取http会话数据的工具类
  * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class HttpConversationUtil {
 	
@@ -36,7 +35,7 @@ public class HttpConversationUtil {
 	
 	/**
 	 * 获取当前请求会话
-	 * @return
+	 * @return HttpServletRequest
 	 */
 	public static HttpServletRequest getRequest(){
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
@@ -44,7 +43,7 @@ public class HttpConversationUtil {
 	
 	/**
 	 * 获取当前响应会话
-	 * @return
+	 * @return HttpServletResponse
 	 */
 	public static HttpServletResponse getResponse(){
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
@@ -52,7 +51,7 @@ public class HttpConversationUtil {
 
 	/**
 	 * 获取当前请求会话IP
-	 * @return
+	 * @return String
 	 */
 	public static String getIP(){
 		String ip = getRequest().getHeader("x-forwarded-for");
@@ -70,7 +69,7 @@ public class HttpConversationUtil {
 
 	/**
 	 * 获取当前请求会话IP城市地址
-	 * @return
+	 * @return String
 	 */	
 	public String getIPAddress(){
 		try {
@@ -83,8 +82,7 @@ public class HttpConversationUtil {
 
 	/**
 	 * 获取当前请求会话token
-	 * @param tokenName 
-	 * @return
+	 * @return String
 	 */
 	public static String getToken(){
 		if(getRequest() != null){
@@ -112,8 +110,7 @@ public class HttpConversationUtil {
 	/**
 	 * 获取请求Body转换为json字符串
 	 * 
-	 * @param request
-	 * @return
+	 * @return String
 	 */
 	public static String getBodyString() {
 		StringBuilder sb = new StringBuilder();
@@ -149,8 +146,7 @@ public class HttpConversationUtil {
 	
     /**
      * 得到所有的参数的值
-     * @param request
-     * @return
+     * @return Map
      */
     public static Map<String,Object> handelRequest(){
         Map<String,Object> obj = new HashMap<String,Object>();

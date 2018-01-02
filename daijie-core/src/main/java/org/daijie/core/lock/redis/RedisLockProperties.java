@@ -3,9 +3,9 @@ package org.daijie.core.lock.redis;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * redis锁相关配置
+ * redis锁相关属性配置
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 @ConfigurationProperties("lock.redis")
 public class RedisLockProperties {

@@ -16,6 +16,11 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
+/**
+ * jpa多数据源相关bean配置
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Configuration
 @EnableConfigurationProperties({MultipleDataSourceProperties.class})
 @Import(BaseMultipleDataSourceConfiguration.class)

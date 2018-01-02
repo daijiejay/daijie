@@ -4,7 +4,7 @@ package org.daijie.mybatis.core;
 /**
  * 主从设置
  * @author daijie_jay
- * @date 2017年11月20日
+ * @since 2017年11月20日
  */
 public class DbContextHolder {
 

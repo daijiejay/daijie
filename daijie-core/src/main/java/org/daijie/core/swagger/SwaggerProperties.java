@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * swagger属性配置
  * @author daijie_jay
- * @date 2017年12月13日
+ * @since 2017年12月13日
  */
 @ConfigurationProperties("swagger")
 public class SwaggerProperties {

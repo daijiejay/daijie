@@ -8,13 +8,12 @@ import java.util.concurrent.TimeUnit;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.log4j.Logger;
-import org.apache.zookeeper.KeeperException;
 import org.daijie.core.lock.DistributedReentrantLock;
 
 /**
  * 基于Zookeeper的可重入互斥锁(关于重入:仅限于持有zk锁的jvm内重入)
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class ZkReentrantLock implements DistributedReentrantLock {
 	
@@ -51,8 +50,6 @@ public class ZkReentrantLock implements DistributedReentrantLock {
      * zk的客户端
      */
     private CuratorFramework client;
-
-
 
     public ZkReentrantLock(CuratorFramework client, String lockId) {
         init(client, lockId);
@@ -102,10 +99,6 @@ public class ZkReentrantLock implements DistributedReentrantLock {
                 if (list == null || list.isEmpty()) {
                     client.delete().forPath(path);
                 }
-            } catch (KeeperException.NoNodeException e1) {
-                //nothing
-            } catch (KeeperException.NotEmptyException e2) {
-                //nothing
             } catch (Exception e) {
             	logger.error(e.getMessage(), e);//准备删除时,正好有线程创建锁
             }

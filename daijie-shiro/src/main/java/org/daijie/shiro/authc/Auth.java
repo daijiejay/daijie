@@ -18,7 +18,7 @@ import com.xiaoleilu.hutool.bean.BeanUtil;
 /**
  * 登录用户管理类
  * @author daijie_jay
- * @date 2017年11月15日
+ * @since 2017年11月15日
  */
 public final class Auth {
 	
@@ -30,8 +30,7 @@ public final class Auth {
 	
 	/**
 	 * 设置登录用户权限集
-	 * @param key
-	 * @return
+	 * @param permissions 权限集合
 	 */
 	public static void setPermissions(List<String> permissions){
 		userToken.setPermissions(permissions);
@@ -39,8 +38,7 @@ public final class Auth {
 	
 	/**
 	 * 设置登录用户角色集
-	 * @param key
-	 * @return
+	 * @param roles 角色集合
 	 */
 	public static void setRoles(List<String> roles){
 		userToken.setRoles(roles);
@@ -92,14 +90,19 @@ public final class Auth {
 		Redis.deleteSession();
 	}
 	
+	/**
+	 * 获取登录用户redis中的key
+	 * @return String
+	 */
 	public static String getAuthcKey(){
 		return (String) Redis.getAttribute(AUTH_KEY);
 	}
 
 	/**
 	 * 获取登录用户基本信息
-	 * @param className
-	 * @return
+	 * @param <T> 用户类型
+	 * @param className 用户对象类型
+	 * @return Object
 	 */
 	public static <T> T getAuthc(Class<T> className){
 		return getAuthc(getAuthcKey(), className);
@@ -107,9 +110,10 @@ public final class Auth {
 	
 	/**
 	 * 获取登录用户基本信息
-	 * @param key
-	 * @param className
-	 * @return
+	 * @param <T> 用户类型
+	 * @param key 用户键
+	 * @param className 用户对象类型
+	 * @return Object
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getAuthc(String key, Class<T> className){
@@ -126,8 +130,7 @@ public final class Auth {
 	
 	/**
 	 * 获取登录用户权限集
-	 * @param key
-	 * @return
+	 * @return List
 	 */
 	public static List<String> getPermissions(){
 		return getPermissions(getAuthcKey());
@@ -135,8 +138,8 @@ public final class Auth {
 	
 	/**
 	 * 获取登录用户权限集
-	 * @param key
-	 * @return
+	 * @param key 用户键
+	 * @return List
 	 */
 	public static List<String> getPermissions(String key){
 		Object value = Redis.getAttribute(key);
@@ -148,8 +151,7 @@ public final class Auth {
 	
 	/**
 	 * 获取登录用户角色集
-	 * @param key
-	 * @return
+	 * @return List
 	 */
 	public static List<String> getRoles(){
 		return getRoles(getAuthcKey());
@@ -157,8 +159,8 @@ public final class Auth {
 	
 	/**
 	 * 获取登录用户角色集
-	 * @param key
-	 * @return
+	 * @param key 用户键
+	 * @return List
 	 */
 	public static List<String> getRoles(String key){
 		Object value = Redis.getAttribute(key);
@@ -170,8 +172,7 @@ public final class Auth {
 	
 	/**
 	 * 刷新登录用户基本信息
-	 * @param key
-	 * @return
+	 * @param authc 用户基本信息对象
 	 */
 	public static void refreshAuthc(Object authc){
 		refreshAuthc(getAuthcKey(), authc);
@@ -179,8 +180,8 @@ public final class Auth {
 	
 	/**
 	 * 刷新登录用户基本信息
-	 * @param key
-	 * @return
+	 * @param key 用户键
+	 * @param authc 用户基本信息对象
 	 */
 	public static void refreshAuthc(String key, Object authc){
 		Object value = Redis.getAttribute(key);
@@ -193,8 +194,7 @@ public final class Auth {
 	
 	/**
 	 * 刷新登录用户权限集
-	 * @param key
-	 * @return
+	 * @param permissions 用户权限
 	 */
 	public static void refreshPermissions(List<String> permissions){
 		refreshPermissions(getAuthcKey(), permissions);
@@ -202,8 +202,8 @@ public final class Auth {
 	
 	/**
 	 * 刷新登录用户权限集
-	 * @param key
-	 * @return
+	 * @param key 用户键
+	 * @param permissions 用户权限
 	 */
 	public static void refreshPermissions(String key, List<String> permissions){
 		Object value = Redis.getAttribute(key);
@@ -216,8 +216,7 @@ public final class Auth {
 	
 	/**
 	 * 刷新登录用户角色集
-	 * @param key
-	 * @return
+	 * @param roles 角色集
 	 */
 	public static void refreshRoles(List<String> roles){
 		refreshRoles(getAuthcKey(), roles);
@@ -225,8 +224,8 @@ public final class Auth {
 	
 	/**
 	 * 刷新登录用户角色集
-	 * @param key
-	 * @return
+	 * @param key 用户键
+	 * @param roles 角色集
 	 */
 	public static void refreshRoles(String key, List<String> roles){
 		Object value = Redis.getAttribute(key);
@@ -248,7 +247,7 @@ public final class Auth {
 	
 	/**
 	 * 获取缓存中的公钥，如果没有将初始化一对公钥与私钥
-	 * @return
+	 * @return String
 	 */
 	public static String getPublicKey(){
 		Object key = Redis.getAttribute(ShiroConstants.RSA_PUBLIC_KEY + Redis.getSession().getId());
@@ -262,7 +261,7 @@ public final class Auth {
 
 	/**
 	 * 获取缓存中的私钥
-	 * @return
+	 * @return String
 	 */
 	public static String getPrivateKey(){
 		Object key = Redis.getAttribute(ShiroConstants.RSA_PRIVATE_KEY + Redis.getSession().getId());

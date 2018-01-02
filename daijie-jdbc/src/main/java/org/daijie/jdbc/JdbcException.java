@@ -1,5 +1,10 @@
 package org.daijie.jdbc;
 
+/**
+ * 数据库异常
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 public class JdbcException extends RuntimeException {
 
 	private static final long serialVersionUID = 2496912709305774038L;

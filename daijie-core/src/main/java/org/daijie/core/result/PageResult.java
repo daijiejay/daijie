@@ -4,9 +4,10 @@ import java.util.List;
 
 /**
  * 分页列表封装
+ * 不建议直接使用这个返回，嵌套到org.daijie.core.result.ModelResult使用
  * @author daijie_jay
- * @date 2017年11月1日
- * @param <T>
+ * @since 2017年11月1日
+ * @param <T> 列表实体类型
  */
 public class PageResult<T> {
 	private List<T> rows;

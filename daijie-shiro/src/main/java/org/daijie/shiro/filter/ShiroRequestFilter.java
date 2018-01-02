@@ -15,7 +15,7 @@ import org.daijie.shiro.authc.ShiroConstants;
 /**
  * 请求会话参数处理
  * @author daijie
- * @date 2017年6月13日
+ * @since 2017年6月13日
  */
 public class ShiroRequestFilter extends ParametersFilter {
 

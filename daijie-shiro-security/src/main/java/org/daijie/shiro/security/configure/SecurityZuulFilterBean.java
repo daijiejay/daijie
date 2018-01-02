@@ -10,7 +10,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * 初始化shiro zuul加关bean
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 public class SecurityZuulFilterBean {
 

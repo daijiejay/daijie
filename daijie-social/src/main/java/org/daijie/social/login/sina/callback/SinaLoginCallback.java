@@ -7,7 +7,7 @@ import org.daijie.social.login.sina.model.SinaUserInfo;
 /**
  * 登录回调
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public interface SinaLoginCallback extends LoginCallback<SinaUserInfo, SinaError> {
 

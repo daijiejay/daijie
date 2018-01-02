@@ -8,7 +8,7 @@ import org.crazycake.shiro.RedisSessionDAO;
 /**
  * redis服务
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class RedisSession extends RedisSessionDAO implements RedisSessionFactory {
 

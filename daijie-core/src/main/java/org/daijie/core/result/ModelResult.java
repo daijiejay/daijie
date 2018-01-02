@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
  * 基于swagger api模式
  * 接口请求返回实体
  * @author daijie
- * @date 2017年10月27日
- * @param <E>
+ * @since 2017年10月27日
+ * @param <E> 设置返回数据实体对应的类型
  */
 public class ModelResult<E> {
 

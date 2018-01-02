@@ -7,7 +7,7 @@ import java.util.TreeSet;
 /**
  * 集群redis管理
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class RedisManager {
 
@@ -53,10 +53,10 @@ public class RedisManager {
   }
 
   /**
-   * get value from redis
+   * 根据键获取值
    *
-   * @param key
-   * @return
+   * @param key 键
+   * @return byte[] 值
    */
   public byte[] get(byte[] key) {
     byte[] value = null;
@@ -65,11 +65,11 @@ public class RedisManager {
   }
 
   /**
-   * set
+   * 设置值
    *
-   * @param key
-   * @param value
-   * @return
+   * @param key 键
+   * @param value 值
+   * @return byte[] 值
    */
   public byte[] set(byte[] key, byte[] value) {
     jedisCluster.set(key, value);
@@ -80,12 +80,12 @@ public class RedisManager {
   }
 
   /**
-   * set
+   * 设置值
    *
-   * @param key
-   * @param value
-   * @param expire
-   * @return
+   * @param key 键
+   * @param value 值
+   * @param expire 超时时间
+   * @return byte[]
    */
   public byte[] set(byte[] key, byte[] value, int expire) {
     jedisCluster.set(key, value);
@@ -96,23 +96,26 @@ public class RedisManager {
   }
 
   /**
-   * del
+   * 根据键删除值
    *
-   * @param key
+   * @param key 健
    */
   public void del(byte[] key) {
     jedisCluster.del(key);
   }
 
   /**
-   * flush
+   * 刷新数据源
+   * @throws Exception 抛出异常
    */
   public void flushDB() throws Exception {
     redisOperator.flushDB();
   }
 
   /**
-   * size
+   * 获取数据源大小
+   * @param pattern 数据源
+   * @return Long
    */
   public Long dbSize(String pattern) {
     Long dbSize = 0L;
@@ -127,10 +130,10 @@ public class RedisManager {
   }
 
   /**
-   * keys
-   *
-   * @param pattern
-   * @return
+   * 获取数据源中所有的key
+   * @param pattern 数据源
+   * @return TreeSet
+   * @throws Exception 抛出异常
    */
   public TreeSet<String> keys(String pattern) throws Exception {
     TreeSet<String> treeSet = new TreeSet<String>();

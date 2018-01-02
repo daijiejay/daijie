@@ -9,6 +9,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * 数据源工具
+ * 
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 public final class DataSourceUtil {
     
     private static final String SET_METHOD_PREFIX = "set";
@@ -20,12 +26,11 @@ public final class DataSourceUtil {
     }
     
     /**
-     * Get data source.
-     * 
-     * @param dataSourceClassName Data source class name
-     * @param dataSourceProperties Data source properties
-     * @return data source instance
-     * @throws ReflectiveOperationException reflective operation exception
+     * 根据配置创建数据源
+     * @param dataSourceClassName bean名称
+     * @param dataSourceProperties 配置
+     * @return DataSource
+     * @throws ReflectiveOperationException 抛出异常
      */
     public static DataSource getDataSource(final String dataSourceClassName, final Map<String, Object> dataSourceProperties) throws ReflectiveOperationException {
         DataSource result = (DataSource) Class.forName(dataSourceClassName).newInstance();

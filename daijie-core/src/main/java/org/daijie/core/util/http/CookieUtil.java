@@ -6,15 +6,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Cookie管理工具
  * @author daijie
- * @date 2017年6月21日
+ * @since 2017年6月21日
  */
 public class CookieUtil {
 	
 	/**
 	 * 获取
-	 * @param request
-	 * @param key
-	 * @return
+	 * @param key 键
+	 * @return String 值
 	 */
 	public static String get(String key) {
 		Cookie cookie[] = HttpConversationUtil.getRequest().getCookies();
@@ -31,11 +30,10 @@ public class CookieUtil {
 
 	/**
 	 * 设置
-	 * @param response
-	 * @param key
-	 * @param value
-	 * @param time
-	 * @return
+	 * @param key 键
+	 * @param value 值
+	 * @param time 超时时间
+	 * @return HttpServletResponse
 	 */
 	public static HttpServletResponse set(String key, String value, Integer time) {
 		HttpServletResponse response = HttpConversationUtil.getResponse();

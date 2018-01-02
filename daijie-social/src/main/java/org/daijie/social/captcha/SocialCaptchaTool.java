@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 第三方验证码工具
  * @author daijie_jay
- * @date 2017年12月4日
+ * @since 2017年12月4日
  */
 public class SocialCaptchaTool {
 	

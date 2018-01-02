@@ -12,35 +12,25 @@ import java.util.*;
 /**
  * 重写
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class RedisCache<K, V> implements Cache<K, V> {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
-	/**
-     * The wrapped Jedis instance.
-     */
 	private RedisManager cache;
 	
-	/**
-	 * The Redis key prefix for the sessions 
-	 */
 	private String keyPrefix = "shiro_redis_session:";
 	
 	/**
-	 * Returns the Redis session keys
-	 * prefix.
-	 * @return The prefix
+	 * @return String
 	 */
 	public String getKeyPrefix() {
 		return keyPrefix;
 	}
 
 	/**
-	 * Sets the Redis sessions key 
-	 * prefix.
-	 * @param keyPrefix The prefix
+	 * @param keyPrefix 前缀名
 	 */
 	public void setKeyPrefix(String keyPrefix) {
 		this.keyPrefix = keyPrefix;
@@ -48,6 +38,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	
 	/**
 	 * 通过一个JedisManager实例构造RedisCache
+	 * @param cache redis管理工具
 	 */
 	public RedisCache(RedisManager cache){
 		 if (cache == null) {
@@ -57,24 +48,19 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	}
 	
 	/**
-	 * Constructs a cache instance with the specified
-	 * Redis manager and using a custom key prefix.
-	 * @param cache The cache manager instance
-	 * @param prefix The Redis key prefix
+	 * @param cache redis管理工具
+	 * @param prefix 前缀名
 	 */
 	public RedisCache(RedisManager cache, 
 				String prefix){
-		 
 		this( cache );
-		
-		// set the prefix
 		this.keyPrefix = prefix;
 	}
 	
 	/**
 	 * 获得byte[]型的key
-	 * @param key
-	 * @return
+	 * @param key 键
+	 * @return byte[]
 	 */
 	private byte[] getByteKey(K key){
 		if(key instanceof String){

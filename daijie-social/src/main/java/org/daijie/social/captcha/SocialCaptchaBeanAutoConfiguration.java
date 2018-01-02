@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 /**
  * 第三方验证码自动装置
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @Configuration
 @EnableConfigurationProperties({

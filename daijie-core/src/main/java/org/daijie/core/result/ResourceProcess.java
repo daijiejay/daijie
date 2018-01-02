@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.ContextLoader;
 
 /**
- * 
- * @author daijie
  * 需要配合AOP使用，调用api接口后对返回结果进行处理
- *
+ * @author daijie_jay
+ * @since 2018年1月2日
  */
 public class ResourceProcess {
 	

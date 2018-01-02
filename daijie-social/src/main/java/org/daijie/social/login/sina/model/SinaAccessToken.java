@@ -5,7 +5,7 @@ import org.daijie.social.login.LoginResult;
 /**
  * 新浪微博认证权限的实体
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public class SinaAccessToken implements LoginResult {
 

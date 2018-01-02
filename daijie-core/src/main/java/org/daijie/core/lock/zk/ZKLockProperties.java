@@ -3,9 +3,9 @@ package org.daijie.core.lock.zk;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * zookeeper锁相关配置
+ * zookeeper锁相关属性配置
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 @ConfigurationProperties("lock.zk")
 public class ZKLockProperties {

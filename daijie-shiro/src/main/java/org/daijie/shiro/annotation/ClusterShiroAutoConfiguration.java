@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
  * 此注解实现了集群shiro redis
  * 注解集成了spring boot，在任何被扫描类加上此注册即可使用
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

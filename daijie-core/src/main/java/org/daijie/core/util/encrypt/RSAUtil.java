@@ -16,6 +16,9 @@ import org.apache.commons.codec.binary.Base64;
 
 /**
  * RSA数据签名及数据加密
+ * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class RSAUtil {
 	private static byte[] pub_key = null;
@@ -77,8 +80,9 @@ public class RSAUtil {
 	/**
 	 * RSA签名
 	 * 
-	 * @param data待签名数据
-	 * @return byte[] 数字签名
+	 * @param data 数字签名
+	 * @return String
+	 * @throws Exception 抛出异常
 	 * */
 	public static String sign(byte[] data) throws Exception {
 		// 取得私钥
@@ -104,6 +108,7 @@ public class RSAUtil {
 	 * @param sign
 	 *            数字签名
 	 * @return boolean 校验成功返回true，失败返回false
+	 * @throws Exception 抛出异常
 	 * */
 	public static boolean verify(byte[] data, byte[] sign) throws Exception {
 		// 转换公钥材料
@@ -127,9 +132,9 @@ public class RSAUtil {
 	/**
 	 * 用公钥加密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 序列化数组
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] encryptByPubKey(byte[] data) throws Exception {
 		// 取得公钥
@@ -145,9 +150,10 @@ public class RSAUtil {
 	/**
 	 * 用公钥加密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 序列化数组
+	 * @param pub_key 公钥
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] encryptByPubKey(byte[] data, byte[] pub_key) throws Exception {
 		// 取得公钥
@@ -163,8 +169,9 @@ public class RSAUtil {
 	/**
 	 * 用公钥加密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 字符串
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String encryptByPubKey(String data) throws Exception {
 		// 私匙加密
@@ -175,8 +182,10 @@ public class RSAUtil {
 	/**
 	 * 用公钥加密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 字符串
+	 * @param pub_key 公钥
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String encryptByPubKey(String data, String pub_key) throws Exception {
 		// 私匙加密
@@ -187,9 +196,9 @@ public class RSAUtil {
 	/**
 	 * 用私钥加密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 序列化数组
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] encryptByPriKey(byte[] data) throws Exception {
 		// 取得私钥
@@ -205,9 +214,10 @@ public class RSAUtil {
 	/**
 	 * 用私钥加密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 序列化数组
+	 * @param pri_key 私钥
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] encryptByPriKey(byte[] data, byte[] pri_key) throws Exception {
 		// 取得私钥
@@ -223,8 +233,9 @@ public class RSAUtil {
 	/**
 	 * 用私钥加密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 字符串
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String encryptByPriKey(String data) throws Exception {
 		// 私匙加密
@@ -235,8 +246,10 @@ public class RSAUtil {
 	/**
 	 * 用私钥加密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 字符串
+	 * @param pri_key 私钥
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String encryptByPriKey(String data, String pri_key) throws Exception {
 		// 私匙加密
@@ -247,9 +260,9 @@ public class RSAUtil {
 	/**
 	 * 用公钥解密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 序列化数组
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] decryptByPubKey(byte[] data) throws Exception {
 		// 取得公钥
@@ -265,9 +278,10 @@ public class RSAUtil {
 	/**
 	 * 用公钥解密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 序列化数组
+	 * @param pub_key 公钥
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] decryptByPubKey(byte[] data, byte[] pub_key) throws Exception {
 		// 取得公钥
@@ -283,8 +297,9 @@ public class RSAUtil {
 	/**
 	 * 用公钥解密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 要解密的字符串
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String decryptByPubKey(String data) throws Exception {
 		// 公匙解密
@@ -295,8 +310,10 @@ public class RSAUtil {
 	/**
 	 * 用公钥解密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 要解密的字符串
+	 * @param pub_key 公钥字符串
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String decryptByPubKey(String data, String pub_key) throws Exception {
 		// 公匙解密
@@ -307,9 +324,9 @@ public class RSAUtil {
 	/**
 	 * 用私钥解密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 要解密的字符串序列化数组
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] decryptByPriKey(byte[] data) throws Exception {
 		// 取得私钥
@@ -325,9 +342,10 @@ public class RSAUtil {
 	/**
 	 * 用私钥解密
 	 * 
-	 * @param data
-	 * @return
-	 * @throws Exception
+	 * @param data 要解密的字符串序列化数组
+	 * @param pri_key 私钥字符串序列化数组
+	 * @return byte[]
+	 * @throws Exception 抛出异常
 	 */
 	public static byte[] decryptByPriKey(byte[] data, byte[] pri_key) throws Exception {
 		// 取得私钥
@@ -343,8 +361,9 @@ public class RSAUtil {
 	/**
 	 * 用私钥解密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 要解密的字符串
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String decryptByPriKey(String data) throws Exception {
 		// 公匙解密
@@ -355,8 +374,10 @@ public class RSAUtil {
 	/**
 	 * 用私钥解密
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @param data 要解密的字符串
+	 * @param pri_key 私钥字符串
+	 * @return String
+	 * @throws Exception 抛出异常
 	 */
 	public static String decryptByPriKey(String data, String pri_key) throws Exception {
 		// 公匙解密
@@ -366,7 +387,8 @@ public class RSAUtil {
 	
 	/**
 	 * 获取公匙
-	 * @return
+	 * 
+	 * @return String
 	 */
 	public static String getPubKey(){
 		return Base64.encodeBase64String(pub_key);
@@ -374,7 +396,8 @@ public class RSAUtil {
 	
 	/**
 	 * 获取私匙
-	 * @return
+	 * 
+	 * @return String
 	 */
 	public static String getPriKey(){
 		return Base64.encodeBase64String(pri_key);

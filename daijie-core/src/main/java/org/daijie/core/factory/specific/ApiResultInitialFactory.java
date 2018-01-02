@@ -6,18 +6,16 @@ import org.daijie.core.result.ApiResult;
 import org.daijie.core.result.ApiResultWrapper;
 
 /**
- * 
- * @author daijie
- * @date 2017年5月15日
  * 用于API返回数据封装类的工厂实例
- * 
+ * @author daijie_jay
+ * @since 2018年1月1日
  */
 public abstract class ApiResultInitialFactory implements InitialFactory {
 
 	/**
-	 * 添加返回属性，默认key为data
-	 * @param value
-	 * @return
+	 * 添加返回属性值，默认key为value的类名，不建议用
+	 * @param value 值
+	 * @return ApiResultWrapper
 	 */
 	public static ApiResultWrapper addData(Object value){
 		String name = value.getClass().getName();
@@ -26,10 +24,10 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	}
 	
 	/**
-	 * 添加返回属性
-	 * @param key
-	 * @param value
-	 * @return
+	 * 添加返回属性值
+	 * @param key 键
+	 * @param value 值
+	 * @return ApiResultWrapper
 	 */
 	public static ApiResultWrapper addData(String key, Object value){
 		return Result.clear().addData(key, value);
@@ -37,7 +35,7 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	
 	/**
 	 * 构建默认返回数据
-	 * @return
+	 * @return ApiResult
 	 */
 	public static ApiResult build(){
 		return Result.clear().build();
@@ -45,8 +43,8 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	
 	/**
 	 * 构建默认数据的基础上设置返回状态
-	 * @param success
-	 * @return
+	 * @param success 返回状态
+	 * @return ApiResult
 	 */
 	public static ApiResult build(boolean success){
 		return Result.clear().setSuccess(success).build();
@@ -54,8 +52,9 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 
 	/**
 	 * 构建默认数据的基础上设置返回状态、消息
-	 * @param success
-	 * @return
+	 * @param msg 消息
+	 * @param success 返回状态
+	 * @return ApiResult
 	 */
 	public static ApiResult build(String msg, boolean success){
 		return Result.clear().setMsg(msg).setSuccess(success).build();
@@ -63,8 +62,10 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 
 	/**
 	 * 构建默认数据的基础上设置返回状态、消息、结果码
-	 * @param success
-	 * @return
+	 * @param msg 消息
+	 * @param success 返回状态
+	 * @param code 状态码
+	 * @return ApiResult
 	 */
 	public static ApiResult build(String msg, boolean success, ResultCode code){
 		return Result.clear().setMsg(msg).setSuccess(success).setCode(code).build();
@@ -73,13 +74,13 @@ public abstract class ApiResultInitialFactory implements InitialFactory {
 	/**
 	 * 静态类继承ApiResultInitialFactory，用于每次调用时初始默认的返回参数
 	 * @author daijie
-	 * @date 2017年5月15日
+	 * @since 2017年5月15日
 	 */
 	private static class Result extends ApiResultInitialFactory{
 		
 		/**
 		 * 默认初始化返回结果的辅助方法 
-		 * @return
+		 * @return ApiResultWrapper
 		 */
 		private static ApiResultWrapper clear(){
 			return new ApiResultWrapper(ApiResult.SUCCESS, ResultCode.CODE_200);

@@ -3,7 +3,7 @@ package org.daijie.social.login.baidu;
 /**
  * 百度登录常量配置
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public class BaiduLoginConstants {
 

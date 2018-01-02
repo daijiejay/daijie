@@ -5,7 +5,7 @@ import org.daijie.social.login.LoginResult;
 /**
  * QQ用户统一ID
  * @author daijie_jay
- * @date 2017年11月30日
+ * @since 2017年11月30日
  */
 public class QQUser implements LoginResult {
 	

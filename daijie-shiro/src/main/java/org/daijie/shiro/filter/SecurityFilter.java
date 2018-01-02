@@ -10,7 +10,7 @@ import org.daijie.shiro.session.ShiroRedisSession.Redis;
  * 请求拦截器
  * 用户是否登录，如果没有登录返回默认登录失败数据
  * @author daijie
- * @date 2017年9月3日
+ * @since 2017年9月3日
  */
 public class SecurityFilter extends PathMatchingFilter {
 

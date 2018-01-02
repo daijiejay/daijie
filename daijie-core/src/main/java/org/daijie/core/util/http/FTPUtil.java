@@ -13,18 +13,20 @@ import org.apache.commons.net.ftp.FTPClient;
 
 /**
  * FTP工具类
- * @author luoyi
- *
+ * @author daijie_jay
+ * @since 2018年1月2日
  */
 public class FTPUtil {
 
 	
 	/**
-     * 获取ftp链接
-     *
-     * @return ftpClient
-	 * @throws IOException 
-     * */
+	 * 获取ftp链接
+	 * @param server 服务地址
+	 * @param username 用户名
+	 * @param password 密码
+	 * @return FTPClient tfp客户端
+	 * @throws IOException 抛出异常
+	 */
     public static FTPClient getFTPClient(String server, String username, String password) throws IOException{
     	FTPClient ftpClient = null;
         try {
@@ -45,7 +47,7 @@ public class FTPUtil {
     /**
      *  关闭ftpClient链接
      * 
-     *  @param FTPClient 要关闭的ftpClient对象
+     *  @param ftpClient 要关闭的ftpClient对象
      * 
      * */
     public static void closeFTPClient(FTPClient ftpClient){
@@ -63,10 +65,11 @@ public class FTPUtil {
 	 /**
      * 上传文件
      *
-     * @param File f 要上传的文件
-     * @param String uploadDir 上传文件的根路径
-     * @return boolean b 上传结果
-	 * @throws IOException 
+     * @param ftpClient ftp客户端
+     * @param f 要上传的文件
+     * @param uploadDir 上传文件的根路径
+     * @return boolean 上传结果
+	 * @throws IOException 抛出异常
      * */
     public static boolean putFile(FTPClient ftpClient, File f,String uploadDir) throws IOException {
         InputStream instream = null;
@@ -96,10 +99,10 @@ public class FTPUtil {
     
     /**
      * 删除文件
-     * @param ftpClient
+     * @param ftpClient ftp客户端
      * @param filepath filepath是带有上传目录的path, 后台系统上传的文件, 在数据库中已经存有上传目录, 所以就不用再加.
-     * @return
-     * @throws IOException
+     * @return boolean
+     * @throws IOException 抛出异常
      */
     public static boolean deleteFile(FTPClient ftpClient, String filepath) throws IOException{
     	boolean result = false;
@@ -111,15 +114,15 @@ public class FTPUtil {
     	return result;
     }
     
-    /*
+    /**
      * 上传文件lxl
      * 参数：
-     * ftpClient 已获得连接的ftpClient
-     * uploadDir ftp服务器保存目录，如果是根目录则为/
-     * filename 上传到ftp服务器上的文件名
-     * instream 本地文件输入流
-     * 返回：
-     * 成功返回true，否则返回false
+     * @param ftpClient 已获得连接的ftpClient
+     * @param uploadDir ftp服务器保存目录，如果是根目录则为/
+     * @param fileName 上传到ftp服务器上的文件名
+     * @param instream 本地文件输入流
+     * @return boolean
+     * @throws IOException 抛出异常
      */
     public static boolean uploadFile(FTPClient ftpClient, String uploadDir, String fileName, InputStream instream) throws IOException{
         boolean result = false;

@@ -1,9 +1,16 @@
 package org.daijie.core.lock.zk;
 
 /**
- * Created by sunyujia@aliyun.com on 2016/2/25.
+ * zookeeper操作的抽象类
+ * @author daijie_jay
+ * @since 2018年1月2日
  */
 public interface DistributedSequence {
 
+	/**
+	 * 存储目录
+	 * @param sequenceName 目录名称
+	 * @return Long
+	 */
     public Long sequence(String sequenceName);
 }

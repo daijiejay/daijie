@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 百度登录工具
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public class BaiduLoginTool {
 	
@@ -25,8 +25,9 @@ public class BaiduLoginTool {
 	/**
 	 * 百度登录
 	 * 实用于已得到百度临时code
-	 * @param code
-	 * @return
+	 * @param appAuthCode 临时code
+	 * @param callback 回调函数
+	 * @return String
 	 */
 	public static String login(String appAuthCode, BaiduLoginCallback callback){
 		LoginResult result = baiduLoginService.getAccessToken(appAuthCode);
@@ -45,7 +46,8 @@ public class BaiduLoginTool {
 	
 	/**
 	 * 访问百度二维码
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadQrcode(String state){
 		return baiduLoginService.loadQrcode(state);
@@ -53,8 +55,8 @@ public class BaiduLoginTool {
 	
 	/**
 	 * 访问百度认证页
-	 * @param state 
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadAuthPage(String state){
 		return baiduLoginService.loadAuthPage(state);

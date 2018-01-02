@@ -48,11 +48,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * 
+ * shiro session集群+redis集群bean配置
  * @author daijie
- * @date 2017年6月5日
- * shiro session集群+redis集群配置
- * 
+ * @since 2017年6月5日
  */
 @RefreshScope
 @Configuration

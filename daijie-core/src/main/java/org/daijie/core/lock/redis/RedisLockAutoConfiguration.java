@@ -18,6 +18,11 @@ import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Protocol;
 
+/**
+ * redis分布式锁的相关bean配置
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Configuration
 @EnableConfigurationProperties({RedisLockProperties.class})
 public class RedisLockAutoConfiguration {

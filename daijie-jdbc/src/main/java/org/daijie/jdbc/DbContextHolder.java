@@ -3,8 +3,9 @@ package org.daijie.jdbc;
 
 /**
  * 数据源设置
+ * 通过aop拦截service，设置contextHolder的数据源名称
  * @author daijie_jay
- * @date 2017年11月20日
+ * @since 2017年11月20日
  */
 public class DbContextHolder {
 	

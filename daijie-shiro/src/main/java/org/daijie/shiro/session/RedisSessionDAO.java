@@ -15,7 +15,7 @@ import java.util.*;
  * 重写org.crazycake.shiro.RedisSessionDAO
  * 实现redis集群
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class RedisSessionDAO extends AbstractSessionDAO {
 

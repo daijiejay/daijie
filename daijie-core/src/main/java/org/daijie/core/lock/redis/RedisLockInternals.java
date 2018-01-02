@@ -14,9 +14,9 @@ import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 
 /**
- * redis锁服务
+ * redis锁服务操作
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 class RedisLockInternals {
 	
@@ -33,7 +33,10 @@ class RedisLockInternals {
 
     private int lockTimeout=2000;
 
-
+    /**
+     * 实例redis客服端工具，通过获取bean时判断是单机还是集群配置
+     * @param jedisLock
+     */
     RedisLockInternals(Object jedisLock) {
     	if(jedisLock instanceof JedisPool){
     		this.jedisPool = (JedisPool) jedisLock;
@@ -42,6 +45,13 @@ class RedisLockInternals {
     	}
     }
 
+    /**
+     * 加入锁
+     * @param lockId 业务锁ID
+     * @param time 业务执行时间
+     * @param unit 锁规则配置
+     * @return String
+     */
     String tryRedisLock(String lockId,long time, TimeUnit unit) {
         final long startMillis = System.currentTimeMillis();
         final Long millisToWait = (unit != null) ? unit.toMillis(time) : null;
@@ -59,6 +69,11 @@ class RedisLockInternals {
         return lockValue;
     }
 
+    /**
+     * 通过eval命令创建redis锁
+     * @param lockId 业务锁ID
+     * @return String
+     */
     private String createRedisKey(String lockId) {
         String value=lockId+randomId(1);
         String luaScript = ""
@@ -77,6 +92,11 @@ class RedisLockInternals {
         return null;
     }
 
+    /**
+     * 销毁锁
+     * @param key
+     * @param value
+     */
     void unlockRedisLock(String key,String value) {
         String luaScript=""
                 +"\nlocal v = redis.call('GET', KEYS[1]);"
@@ -107,6 +127,13 @@ class RedisLockInternals {
         return new String(cs);
     }
     
+    /**
+     * 执行eval脚本
+     * @param script 命令脚本
+     * @param keys 键集
+     * @param args 值集
+     * @return
+     */
 	private Long eval(String script, List<String> keys, List<String> args){
     	if(jedisPool != null){
     		Jedis jedis = null;

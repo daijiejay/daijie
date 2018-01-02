@@ -11,11 +11,9 @@ import javax.crypto.spec.PBEKeySpec;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * 密码盐加密工具类
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class PasswordUtil {
 	private static class SecretKeyFactorySingleTon {

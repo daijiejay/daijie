@@ -8,16 +8,16 @@ import org.daijie.core.lock.Callback;
 import org.daijie.core.lock.DistributedLockTemplate;
 
 /**
- * 获取分页式锁执行回调函数
+ * zookeeper分布式锁执行实现类
+ * 启用zookeeper分布式锁时，调用锁工具类执行
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class ZkDistributedLockTemplate implements DistributedLockTemplate {
 	
 	private static final Logger logger = Logger.getLogger(ZkDistributedLockTemplate.class);
 
     private CuratorFramework client;
-
 
     public ZkDistributedLockTemplate(CuratorFramework client) {
         this.client = client;
@@ -27,6 +27,7 @@ public class ZkDistributedLockTemplate implements DistributedLockTemplate {
         return distributedReentrantLock.tryLock(timeout, TimeUnit.MILLISECONDS);
     }
 
+    @Override
     public Object execute(String lockId, int timeout, Callback callback) {
         ZkReentrantLock distributedReentrantLock = null;
         boolean getLock=false;

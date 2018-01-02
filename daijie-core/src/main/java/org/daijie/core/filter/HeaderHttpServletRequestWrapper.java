@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 /**
  * 设置header
  * @author daijie_jay
- * @date 2017年10月9日
+ * @since 2017年10月9日
  */
 public final class HeaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
 

@@ -9,6 +9,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * zookeeper相关bean配置
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Configuration
 @EnableConfigurationProperties({ZKLockProperties.class})
 public class ZKLockAutoConfiguration {

@@ -6,11 +6,10 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * 序列化工具类
  * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class SerializeUtil {
 
@@ -19,8 +18,8 @@ public class SerializeUtil {
 	/**
 	 * 反序列化
 	 *
-	 * @param bytes
-	 * @return
+	 * @param bytes 序列数组
+	 * @return Object
 	 */
 	public static Object deserialize(byte[] bytes) {
 
@@ -55,8 +54,8 @@ public class SerializeUtil {
 	/**
 	 * 序列化
 	 *
-	 * @param object
-	 * @return
+	 * @param object 要序列化的实体
+	 * @return byte[]
 	 */
 	public static byte[] serialize(Object object) {
 

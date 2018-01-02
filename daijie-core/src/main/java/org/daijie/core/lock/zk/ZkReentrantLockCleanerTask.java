@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 /**
  * zookeeper作业
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class ZkReentrantLockCleanerTask extends TimerTask {
 	
@@ -27,13 +27,9 @@ public class ZkReentrantLockCleanerTask extends TimerTask {
      * 检查周期
      */
     private long period=5000;
-    /**
-     * Curator RetryPolicy maxRetries
-     */
+
     private int maxRetries=3;
-    /**
-     * Curator RetryPolicy baseSleepTimeMs
-     */
+
     private final int baseSleepTimeMs=1000;
 
     public ZkReentrantLockCleanerTask(String zookeeperAddress) {

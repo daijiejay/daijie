@@ -13,7 +13,7 @@ import feign.RequestTemplate;
 /**
  * 实现客服端请求服务到微服务请求头一致
  * @author daijie_jay
- * @date 2017年9月3日
+ * @since 2017年9月3日
  */
 public class HeaderInterceptor implements RequestInterceptor {
 

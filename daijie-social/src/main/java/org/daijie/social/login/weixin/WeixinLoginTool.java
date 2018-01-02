@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 微信登录工具
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public class WeixinLoginTool {
 	
@@ -25,8 +25,9 @@ public class WeixinLoginTool {
 	/**
 	 * 微信登录
 	 * 实用于已得到微信临时code
-	 * @param code
-	 * @return
+	 * @param appAuthCode 临时code
+	 * @param callback 回调函数
+	 * @return String
 	 */
 	public static String login(String appAuthCode, WeixinLoginCallback callback){
 		LoginResult result = wxLoginService.getAccessToken(appAuthCode);
@@ -45,8 +46,8 @@ public class WeixinLoginTool {
 	
 	/**
 	 * 访问微信二维码
-	 * @param state 
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadQrcode(String state){
 		return wxLoginService.loadQrcode(state);
@@ -54,8 +55,8 @@ public class WeixinLoginTool {
 	
 	/**
 	 * 访问微信认证页
-	 * @param state 
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadAuthPage(String state){
 		return wxLoginService.loadAuthPage(state);

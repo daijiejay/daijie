@@ -4,7 +4,7 @@ package org.daijie.core.lock.redis;
 /**
  * 限制规则
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class LimitRule {
 

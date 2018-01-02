@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * 访问角色权限配置
  * @author daijie_jay
- * @date 2017年12月22日
+ * @since 2017年12月22日
  */
 @EnableWebSecurity
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {

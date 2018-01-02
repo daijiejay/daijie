@@ -5,6 +5,11 @@ import javax.sql.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * 多数据源属性配置
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @ConfigurationProperties(prefix = "spring.datasource")
 @EnableTransactionManagement
 public class MultipleDataSourceProperties {

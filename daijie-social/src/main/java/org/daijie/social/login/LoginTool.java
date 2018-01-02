@@ -22,7 +22,9 @@ public class LoginTool {
 
 	/**
 	 * 获取第三方登录属性配置
-	 * @return
+	 * @param <T> 第三方登录配置
+	 * @param socialLogin 第三方登录枚举
+	 * @return Object
 	 */
 	public static <T extends LoginProperties> T getProperties(SocialLoginType socialLogin){
 		if(getService(socialLogin) == null){
@@ -53,7 +55,7 @@ public class LoginTool {
 	 * @param appAuthCode 第三方临时code
 	 * @param socialLogin 第三方名称
 	 * @param callback 回调函数
-	 * @return
+	 * @return String
 	 */
 	@SuppressWarnings("rawtypes")
 	public static String login(String appAuthCode, SocialLoginType socialLogin, LoginCallback callback){
@@ -74,9 +76,9 @@ public class LoginTool {
 	
 	/**
 	 * 加载第三方二维码扫码授权获取appAuthCode
-	 * @param state
-	 * @param socialLogin
-	 * @return
+	 * @param state 数据声明
+	 * @param socialLogin 第三方登录枚举
+	 * @return String
 	 */
 	public static String loadQrcode(String state, SocialLoginType socialLogin){
 		return getService(socialLogin).loadQrcode(state);
@@ -84,9 +86,9 @@ public class LoginTool {
 	
 	/**
 	 * 加载第三方认证页授权获取appAuthCode
-	 * @param state
-	 * @param socialLogin
-	 * @return
+	 * @param state 数据声明
+	 * @param socialLogin 第三方登录枚举
+	 * @return String
 	 */
 	public static String loadAuthPage(String state, SocialLoginType socialLogin){
 		return getService(socialLogin).loadAuthPage(state);

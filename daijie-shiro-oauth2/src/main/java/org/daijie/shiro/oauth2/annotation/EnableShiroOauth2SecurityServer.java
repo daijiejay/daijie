@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Import;
  * spring加载类注解
  * 集成了shiro+oauth2+zuul
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

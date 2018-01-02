@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * loginUrl：请求路径
  * loginMethod：请求方式，只支持get与post
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 @ConfigurationProperties(prefix = "shiro.oauth2")
 public class ShiroOauth2Properties {

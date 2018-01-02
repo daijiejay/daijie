@@ -30,11 +30,9 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * http请求接口工具类
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class HttpUtil {
 
@@ -53,7 +51,7 @@ public class HttpUtil {
 	/**
 	 * 请求http服务 只支持GET请求 
 	 * @param urlStr 请求路径
-	 * @return
+	 * @return String
 	 */
 	public static String requestURLGet(String urlStr) {               
 		URL url = null;                        
@@ -85,8 +83,8 @@ public class HttpUtil {
 	 * @param urlStr 请求路径
 	 * @param params 请求参数  json字符串
 	 * @param method 请求方法
-	 * @return  
-	 * @throws Exception  
+	 * @return String
+	 * @throws Exception 抛出异常  
 	 */  
 	public static String requestURL(String urlStr,String params,String method) throws Exception { 
 		StringBuilder sb = new StringBuilder();   
@@ -129,12 +127,13 @@ public class HttpUtil {
 
 	/**
 	 * 用于get、post、put、delete请求，请求、接收参数都为对象
+	 * @param method 请求方式
 	 * @param urlStr 请求RUL
 	 * @param params 请求参数对象
 	 * @param responseType 返回数据类型
-	 * @param beanClass 返回数据对象
-	 * @return
-	 * @throws Exception
+	 * @param resultBeanClass 返回数据对象
+	 * @return Object
+	 * @throws Exception 抛出异常
 	 */
 	public static Object requestMethod(String method, String urlStr, Object params, String responseType, Class<?> resultBeanClass) throws Exception{
 		if(HttpUtil.POST.equals(method.toUpperCase())){
@@ -155,9 +154,9 @@ public class HttpUtil {
 	 * @param urlStr 请求RUL
 	 * @param params 请求参数对象
 	 * @param responseType 返回数据类型
-	 * @param beanClass 返回数据对象
-	 * @return
-	 * @throws Exception
+	 * @param resultBeanClass 返回数据对象
+	 * @return Object
+	 * @throws Exception 抛出异常
 	 */
 	private static Object requestPost(String urlStr, Object params, String responseType, Class<?> resultBeanClass) throws Exception {
 		PostMethod method = new PostMethod(urlStr);
@@ -170,9 +169,9 @@ public class HttpUtil {
 	 * @param urlStr 请求RUL
 	 * @param params 请求参数对象
 	 * @param responseType 返回数据类型
-	 * @param beanClass 返回数据对象
-	 * @return
-	 * @throws Exception
+	 * @param resultBeanClass 返回数据对象
+	 * @return Object
+	 * @throws Exception 抛出异常
 	 */
 	private static Object requestGet(String urlStr, Object params, String responseType, Class<?> resultBeanClass) throws Exception {
 		GetMethod method = new GetMethod(getHttpParams(urlStr, params, "UTF-8"));
@@ -184,9 +183,9 @@ public class HttpUtil {
 	 * @param urlStr 请求RUL
 	 * @param params 请求参数对象
 	 * @param responseType 返回数据类型
-	 * @param beanClass 返回数据对象
-	 * @return
-	 * @throws Exception
+	 * @param resultBeanClass 返回数据对象
+	 * @return Object
+	 * @throws Exception 抛出异常
 	 */
 	private static Object requestPut(String urlStr, Object params, String responseType, Class<?> resultBeanClass) throws Exception {
 		PutMethod method = new PutMethod(getHttpParams(urlStr, params, "UTF-8"));
@@ -198,9 +197,9 @@ public class HttpUtil {
 	 * @param urlStr 请求RUL
 	 * @param params 请求参数对象
 	 * @param responseType 返回数据类型
-	 * @param beanClass 返回数据对象
-	 * @return
-	 * @throws Exception
+	 * @param resultBeanClass 返回数据对象
+	 * @return Object
+	 * @throws Exception 抛出异常
 	 */
 	private static Object requestDelete(String urlStr, Object params, String responseType, Class<?> resultBeanClass) throws Exception {
 		DeleteMethod method = new DeleteMethod(getHttpParams(urlStr, params, "UTF-8"));
@@ -212,7 +211,7 @@ public class HttpUtil {
 	 * @param method 请求方法
 	 * @param responseType 返回数据类型
 	 * @param resultBeanClass 返回数据对象
-	 * @return
+	 * @return Object
 	 */
 	private static Object requestExecute(HttpMethod method, String responseType, Class<?> resultBeanClass){
 		org.apache.commons.httpclient.HttpClient client = null;
@@ -257,9 +256,8 @@ public class HttpUtil {
 	
 	/**
 	 * 请求获取图片， 只支持get请求
-	 * @param urlStr
-	 * @param request
-	 * @return
+	 * @param urlStr 请求路径
+	 * @return BufferedImage
 	 */
 	public static BufferedImage downloadImage(String urlStr){
 		URL url = null;              
@@ -286,7 +284,7 @@ public class HttpUtil {
      * @param url 请求地址 
      * @param params 请求参数 
      * @param encode 编码方式 
-     * @return HttpGet对象 
+     * @return String 
      */  
     @SuppressWarnings("unchecked")
 	private static String getHttpParams(String url, Object params,  
@@ -321,7 +319,7 @@ public class HttpUtil {
     /**
      * 将请求参数对象转换为param数组
      * @param params 请求参数对象
-     * @return
+     * @return NameValuePair[]
      */
 	@SuppressWarnings("unchecked")
 	private static NameValuePair[] getNameValuePair(Object params) {

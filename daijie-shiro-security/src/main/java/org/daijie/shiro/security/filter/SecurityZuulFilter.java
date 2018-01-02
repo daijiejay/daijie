@@ -10,7 +10,7 @@ import com.netflix.zuul.ZuulFilter;
 /**
  * 权限拦截，安全控制，反向代理
  * @author daijie_jay
- * @date 2017年10月13日
+ * @since 2017年10月13日
  */
 public class SecurityZuulFilter extends ZuulFilter {
 

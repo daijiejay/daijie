@@ -16,7 +16,7 @@ import redis.clients.jedis.JedisCluster;
 /**
  * 集群redis实例工厂
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class JedisClusterFactory extends JedisCluster implements InitializingBean {
 

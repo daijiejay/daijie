@@ -28,7 +28,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 /**
  * 多数据源配置
  * @author daijie_jay
- * @date 2017年11月20日
+ * @since 2017年11月20日
  */
 @Configuration
 @Import(value = DataSourceConfiguration.class)

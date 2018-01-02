@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * 腾迅验证码接口封装
  * @author daijie_jay
- * @date 2017年12月4日
+ * @since 2017年12月4日
  */
 public class CaptchaAPI extends BaseAPI {
 
@@ -51,7 +51,10 @@ public class CaptchaAPI extends BaseAPI {
      * 验证验证码票据
      * IFrame接入请使用该方法校验用户输入的验证码
      * @param args 用户输入票据
-     * @return
+     * @return ApiResponse
+     * @throws InvalidKeyException 抛出异常
+     * @throws NoSuchAlgorithmException 抛出异常
+     * @throws UnsupportedEncodingException 抛出异常
      */
     public ApiResponse check(Map<String, String> args) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
         String url = this.makeURL("GET", "CaptchaCheck", "gz", args, "utf-8");
@@ -61,8 +64,11 @@ public class CaptchaAPI extends BaseAPI {
     /**
      * 获取JS Url
      * IFrame接入请使用该方法拉取js url
-     * @param args
-     * @return
+     * @param args 用户输入票据
+     * @return ApiResponse
+     * @throws InvalidKeyException 抛出异常
+     * @throws NoSuchAlgorithmException 抛出异常
+     * @throws UnsupportedEncodingException 抛出异常
      */
     public ApiResponse getJsUrl(Map<String, String> args) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException  {
         String url = this.makeURL("GET", "CaptchaIframeQuery", "gz", args, "utf-8");

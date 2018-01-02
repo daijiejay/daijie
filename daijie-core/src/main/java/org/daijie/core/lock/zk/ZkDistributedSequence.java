@@ -9,20 +9,16 @@ import org.apache.log4j.Logger;
 /**
  * zookeeper存储序列
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class ZkDistributedSequence implements DistributedSequence {
 
 	private static final Logger logger = Logger.getLogger(ZkReentrantLockCleanerTask.class);
 
 	private CuratorFramework client;
-	/**
-	 * Curator RetryPolicy maxRetries
-	 */
+	
 	private int maxRetries=3;
-	/**
-	 * Curator RetryPolicy baseSleepTimeMs
-	 */
+	
 	private final int baseSleepTimeMs=1000;
 
 	public ZkDistributedSequence(String zookeeperAddress){
@@ -50,6 +46,7 @@ public class ZkDistributedSequence implements DistributedSequence {
 		return baseSleepTimeMs;
 	}
 
+	@Override
 	public Long sequence(String sequenceName) {
 		try {
 			int value=client.setData().withVersion(-1).forPath("/"+sequenceName,"".getBytes()).getVersion();

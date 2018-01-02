@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
  * 配置shiro.auth2.match.className
  * 由于动态注册bean，实现类里如果有@Autowired类似注入的注解，注入的bean需要先实例
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 public class ShiroAuthenticationFactory implements RegisterBeanFactory, EnvironmentAware {
 

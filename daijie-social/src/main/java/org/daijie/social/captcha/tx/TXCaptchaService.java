@@ -15,7 +15,7 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 /**
  * 腾讯验证码服务
  * @author daijie_jay
- * @date 2017年12月4日
+ * @since 2017年12月4日
  */
 public class TXCaptchaService implements SocialCaptchaService {
 

@@ -21,18 +21,13 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 /**
  * 新浪微博登录服务
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @Service
 public class SinaLoginService extends AbstractLoginService<QQLoignProperties> {
 	
 	private static final Logger logger = Logger.getLogger(SinaLoginService.class);
 	
-	/**
-	 * 根据票据code获取accessToken
-	 * @param code 
-	 * @return
-	 */
 	public LoginResult getAccessToken(String code) {
 		String callback = SinaLoginConstants.LOGIN_CALLBACK;
 		if(!StringUtils.isEmpty(properties.getCallbackUri())){
@@ -67,11 +62,6 @@ public class SinaLoginService extends AbstractLoginService<QQLoignProperties> {
 		return null;
 	}
 	
-	/**
-	 * 获取新浪微博认证token
-	 * @param access_token
-	 * @return
-	 */
 	public LoginResult getOpenid(String access_token){
 		StringBuilder uri = new StringBuilder();
 		uri.append(QQLoginConstants.HOST_OPEN + QQLoginConstants.OPENID + "?");
@@ -95,12 +85,6 @@ public class SinaLoginService extends AbstractLoginService<QQLoignProperties> {
 		return null;
 	}
 	
-	/**
-	 * 获取新浪微博个人用户信息
-	 * @param appid
-	 * @param openid
-	 * @return
-	 */
 	public LoginResult getUserInfo(String access_token, String openid) {
 		StringBuilder uri = new StringBuilder();
 		uri.append(SinaLoginConstants.HOST_OPEN + SinaLoginConstants.USERINFO + "?uid=");
@@ -125,10 +109,6 @@ public class SinaLoginService extends AbstractLoginService<QQLoignProperties> {
 		return null;
 	}
 	
-	/**
-	 * 访问新浪微博认证页
-	 * @return
-	 */
 	@Override
 	public String loadAuthPage(String state) {
 		String callback = SinaLoginConstants.LOGIN_CALLBACK;

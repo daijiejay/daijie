@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * oauth2用户授权认证的实现类
  * 此类需要通过shiro登录后，得到shiro session中的角色权限
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 public class ShiroAuthenticationManager implements AuthenticationManager, AuthenticationMatchFactory {
 	

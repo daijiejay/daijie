@@ -5,7 +5,7 @@ import org.daijie.core.controller.enums.ResultCode;
 /**
  * api异常类
  * @author daijie
- * @date 2017年5月16日
+ * @since 2017年5月16日
  */
 @SuppressWarnings("serial")
 public class ApiException extends RuntimeException {

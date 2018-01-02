@@ -19,18 +19,13 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 /**
  * 微信登录服务
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @Service
 public class WeixinLoginService extends AbstractLoginService<WeixinLoignProperties> {
 	
 	private static final Logger logger = Logger.getLogger(WeixinLoginService.class);
 	
-	/**
-	 * 根据票据code获取accessToken
-	 * @param code 
-	 * @return
-	 */
 	public LoginResult getAccessToken(String code) {
 		StringBuilder uri = new StringBuilder();
 		uri.append(WeixinLoginConstants.HOST_API + WeixinLoginConstants.ACCESS_TOKEN + "?appid=");
@@ -60,11 +55,6 @@ public class WeixinLoginService extends AbstractLoginService<WeixinLoignProperti
 		return null;
 	}
 	
-	/**
-	 * 刷新或续期access_token使用
-	 * @param refresh_token 
-	 * @return
-	 */
 	public LoginResult refreshToken(String refresh_token) {
 		StringBuilder uri = new StringBuilder();
 		uri.append(WeixinLoginConstants.HOST_API + WeixinLoginConstants.REFRESH_TOKEN + "?appid=");
@@ -93,11 +83,6 @@ public class WeixinLoginService extends AbstractLoginService<WeixinLoignProperti
 		return null;
 	}
 	
-	/**
-	 * 检验授权凭证（access_token）是否有效
-	 * @param access_token 
-	 * @return
-	 */
 	public LoginResult verifyToken(String access_token) {
 		StringBuilder uri = new StringBuilder();
 		uri.append(WeixinLoginConstants.HOST_API + WeixinLoginConstants.VERIFY_AUTH + "?appid=");
@@ -116,11 +101,6 @@ public class WeixinLoginService extends AbstractLoginService<WeixinLoignProperti
 		return null;
 	}
 	
-	/**
-	 * 获取微信用户个人信息
-	 * @param access_token 
-	 * @return
-	 */
 	@Override
 	public LoginResult getUserInfo(String access_token) {
 		StringBuilder uri = new StringBuilder();
@@ -144,11 +124,6 @@ public class WeixinLoginService extends AbstractLoginService<WeixinLoignProperti
 		return null;
 	}
 	
-	/**
-	 * 访问微信二维码
-	 * @param state 
-	 * @return
-	 */
 	@Override
 	public String loadQrcode(String state) {
 		String callback = WeixinLoginConstants.LOGIN_CALLBACK;

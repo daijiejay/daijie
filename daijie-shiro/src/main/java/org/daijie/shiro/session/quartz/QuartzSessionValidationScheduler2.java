@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 基于Quartz 2.* 版本的实现  
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class QuartzSessionValidationScheduler2 implements SessionValidationScheduler {  
 

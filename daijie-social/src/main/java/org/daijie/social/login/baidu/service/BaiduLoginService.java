@@ -19,7 +19,7 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 /**
  * 百度登录服务
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @Service
 public class BaiduLoginService extends AbstractLoginService<BaiduLoignProperties> {
@@ -28,8 +28,8 @@ public class BaiduLoginService extends AbstractLoginService<BaiduLoignProperties
 	
 	/**
 	 * 根据票据code获取accessToken
-	 * @param code 
-	 * @return
+	 * @param code 临时code
+	 * @return LoginResult
 	 */
 	public LoginResult getAccessToken(String code) {
 		StringBuilder uri = new StringBuilder();
@@ -56,11 +56,6 @@ public class BaiduLoginService extends AbstractLoginService<BaiduLoignProperties
 		return null;
 	}
 	
-	/**
-	 * 获取百度用户个人信息
-	 * @param access_token 
-	 * @return
-	 */
 	@Override
 	public LoginResult getUserInfo(String access_token) {
 		StringBuilder uri = new StringBuilder();
@@ -85,10 +80,6 @@ public class BaiduLoginService extends AbstractLoginService<BaiduLoignProperties
 		return null;
 	}
 	
-	/**
-	 * 访问百度认证页
-	 * @return
-	 */
 	@Override
 	public String loadAuthPage(String state) {
 		String callback = BaiduLoginConstants.LOGIN_CALLBACK;

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 支付宝登录属性配置初始化
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @ConfigurationProperties("ali.login")
 public class AliLoignProperties extends LoginProperties {

@@ -11,7 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 /**
  * shiro oauth2权限初始化bean
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 @EnableConfigurationProperties(ShiroOauth2Properties.class)
 @Configuration

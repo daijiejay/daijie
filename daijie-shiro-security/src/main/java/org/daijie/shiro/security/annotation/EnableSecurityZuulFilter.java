@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
 /**
  * 开启过滤相关权限，暂时用不到
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

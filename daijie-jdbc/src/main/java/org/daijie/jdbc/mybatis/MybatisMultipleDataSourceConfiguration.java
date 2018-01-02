@@ -20,6 +20,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * mybatis多数据源相关bean配置
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Configuration
 @EnableConfigurationProperties(MultipleDataSourceProperties.class)
 @Import(BaseMultipleDataSourceConfiguration.class)

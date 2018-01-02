@@ -12,11 +12,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * Properties文件载入工具类. 可载入多个properties文件, 相同的属性在最后载入的文件中的值将会覆盖之前的值，但以System的Property优先.
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class PropertiesLoader {
 
@@ -36,6 +34,8 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出Property，但以System的Property优先.
+	 * @param key 键
+	 * @return String 值
 	 */
 	private String getValue(String key) {
 		String systemProperty = System.getProperty(key);
@@ -47,6 +47,8 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出String类型的Property，但以System的Property优先,如果都為Null则抛出异常.
+	 * @param key 键
+	 * @return String 值
 	 */
 	public String getProperty(String key) {
 		String value = getValue(key);
@@ -58,6 +60,9 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出String类型的Property，但以System的Property优先.如果都為Null則返回Default值.
+	 * @param key 键
+	 * @param defaultValue 当为空时默认值
+	 * @return String 值
 	 */
 	public String getProperty(String key, String defaultValue) {
 		String value = getValue(key);
@@ -66,6 +71,8 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出Integer类型的Property，但以System的Property优先.如果都為Null或内容错误则抛出异常.
+	 * @param key 键
+	 * @return Integer 值
 	 */
 	public Integer getInteger(String key) {
 		String value = getValue(key);
@@ -77,6 +84,9 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出Integer类型的Property，但以System的Property优先.如果都為Null則返回Default值，如果内容错误则抛出异常
+	 * @param key 键
+	 * @param defaultValue 当为空时默认值
+	 * @return Integer 值
 	 */
 	public Integer getInteger(String key, Integer defaultValue) {
 		String value = getValue(key);
@@ -85,6 +95,8 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出Double类型的Property，但以System的Property优先.如果都為Null或内容错误则抛出异常.
+	 * @param key 键
+	 * @return Double 值
 	 */
 	public Double getDouble(String key) {
 		String value = getValue(key);
@@ -96,6 +108,9 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出Double类型的Property，但以System的Property优先.如果都為Null則返回Default值，如果内容错误则抛出异常
+	 * @param key 键
+	 * @param defaultValue 当为空时默认值
+	 * @return Double 值
 	 */
 	public Double getDouble(String key, Integer defaultValue) {
 		String value = getValue(key);
@@ -104,6 +119,8 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出Boolean类型的Property，但以System的Property优先.如果都為Null抛出异常,如果内容不是true/false则返回false.
+	 * @param key 键
+	 * @return Double 值
 	 */
 	public Boolean getBoolean(String key) {
 		String value = getValue(key);
@@ -115,6 +132,9 @@ public class PropertiesLoader {
 
 	/**
 	 * 取出Boolean类型的Property，但以System的Property优先.如果都為Null則返回Default值,如果内容不为true/false则返回false.
+	 * @param key 键
+	 * @param defaultValue 当为空时默认值
+	 * @return Double 值
 	 */
 	public Boolean getBoolean(String key, boolean defaultValue) {
 		String value = getValue(key);
@@ -123,6 +143,8 @@ public class PropertiesLoader {
 
 	/**
 	 * 载入多个文件, 文件路径使用Spring Resource格式.
+	 * @param resourcesPaths 路径
+	 * @return Properties 配置
 	 */
 	private Properties loadProperties(String... resourcesPaths) {
 		Properties props = new Properties();

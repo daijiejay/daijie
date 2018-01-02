@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * 重写EnableSwagger注解，改成可配置的文档生成
  * @author daijie_jay
- * @date 2017年12月13日
+ * @since 2017年12月13日
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE })

@@ -6,29 +6,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 /**
+ * spring容器bean工具类
  * 
  * @author daijie
- * spring容器bean工具类
- *
  */
 public class ApplicationContextHolder implements ApplicationContextAware {
 	
-	//Spring应用上下文环境
 	private static ApplicationContext applicationContext;     
 
-	/**
-	 * 实现ApplicationContextAware接口的回调方法，设置上下文环境
-	 *
-	 * @param applicationContext
-	 * @throws BeansException
-	 */
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		ApplicationContextHolder.applicationContext = applicationContext;
 	}
 
-	/**
-	 * @return ApplicationContext
-	 */
 	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
@@ -36,9 +25,9 @@ public class ApplicationContextHolder implements ApplicationContextAware {
 	/**
 	 * 获取对象
 	 *
-	 * @param name
+	 * @param name bean注册名
 	 * @return Object 一个以所给名字注册的bean的实例
-	 * @throws BeansException
+	 * @throws BeansException 抛出异常
 	 */
 	public static Object getBean(String name) throws BeansException {
 		return applicationContext.getBean(name);
@@ -51,7 +40,7 @@ public class ApplicationContextHolder implements ApplicationContextAware {
 	 * @param name         bean注册名
 	 * @param requiredType 返回对象类型
 	 * @return Object 返回requiredType类型对象
-	 * @throws BeansException
+	 * @throws BeansException 抛出异常
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Object getBean(String name, Class requiredType) throws BeansException {
@@ -61,8 +50,8 @@ public class ApplicationContextHolder implements ApplicationContextAware {
 	/**
 	 * 如果BeanFactory包含一个与所给名称匹配的bean定义，则返回true
 	 *
-	 * @param name
-	 * @return boolean
+	 * @param name bean注册名
+	 * @return boolean 是否匹配成功
 	 */
 	public static boolean containsBean(String name) {
 		return applicationContext.containsBean(name);
@@ -72,18 +61,18 @@ public class ApplicationContextHolder implements ApplicationContextAware {
 	 * 判断以给定名字注册的bean定义是一个singleton还是一个prototype。
 	 * 如果与给定名字相应的bean定义没有被找到，将会抛出一个异常（NoSuchBeanDefinitionException）
 	 *
-	 * @param name
-	 * @return boolean
-	 * @throws NoSuchBeanDefinitionException
+	 * @param name bean注册名
+	 * @return boolean 是否单例
+	 * @throws NoSuchBeanDefinitionException 抛出异常
 	 */
 	public static boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
 		return applicationContext.isSingleton(name);
 	}
 
 	/**
-	 * @param name
+	 * @param name bean注册名
 	 * @return Class 注册对象的类型
-	 * @throws NoSuchBeanDefinitionException
+	 * @throws NoSuchBeanDefinitionException 抛出异常
 	 */
 	@SuppressWarnings("rawtypes")
 	public static Class getType(String name) throws NoSuchBeanDefinitionException {
@@ -93,9 +82,9 @@ public class ApplicationContextHolder implements ApplicationContextAware {
 	/**
 	 * 如果给定的bean名字在bean定义中有别名，则返回这些别名
 	 *
-	 * @param name
-	 * @return
-	 * @throws NoSuchBeanDefinitionException
+	 * @param name bean注册名
+	 * @return String[] 别名
+	 * @throws NoSuchBeanDefinitionException 抛出异常
 	 */
 	public static String[] getAliases(String name) throws NoSuchBeanDefinitionException {
 		return applicationContext.getAliases(name);

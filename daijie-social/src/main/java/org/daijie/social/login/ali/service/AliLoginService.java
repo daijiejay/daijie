@@ -20,18 +20,13 @@ import com.xiaoleilu.hutool.bean.BeanUtil;
 /**
  * 支付宝登录服务
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @Service
 public class AliLoginService extends AbstractLoginService<AliLoignProperties> {
 	
 	private static final Logger logger = Logger.getLogger(AliLoginService.class);
 	
-	/**
-	 * 获取支付宝用户个人信息
-	 * @param access_token 
-	 * @return
-	 */
 	@Override
 	public LoginResult getUserInfo(String appAuthCode) {
 		try {

@@ -8,11 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * 检测访问设备
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class DeviceUtil {
 
@@ -35,8 +33,6 @@ public class DeviceUtil {
 	/** 
 	 * 检测是否是移动设备访问 
 	 *  
-	 * @Title: check 
-	 * @Date : 2016-9-3
 	 * @param userAgent 浏览器标识 
 	 * @return true:移动设备接入，false:pc端接入 
 	 */  
@@ -57,10 +53,9 @@ public class DeviceUtil {
 	/** 
 	 * 检查访问方式是否为移动端 
 	 *  
-	 * @Title: check 
-	 * @Date : 2014-7-7 下午03:55:19 
-	 * @param request 
-	 * @throws IOException  
+	 * @param request 请求对象
+	 * @throws IOException 抛出异常
+	 * @return boolean
 	 */  
 	public static boolean checkMobile(HttpServletRequest request) throws Exception{  
 		boolean isFromMobile=false;  

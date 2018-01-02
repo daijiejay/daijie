@@ -18,11 +18,9 @@ import com.xiaoleilu.hutool.json.JSONObject;
 import com.xiaoleilu.hutool.json.JSONUtil;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * 获取request的IP、MAC和城市地址
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class MacAddressUtil {
 	public static String callCmd(String[] cmd) {
@@ -130,6 +128,7 @@ public class MacAddressUtil {
 	/**
 	 * 获取MAC地址
 	 *
+	 * @param ip ip地址
 	 * @return 返回MAC地址
 	 */
 	public static String getMacAddress(String ip) {
@@ -142,22 +141,14 @@ public class MacAddressUtil {
 		}
 		return macAddress;
 	}
-
-	//做个测试
-	public static void main(String[] args) {
-		System.out.println(ip2Location("101.201.142.70"));
-		
-	}
 	
 	/**
 	 * 通过HttpServletRequest返回IP地址
 	 * @param request HttpServletRequest
 	 * @return ip String
-	 * @throws Exception
+	 * @throws Exception 抛出异常
 	 */
 	public static String getIpAddr(HttpServletRequest request) throws Exception {
-	    
-	     //ipAddress = this.getRequest().getRemoteAddr();   
 		String ipAddress = request.getHeader("x-forwarded-for");
 		if (ipAddress == null || ipAddress.length() == 0|| "unknown".equalsIgnoreCase(ipAddress)) {
 			ipAddress = request.getHeader("Proxy-Client-IP");
@@ -202,9 +193,8 @@ public class MacAddressUtil {
 
 	/**
 	 * 将IP地址转为 省市区
-	 * @param request HttpServletRequest
-	 * @return ip String
-	 * @throws Exception
+	 * @param ip Ip地址
+	 * @return String
 	 */
 	public static String ip2Location(String ip) {
 	        String result = "";
@@ -241,7 +231,7 @@ public class MacAddressUtil {
 	 * 通过IP地址获取MAC地址
 	 * @param ip String,127.0.0.1格式
 	 * @return mac String
-	 * @throws Exception
+	 * @throws Exception 抛出异常
 	 */
 	public static String getMACAddress1(String ip) throws Exception {
 	    String line = "";

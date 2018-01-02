@@ -19,7 +19,7 @@ import org.daijie.shiro.session.ShiroRedisSession.Redis;
 /**
  * 用户登录令牌匹配器
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class TokenCredentialsMatcher implements CredentialsMatcher {
 	

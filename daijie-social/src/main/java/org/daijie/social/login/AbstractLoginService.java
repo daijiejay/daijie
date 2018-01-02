@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * 三方登录服务接入
  * @author daijie_jay
- * @date 2017年11月29日
+ * @since 2017年11月29日
  */
 public abstract class AbstractLoginService<T extends LoginProperties> implements LoginService {
 	

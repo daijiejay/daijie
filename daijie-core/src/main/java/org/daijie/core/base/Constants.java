@@ -1,5 +1,10 @@
 package org.daijie.core.base;
 
+/**
+ * 基础常量
+ * @author daijie_jay
+ * @since 2018年1月1日
+ */
 public class Constants {
 
 	/**

@@ -15,7 +15,7 @@ import org.springframework.core.annotation.AliasFor;
 /**
  * 
  * @author daijie
- * @date 2017年6月5日
+ * @since 2017年6月5日
  * 通过ClusterIbatisAutoConfiguration注解加载ibatis集群配置
  * 
  */

@@ -2,11 +2,9 @@ package org.daijie.core.service;
 
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * service扩展接口
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public interface IBasicService {
 	

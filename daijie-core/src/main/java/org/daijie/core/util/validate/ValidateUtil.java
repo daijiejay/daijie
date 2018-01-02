@@ -6,11 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * 表单验证工具类
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class ValidateUtil {
 
@@ -20,6 +18,8 @@ public class ValidateUtil {
 	/// 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248 ///
 	/**
 	 * 半角转全角(SBC case)
+	 * @param input 字符串
+	 * @return String
 	 */
 	public static String toSBC(String input) { // 半角转全角：
 		char[] c = input.toCharArray();
@@ -40,8 +40,10 @@ public class ValidateUtil {
 	/// 半角字符串 ///
 	/// 全角空格为12288，半角空格为32
 	/// 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248 ///
-	/** 
+	/**
 	 * 全角转半角的函数(DBC case) 
+	 * @param input 字符串
+	 * @return String
 	 */
 	public static String toDBC(String input) {
 		char[] c = input.toCharArray();
@@ -58,7 +60,8 @@ public class ValidateUtil {
 
 	/**
 	 * 是否为空
-	 * 
+	 * @param str 字符串
+	 * @return boolean
 	 */
 	public static boolean isNotNull(String str) {
 		if (str == null) {
@@ -72,7 +75,8 @@ public class ValidateUtil {
 
 	/**
 	 * 是否为中文
-	 * 
+	 * @param str 字符串
+	 * @return boolean
 	 */
 	public static boolean isZnCh(String str) {
 		boolean bl = true;
@@ -92,8 +96,8 @@ public class ValidateUtil {
 	/**
 	 * 是否包含中文
 	 * 
-	 * @param str
-	 * @return
+	 * @param str 字符串
+	 * @return boolean
 	 */
 	public static boolean isHasChinese(String str) {
 		if (!ValidateUtil.isEmpty(str)) {
@@ -106,8 +110,8 @@ public class ValidateUtil {
 	/**
 	 * 是否为邮箱
 	 * 
-	 * @param mail
-	 * @return
+	 * @param mail 字符串
+	 * @return boolean
 	 */
 	public static boolean isMail(String mail) {
 		if (!isEmpty(mail)) {
@@ -120,8 +124,8 @@ public class ValidateUtil {
 	/**
 	 * 是否为手机号码
 	 * 
-	 * @param mobile
-	 * @return
+	 * @param mobile 字符串
+	 * @return boolean
 	 */
 	public static boolean isMobile(String mobile) {
 		if (!isEmpty(mobile)) {
@@ -134,8 +138,8 @@ public class ValidateUtil {
 	/**
 	 * 是否为数字, 只允许为整形
 	 * 
-	 * @param num
-	 * @return
+	 * @param num 字符串
+	 * @return boolean
 	 */
 	public static boolean isNum(String num) {
 		if (!isEmpty(num)) {
@@ -148,9 +152,9 @@ public class ValidateUtil {
 	/**
 	 * 是否为数字 包括整形，小数，并且必须含几位小数 0 表示不含小数
 	 * 
-	 * @param number
-	 * @param diag
-	 * @return
+	 * @param num 字符串
+	 * @param diag 小数点后几位，小数位 0 表示无小数
+	 * @return boolean
 	 */
 	public static boolean isNum(String num, int diag) {
 		int index = num.indexOf(".");
@@ -169,12 +173,11 @@ public class ValidateUtil {
 	/**
 	 * 验证是否为数字，并且该数字取值范围合法，包含小数位
 	 * 
-	 * @param num
-	 * @param min
-	 * @param max
-	 * @param diag
-	 *            小数位 0 表示无小数
-	 * @return
+	 * @param num 字符串
+	 * @param min 最小多少
+	 * @param max 最大多少
+	 * @param diag 小数点后几位，小数位 0 表示无小数
+	 * @return boolean
 	 */
 	public static boolean isNum(String num, double min, double max, int diag) {
 		if (!isNum(num, diag)) {
@@ -192,8 +195,9 @@ public class ValidateUtil {
 	/**
 	 * 验证传入参数，是否位于集合内
 	 * 
-	 * @param param
-	 * @return
+	 * @param param 字符串
+	 * @param params 字符串数组
+	 * @return boolean
 	 */
 	public static boolean isInArray(String param, String[] params) {
 		if (isEmpty(param)) {
@@ -209,10 +213,10 @@ public class ValidateUtil {
 
 	/**
 	 * 字符串是否小于传入长度
-	 * 
-	 * @param num
-	 * @param length
-	 * @return
+	 * @param str 字符串
+	 * @param min 最小长度
+	 * @param max 最大长度
+	 * @return boolean
 	 */
 	public static boolean isInLength(String str, int min, int max) {
 		if (!isEmpty(str)) {
@@ -226,8 +230,8 @@ public class ValidateUtil {
 	/**
 	 * 是否为日期格式 yyyy-MM-dd
 	 * 
-	 * @param date
-	 * @return
+	 * @param date 字符串
+	 * @return boolean
 	 */
 	public static boolean isDate(String date) {
 		if (!isEmpty(date)) {
@@ -257,8 +261,8 @@ public class ValidateUtil {
 	/**
 	 * 字符串是否为空
 	 * 
-	 * @param str
-	 * @return
+	 * @param str 字符串
+	 * @return boolean
 	 */
 	public static boolean isEmpty(String str) {
 		if (str == null || "".equals(str.trim())) {
@@ -274,8 +278,8 @@ public class ValidateUtil {
 	/**
 	 * 是否为布尔类型字符串
 	 * 
-	 * @param str
-	 * @return
+	 * @param str 字符串
+	 * @return boolean
 	 */
 	public static boolean isBoolean(String str) {
 		if (!isEmpty(str)) {
@@ -289,9 +293,9 @@ public class ValidateUtil {
 	/**
 	 * 是否存在于枚举类型内
 	 * 
-	 * @param str
-	 * @param c
-	 * @return
+	 * @param str 字符串
+	 * @param c 枚举类型
+	 * @return boolean
 	 */
 	public static boolean isInEnum(String str, Class<?> c) {
 		if (!isEmpty(str)) {
@@ -326,8 +330,8 @@ public class ValidateUtil {
 	/**
 	 * 校验银行卡卡号
 	 * 
-	 * @param cardId
-	 * @return
+	 * @param cardId 字符串
+	 * @return boolean
 	 */
 	public static boolean isBankCard(String cardId) {
 		char bit = getBankCardCode(cardId.substring(0, cardId.length() - 1));
@@ -340,8 +344,8 @@ public class ValidateUtil {
 	/**
 	 * 从不含校验位的银行卡卡号采用 Luhm 校验算法获得校验位
 	 * 
-	 * @param cardId
-	 * @return
+	 * @param cardId 字符串
+	 * @return char
 	 */
 	public static char getBankCardCode(String cardId) {
 		if (cardId == null || cardId.trim().length() == 0 || !cardId.matches("\\d+")) {
@@ -363,8 +367,8 @@ public class ValidateUtil {
 	/**
 	 * 信用卡验证
 	 * 
-	 * @param number
-	 * @return
+	 * @param number 字符串
+	 * @return boolean
 	 */
 	public static boolean isCreditCard(String number) {
 		int sumOdd = 0;
@@ -393,9 +397,8 @@ public class ValidateUtil {
 	/**
 	 * 是否为数字 包括整形，小数
 	 * 
-	 * @param number
-	 * @param diag
-	 * @return
+	 * @param num 字符串
+	 * @return boolean
 	 */
 	public static boolean isNumber(String num) {
 		int index = num.indexOf(".");

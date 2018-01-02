@@ -7,34 +7,32 @@ import org.apache.shiro.session.Session;
 /**
  * shiro redis工厂类
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public interface RedisSessionFactory {
 
 	/**
 	 * 获取session
-	 * @param sessionId
-	 * @return
+	 * @param sessionId token
+	 * @return Session
 	 */
 	public Session getSession(Serializable sessionId);
 	
 	/**
 	 * 保存session
-	 * @param sessionId
-	 * @return
+	 * @param session session
 	 */
 	public void saveSession(Session session);
 	
 	/**
 	 * 删除session
-	 * @param sessionId
-	 * @return
+	 * @param session session
 	 */
 	public void removeSession(Session session);
 	
 	/**
 	 * 更新Session
-	 * @param session
+	 * @param session session
 	 */
 	public void updateSession(Session session);
 }

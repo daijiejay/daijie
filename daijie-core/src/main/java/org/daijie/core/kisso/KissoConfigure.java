@@ -9,8 +9,9 @@ import com.baomidou.kisso.web.interceptor.SSOSpringInterceptor;
 
 /**
  * kisso配置
+ * 去掉kisso默认所有请求拦截
  * @author daijie_jay
- * @date 2017年11月17日
+ * @since 2017年11月17日
  */
 @ControllerAdvice
 @Configuration

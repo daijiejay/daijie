@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisPool;
 /**
  * 分布式速率限制 例如:限制n秒钟请求x次
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class AccessSpeedLimit {
 
@@ -32,11 +32,10 @@ public class AccessSpeedLimit {
 
     /**
      * 针对资源key,每seconds秒最多访问maxCount次,超过maxCount次返回false
-     *
-     * @param key
-     * @param seconds
-     * @param limitCount
-     * @return
+     * @param key 锁业务ID
+     * @param seconds 每秒访问次数
+     * @param limitCount 访问最大次数
+     * @return boolean 是否获取锁
      */
     public boolean tryAccess(String key,int seconds,int limitCount){
         LimitRule limitRule=new LimitRule();
@@ -48,9 +47,9 @@ public class AccessSpeedLimit {
     /**
      * 针对资源key,每limitRule.seconds秒最多访问limitRule.limitCount,超过limitCount次返回false
      * 超过lockCount 锁定lockTime
-     * @param key
-     * @param limitRule
-     * @return
+     * @param key 锁业务ID
+     * @param limitRule 锁规则配置
+     * @return boolean 是否获取锁
      */
     public boolean tryAccess(String key,LimitRule limitRule){
         String newKey="Limit:"+key;
@@ -72,7 +71,11 @@ public class AccessSpeedLimit {
         }
     }
 
-
+    /**
+     * 创建锁redis命令字符串拼接
+     * @param limitRule
+     * @return String
+     */
     private String buildLuaScript(LimitRule limitRule){
         StringBuilder lua=new StringBuilder();
         lua.append("\nlocal c");

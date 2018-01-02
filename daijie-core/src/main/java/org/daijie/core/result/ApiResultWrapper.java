@@ -9,11 +9,10 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * 
+ * ApiResult返回数据的工具包
+ * 对它进行增删改查的封装
  * @author daijie
- * @date 2017年6月5日
- * API返回数据工具类
- * 
+ * @since 2017年6月5日
  */
 public class ApiResultWrapper implements Serializable {
 

@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 提供基于shiro session的redis增删改查
  * 兼容redis单机和集群配置
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class ShiroRedisSession {
 
@@ -33,7 +33,7 @@ public class ShiroRedisSession {
 	/**
 	 * 基于shiro session管理
 	 * @author daijie
-	 * @date 2017年6月22日
+	 * @since 2017年6月22日
 	 */
 	private static class ShiroSession {
 		
@@ -79,7 +79,7 @@ public class ShiroRedisSession {
 		/**
 		 * 获取session中的值
 		 * @param key
-		 * @return
+		 * @return Object
 		 */
 		public static Object getAttribute(Object key){
 			initSession();
@@ -99,7 +99,7 @@ public class ShiroRedisSession {
 		
 		/**
 		 * 获取当前会话中的session
-		 * @return
+		 * @return Session
 		 */
 		public static Session getSession(){
 			initSession();
@@ -139,8 +139,7 @@ public class ShiroRedisSession {
 
 		/**
 		 * 获取当前会话中的凭证
-		 * @param string 
-		 * @return
+		 * @return String
 		 */
 		public static String getToken(){
 			String token = HttpConversationUtil.getToken();
@@ -154,14 +153,14 @@ public class ShiroRedisSession {
 	/**
 	 * redis管理
 	 * @author daijie
-	 * @date 2017年6月22日
+	 * @since 2017年6月22日
 	 */
 	public static class Redis extends ShiroSession {
 		
 		/**
 		 * 设置redis的值
-		 * @param key
-		 * @param value
+		 * @param key 键
+		 * @param value 值
 		 */
 		public static void set(String key, Object value){
 			if(redisSession instanceof RedisSession){
@@ -175,9 +174,9 @@ public class ShiroRedisSession {
 		
 		/**
 		 * 设置redis的值及过期时间
-		 * @param key
-		 * @param value
-		 * @param expire
+		 * @param key 键
+		 * @param value 值
+		 * @param expire 超时时间
 		 */
 		public static void set(String key, Object value, int expire){
 			if(redisSession instanceof RedisSession){
@@ -191,8 +190,8 @@ public class ShiroRedisSession {
 		
 		/**
 		 * 获取redis中的值
-		 * @param key
-		 * @return
+		 * @param key 键
+		 * @return Object
 		 */
 		public static Object get(String key){
 			byte[] value = {};

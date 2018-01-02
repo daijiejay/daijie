@@ -9,10 +9,9 @@ import org.daijie.core.result.ApiResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 对contorller的公共属性及方法进行封装
+ * 此类定义为返回数据RestController的父类，对restapi接口进行统一管理
  * @author daijie_jay
- *
- * @param <E>服务出现异常时进行处理
+ * @since 2018年1月1日
  */
 @RequestMapping(produces = "application/json;charset=UTF-8")
 public abstract class ApiController extends ApiResultInitialFactory 

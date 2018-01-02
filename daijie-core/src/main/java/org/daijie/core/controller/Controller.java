@@ -1,10 +1,9 @@
 package org.daijie.core.controller;
 
 /**
- * 
- * @author daijie
  * controller的扩展类
- *
+ * @author daijie_jay
+ * @since 2018年1月1日
  */
 public interface Controller {
 

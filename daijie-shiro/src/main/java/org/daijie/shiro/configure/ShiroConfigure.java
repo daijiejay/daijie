@@ -52,6 +52,11 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * shiro相关bean配置
+ * @author daijie
+ * @since 2017年6月5日
+ */
 @Configuration
 @EnableConfigurationProperties({ShiroProperties.class, ShiroRedisProperties.class})
 @Import(ShiroRedisSessionBean.class)

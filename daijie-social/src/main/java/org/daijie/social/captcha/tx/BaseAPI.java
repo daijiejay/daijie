@@ -42,7 +42,7 @@ public class BaseAPI {
      *
      * @param key  密钥
      * @param text 内容
-     * @return
+     * @return String
      * @throws InvalidKeyException
      * @throws NoSuchAlgorithmException
      */
@@ -57,7 +57,7 @@ public class BaseAPI {
      *
      * @param args    参数
      * @param charset 字符编码
-     * @return
+     * @return String
      * @throws UnsupportedEncodingException
      */
     private String makeQueryString(Map<String, String> args, String charset) throws UnsupportedEncodingException {
@@ -78,9 +78,9 @@ public class BaseAPI {
      * @param args      请求参数
      * @param charset   字符编码
      * @return http请求字符串
-     * @throws InvalidKeyException
-     * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException
+     * @throws InvalidKeyException 抛出异常
+     * @throws NoSuchAlgorithmException 抛出异常
+     * @throws UnsupportedEncodingException 抛出异常
      */
     public String makeURL(
             String method,

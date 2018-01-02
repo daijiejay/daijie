@@ -20,27 +20,21 @@ import org.daijie.core.util.http.HttpUtil;
 
 
 /**
- * <b> </b>
- * <p>
- * 功能:
- * </p>
+ * 图片处理工具
  * 
- * @作者 stone
- * @创建时间 2016年7月19日 下午2:40:59
- * @修改内容
- * @修改时间
+ * @author daijie_jay
+ * @since 2018年1月2日
  */
 public class ImageUtil {
     
     /**
      * 重新设置图像大小
      * @param sfile 图片源文件
-     * @param tfile 目标文件
      * @param newWidth 新宽度
      * @param newHeight 新高度
      * @param quality 质量系数
-     * @return 
-     * @throws IOException
+     * @return BufferedImage
+     * @throws IOException 抛出异常
      */
     public static BufferedImage resizeImg(String sfile, int newWidth,
     		int newHeight, float quality) throws IOException {
@@ -57,8 +51,8 @@ public class ImageUtil {
      * @param newWidth 新宽度
      * @param newHeight 新高度
      * @param quality 质量系数
-     * @return 
-     * @throws IOException
+     * @return BufferedImage
+     * @throws IOException 抛出异常
      */
     public static BufferedImage resizeImg(Image image, int newWidth,
     		int newHeight, float quality) throws IOException {
@@ -97,8 +91,8 @@ public class ImageUtil {
      * 
      * @param sfile 图片源文件
      * @param cornerRadius 圆角90/180/360
-     * @return
-     * @throws IOException
+     * @return BufferedImage
+     * @throws IOException 抛出异常
      */
     public static BufferedImage makeRoundedCornerImg(String sfile,
             int cornerRadius) throws IOException {
@@ -110,8 +104,8 @@ public class ImageUtil {
      * 
      * @param image 文件
      * @param cornerRadius 圆角90/180/360
-     * @return
-     * @throws IOException
+     * @return BufferedImage
+     * @throws IOException 抛出异常
      */
     public static BufferedImage makeRoundedCornerImg(BufferedImage image,
     		int cornerRadius) throws IOException {
@@ -142,7 +136,7 @@ public class ImageUtil {
 	 * 
 	 * @param image 文件
 	 * @param tfile 写入本地文件路径
-	 * @throws IOException
+	 * @throws IOException 抛出异常
 	 */
 	public static void write(BufferedImage image, String tfile) throws IOException{
 		try {
@@ -151,12 +145,5 @@ public class ImageUtil {
 			e.printStackTrace();
 			throw e;
 		}
-	}
-
-//    public static void main(String[] args) throws IOException {  
-//        String filepath = "C:\\Users\\daijie\\Pictures\\";
-//        ImageUtil.write(ImageUtil.resizeImg(filepath+"2.png", 256, 256, 1.0f), filepath+"1-256-256-1.png", 1.0f);
-//        ImageUtil.write(ImageUtil.makeRoundedCornerImg(filepath+"1-256-256-1.png", 360), filepath+"2-256-256-360.png");
-//
-//    }  
+	} 
 }

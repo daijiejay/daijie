@@ -8,9 +8,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 返回实体封装，对modelResult进行代理设置
+ * 对其进行增删改查操作
  * @author daijie
- * @date 2017年10月27日
- * @param <E>
+ * @since 2017年10月27日
+ * @param <E> 数据实体类型
  */
 public class ModelResultWrapper<E> implements Serializable {
 

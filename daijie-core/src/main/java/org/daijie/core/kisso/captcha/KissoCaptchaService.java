@@ -12,9 +12,9 @@ import com.baomidou.kisso.common.captcha.service.Captcha;
 import com.baomidou.kisso.common.captcha.text.renderer.RandomYBestFitTextRenderer;
 
 /**
- * 初始化默认图形验证码，排除数据字母近似的字符
+ * 初始化默认图形验证码，排除数字与字母近似的字符
  * @author daijie_jay
- * @date 2017年12月1日
+ * @since 2017年12月1日
  */
 public class KissoCaptchaService extends AbstractCaptchaService {
 

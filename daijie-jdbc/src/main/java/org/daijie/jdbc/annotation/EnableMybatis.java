@@ -14,6 +14,11 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 
+/**
+ * 启用mybatis配置访问数据库
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

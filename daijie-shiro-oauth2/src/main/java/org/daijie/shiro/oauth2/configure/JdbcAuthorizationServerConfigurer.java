@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 /**
  * 重写初始化oauth2权限服务配置
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 @EnableAuthorizationServer
 public class JdbcAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {

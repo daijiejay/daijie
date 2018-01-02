@@ -9,7 +9,7 @@ import org.daijie.shiro.redis.RedisManager;
 /**
  * 集群redis服务
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class ClusterRedisSession extends RedisSessionDAO implements RedisSessionFactory {
 	

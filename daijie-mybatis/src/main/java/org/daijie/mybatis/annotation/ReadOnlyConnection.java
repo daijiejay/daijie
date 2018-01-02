@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 该注解注释在service方法上，标注为链接slaves库
  * @author daijie_jay
- * @date 2017年11月20日
+ * @since 2017年11月20日
  */
 @Target({ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

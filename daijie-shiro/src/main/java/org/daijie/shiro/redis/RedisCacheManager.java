@@ -12,37 +12,29 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * 重写
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class RedisCacheManager implements CacheManager {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(RedisCacheManager.class);
 
-	// fast lookup by name map
 	@SuppressWarnings("rawtypes")
 	private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<String, Cache>();
 
 	private RedisManager redisManager;
 
-	/**
-	 * The Redis key prefix for caches 
-	 */
 	private String keyPrefix = "shiro_redis_cache:";
 	
 	/**
-	 * Returns the Redis session keys
-	 * prefix.
-	 * @return The prefix
+	 * @return String
 	 */
 	public String getKeyPrefix() {
 		return keyPrefix;
 	}
 
 	/**
-	 * Sets the Redis sessions key 
-	 * prefix.
-	 * @param keyPrefix The prefix
+	 * @param keyPrefix 前缀名
 	 */
 	public void setKeyPrefix(String keyPrefix) {
 		this.keyPrefix = keyPrefix;
@@ -52,18 +44,10 @@ public class RedisCacheManager implements CacheManager {
 	@Override
 	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
 		logger.debug("获取名称为: " + name + " 的RedisCache实例");
-		
 		Cache<K, V> c = caches.get(name);
-		
 		if (c == null) {
-
-			// initialize the Redis manager instance
 			redisManager.init();
-			
-			// create a new cache instance
 			c = new RedisCache<K, V>(redisManager, keyPrefix);
-			
-			// add it to the cache collection
 			caches.put(name, c);
 		}
 		return c;

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 支付宝登录工具
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public class AliLoginTool {
 	
@@ -24,8 +24,9 @@ public class AliLoginTool {
 	/**
 	 * 支付宝登录
 	 * 实用于已得到支付宝临时code
-	 * @param code
-	 * @return
+	 * @param appAuthCode 临时code
+	 * @param callback 回调函数
+	 * @return String
 	 */
 	public static String login(String appAuthCode, AliLoginCallback callback){
 		LoginResult result = aliLoginService.getUserInfo(appAuthCode);
@@ -40,8 +41,8 @@ public class AliLoginTool {
 	
 	/**
 	 * 访问支付宝二维码
-	 * @param state 
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadQrcode(String state){
 		return aliLoginService.loadQrcode(state);
@@ -49,8 +50,8 @@ public class AliLoginTool {
 	
 	/**
 	 * 访问支付宝认证页
-	 * @param state 
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadAuthPage(String state){
 		return aliLoginService.loadAuthPage(state);

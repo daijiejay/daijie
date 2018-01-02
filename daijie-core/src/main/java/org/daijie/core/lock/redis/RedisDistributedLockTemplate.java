@@ -7,9 +7,10 @@ import org.daijie.core.lock.Callback;
 import org.daijie.core.lock.DistributedLockTemplate;
 
 /**
- * 获取分页式锁执行回调函数
+ * redis分布式锁执行实现类
+ * 启用redis分布式锁时，调用锁工具类执行
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class RedisDistributedLockTemplate implements DistributedLockTemplate {
 	

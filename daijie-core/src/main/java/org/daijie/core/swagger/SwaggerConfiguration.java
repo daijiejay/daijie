@@ -12,8 +12,9 @@ import com.xiaoleilu.hutool.bean.BeanUtil;
 
 /**
  * 初始化swagger配置
+ * 动态注册docket bean
  * @author daijie_jay
- * @date 2017年12月13日
+ * @since 2017年12月13日
  */
 public class SwaggerConfiguration extends ApiInfoDocketFactory implements EnvironmentAware {
 

@@ -28,7 +28,7 @@ import com.xiaoleilu.hutool.bean.BeanUtil;
 /**
  * 用户登录后角色权限注入到shiro管理
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class UserAuthorizingRealm extends AuthorizingRealm implements KissoSecurityFactory {
 

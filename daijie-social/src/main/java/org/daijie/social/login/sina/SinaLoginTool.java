@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 新浪微博登录工具
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public class SinaLoginTool {
 	
@@ -25,8 +25,9 @@ public class SinaLoginTool {
 	/**
 	 * 新浪微博登录
 	 * 实用于已得到新浪微博临时code
-	 * @param code
-	 * @return
+	 * @param appAuthCode 临时code
+	 * @param callback 回调函数
+	 * @return String
 	 */
 	public static String login(String appAuthCode, SinaLoginCallback callback){
 		LoginResult result = sinaLoginService.getAccessToken(appAuthCode);
@@ -45,7 +46,8 @@ public class SinaLoginTool {
 	
 	/**
 	 * 访问新浪微博二维码
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadQrcode(String state){
 		return sinaLoginService.loadQrcode();
@@ -53,8 +55,8 @@ public class SinaLoginTool {
 	
 	/**
 	 * 访问新浪微博认证页
-	 * @param state 
-	 * @return
+	 * @param state 数据声明
+	 * @return String
 	 */
 	public static String loadAuthPage(String state){
 		return sinaLoginService.loadAuthPage(state);

@@ -9,7 +9,12 @@ import java.lang.annotation.Target;
 import org.daijie.core.filter.ParametersFilterBean;
 import org.springframework.context.annotation.Import;
 
-@Target({ ElementType.TYPE, ElementType.METHOD })
+/**
+ * 引用这个注解之后，将启动请求body转换成parame形式
+ * @author daijie_jay
+ * @since 2018年1月1日
+ */
+@Target({ ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(ParametersFilterBean.class)

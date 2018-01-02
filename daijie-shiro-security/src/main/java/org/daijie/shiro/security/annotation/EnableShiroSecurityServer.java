@@ -19,7 +19,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  * 此注解只是在@EnableShiro的基础上集成了zuul
  * 利用了shiro的权限拦截机制，过滤之后由zuul路由设置跳转到对应的接口服务
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

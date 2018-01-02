@@ -13,6 +13,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
+/**
+ * 集成shiro对请求头处理
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Configuration
 public class ShiroInterceptorConfigure {
 

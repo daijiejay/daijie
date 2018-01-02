@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * 多数据源配置
  * @author daijie_jay
- * @date 2017年11月20日
+ * @since 2017年11月20日
  */
 @Configuration
 @EnableTransactionManagement

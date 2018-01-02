@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 拦截请求对body参数进行处理
  * @author daijie
- * @date 2017年6月13日
+ * @since 2017年6月13日
  */
 @WebFilter(filterName = "parametersFilter", urlPatterns = "/*", initParams = @WebInitParam(name = "paramName", value = "paramValue"))
 public class ParametersFilter implements Filter {

@@ -17,6 +17,12 @@ import org.apache.commons.lang.StringUtils;
 
 import com.swetake.util.Qrcode;
 
+/**
+ * 生成二维码工具
+ * 
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 public class QrcodeUtil {
 	
 	public static final int SIZE_360=360;
@@ -29,9 +35,12 @@ public class QrcodeUtil {
 
 	/** 
 	 * 生成二维码(QRCode)图片 
+	 * @param request 请求对象
 	 * @param content 二维码图片的内容
-	 * @param ccbpath  二维码图片中间的logo路径
+	 * @param logoPath  二维码图片中间的logo路径
 	 * @param recodeSize 通过QrcodeUtil.获取
+	 * @param color 颜色对象
+	 * @return BufferedImage
 	 */  
 	public static BufferedImage createQRCode(HttpServletRequest request, String content,String logoPath,int recodeSize,Color color) {  
 		try {
@@ -93,12 +102,12 @@ public class QrcodeUtil {
 	
 	/**
 	 * 普通二维码
-	 * @param request
-	 * @param content
-	 * @param logoPath
-	 * @param recodeSize
-	 * @param color
-	 * @return
+	 * @param request 请求对象
+	 * @param content 二维码图片的内容
+	 * @param logoPath  二维码图片中间的logo路径
+	 * @param recodeSize 通过QrcodeUtil.获取
+	 * @param color 颜色对象
+	 * @return BufferedImage
 	 */
 	public static BufferedImage create(HttpServletRequest request, String content,String logoPath,int recodeSize,Color color){  
 		try {
@@ -155,12 +164,12 @@ public class QrcodeUtil {
 	
 	/**
 	 * 定制二维码（风格1）
-	 * @param request
-	 * @param content
-	 * @param logoPath
-	 * @param recodeSize
-	 * @param color
-	 * @return
+	 * @param request 请求对象
+	 * @param content 二维码图片的内容
+	 * @param logoPath  二维码图片中间的logo路径
+	 * @param recodeSize 通过QrcodeUtil.获取
+	 * @param color 颜色对象
+	 * @return BufferedImage
 	 */
 	public static BufferedImage create1(HttpServletRequest request, String content,String logoPath,int recodeSize,Color color){  
 		try {
@@ -252,12 +261,12 @@ public class QrcodeUtil {
 
 	/**
 	 * 定制二维码（风格2）
-	 * @param request
-	 * @param content
-	 * @param logoPath
-	 * @param recodeSize
-	 * @param color
-	 * @return
+	 * @param request 请求对象
+	 * @param content 二维码图片的内容
+	 * @param logoPath  二维码图片中间的logo路径
+	 * @param recodeSize 通过QrcodeUtil.获取
+	 * @param color 颜色对象
+	 * @return BufferedImage
 	 */
 	public static BufferedImage create2(HttpServletRequest request, String content,String logoPath,int recodeSize,Color color){  
 		try {
@@ -393,12 +402,12 @@ public class QrcodeUtil {
 	
 	/**
 	 * 定制二维码（风格3）
-	 * @param request
-	 * @param content
-	 * @param logoPath
-	 * @param recodeSize
-	 * @param color
-	 * @return
+	 * @param request 请求对象
+	 * @param content 二维码图片的内容
+	 * @param logoPath  二维码图片中间的logo路径
+	 * @param recodeSize 通过QrcodeUtil.获取
+	 * @param color 颜色对象
+	 * @return BufferedImage
 	 */
 	public static BufferedImage create3(HttpServletRequest request, String content,String logoPath,int recodeSize,Color color){
 		return null;
@@ -406,12 +415,12 @@ public class QrcodeUtil {
 
 	/**
 	 * 定制二维码（风格4）
-	 * @param request
-	 * @param content
-	 * @param logoPath
-	 * @param recodeSize
-	 * @param color
-	 * @return
+	 * @param request 请求对象
+	 * @param content 二维码图片的内容
+	 * @param logoPath  二维码图片中间的logo路径
+	 * @param recodeSize 通过QrcodeUtil.获取
+	 * @param color 颜色对象
+	 * @return BufferedImage
 	 */
 	public static BufferedImage create4(HttpServletRequest request, String content,String logoPath,int recodeSize,Color color){  
 		try {

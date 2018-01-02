@@ -20,13 +20,13 @@ public @interface Access {
 
 	/**
 	 * 权限类型
-	 * @return
+	 * @return 权限类型
 	 */
 	AccessType[] value();
 	
 	/**
 	 * 角色
-	 * @return
+	 * @return 角色
 	 */
 	String[] role() default "";
 }

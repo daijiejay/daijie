@@ -6,6 +6,11 @@ import javax.servlet.ServletResponse;
 import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
+/**
+ * 角色请求权限拦截
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 public class RolesFilter extends RolesAuthorizationFilter {
 
 	@Override

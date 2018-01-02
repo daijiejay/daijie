@@ -8,7 +8,7 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 /**
  * shiro redis管理类bean实例
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class ShiroRedisSessionBean {
 	

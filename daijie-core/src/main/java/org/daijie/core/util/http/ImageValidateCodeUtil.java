@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 图形验证码工具类
  * @author daijie
- * @date 2017年7月6日
+ * @since 2017年7月6日
  */
 public class ImageValidateCodeUtil {
 
@@ -77,7 +77,7 @@ public class ImageValidateCodeUtil {
 	
 	/**
 	 * 获取验证码
-	 * @return
+	 * @return String 验证码
 	 */
 	public String getValidateCode() {
 		return this.validateCode;
@@ -101,9 +101,6 @@ public class ImageValidateCodeUtil {
 		return String.valueOf(randString.charAt(num));
 	}
 
-	/**
-	 * 生成随机图片
-	 */
 	public String getRandcode(HttpServletRequest request,HttpServletResponse response) {
 		// BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
 		BufferedImage image = new BufferedImage(width, height,BufferedImage.TYPE_INT_BGR);

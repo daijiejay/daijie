@@ -3,7 +3,7 @@ package org.daijie.shiro.authc;
 /**
  * shiro常量
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class ShiroConstants {
 

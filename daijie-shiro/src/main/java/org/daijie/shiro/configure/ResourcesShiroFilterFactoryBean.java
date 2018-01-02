@@ -22,7 +22,7 @@ import org.springframework.beans.factory.BeanInitializationException;
 /**
  * 继承 ShiroFilterFactoryBean 处理拦截资源文件问题
  * @author daijie_jay
- * @date 2017年5月14日
+ * @since 2017年5月14日
  */
 public class ResourcesShiroFilterFactoryBean extends ShiroFilterFactoryBean {
 

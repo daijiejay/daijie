@@ -9,10 +9,9 @@ import java.lang.annotation.Target;
 import org.springframework.stereotype.Component;
 
 /**
- * 
+ * 需要继承org.daijie.core.controller.WebController配合使用,在自定义controller上加上这个注解
  * @author daijie_jay
- * 需要结合org.springframework.stereotype.Controller注解一起使用，设置运行时异常时跳转的页面
- *
+ * @since 2018年1月1日
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,7 +21,7 @@ public @interface ErrorMapping {
 
 	/**
 	 * 要跳转页面的路径
-	 * @return
+	 * @return 要跳转页面的路径
 	 */
 	String path() default "";
 }

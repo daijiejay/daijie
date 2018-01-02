@@ -12,64 +12,64 @@ import java.util.*;
 /**
  * redis操作具体实现类
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public class RedisOperator implements IRedisOperator {
-  public final static Logger logger = LoggerFactory.getLogger(RedisOperator.class);
+	public final static Logger logger = LoggerFactory.getLogger(RedisOperator.class);
 
-  private JedisCluster jedisCluster;
+	private JedisCluster jedisCluster;
 
-  @Override
-  public TreeSet<String> keys(String pattern) throws Exception {
-    logger.debug("Start getting keys...");
-    TreeSet<String> keys = new TreeSet<String>();
-    Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
-    for(String k : clusterNodes.keySet()){
-      logger.debug("Getting keys from: {}", k);
-      JedisPool jp = clusterNodes.get(k);
-      Jedis connection = jp.getResource();
-      try {
-        Set<String> set = connection.keys(pattern);
-        Iterator<?> it = set.iterator();
-        while (it.hasNext()) {
-          keys.add((String) it.next());
-        }
-      } catch(Exception e){
-        logger.error("Getting keys error: {}", e);
-      } finally{
-        logger.debug("Connection closed.");
-        connection.close();//用完一定要close这个链接！！！
-      }
-    }
-    logger.debug("Keys gotten!");
-    return keys;
-  }
+	@Override
+	public TreeSet<String> keys(String pattern) throws Exception {
+		logger.debug("Start getting keys...");
+		TreeSet<String> keys = new TreeSet<String>();
+		Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
+		for(String k : clusterNodes.keySet()){
+			logger.debug("Getting keys from: {}", k);
+			JedisPool jp = clusterNodes.get(k);
+			Jedis connection = jp.getResource();
+			try {
+				Set<String> set = connection.keys(pattern);
+				Iterator<?> it = set.iterator();
+				while (it.hasNext()) {
+					keys.add((String) it.next());
+				}
+			} catch(Exception e){
+				logger.error("Getting keys error: {}", e);
+			} finally{
+				logger.debug("Connection closed.");
+				connection.close();//用完一定要close这个链接！！！
+			}
+		}
+		logger.debug("Keys gotten!");
+		return keys;
+	}
 
-  @Override
-  public void flushDB() throws Exception {
-    logger.debug("Start flushDb keys...");
-    Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
-    for(String k : clusterNodes.keySet()){
-      logger.debug("delete keys from: {}", k);
-      JedisPool jp = clusterNodes.get(k);
-      Jedis connection = jp.getResource();
-      try {
-        connection.flushDB();
-      } catch(Exception e){
-        logger.error("Getting keys error: {}", e);
-      } finally{
-        logger.debug("Connection closed.");
-        connection.close();//用完一定要close这个链接！！！
-      }
-    }
-    logger.debug("flushDB");
-  }
+	@Override
+	public void flushDB() throws Exception {
+		logger.debug("Start flushDb keys...");
+		Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
+		for(String k : clusterNodes.keySet()){
+			logger.debug("delete keys from: {}", k);
+			JedisPool jp = clusterNodes.get(k);
+			Jedis connection = jp.getResource();
+			try {
+				connection.flushDB();
+			} catch(Exception e){
+				logger.error("Getting keys error: {}", e);
+			} finally{
+				logger.debug("Connection closed.");
+				connection.close();//用完一定要close这个链接！！！
+			}
+		}
+		logger.debug("flushDB");
+	}
 
-  public JedisCluster getJedisCluster() {
-    return jedisCluster;
-  }
+	public JedisCluster getJedisCluster() {
+		return jedisCluster;
+	}
 
-  public void setJedisCluster(JedisCluster jedisCluster) {
-    this.jedisCluster = jedisCluster;
-  }
+	public void setJedisCluster(JedisCluster jedisCluster) {
+		this.jedisCluster = jedisCluster;
+	}
 }

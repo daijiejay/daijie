@@ -20,7 +20,7 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 /**
  * QQ登录服务
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @Service
 public class QQLoginService extends AbstractLoginService<QQLoignProperties> {
@@ -29,8 +29,8 @@ public class QQLoginService extends AbstractLoginService<QQLoignProperties> {
 	
 	/**
 	 * 根据票据code获取accessToken
-	 * @param code 
-	 * @return
+	 * @param code 临时code
+	 * @return LoginResult
 	 */
 	public LoginResult getAccessToken(String code) {
 		StringBuilder uri = new StringBuilder();
@@ -57,11 +57,6 @@ public class QQLoginService extends AbstractLoginService<QQLoignProperties> {
 		return null;
 	}
 	
-	/**
-	 * 获取QQ认证token
-	 * @param access_token
-	 * @return
-	 */
 	public LoginResult getOpenid(String access_token){
 		StringBuilder uri = new StringBuilder();
 		uri.append(QQLoginConstants.HOST_OPEN + QQLoginConstants.OPENID + "?");
@@ -86,12 +81,6 @@ public class QQLoginService extends AbstractLoginService<QQLoignProperties> {
 		return null;
 	}
 	
-	/**
-	 * 获取QQ个人用户信息
-	 * @param appid
-	 * @param openid
-	 * @return
-	 */
 	public LoginResult getUserInfo(String access_token, String appid, String openid) {
 		StringBuilder uri = new StringBuilder();
 		uri.append(QQLoginConstants.HOST_OPEN + QQLoginConstants.USERINFO + "?oauth_consumer_key=");
@@ -117,10 +106,6 @@ public class QQLoginService extends AbstractLoginService<QQLoignProperties> {
 		return null;
 	}
 	
-	/**
-	 * 访问QQ认证页
-	 * @return
-	 */
 	@Override
 	public String loadAuthPage(String state) {
 		String callback = QQLoginConstants.LOGIN_CALLBACK;

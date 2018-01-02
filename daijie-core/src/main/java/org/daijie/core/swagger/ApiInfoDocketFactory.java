@@ -25,6 +25,13 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 
+/**
+ * 动态注册swagger的Docket
+ * 默认注册一个Docket
+ * 通过配置中的swagger.groupName注册多个bean
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 public abstract class ApiInfoDocketFactory implements DocketFactory, RegisterBeanFactory {
 	
 	@Override

@@ -13,6 +13,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
+/**
+ * 启用jpa配置访问数据库
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

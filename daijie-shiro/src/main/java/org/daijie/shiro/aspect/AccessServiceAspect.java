@@ -14,7 +14,7 @@ import org.daijie.shiro.session.ShiroRedisSession.Redis;
 /**
  * 基于aop实现访问权限
  * @author daijie
- * @date 2017年6月22日
+ * @since 2017年6月22日
  */
 public abstract class AccessServiceAspect implements AspectFactory {
 	

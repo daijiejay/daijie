@@ -1,10 +1,9 @@
 package org.daijie.core.controller.enums;
 
 /**
- * 
- * @author daijie
- * 接口数据返回代码枚举
- *
+ * 接口数据返回请求响应代码枚举
+ * @author daijie_jay
+ * @since 2018年1月1日
  */
 public enum ResultCode {
 

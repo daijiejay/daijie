@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 支付宝登录自动装置
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 @Configuration
 @ImportAutoConfiguration({

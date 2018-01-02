@@ -22,7 +22,7 @@ import com.baomidou.kisso.security.token.SSOToken;
  * 		shiro.oauth2.loginUrl
  * 		shiro.oauth2.loginMethod
  * @author daijie_jay
- * @date 2017年12月27日
+ * @since 2017年12月27日
  */
 public class RequestAuthenticationMatch implements AuthenticationMatch {
 	

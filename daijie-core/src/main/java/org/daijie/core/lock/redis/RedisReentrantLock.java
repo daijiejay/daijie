@@ -9,9 +9,9 @@ import org.daijie.core.lock.DistributedReentrantLock;
 import com.google.common.collect.Maps;
 
 /**
- * redis锁操作的实现类
+ * redis锁操作查询添加删除的实现类
  * @author daijie_jay
- * @date 2017年11月24日
+ * @since 2017年11月24日
  */
 public class RedisReentrantLock implements DistributedReentrantLock {
 

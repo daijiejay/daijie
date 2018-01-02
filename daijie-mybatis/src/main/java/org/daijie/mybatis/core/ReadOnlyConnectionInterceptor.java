@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * aop拦截初始化数据源
  * @author daijie_jay
- * @date 2017年11月20日
+ * @since 2017年11月20日
  */
 @Aspect
 @Component

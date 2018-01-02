@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 将请求body参数转换为form-data
  * @author daijie
- * @date 2017年6月13日
+ * @since 2017年6月13日
  */
 @SuppressWarnings({"unchecked","rawtypes"})
 public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {

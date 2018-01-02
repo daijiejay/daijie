@@ -5,7 +5,7 @@ import org.daijie.social.login.LoginResult;
 /**
  * 错误信息
  * @author daijie_jay
- * @date 2017年11月28日
+ * @since 2017年11月28日
  */
 public class WeixinError implements LoginResult {
 

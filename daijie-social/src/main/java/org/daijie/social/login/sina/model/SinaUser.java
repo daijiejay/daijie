@@ -5,7 +5,7 @@ import org.daijie.social.login.LoginResult;
 /**
  * 新浪微博用户统一ID
  * @author daijie_jay
- * @date 2017年11月30日
+ * @since 2017年11月30日
  */
 public class SinaUser implements LoginResult {
 

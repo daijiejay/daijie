@@ -20,6 +20,12 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
+/**
+ * 多数据源bean配置
+ * 
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @Import(SelectDataSourceInterceptor.class)
 @Configuration
 public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {

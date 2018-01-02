@@ -13,7 +13,7 @@ import org.daijie.shiro.session.ShiroRedisSession.Redis;
 /**
  * 初始匹配凭证
  * @author daijie
- * @date 2017年7月1日
+ * @since 2017年7月1日
  */
 public class CredentialFilter extends PathMatchingFilter {
 

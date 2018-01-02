@@ -6,10 +6,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
- * 
- * @author daijie_jay
+ * 此类定义为返回跳转页Controller的父类
  * 程序出现运行时异常时默认跳转“/error”页面
- *
+ * @author daijie_jay
+ * @since 2018年1月1日
  */
 public abstract class WebController implements ExceptionController, ApplicationListener<ContextRefreshedEvent> {
 

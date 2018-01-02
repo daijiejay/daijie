@@ -1,18 +1,3 @@
-/**
- * Copyright (c) 2011-2014, hubin (jobob@qq.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package org.daijie.core.util;
 
 import org.slf4j.Logger;
@@ -34,7 +19,7 @@ import java.util.Random;
  * </p>
  *
  * @author daijie
- * @Date 2016-01-22
+ * @since 2016-01-22
  */
 public class IdWorker {
 
@@ -71,8 +56,6 @@ public class IdWorker {
 
 	private static final Logger logger = LoggerFactory.getLogger(IdWorker.class);
 
-	//protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
 	/**
 	 * 主机和进程的机器码
 	 */
@@ -81,7 +64,6 @@ public class IdWorker {
 
 	static {
 		try {
-			// build a 2-byte machine piece based on NICs info
 			int machinePiece;
 			{
 				try {
@@ -93,17 +75,12 @@ public class IdWorker {
 					}
 					machinePiece = sb.toString().hashCode() << 16;
 				} catch (Throwable e) {
-					// exception sometimes happens with IBM JVM, use random
 					logger.error(" IdWorker error. ", e);
 					machinePiece = new Random().nextInt() << 16;
 				}
 				logger.debug("machine piece post: " + Integer.toHexString(machinePiece));
 			}
 
-			// add a 2 byte process piece. It must represent not only the JVM
-			// but the class loader.
-			// Since static var belong to class loader there could be collisions
-			// otherwise
 			final int processPiece;
 			{
 				int processId = new Random().nextInt();
@@ -152,7 +129,6 @@ public class IdWorker {
 		if (lastTimestamp == timestamp) {
 			sequence = sequence + 1 & IdWorker.sequenceMask;
 			if (sequence == 0) {
-				// System.out.println("###########" + sequenceMask);//等待下一毫秒
 				timestamp = tilNextMillis(lastTimestamp);
 			}
 		} else {

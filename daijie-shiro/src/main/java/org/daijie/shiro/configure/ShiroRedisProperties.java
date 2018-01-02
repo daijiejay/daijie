@@ -2,6 +2,11 @@ package org.daijie.shiro.configure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * shiro集成redis的属性配置
+ * @author daijie_jay
+ * @since 2018年1月2日
+ */
 @ConfigurationProperties(prefix = "shiro.redis")
 public class ShiroRedisProperties {
 

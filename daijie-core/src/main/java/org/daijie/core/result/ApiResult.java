@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
- * @author daijie
- * @date 2017年6月5日
  * api返回数据封装类
- * 
+ * @author daijie
+ * @since 2017年6月5日
  */
 public class ApiResult {
 	public static final boolean SUCCESS = true;
