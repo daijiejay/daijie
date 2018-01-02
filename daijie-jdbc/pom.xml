@@ -8,7 +8,7 @@
     <version>1.0.0-RELEASE</version>
   </parent>
   <artifactId>daijie-jdbc-spring-boot-starter</artifactId>
-  <name>daijie-jdbc</name>
+  <name>daijie-jdbc-spring-boot-starter</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

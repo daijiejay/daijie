@@ -9,7 +9,7 @@
 		<version>1.0.0-RELEASE</version>
 	</parent>
 	<artifactId>daijie-social-spring-boot-starter</artifactId>
-	<name>daijie-social</name>
+	<name>daijie-social-spring-boot-starter</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
