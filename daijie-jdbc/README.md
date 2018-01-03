@@ -1,6 +1,14 @@
 # 工程简介
 * 替代daijie-mybatis，集成多个ORM框架，加入动态多数据源配置。
 # 使用说明
+## maven依赖
+```
+<dependency>
+	<groupId>org.daijie</groupId>
+	<artifactId>daijie-jdbc-spring-boot-starter</artifactId>
+	<version>1.0.1-RELEASE</version>
+</dependency>
+```
 ## 多数据源配置
 * 启动类需要引用`@EnableMybatis`或`@EnableJpa`注解。
 ```

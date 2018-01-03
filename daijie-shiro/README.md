@@ -5,6 +5,14 @@
 * shiro配置修改为properties和yml读取，保留shiro原来的配置方式一致，filterClassNames的名字前缀与filterChainDefinitions必须要一致，第一个字母小写，比如UserFilter对应user。
 * 登录方法实现了RSA非对称加密算法。
 # 使用说明
+## maven依赖
+```
+<dependency>
+	<groupId>org.daijie</groupId>
+	<artifactId>daijie-shiro-spring-boot-starter</artifactId>
+	<version>1.0.1-RELEASE</version>
+</dependency>
+```
 ## SSO登录实现
 * 启动类引用`@EnableShiro`注解
 ```

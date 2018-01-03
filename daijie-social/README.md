@@ -2,6 +2,14 @@
 * 集成第三方接口，提供QQ、微信、支付宝、新浪、百度登录。
 * 实现了web端第三方授权跳转页登录。
 # 使用说明
+## maven依赖
+```
+<dependency>
+	<groupId>org.daijie</groupId>
+	<artifactId>daijie-social-spring-boot-starter</artifactId>
+	<version>1.0.1-RELEASE</version>
+</dependency>
+```
 ## 第三方登录
 * 启动类引用`@EnableSocialLogin`：
 ```

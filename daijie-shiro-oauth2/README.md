@@ -1,6 +1,14 @@
 # 工程简介
 * 在daijie-shiro-security基础上集成spring-security-oauth2
 #使用说明
+## maven依赖
+```
+<dependency>
+	<groupId>org.daijie</groupId>
+	<artifactId>daijie-shiro-oauth2-spring-boot-starter</artifactId>
+	<version>1.0.1-RELEASE</version>
+</dependency>
+```
 ## 启动shiro安全服务
 * 启动类引用`@EnableShiroSecurityServer`注解
 ```

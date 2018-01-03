@@ -1,6 +1,14 @@
 # 工程简介
 * 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重定向到对应的子微服务。
 #使用说明
+## maven依赖
+```
+<dependency>
+	<groupId>org.daijie</groupId>
+	<artifactId>daijie-shiro-security-spring-boot-starter</artifactId>
+	<version>1.0.1-RELEASE</version>
+</dependency>
+```
 ## 启动shiro安全服务
 * 启动类引用`@EnableShiroSecurityServer`注解
 ```
