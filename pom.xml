@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-parent-spring-boot-starter</artifactId>
-	<version>1.0.0-RELEASE</version>
+	<version>1.0.1-RELEASE</version>
 	<packaging>pom</packaging>
 	<parent>
 		<version>1.5.9.RELEASE</version>
@@ -15,7 +14,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
 		<spring.cloud.version>1.4.0.RELEASE</spring.cloud.version>
-		<daijie.version>1.0.0-RELEASE</daijie.version>
 		<!-- 打包跳过单元测试 -->
 		<skipTests>true</skipTests>
 		<destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}</destDir>
@@ -102,7 +100,7 @@
 		</license>
 	</licenses>
 	<scm>
-		<tag>master</tag>
+		<tag>daijie-parent-spring-boot-starter-1.0.1</tag>
 		<url>git@github.com:daijiejay/daijie.git</url>
 		<connection>scm:git:git@github.com:daijiejay/daijie.git</connection>
 		<developerConnection>scm:git:git@github.com:daijiejay/daijie.git</developerConnection>
