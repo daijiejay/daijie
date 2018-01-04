@@ -20,4 +20,12 @@ public interface Callback {
 	 * @throws InterruptedException 抛出异常
 	 */
     public Object onTimeout() throws InterruptedException;
+    
+    /**
+     * 获取锁时出现异常执行的方法
+     * @return Object 返回参数自由定义
+     */
+    default public Object onError(Exception exception){
+    	return null;
+    }
 }

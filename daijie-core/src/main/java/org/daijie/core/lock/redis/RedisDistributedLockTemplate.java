@@ -33,16 +33,16 @@ public class RedisDistributedLockTemplate implements DistributedLockTemplate {
             }else{
                 return callback.onTimeout();
             }
-        }catch(InterruptedException ex){
-        	logger.error(ex.getMessage(), ex);
-            Thread.currentThread().interrupt();
         }catch (Exception e) {
-        	logger.error(e.getMessage(), e);
+        	if(e instanceof InterruptedException){
+        		Thread.currentThread().interrupt();
+        	}
+        	logger.debug(e.getMessage(), e);
+            return callback.onError(e);
         }finally {
             if(getLock) {
                 distributedReentrantLock.unlock();
             }
         }
-        return null;
     }
 }
