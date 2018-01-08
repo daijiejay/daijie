@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.0.1-RELEASE</version>
+		<version>1.0.2-RELEASE</version>
 	</parent>
 	<artifactId>daijie-core-spring-boot-starter</artifactId>
 	<name>daijie-core-spring-boot-starter</name>

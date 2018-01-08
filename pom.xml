@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-parent-spring-boot-starter</artifactId>
-	<version>1.0.1-RELEASE</version>
+	<version>1.0.2-RELEASE</version>
 	<packaging>pom</packaging>
 	<parent>
 		<version>1.5.9.RELEASE</version>
