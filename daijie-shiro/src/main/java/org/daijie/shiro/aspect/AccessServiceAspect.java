@@ -7,8 +7,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.daijie.core.annotation.Access;
 import org.daijie.core.controller.enums.AccessType;
-import org.daijie.core.factory.specific.AspectFactory;
 import org.daijie.core.result.ApiResult;
+import org.daijie.core.result.factory.AspectFactory;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**

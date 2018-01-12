@@ -8,7 +8,7 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.daijie.core.factory.specific.AspectFactory;
+import org.daijie.core.result.factory.AspectFactory;
 import org.daijie.jdbc.DbContextHolder;
 import org.daijie.jdbc.annotation.SelectDataSource;
 import org.slf4j.Logger;

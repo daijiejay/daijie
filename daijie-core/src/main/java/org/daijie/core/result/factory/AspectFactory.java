@@ -1,4 +1,4 @@
-package org.daijie.core.factory.specific;
+package org.daijie.core.result.factory;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

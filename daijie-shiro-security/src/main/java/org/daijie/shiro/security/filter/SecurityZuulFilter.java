@@ -1,8 +1,8 @@
 package org.daijie.shiro.security.filter;
 
 import org.daijie.core.controller.enums.ResultCode;
-import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
 import org.daijie.core.result.ApiResult;
+import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 import com.netflix.zuul.ZuulFilter;

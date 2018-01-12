@@ -1,4 +1,4 @@
-package org.daijie.core.factory.specific;
+package org.daijie.core.result.factory;
 
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.factory.InitialFactory;

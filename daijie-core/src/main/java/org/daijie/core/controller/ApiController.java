@@ -3,9 +3,9 @@ package org.daijie.core.controller;
 import org.apache.log4j.Logger;
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.controller.exception.ApiException;
-import org.daijie.core.factory.specific.ApiResultInitialFactory;
-import org.daijie.core.factory.specific.ModelResultInitialFactory.Result;
 import org.daijie.core.result.ApiResult;
+import org.daijie.core.result.factory.ApiResultInitialFactory;
+import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
