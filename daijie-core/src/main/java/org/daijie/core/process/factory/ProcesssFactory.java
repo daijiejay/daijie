@@ -1,12 +1,17 @@
 package org.daijie.core.process.factory;
 
+import java.io.Serializable;
+
+import org.daijie.core.process.Process;
+
+
 
 /**
  * 流程处理工厂
  * @author daijie_jay
  * @since 2018年1月10日
  */
-public interface ProcesssFactory<E> {
+public interface ProcesssFactory<E, T extends Serializable> {
 
 	/**
 	 * 获取委派人
@@ -20,16 +25,24 @@ public interface ProcesssFactory<E> {
 	 */
 	public String getMsg();
 	
+	/**
+	 * 获取流程元素集合类
+	 * @return Serializable
+	 */
+	public T getEnumProcess();
+	
 	/** 
      * 下一个流程
+     * @param process 当前流程到下一个流程流转的条件
      * @return IEnumFactory
      */  
-    public E nextProcess();
+    public E nextProcess(Process process);
     
     /** 
      * 上一个流程
+     * @param process 上一个流程到当前流程流转的条件
      * @return IEnumFactory
      */  
-    public E preProcess();
+    public E preProcess(Process process);
 
 }

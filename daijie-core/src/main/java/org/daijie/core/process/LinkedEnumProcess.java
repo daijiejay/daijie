@@ -1,522 +1,252 @@
 package org.daijie.core.process;
 
-import java.io.Serializable;
-
-import org.daijie.core.factory.IEnumFactory;
-
 /**
  * 双向链表算法实现的流程存储集合类
  * @author daijie_jay
- * @since 2018年1月11日
+ * @since 2018年1月16日
  * @param <E> Enum
  */
-@SuppressWarnings("unchecked")
-public class LinkedEnumProcess<E extends IEnumFactory<E>> implements Serializable {
+public class LinkedEnumProcess<E> implements ProcessHandle<E> {
 	
-	private static final long serialVersionUID = -6144753183618957937L;
+	private static final long serialVersionUID = -9012969703888523924L;
+	
+	protected transient int modCount = 0;
 
-	protected transient int modCount;
-
-	transient int size;
+	transient int size = 0;
 	
-	transient EnumProcess<E> firstProcess;
+	transient LinkedProcess<E> first;
 	
-	transient EnumProcess<E> lastProcess;
+	transient LinkedProcess<E> last;
 
 	/**
-	 * 在开头添加枚举元素
-	 * @param element 枚举元素
+	 * 在链表的首个元素前插入元素
+	 * @param element 流程元素
 	 */
-	void linkFirst(E element) {
-        final EnumProcess<E> newFirstProcess = firstProcess;
-        EnumProcess<E>[] newFirstProcesses = null;
-        if(newFirstProcess != null){
-        	newFirstProcesses = (EnumProcess<E>[]) new Object[]{newFirstProcess};
-        }
-        final EnumProcess<E> newProcess = new EnumProcess<>(null, element, newFirstProcess, null, newFirstProcesses);
-        firstProcess = newProcess;
-        if (newFirstProcess == null){
-        	lastProcess = newProcess;
+	private void linkFirst(E element) {
+        final LinkedProcess<E> firstNode = first;
+        final LinkedProcess<E> newNode = new LinkedProcess<>(null, element, firstNode);
+        first = newNode;
+        if (firstNode == null){
+            last = newNode;
         }else{
-        	newFirstProcess.defaultPrevious = newProcess;
+        	firstNode.previous = newNode;
         }
         size++;
         modCount++;
     }
-
+	
 	/**
-	 * 在末尾添加枚举元素
-	 * @param element 枚举元素
-	 */	
-	void linkLast(E element) {
-        final EnumProcess<E> newLastProcess = lastProcess;
-        EnumProcess<E>[] newLastProcesses = null;
-        if(newLastProcess != null){
-        	newLastProcesses = (EnumProcess<E>[]) new Object[]{newLastProcess};
-        }
-        final EnumProcess<E> newProcess = new EnumProcess<>(newLastProcess, element, null, newLastProcesses, null);
-        lastProcess = newProcess;
-        if (newLastProcess == null){
-        	firstProcess = newProcess;
+	 * 在链表的未尾元素后添加元素
+	 * @param element 流程元素
+	 */
+	private void linkLast(E element) {
+        final LinkedProcess<E> lastNode = last;
+        final LinkedProcess<E> newNode = new LinkedProcess<>(lastNode, element, null);
+        last = newNode;
+        if (lastNode == null){
+            first = newNode;
         }else{
-        	newLastProcess.defaultNext = newProcess;
+        	lastNode.next = newNode;
         }
         size++;
         modCount++;
     }
-
+	
 	/**
-	 * 在枚举类之前添加枚举元素
-	 * @param element 枚举元素
-	 * @param process 要插入此流程之前的枚举类，即element->process
+	 * 在指定元素后插入流程元素类
+	 * @param element 流程元素
+	 * @param process 流程元素类
 	 */
-	void linkBefore(E element, EnumProcess<E> process) {
-        final EnumProcess<E> defaultPrevious = process.defaultPrevious;
-        final EnumProcess<E>[] previousProcesses = process.previousProcesses;
-        final EnumProcess<E>[] newLastProcesses = (EnumProcess<E>[]) new Object[]{process};
-        final EnumProcess<E> newProcess = new EnumProcess<>(defaultPrevious, element, process, previousProcesses, newLastProcesses);
-        process.defaultPrevious = newProcess;
-        if (defaultPrevious == null){
-        	firstProcess = newProcess;
+	private void linkBefore(E element, LinkedProcess<E> process) {
+        final LinkedProcess<E> previous = process.previous;
+        final LinkedProcess<E> newNode = new LinkedProcess<>(previous, element, process);
+        process.previous = newNode;
+        if (previous == null){
+            first = newNode;
         }else{
-        	defaultPrevious.defaultNext = newProcess;
+        	previous.next = newNode;
         }
         size++;
         modCount++;
     }
-
-	/**
-	 * 在枚举类之后添加枚举元素
-	 * @param element 枚举元素
-	 * @param process 要插入此流程之后的枚举类，即process->element
-	 */
-	void linkAfter(E element, EnumProcess<E> process) {
-		final EnumProcess<E> defaultNext= process.defaultNext;
-		final EnumProcess<E>[] nextProcesses = process.nextProcesses;
-		final EnumProcess<E>[] newPreviosProcesses = (EnumProcess<E>[]) new Object[]{process};
-		final EnumProcess<E> newProcess = new EnumProcess<>(process, element, defaultNext, newPreviosProcesses, nextProcesses);
-		process.defaultNext = newProcess;
-		if (defaultNext == null){
-			lastProcess = newProcess;
-		}else{
-			defaultNext.defaultPrevious = newProcess;
-		}
-		size++;
-		modCount++;
-	}
-
-	/**
-	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
-	 * @param element 枚举元素
-	 */
-	void linkBranch(EnumProcess<E> beginProcess, E element) {
-		EnumProcess<E>[] nextProcesses = beginProcess.nextProcesses;
-		final EnumProcess<E>[] newPreviosProcesses = (EnumProcess<E>[]) new Object[]{beginProcess};
-		final EnumProcess<E> newProcess = new EnumProcess<>(beginProcess, element, null, newPreviosProcesses, null);
-		nextProcesses[nextProcesses.length + 1] = newProcess;
-		modCount++;
-	}
 	
 	/**
-	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
-	 * @param element 枚举元素
-	 * @param processEnum 设置流程节点流转条件
+	 * 删除某个流程元素类，并返回该流程元素
+	 * @param process
+	 * @return Enum
 	 */
-	void linkBranch(EnumProcess<E> beginProcess, E element, Process processEnum) {
-		EnumProcess<E>[] nextProcesses = beginProcess.nextProcesses;
-		final EnumProcess<E>[] newPreviosProcesses = (EnumProcess<E>[]) new Object[]{beginProcess};
-		final EnumProcess<E> newProcess = new EnumProcess<>(beginProcess, element, null, newPreviosProcesses, null);
-		newProcess.process = processEnum;
-		nextProcesses[nextProcesses.length + 1] = newProcess;
-		modCount++;
-	}
+	private E unlink(LinkedProcess<E> process) {
+        final E element = process.element;
+        final LinkedProcess<E> next = process.next;
+        final LinkedProcess<E> previous = process.previous;
+        if (previous == null) {
+            first = next;
+        } else {
+        	previous.next = next;
+        	process.previous = null;
+        }
+        if (next == null) {
+            last = previous;
+        } else {
+            next.previous = previous;
+            process.next = null;
+        }
+        process.element = null;
+        size--;
+        modCount++;
+        return element;
+    }
 	
 	/**
-	 * 设置枚举类的关联顺序
-	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess->process
-	 * @param process 要设置的枚举类
+	 * 根据元素下标值获取对应流程元素类
+	 * @param index 元素下标值
+	 * @return LinkedProcess
 	 */
-	void setLinkBranch(EnumProcess<E> beginProcess, EnumProcess<E> process) {
-		beginProcess.nextProcesses[beginProcess.nextProcesses.length] = process;
-		if(beginProcess.defaultNext == null){
-			beginProcess.defaultNext = process;
-		}
-		process.previousProcesses[process.previousProcesses.length] = beginProcess;
-		if(process.defaultPrevious == null){
-			process.defaultPrevious = beginProcess;
-		}
-	}
-
-	/**
-	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
-	 * @param element 枚举元素
-	 * @param endProcess 给该插入的枚举元素加上下一个流程的枚举类，即element->endProcess
-	 */
-	void linkBranch(EnumProcess<E> beginProcess, E element, EnumProcess<E> endProcess) {
-		EnumProcess<E>[] nextProcesses = beginProcess.nextProcesses;
-		final EnumProcess<E>[] newPreviosProcesses = (EnumProcess<E>[]) new Object[]{beginProcess};
-        final EnumProcess<E>[] newLastProcesses = (EnumProcess<E>[]) new Object[]{endProcess};
-		final EnumProcess<E> newProcess = new EnumProcess<>(beginProcess, element, endProcess, newPreviosProcesses, newLastProcesses);
-		nextProcesses[nextProcesses.length + 1] = newProcess;
-		modCount++;
-	}
+	private LinkedProcess<E> processNode(int index) {
+        if (index < (size >> 1)) {
+        	LinkedProcess<E> process = first;
+            for (int i = 0; i < index; i++){
+            	process = process.next;
+            }
+            return process;
+        } else {
+        	LinkedProcess<E> process = last;
+            for (int i = size - 1; i > index; i--){
+            	process = process.previous;
+            }
+            return process;
+        }
+    }
 	
 	/**
-	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
-	 * @param element 枚举元素
-	 * @param endProcess 给该插入的枚举元素加上下一个流程的枚举类，即element->endProcess
-	 * @param processEnum 设置流程节点流转条件
-	 */
-	void linkBranch(EnumProcess<E> beginProcess, E element, EnumProcess<E> endProcess, Process processEnum) {
-		EnumProcess<E>[] nextProcesses = beginProcess.nextProcesses;
-		final EnumProcess<E>[] newPreviosProcesses = (EnumProcess<E>[]) new Object[]{beginProcess};
-		final EnumProcess<E>[] newLastProcesses = (EnumProcess<E>[]) new Object[]{endProcess};
-		final EnumProcess<E> newProcess = new EnumProcess<>(beginProcess, element, endProcess, newPreviosProcesses, newLastProcesses);
-		newProcess.process = processEnum;
-		nextProcesses[nextProcesses.length + 1] = newProcess;
-		modCount++;
-	}
-	
-	/**
-	 * 设置枚举类的关联顺序
-	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess->process
-	 * @param process 要设置的枚举类
-	 * @param endProcess 要设置此流程之前的枚举类，即process->endProcess
-	 */
-	void setLinkBranch(EnumProcess<E> beginProcess, EnumProcess<E> process, EnumProcess<E> endProcess) {
-		setLinkBranch(beginProcess, process);
-		setLinkBranch(process, endProcess);
-	}
-	
-	/**
-	 * 给下一个流程设置默认分支流程
-	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess->element
-	 * @param element 枚举元素
+	 * 在链表的首个元素前插入元素
+	 * @param element 流程元素
 	 * @return boolean
 	 */
-	boolean linkDefaultBranch(EnumProcess<E> beginProcess, E element) {
-		EnumProcess<E>[] nextProcesses = beginProcess.nextProcesses;
-		for (EnumProcess<E> process : nextProcesses) {
-			if(process.element.equals(element)){
-				process.process = Process.THROUGH;
-				beginProcess.defaultNext = process;
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	E[] array = (E[]) new Object[]{};
-	
-	/**
-	 * 根据枚举元素查找枚举类
-	 * 以树型结构算法实现
-	 * array记录已查找过的枚举类，防止重复查找或进入死循环
-	 * @param process 树结构的根节点枚举类
-	 * @param element 枚举元素
-	 * @return EnumProcess
-	 */
-	EnumProcess<E> recursionNode(EnumProcess<E> process, E element) {
-		if(process != null){
-			for (E unique : array) {
-				if(unique== element){
-					return null;
-				}
-			}
-			if(process.element.equals(element)){
-				return process;
-			}
-			array[array.length] = process.element;
-			for (EnumProcess<E> enumProcess : process.nextProcesses) {
-				return recursionNode(enumProcess, element);
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @return boolean
-	 */
-	public boolean addBranch(E beginElement, E element) {
-		final EnumProcess<E> process = recursionNode(firstProcess, beginElement);
-		if(process != null && process.element.equals(beginElement)){
-			linkBranch(process, element);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @param processEnum 设置流程节点流转条件
-	 * @return boolean
-	 */
-	public boolean addBranch(E beginElement, E element, Process processEnum) {
-		final EnumProcess<E> process = recursionNode(firstProcess, beginElement);
-		if(process != null && process.element.equals(beginElement)){
-			linkBranch(process, element, processEnum);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @return boolean
-	 */
-	public boolean setBranch(E beginElement, E element) {
-		final EnumProcess<E> beginProcess = recursionNode(firstProcess, beginElement);
-		final EnumProcess<E> process = recursionNode(firstProcess, element);
-		if(beginProcess != null && beginProcess.element.equals(beginElement)){
-			if(process == null){
-				linkBranch(beginProcess, element);
-			}else{
-				setLinkBranch(beginProcess, process);
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @param processEnum 设置流程节点流转条件
-	 * @return boolean
-	 */
-	public boolean setBranch(E beginElement, E element, Process processEnum) {
-		final EnumProcess<E> beginProcess = recursionNode(firstProcess, beginElement);
-		final EnumProcess<E> process = recursionNode(firstProcess, element);
-		if(beginProcess != null && beginProcess.element.equals(beginElement)){
-			if(process == null){
-				linkBranch(beginProcess, element, processEnum);
-			}else{
-				process.process = processEnum;
-				setLinkBranch(beginProcess, process);
-			}
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @param endElement 给该入的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
-	 * @return boolean
-	 */
-	public boolean addBranch(E beginElement, E element, E endElement) {
-		final EnumProcess<E> beginProcess = recursionNode(firstProcess, beginElement);
-		final EnumProcess<E> endProcess = recursionNode(firstProcess, endElement);
-		if(beginProcess != null && beginProcess.element.equals(beginElement)
-				&& endProcess != null && endProcess.element.equals(endElement)){
-			linkBranch(beginProcess, element, endProcess);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @param endElement 给该入的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
-	 * @param processEnum 设置流程节点流转条件
-	 * @return boolean
-	 */
-	public boolean addBranch(E beginElement, E element, E endElement, Process processEnum) {
-		final EnumProcess<E> beginProcess = recursionNode(firstProcess, beginElement);
-		final EnumProcess<E> endProcess = recursionNode(firstProcess, endElement);
-		if(beginProcess != null && beginProcess.element.equals(beginElement)
-				&& endProcess != null && endProcess.element.equals(endElement)){
-			linkBranch(beginProcess, element, endProcess, processEnum);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @param endElement 给该设置的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
-	 * @return boolean
-	 */
-	public boolean setBranch(E beginElement, E element, E endElement) {
-		final EnumProcess<E> beginProcess = recursionNode(firstProcess, beginElement);
-		final EnumProcess<E> process = recursionNode(firstProcess, element);
-		final EnumProcess<E> endProcess = recursionNode(firstProcess, endElement);
-		if(beginProcess != null && beginProcess.element.equals(beginElement)
-				&& endProcess != null && endProcess.element.equals(endElement)){
-			if(process == null){
-				linkBranch(beginProcess, element, endProcess);
-			}else{
-				setLinkBranch(beginProcess, process, endProcess);
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素
-	 * @param endElement 给该设置的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
-	 * @param processEnum 设置流程节点流转条件
-	 * @return boolean
-	 */
-	public boolean setBranch(E beginElement, E element, E endElement, Process processEnum) {
-		final EnumProcess<E> beginProcess = recursionNode(firstProcess, beginElement);
-		final EnumProcess<E> process = recursionNode(firstProcess, element);
-		final EnumProcess<E> endProcess = recursionNode(firstProcess, endElement);
-		if(beginProcess != null && beginProcess.element.equals(beginElement)
-				&& endProcess != null && endProcess.element.equals(endElement)){
-			if(process == null){
-				linkBranch(beginProcess, element, endProcess, processEnum);
-			}else{
-				process.process = processEnum;
-				setLinkBranch(beginProcess, process, endProcess);
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 给下一个流程设置默认分支流程
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
-	 * @param element 枚举元素，必须是已添加的枚举元素
-	 * @return boolean
-	 */
-	public boolean defaultBranch(E beginElement, E element) {
-		final EnumProcess<E> beginProcess = recursionNode(firstProcess, beginElement);
-		return linkDefaultBranch(beginProcess, element);
-	}
-
-	/**
-	 * 在开头添加枚举元素
-	 * @param element 枚举元素
-	 */
-	public void addFirst(E element) {
+	public boolean addFirst(E element) {
         linkFirst(element);
+		return true;
     }
-
+	
 	/**
-	 * 在末尾添加枚举元素
-	 * @param element 枚举元素
+	 * 在链表的未尾元素后添加元素
+	 * @param element 流程元素
+	 * @return boolean
 	 */
-	public void addLast(E element) {
+	public boolean addLast(E element) {
         linkLast(element);
+		return true;
     }
 	
-	/**
-	 * 在末尾添加枚举元素
-	 * @param element 枚举元素
-	 */
-	public void add(E element) {
+	@Override
+	public boolean add(E element) {
 		linkLast(element);
+		return true;
 	}
-	
-	/**
-	 * 在末尾添加多个枚举元素
-	 * @param element[] 枚举元素数组
-	 */
-	public void add(E[] elements) {
+
+	@Override
+	public boolean add(E[] elements) {
 		for (E element : elements) {
 			linkLast(element);
 		}
+		return true;
 	}
 	
 	/**
-	 * 获取主线流程元素大小
-	 * @return int
+	 * 指定下标值添加流程元素，下标值以上的往后移
+	 * @param index 元素下标值
+	 * @param element 流程元素
+	 * @return boolean
 	 */
+	public boolean add(int index, E element) {
+        if (index == size){
+            linkLast(element);
+        }else{
+            linkBefore(element, processNode(index));
+        }
+        return true;
+    }
+	
+	@Override
 	public int size() {
         return size;
     }
 	
+	@Override
+	public boolean isEmpty() {
+        return size == 0;
+    }
+	
 	/**
-	 * 获取流程元素总数
-	 * @return int
+	 * 删除流程元素
+	 * @param element 流程元素
+	 * @return boolean
 	 */
-	public int count() {
-		return modCount;
+	public boolean remove(E element) {
+        for (LinkedProcess<E> node = first; node != null; node = node.next) {
+            if ((element == null && node == null) || element.equals(node.element)) {
+                unlink(node);
+                return true;
+            }
+        }
+        return false;
+    }
+	
+	/**
+	 * 根据指定下标值获取当前元素
+	 * @param index 下标值
+	 * @return Enum
+	 */
+	public E get(int index) {
+        return processNode(index).element;
+    }
+	
+	/**
+	 * 根据指定下标值获取下一个元素
+	 * @param index 下标值
+	 * @return Enum
+	 */
+	public E getNext(int index) {
+		return processNode(index).next.element;
 	}
 	
 	/**
-	 * 获取下一个流程元素
-	 * @param element 流程元素
+	 * 根据指定下标值获取上一个元素
+	 * @param index 下标值
 	 * @return Enum
 	 */
+	public E getPre(int index) {
+		return processNode(index).previous.element;
+	}
+	
 	public E next(E element) {
-		EnumProcess<E> process = recursionNode(firstProcess, element);
-		return process.defaultNext.element;
+		return next(element, Process.THROUGH);
 	}
-	
-	/**
-	 * 获取下一个流程元素
-	 * @param element 流程元素
-	 * @param processEnum 流程节点流转条件
-	 * @return Enum
-	 */
+
+	@Override
 	public E next(E element, Process processEnum) {
-		EnumProcess<E>[] nextProcesses = recursionNode(firstProcess, element).nextProcesses;
-		for (EnumProcess<E> enumProcess : nextProcesses) {
-			if(enumProcess.process == processEnum){
-				return enumProcess.element;
-			}
+		if(processEnum == Process.NOT_THROUGH){
+			return processNode(size).element;
 		}
+		for (LinkedProcess<E> node = first; node != null; node = node.next) {
+            if ((element == null && node == null) || element.equals(node.element)) {
+            	return node.next.element;
+            }
+        }
 		return null;
 	}
 	
-	/**
-	 * 获取上一个流程元素
-	 * @param element 流程元素
-	 * @return Enum
-	 */
 	public E pre(E element) {
-		EnumProcess<E> process = recursionNode(firstProcess, element);
-		return process.defaultPrevious.element;
+		return pre(element, Process.THROUGH);
 	}
-	
-//	/**
-//	 * 根据枚举成员获取枚举流程类
-//	 * @param element 流程元素
-//	 * @return EnumProcess
-//	 */
-//	public EnumProcess<E> get(E element){
-//		return recursionNode(firstProcess, element);
-//	}
-//
-//	/**
-//	 * 根据枚举成员获取下一个流程的枚举流程类
-//	 * @param element 流程元素
-//	 * @return EnumProcess
-//	 */
-//	public EnumProcess<E> nextProcess(E element) {
-//		return recursionNode(firstProcess, element).defaultNext;
-//	}
-//
-//	/**
-//	 * 根据枚举成员获取上一个流程的枚举流程类
-//	 * @param element 流程元素
-//	 * @return EnumProcess
-//	 */
-//	public EnumProcess<E> preProcess(E element) {
-//		return recursionNode(firstProcess, element).defaultPrevious;
-//	}
+
+	@Override
+	public E pre(E element, Process processEnum) {
+		for (LinkedProcess<E> node = first; node != null; node = node.next) {
+            if ((element == null && node == null) || element.equals(node.element)) {
+            	return node.previous.element;
+            }
+        }
+		return null;
+	}
 }

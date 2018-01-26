@@ -5,7 +5,7 @@
 * 微服务请求报文与客服端请求header报文一致性处理，请求数据json转换param处理。
 * 单点登录集成Kisso管理客服端cookie。
 * 加入了redis和zookeeper分布式锁，可配置单机或集群的redis及zookeeper，由@EnableRedisLock和@EnableZKLock开启自动装置。(注意：redis用到了avel命令，只支持2.6版本以上服务器)
-* 添加流程枚举存储容器，提供线性枚举成员节点的有序序列存储和树形枚举成员节点的链表树状存储。
+* 添加流程枚举存储容器，枚举成员节点提供线性数据结构的有序序列存储和双向链表存储、树形数据结构的树形链表存储、图形数据结构的十字链表存储。
 * 提供一些常用工具类。
 # 使用说明
 ## maven依赖
@@ -179,17 +179,17 @@ public enum LeaveStatus implements OrderEnumProcessFactory<LeaveStatus> {
 * 容器使用
 ```
 //获取下一个流程节点
-LeaveStatus.APPLY.nextProcess();
+LeaveStatus.APPLY.nextProcess(Process.THROUGH);
 //获取上一个流程节点
-LeaveStatus.PROJECT_LEADER.preProcess();
+LeaveStatus.PROJECT_LEADER.preProcess(Process.THROUGH);
 //获取流程结束节点
-LeaveStatus.PROJECT_MANAGER.nextProcess(false);
+LeaveStatus.PROJECT_MANAGER.nextProcess(Process.NOT_THROUGH);
 ```
 ### 树形枚举成员节点的链表树状存储
-* 链表树状存储需要实现`LinkedEnumProcessFactory`接口，并实现它的方法
+* 链表树状存储需要实现`TreeEnumProcessFactory`接口，并实现它的方法
 * 举例，文物备案主线流程为“申请文物备案”->“用户支付”->“初审”->“复审”->“预约实物线下终审”->“客户到场确认”->“终审”->“备案入库”->“备案完成”，例举其中一个分支支线任务，“初审”->“重新提交”或者“初审”->“退款”，在流程当中一般只有四种流程走向（并行和串行走也都是同一个流程），这里定义了枚举类`Process`，分别对应为“通过”、“不通过”、“拒绝”、“退回”四个操作，流转时根据业务自由定义。
 ```
-public enum RelicStatus implements LinkedEnumProcessFactory<RelicStatus> {
+public enum RelicStatus implements TreeEnumProcessFactory<RelicStatus> {
 	APPLY("username", "申请文物备案"),
 	PAY("username", "用户支付"),
 	TRIAL("auditor", "初审"),
@@ -204,7 +204,6 @@ public enum RelicStatus implements LinkedEnumProcessFactory<RelicStatus> {
 	CANEL(null, "备案取消"),
 	COMPLATE(null, "备案完成");
 	
-	private LinkedEnumProcess<RelicStatus> process = new LinkedEnumProcess<>();
 	private String assignee;
 	private String msg;
 
@@ -230,38 +229,36 @@ public enum RelicStatus implements LinkedEnumProcessFactory<RelicStatus> {
 		return RelicStatus.values();
 	}
 	@Override
-	public void initEnumProcess() {
+	public TreeEnumProcess<RelicStatus> getEnumProcess() {
+		TreeEnumProcess<RelicStatus> process = new TreeEnumProcess<>();
 		//初始化主线流程，这里会从上往下关连流程，或者是这样this.process.add(new RelicStatus[]{APPLY, PAY, ...});
-		this.process.add(APPLY);//申请备案
-		this.process.add(PAY);//支付
-		this.process.add(TRIAL);//初审
-		this.process.add(REVIWE);//复审
-		this.process.add(APPOINTENT);//预约线下审核
-		this.process.add(ARRIVE);//用户到场确认
-		this.process.add(LAST_TRIAL);//终审
-		this.process.add(RECORD);//备案入库
-		this.process.add(COMPLATE);//备案完成
+		process.add(APPLY);//申请备案
+		process.add(PAY);//支付
+		process.add(TRIAL);//初审
+		process.add(REVIWE);//复审
+		process.add(APPOINTENT);//预约线下审核
+		process.add(ARRIVE);//用户到场确认
+		process.add(LAST_TRIAL);//终审
+		process.add(RECORD);//备案入库
+		process.add(COMPLATE);//备案完成
 		//设置支线流程，关连其它节点
-		this.process.setBranch(PAY, CANEL, Process.NOT_THROUGH);//支付->备案取消，条件为不通过（如用户取消订单操作）
-		this.process.setBranch(TRIAL, SUBMIT, TRIAL, Process.REJECT);//初审->重新提交->初审，条件为拒绝（如初审为图片不清晰）
-		this.process.setBranch(TRIAL, REFUND, CANEL);//初审->退款->备案取消，下节点只有一个
-		this.process.setBranch(REVIWE, FAIL, Process.NOT_THROUGH);//复审->备案失败，条件为不通过（如文物没有价值意义）
-		this.process.setBranch(APPOINTENT, CANEL, Process.NOT_THROUGH);//预约线下审核->备案取消，条件为不通过（如客服在电话预约中用户取消备案）
-		this.process.setBranch(ARRIVE, APPOINTENT, Process.RETURN);//用户到场确认->预约线下审核，条件为退回（如用户约定当天未到场）
-		this.process.setBranch(LAST_TRIAL, FAIL, Process.NOT_THROUGH);//终审->备案失败，条件为不通过（如文物仿造）
-	}	
-	@Override
-	public LinkedEnumProcess<RelicStatus> getLinkedEnumProcess() {
-		return this.process;
+		process.setBranch(PAY, CANEL, Process.NOT_THROUGH);//支付->备案取消，条件为不通过（如用户取消订单操作）
+		process.setBranch(TRIAL, SUBMIT, TRIAL, Process.REJECT);//初审->重新提交->初审，条件为拒绝（如初审为图片不清晰）
+		process.setBranch(TRIAL, REFUND, CANEL);//初审->退款->备案取消，下节点只有一个
+		process.setBranch(REVIWE, FAIL, Process.NOT_THROUGH);//复审->备案失败，条件为不通过（如文物没有价值意义）
+		process.setBranch(APPOINTENT, CANEL, Process.NOT_THROUGH);//预约线下审核->备案取消，条件为不通过（如客服在电话预约中用户取消备案）
+		process.setBranch(ARRIVE, APPOINTENT, Process.RETURN);//用户到场确认->预约线下审核，条件为退回（如用户约定当天未到场）
+		process.setBranch(LAST_TRIAL, FAIL, Process.NOT_THROUGH);//终审->备案失败，条件为不通过（如文物仿造）
+		return process;
 	}
 }
 ```
 * 容器使用
 ```
-//获取主线流程的下一个流程节点（得到下一个节点为“PAY（支付）”）
-LeaveStatus.APPLY.nextProcess();
+//获取主线流程的下一个流程节点（节点“APPLY（申请）”申请成功，得到下一个节点为“PAY（支付）”）
+LeaveStatus.APPLY.nextProcess(Process.THROUGH);
 //获取主线流程的上一个流程节点（得到上一个节点为“REVIWE（复审）”）
-LeaveStatus.APPOINTENT.preProcess();
+LeaveStatus.APPOINTENT.preProcess(Process.THROUGH);
 //获取支线流程的下个流程节点（节点“TRIAL（初审）”审批为拒绝，得到下一个节点为“SUBMIT（重新提交）”）
 LeaveStatus.TRIAL.nextProcess(Process.REJECT);
 //获取支线流程的下个流程节点（节点“TRIAL（初审）”审批为不通过，得到下一个节点为“REFUND（退款）”）

@@ -1,10 +1,10 @@
 package org.daijie.core.process.factory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.daijie.core.factory.IEnumFactory;
+import org.daijie.core.process.OrderEnumProcess;
+import org.daijie.core.process.Process;
 
 /**
  * 有序流程枚举工厂
@@ -13,7 +13,7 @@ import org.daijie.core.factory.IEnumFactory;
  * @since 2018年1月9日
  * @param <E> ProcessEnumFactory
  */
-public interface OrderEnumProcessFactory<E extends OrderEnumProcessFactory<E>> extends IEnumFactory<E>, ProcesssFactory<E> {
+public interface OrderEnumProcessFactory<E extends OrderEnumProcessFactory<E>> extends IEnumFactory<E>, ProcesssFactory<E, OrderEnumProcess<E>> {
 	
 	/**
 	 * 获取流程状态码
@@ -36,13 +36,9 @@ public interface OrderEnumProcessFactory<E extends OrderEnumProcessFactory<E>> e
     	return null;
     }
     
-    /**
-     * 枚举排序
-	 * @param <E> 枚举类
-     * @return List<Enum> 枚举成员数组
-     */
-    default public List<E> getSortEnumList(){
-    	List<E> list = new ArrayList<E>();
+    @Override
+    default public OrderEnumProcess<E> getEnumProcess(){
+    	OrderEnumProcess<E> list = new OrderEnumProcess<E>();
 		Integer[] array = new Integer[getEnumTypes().length];
 		for (int i = 0; i < getEnumTypes().length; i++) {
 			array[i] = getEnumTypes()[i].getStatus();
@@ -53,39 +49,14 @@ public interface OrderEnumProcessFactory<E extends OrderEnumProcessFactory<E>> e
 		}
 		return list;
     }
-	
-    default public E nextProcess(boolean complete){
-    	if(complete){
-    		return nextProcess();
-    	}
-    	return getSortEnumList().get(getEnumTypes().length - 1);
-    }
-	
+
     @Override
-    default public E nextProcess(){
-    	List<E> list = getSortEnumList();
-		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getStatus() == getStatus()){
-				if(list.size() > i+1){
-					return list.get(i+1);
-				}
-				break;
-			}
-		}
-		return null;
+    default public E nextProcess(Process process){
+		return getEnumProcess().next(getEnumType(), process);
     }
       
     @Override 
-    default public E preProcess(){
-    	List<E> list = getSortEnumList();
-    	for (int i = 0; i < list.size(); i++) {
-    		if(list.get(i).getStatus() == getStatus()){
-    			if(list.size() > 0){
-    				return list.get(i-1);
-    			}
-    			break;
-    		}
-    	}
-    	return null;
+    default public E preProcess(Process process){
+    	return getEnumProcess().pre(getEnumType(), process);
     }
 }

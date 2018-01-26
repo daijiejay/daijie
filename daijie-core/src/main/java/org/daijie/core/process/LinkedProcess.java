@@ -1,22 +1,22 @@
 package org.daijie.core.process;
 
 /**
- * 枚举节点类
+ * 线性结构流程类
  * @author daijie_jay
  * @since 2018年1月10日
  * @param <E> IEnumFactory
  */
-public class EnumNode<E> {
+public class LinkedProcess<E> {
 
 	E element;
 	
-	EnumNode<E> next;
+	LinkedProcess<E> next;
 	
-	EnumNode<E> previous;
+	LinkedProcess<E> previous;
 	
-	EnumNode(){}
+	LinkedProcess(){}
 	
-	EnumNode(EnumNode<E> previous, E element, EnumNode<E> next){
+	LinkedProcess(LinkedProcess<E> previous, E element, LinkedProcess<E> next){
 		this.previous = previous;
 		this.element = element;
         this.next = next;

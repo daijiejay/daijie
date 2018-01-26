@@ -1,41 +1,33 @@
 package org.daijie.core.process.factory;
 
+import org.daijie.core.process.Process;
 import org.daijie.core.factory.IEnumFactory;
 import org.daijie.core.process.LinkedEnumProcess;
-import org.daijie.core.process.Process;
 
 /**
- * 双向链表枚举成员流程存储工厂
+ * 线性链表形式存储枚举成员
  * @author daijie_jay
- * @since 2018年1月11日
- * @param <E> Enum
+ * @since 2018年1月10日
+ * @param <E> IEnumFactory
  */
-public interface LinkedEnumProcessFactory<E extends IEnumFactory<E>> extends IEnumFactory<E>, ProcesssFactory<E> {
-	
-	/**
-	 * 初始化流程枚举集合
-	 * @return LinkedEnumProcess
-	 */
-	default public void initEnumProcess(){
-	}
-	
-	default public LinkedEnumProcess<E> getLinkedEnumProcess(){
-		LinkedEnumProcess<E> process = new LinkedEnumProcess<>();
-		process.add(getEnumTypes());
-		return process;
-	}
-
-    default E nextProcess(Process process){
-		return getLinkedEnumProcess().next(getEnumType(), process);
-    }
+public interface LinkedEnumProcessFactory<E extends IEnumFactory<E>> extends IEnumFactory<E>, ProcesssFactory<E, LinkedEnumProcess<E>> {
 	
 	@Override
-	default E nextProcess(){
-		return getLinkedEnumProcess().next(getEnumType());
+	default LinkedEnumProcess<E> getEnumProcess(){
+		final LinkedEnumProcess<E> list = new LinkedEnumProcess<E>();
+		for (int i = 0; i < getEnumTypes().length; i++) {
+			list.add(getEnumTypes()[i]);
+		}
+		return list;
 	}
+
+	@Override
+    default public E nextProcess(Process process){
+		return getEnumProcess().next(getEnumType(), process);
+    }
       
 	@Override  
-    default E preProcess(){
-		return getLinkedEnumProcess().pre(getEnumType());
+    default public E preProcess(Process process){
+		return getEnumProcess().pre(getEnumType(), process);
     }
 }
