@@ -13,7 +13,7 @@ public interface ProcessHandle<E> extends Serializable {
 	
 	/**
 	 * 添加多个枚举元素
-	 * @param element[] 枚举元素数组
+	 * @param elements[] 枚举元素数组
 	 * @return boolean
 	 */
 	public boolean add(E[] elements);

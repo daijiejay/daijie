@@ -23,6 +23,7 @@ public interface Callback {
     
     /**
      * 获取锁时出现异常执行的方法
+     * @param exception 捕获的异常
      * @return Object 返回参数自由定义
      */
     default public Object onError(Exception exception){

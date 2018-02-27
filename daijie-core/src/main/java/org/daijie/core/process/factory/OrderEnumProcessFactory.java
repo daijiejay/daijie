@@ -23,7 +23,6 @@ public interface OrderEnumProcessFactory<E extends OrderEnumProcessFactory<E>> e
     
 	/**
 	 * 根据流程状态码获取枚举
-	 * @param <E> 枚举类
 	 * @param status 流程状态码
 	 * @return Enum 枚举类
 	 */

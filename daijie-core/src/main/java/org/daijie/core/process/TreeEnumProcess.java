@@ -76,7 +76,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	/**
 	 * 在枚举类之前添加枚举元素
 	 * @param element 枚举元素
-	 * @param process 要插入此流程之前的枚举类，即element->process
+	 * @param process 要插入此流程之前的枚举类，即element→process
 	 */
 	@SuppressWarnings("unused")
 	private void linkBefore(E element, TreeProcess<E> process) {
@@ -101,7 +101,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	/**
 	 * 在枚举类之后添加枚举元素
 	 * @param element 枚举元素
-	 * @param process 要插入此流程之后的枚举类，即process->element
+	 * @param process 要插入此流程之后的枚举类，即process→element
 	 */
 	@SuppressWarnings("unused")
 	private void linkAfter(E element, TreeProcess<E> process) {
@@ -125,7 +125,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 
 	/**
 	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
+	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess→element
 	 * @param element 枚举元素
 	 */
 	private void linkBranch(TreeProcess<E> beginProcess, E element) {
@@ -152,7 +152,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
+	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess→element
 	 * @param element 枚举元素
 	 * @param processEnum 设置流程节点流转条件
 	 */
@@ -181,7 +181,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 设置枚举类的关联顺序
-	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess->process
+	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess→process
 	 * @param process 要设置的枚举类
 	 */
 	private void setLinkBranch(TreeProcess<E> beginProcess, TreeProcess<E> process) {
@@ -210,9 +210,9 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 
 	/**
 	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
+	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess→element
 	 * @param element 枚举元素
-	 * @param endProcess 给该插入的枚举元素加上下一个流程的枚举类，即element->endProcess
+	 * @param endProcess 给该插入的枚举元素加上下一个流程的枚举类，即element→endProcess
 	 */
 	private void linkBranch(TreeProcess<E> beginProcess, E element, TreeProcess<E> endProcess) {
 		TreeProcess<E>[] nextProcesses = beginProcess.nextProcesses;
@@ -235,9 +235,9 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 在枚举类之后添加流程分支枚举元素并关连顺序
-	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess->element
+	 * @param beginProcess 要插入此流程之后的枚举类，即beginProcess→element
 	 * @param element 枚举元素
-	 * @param endProcess 给该插入的枚举元素加上下一个流程的枚举类，即element->endProcess
+	 * @param endProcess 给该插入的枚举元素加上下一个流程的枚举类，即element→endProcess
 	 * @param processEnum 设置流程节点流转条件
 	 */
 	private void linkBranch(TreeProcess<E> beginProcess, E element, TreeProcess<E> endProcess, Process processEnum) {
@@ -262,9 +262,9 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 设置枚举类的关联顺序
-	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess->process
+	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess→process
 	 * @param process 要设置的枚举类
-	 * @param endProcess 要设置此流程之前的枚举类，即process->endProcess
+	 * @param endProcess 要设置此流程之前的枚举类，即process→endProcess
 	 */
 	private void setLinkBranch(TreeProcess<E> beginProcess, TreeProcess<E> process, TreeProcess<E> endProcess) {
 		setLinkBranch(beginProcess, process);
@@ -273,7 +273,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 给下一个流程设置默认分支流程
-	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess->element
+	 * @param beginProcess 要设置此流程之后的枚举类，即beginProcess→element
 	 * @param element 枚举元素
 	 * @return boolean
 	 */
@@ -337,7 +337,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 
 	/**
 	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要插入此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
 	 * @return boolean
 	 */
@@ -352,7 +352,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要插入此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
 	 * @param processEnum 设置流程节点流转条件
 	 * @return boolean
@@ -368,7 +368,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要设置此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
 	 * @return boolean
 	 */
@@ -388,7 +388,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要设置此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
 	 * @param processEnum 设置流程节点流转条件
 	 * @return boolean
@@ -410,9 +410,9 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 
 	/**
 	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要插入此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
-	 * @param endElement 给该入的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
+	 * @param endElement 给该入的枚举元素加上下一个流程的流程元素，即element→endElement，必须是已添加的枚举元素
 	 * @return boolean
 	 */
 	public boolean addBranch(E beginElement, E element, E endElement) {
@@ -428,9 +428,9 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 在元素之后添加流程分支枚举元素
-	 * @param beginElement 要插入此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要插入此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
-	 * @param endElement 给该入的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
+	 * @param endElement 给该入的枚举元素加上下一个流程的流程元素，即element→endElement，必须是已添加的枚举元素
 	 * @param processEnum 设置流程节点流转条件
 	 * @return boolean
 	 */
@@ -447,9 +447,9 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要设置此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
-	 * @param endElement 给该设置的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
+	 * @param endElement 给该设置的枚举元素加上下一个流程的流程元素，即element→endElement，必须是已添加的枚举元素
 	 * @return boolean
 	 */
 	public boolean setBranch(E beginElement, E element, E endElement) {
@@ -470,9 +470,9 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 设置枚举元素并关连顺序，如果枚举元素不存在则添加
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要设置此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素
-	 * @param endElement 给该设置的枚举元素加上下一个流程的流程元素，即element->endElement，必须是已添加的枚举元素
+	 * @param endElement 给该设置的枚举元素加上下一个流程的流程元素，即element→endElement，必须是已添加的枚举元素
 	 * @param processEnum 设置流程节点流转条件
 	 * @return boolean
 	 */
@@ -495,7 +495,7 @@ public class TreeEnumProcess<E extends IEnumFactory<E>> implements ProcessHandle
 	
 	/**
 	 * 给下一个流程设置默认分支流程
-	 * @param beginElement 要设置此流程之后的流程元素，即beginElement->element，必须是已添加的枚举元素
+	 * @param beginElement 要设置此流程之后的流程元素，即beginElement→element，必须是已添加的枚举元素
 	 * @param element 枚举元素，必须是已添加的枚举元素
 	 * @return boolean
 	 */

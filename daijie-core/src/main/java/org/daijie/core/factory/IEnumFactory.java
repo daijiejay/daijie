@@ -9,14 +9,12 @@ public interface IEnumFactory<E> {
     
 	/**
 	 * 获取枚举类
-	 * @param <E> 枚举类
 	 * @return Enum 枚举类
 	 */
     public E getEnumType();
     
     /**
      * 获取枚举成员数组
-	 * @param <E> 枚举类
      * @return Enum[] 枚举成员数组
      */
     public E[] getEnumTypes();
