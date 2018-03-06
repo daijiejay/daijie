@@ -4,7 +4,8 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * zookeeper存储序列
@@ -13,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class ZkDistributedSequence implements DistributedSequence {
 
-	private static final Logger logger = Logger.getLogger(ZkReentrantLockCleanerTask.class);
+	private static final Logger logger = LoggerFactory.getLogger(ZkReentrantLockCleanerTask.class);
 
 	private CuratorFramework client;
 	

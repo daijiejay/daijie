@@ -1,6 +1,5 @@
 package org.daijie.social.login.baidu.service;
 
-import org.apache.log4j.Logger;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.social.login.AbstractLoginService;
 import org.daijie.social.login.LoginResult;
@@ -9,6 +8,8 @@ import org.daijie.social.login.baidu.BaiduLoignProperties;
 import org.daijie.social.login.baidu.model.BaiduAccessToken;
 import org.daijie.social.login.baidu.model.BaiduError;
 import org.daijie.social.login.baidu.model.BaiduUserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,7 +25,7 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 @Service
 public class BaiduLoginService extends AbstractLoginService<BaiduLoignProperties> {
 	
-	private static final Logger logger = Logger.getLogger(BaiduLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(BaiduLoginService.class);
 	
 	/**
 	 * 根据票据code获取accessToken

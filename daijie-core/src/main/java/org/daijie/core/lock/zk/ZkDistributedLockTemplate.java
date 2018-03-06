@@ -3,9 +3,10 @@ package org.daijie.core.lock.zk;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.log4j.Logger;
 import org.daijie.core.lock.Callback;
 import org.daijie.core.lock.DistributedLockTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * zookeeper分布式锁执行实现类
@@ -15,7 +16,7 @@ import org.daijie.core.lock.DistributedLockTemplate;
  */
 public class ZkDistributedLockTemplate implements DistributedLockTemplate {
 	
-	private static final Logger logger = Logger.getLogger(ZkDistributedLockTemplate.class);
+	private static final Logger logger = LoggerFactory.getLogger(ZkDistributedLockTemplate.class);
 
     private CuratorFramework client;
 

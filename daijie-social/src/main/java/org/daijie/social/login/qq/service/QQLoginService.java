@@ -1,6 +1,5 @@
 package org.daijie.social.login.qq.service;
 
-import org.apache.log4j.Logger;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.social.login.AbstractLoginService;
 import org.daijie.social.login.LoginResult;
@@ -10,6 +9,8 @@ import org.daijie.social.login.qq.model.QQAccessToken;
 import org.daijie.social.login.qq.model.QQError;
 import org.daijie.social.login.qq.model.QQUser;
 import org.daijie.social.login.qq.model.QQUserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +26,7 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 @Service
 public class QQLoginService extends AbstractLoginService<QQLoignProperties> {
 	
-	private static final Logger logger = Logger.getLogger(QQLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(QQLoginService.class);
 	
 	/**
 	 * 根据票据code获取accessToken

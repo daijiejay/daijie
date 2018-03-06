@@ -1,6 +1,5 @@
 package org.daijie.social.login.ali.service;
 
-import org.apache.log4j.Logger;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.social.login.AbstractLoginService;
 import org.daijie.social.login.LoginResult;
@@ -8,6 +7,8 @@ import org.daijie.social.login.ali.AliLoginConstants;
 import org.daijie.social.login.ali.AliLoignProperties;
 import org.daijie.social.login.ali.model.AliError;
 import org.daijie.social.login.ali.model.AliUserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +26,7 @@ import com.xiaoleilu.hutool.bean.BeanUtil;
 @Service
 public class AliLoginService extends AbstractLoginService<AliLoignProperties> {
 	
-	private static final Logger logger = Logger.getLogger(AliLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AliLoginService.class);
 	
 	@Override
 	public LoginResult getUserInfo(String appAuthCode) {

@@ -7,7 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
@@ -20,7 +21,7 @@ import redis.clients.jedis.JedisPool;
  */
 class RedisLockInternals {
 	
-	private static final Logger logger = Logger.getLogger(RedisLockInternals.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisLockInternals.class);
 	
     private JedisPool jedisPool;
     

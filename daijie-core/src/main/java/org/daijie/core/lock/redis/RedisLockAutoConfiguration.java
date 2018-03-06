@@ -4,8 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.apache.log4j.Logger;
 import org.daijie.core.lock.DistributedLockTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,7 +28,7 @@ import redis.clients.jedis.Protocol;
 @EnableConfigurationProperties({RedisLockProperties.class})
 public class RedisLockAutoConfiguration {
 	
-	private static final Logger logger = Logger.getLogger(RedisLockAutoConfiguration.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisLockAutoConfiguration.class);
 
 	@Bean(name = "jedisLock")
 	public Object jedisLock(RedisLockProperties lockZKProperties) {

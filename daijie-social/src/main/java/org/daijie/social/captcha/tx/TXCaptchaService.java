@@ -4,9 +4,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.social.captcha.SocialCaptchaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xiaoleilu.hutool.json.JSONObject;
@@ -19,7 +20,7 @@ import com.xiaoleilu.hutool.json.JSONUtil;
  */
 public class TXCaptchaService implements SocialCaptchaService {
 
-	private static final Logger logger = Logger.getLogger(TXCaptchaService.class);
+	private static final Logger logger = LoggerFactory.getLogger(TXCaptchaService.class);
 
 	@Autowired
 	private TXCaptchaProperties txCaptchaProperties;
@@ -41,10 +42,10 @@ public class TXCaptchaService implements SocialCaptchaService {
 			if (json.getInt("code") == 0) {
 				jsUrl = json.getStr("url");
 			} else {
-				logger.debug(json);
+				logger.debug(json.toString());
 			}
 		} catch (Exception e) {
-			logger.debug(e.getMessage(), e);
+			logger.error(e.getMessage(), e);
 		}
 		return jsUrl;
 	}
@@ -65,7 +66,7 @@ public class TXCaptchaService implements SocialCaptchaService {
 				if (json.getInt("code") == 0) {
 					return true;
 				} else {
-					logger.debug(json);
+					logger.debug(json.toString());
 					return false;
 				}
 			} catch (Exception e) {

@@ -7,8 +7,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
-import org.apache.log4j.Logger;
 import org.daijie.core.lock.DistributedReentrantLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 基于Zookeeper的可重入互斥锁(关于重入:仅限于持有zk锁的jvm内重入)
@@ -17,7 +18,7 @@ import org.daijie.core.lock.DistributedReentrantLock;
  */
 public class ZkReentrantLock implements DistributedReentrantLock {
 	
-	private static final Logger logger = Logger.getLogger(ZkReentrantLock.class);
+	private static final Logger logger = LoggerFactory.getLogger(ZkReentrantLock.class);
 
     /**
      * 线程池

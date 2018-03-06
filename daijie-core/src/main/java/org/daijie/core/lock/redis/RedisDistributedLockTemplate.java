@@ -2,9 +2,10 @@ package org.daijie.core.lock.redis;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
 import org.daijie.core.lock.Callback;
 import org.daijie.core.lock.DistributedLockTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * redis分布式锁执行实现类
@@ -14,7 +15,7 @@ import org.daijie.core.lock.DistributedLockTemplate;
  */
 public class RedisDistributedLockTemplate implements DistributedLockTemplate {
 	
-	private static final Logger logger = Logger.getLogger(RedisDistributedLockTemplate.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisDistributedLockTemplate.class);
 
     private Object jedisLock;
 

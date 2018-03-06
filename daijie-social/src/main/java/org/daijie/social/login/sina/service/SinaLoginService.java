@@ -1,6 +1,5 @@
 package org.daijie.social.login.sina.service;
 
-import org.apache.log4j.Logger;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.social.login.AbstractLoginService;
 import org.daijie.social.login.LoginResult;
@@ -11,6 +10,8 @@ import org.daijie.social.login.sina.model.SinaAccessToken;
 import org.daijie.social.login.sina.model.SinaError;
 import org.daijie.social.login.sina.model.SinaUser;
 import org.daijie.social.login.sina.model.SinaUserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,7 +27,7 @@ import com.xiaoleilu.hutool.json.JSONUtil;
 @Service
 public class SinaLoginService extends AbstractLoginService<QQLoignProperties> {
 	
-	private static final Logger logger = Logger.getLogger(SinaLoginService.class);
+	private static final Logger logger = LoggerFactory.getLogger(SinaLoginService.class);
 	
 	public LoginResult getAccessToken(String code) {
 		String callback = SinaLoginConstants.LOGIN_CALLBACK;

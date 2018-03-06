@@ -1,11 +1,12 @@
 package org.daijie.core.controller;
 
-import org.apache.log4j.Logger;
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.controller.exception.ApiException;
 import org.daijie.core.result.ApiResult;
 import org.daijie.core.result.factory.ApiResultInitialFactory;
 import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public abstract class ApiController extends ApiResultInitialFactory 
 		implements ExceptionController {
 	
-	private final Logger logger = Logger.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 异常时，根据异常级别响应默认返回数据

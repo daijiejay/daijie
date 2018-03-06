@@ -8,7 +8,8 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * zookeeper作业
@@ -17,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class ZkReentrantLockCleanerTask extends TimerTask {
 	
-	private static final Logger logger = Logger.getLogger(ZkReentrantLockCleanerTask.class);
+	private static final Logger logger = LoggerFactory.getLogger(ZkReentrantLockCleanerTask.class);
 
     private CuratorFramework client;
 
