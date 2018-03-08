@@ -3,7 +3,6 @@ package org.daijie.core.controller;
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.controller.exception.ApiException;
 import org.daijie.core.result.ApiResult;
-import org.daijie.core.result.factory.ApiResultInitialFactory;
 import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2018年1月1日
  */
 @RequestMapping(produces = "application/json;charset=UTF-8")
-public abstract class ApiController extends ApiResultInitialFactory 
-		implements ExceptionController {
+public abstract class ApiController implements ExceptionController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
