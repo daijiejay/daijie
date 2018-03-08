@@ -64,12 +64,18 @@ public class SelectDataSourceInterceptor implements Ordered, AspectFactory {
 
 
 	@Override
-	public void before(JoinPoint jp) throws Exception {
+	public void before(JoinPoint joinPoint) throws Exception {
 	}
 
 
 	@Override
-	public Object after(Object result) throws Exception {
+	public Object after(JoinPoint joinPoint, Object result) throws Exception {
+		return null;
+	}
+
+
+	@Override
+	public Object throwing(JoinPoint joinPoint, Exception exception) {
 		return null;
 	}
 }

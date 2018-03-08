@@ -107,13 +107,12 @@ lock.redis.addresses=127.0.0.1:6379
 @RestController
 public class LockController {
 	private static final Logger logger = Logger.getLogger(LockController.class);
-	
 	@RequestMapping(value = "testLock", method = RequestMethod.GET)
 	public ModelResult<Object> testLock(){
 		Object result = LockTool.execute("test", 1000, new Callback() {
 			@Override
 			public Object onTimeout() throws InterruptedException {
-				logger.info("锁超时业务处理");
+				logger.info("锁占用业务处理");
 				return 0;
 			}
 			@Override
@@ -123,6 +122,40 @@ public class LockController {
 			}
 		});
 		return Result.build(result);
+	}
+}
+```
+* 注解类使用
+
+引用org.daijie.core.lock.@Lock注解，该类需要被spring管理方可生效，具体配置（
+argName：param参数作为锁业务ID；
+lockId: 业务ID，优先级大于argNme配置，默认方法名作为唯一字符串；
+timeOut: 锁时长，默认5秒；
+timeOutMethodName：锁占用时需要执行的方法，默认不执行；
+errorMethodName：锁异常时需要执行的方法，默认不执行。）
+```
+@RestController
+public class LockController {
+	private static final Logger logger = Logger.getLogger(LockController.class);
+	@Lock(argName = "id", 
+			timeout = 5000,
+			errorMethodName = "org.daijie.api.controller.LockController.lockError(java.lang.String)", 
+			timeOutMethodName = "org.daijie.api.controller.LockController.lockTimeOut(java.lang.String)")
+	@ApiOperation(notes = "锁注解测试", value = "锁注解测试")
+	@RequestMapping(value = "testLockAnnotation", method = RequestMethod.GET)
+	public ModelResult<Object> testLockAnnotation(@ApiParam(value="业务编号") @RequestParam String id){
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return Result.build("业务"+id+"锁已获取，获取锁业务处理");
+	}
+	public String lockTimeOut(String id){
+		return "业务"+id+"锁已被占用，锁占用业务处理";
+	}
+	public String lockError(String id){
+		return "业务"+id+"锁获取失败，锁异常业务处理";
 	}
 }
 ```

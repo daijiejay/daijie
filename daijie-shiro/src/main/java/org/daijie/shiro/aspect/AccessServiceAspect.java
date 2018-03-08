@@ -29,7 +29,7 @@ public abstract class AccessServiceAspect implements AspectFactory {
 
 	@Override
 	@AfterReturning(returning = "result", pointcut = "targets()")
-	public ApiResult after(Object result) throws Exception {
+	public ApiResult after(JoinPoint joinPoint, Object result) throws Exception {
 		// TODO Auto-generated method stub	
 		return null;
 	}

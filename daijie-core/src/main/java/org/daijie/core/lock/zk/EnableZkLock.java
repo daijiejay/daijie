@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.daijie.core.lock.LockAspect;
 import org.daijie.core.lock.LockTool;
 import org.springframework.context.annotation.Import;
 
@@ -17,7 +18,10 @@ import org.springframework.context.annotation.Import;
 @Target({ElementType.TYPE}) 
 @Retention(RetentionPolicy.RUNTIME)  
 @Documented 
-@Import({ZKLockAutoConfiguration.class, LockTool.class})
+@Import({
+	ZKLockAutoConfiguration.class, 
+	LockAspect.class,
+	LockTool.class})
 public @interface EnableZkLock {
 
 }
