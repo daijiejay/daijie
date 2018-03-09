@@ -1,14 +1,11 @@
 package org.daijie.shiro.aspect;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.daijie.core.annotation.Access;
 import org.daijie.core.controller.enums.AccessType;
-import org.daijie.core.result.ApiResult;
-import org.daijie.core.result.factory.AspectFactory;
+import org.daijie.core.factory.proxy.BeforeAspectFactory;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
@@ -16,22 +13,14 @@ import org.daijie.shiro.session.ShiroRedisSession.Redis;
  * @author daijie
  * @since 2017年6月22日
  */
-public abstract class AccessServiceAspect implements AspectFactory {
+public abstract class AccessServiceAspect implements BeforeAspectFactory {
 	
 	@Pointcut("@annotation(org.springframework.web.bind.annotation.RestController)") 
 	public void targets(){}
 
 	@Override
-	@Before("targets()")
 	public void before(JoinPoint jp) throws Exception {
 		validAccess(jp);
-	}
-
-	@Override
-	@AfterReturning(returning = "result", pointcut = "targets()")
-	public ApiResult after(JoinPoint joinPoint, Object result) throws Exception {
-		// TODO Auto-generated method stub	
-		return null;
 	}
 
 	public Access validAccess(JoinPoint jp) throws Exception {

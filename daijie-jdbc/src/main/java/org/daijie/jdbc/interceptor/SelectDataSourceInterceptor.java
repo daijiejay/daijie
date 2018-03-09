@@ -5,10 +5,10 @@ import java.lang.reflect.Method;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.daijie.core.result.factory.AspectFactory;
+import org.daijie.core.factory.proxy.AroundAspectFactory;
 import org.daijie.jdbc.DbContextHolder;
 import org.daijie.jdbc.annotation.SelectDataSource;
 import org.slf4j.Logger;
@@ -23,13 +23,17 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class SelectDataSourceInterceptor implements Ordered, AspectFactory {
+public class SelectDataSourceInterceptor implements Ordered, AroundAspectFactory {
 
     public static final Logger logger = LoggerFactory.getLogger(SelectDataSourceInterceptor.class);
 
+	@Override
+	@Pointcut("@within(org.daijie.jdbc.annotation.SelectDataSource)") 
+	public void targets() {
+	}
+	
     @Override
-    @Around("@within(org.daijie.jdbc.annotation.SelectDataSource)")
-    public Object proceed(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         try {
             logger.info("set database connection to read only");
             Signature signature = proceedingJoinPoint.getSignature();
@@ -56,23 +60,6 @@ public class SelectDataSourceInterceptor implements Ordered, AspectFactory {
     public int getOrder() {
         return 0;
     }
-
-
-	@Override
-	public void targets() {
-	}
-
-
-	@Override
-	public void before(JoinPoint joinPoint) throws Exception {
-	}
-
-
-	@Override
-	public Object after(JoinPoint joinPoint, Object result) throws Exception {
-		return null;
-	}
-
 
 	@Override
 	public Object throwing(JoinPoint joinPoint, Exception exception) {
