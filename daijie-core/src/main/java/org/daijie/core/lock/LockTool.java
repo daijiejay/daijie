@@ -1,5 +1,7 @@
 package org.daijie.core.lock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -25,6 +27,10 @@ public class LockTool {
      * @return Object 返回函数自由定义的返回类型
      */
 	public static Object execute(String lockId, int timeout, Callback callback) {
+		final Logger logger = LoggerFactory.getLogger(LockTool.class);
+		if(distributedLockTemplate == null){
+			logger.error("未开启分布式锁，请登录@EnableZkLock或@EnableRedisLock注解开启");
+		}
 		return distributedLockTemplate.execute(lockId, timeout, callback);
 	}
 }

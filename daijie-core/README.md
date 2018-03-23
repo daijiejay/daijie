@@ -17,7 +17,7 @@
 </dependency>
 ```
 ## 异常全局处理
-* 自定义`RestController`与`Controller`需要分别继承`ApiController`与`WebController`，其目的是需要统一管理Controller，目前已实现了异常处理，`ApiController`与`WebController`保证反给消费者的是`ModelResult`实体与`String`路径，`WebController`异常默认返回路径是“/error”，可以在`Controller`上加`@ErrorMapping`类注解自定义异常时跳转路径。
+* 自定义`@RestController`与`@Controller`需要分别继承`ApiController`与`WebController`，其目的是需要统一管理Controller，目前已实现了异常处理，`ApiController`与`WebController`保证反给消费者的是`ModelResult`实体与`String`路径，`WebController`异常默认返回路径是“/error”，可以在`Controller`上加`@ErrorMapping`类注解自定义异常时跳转路径。
 ```
 @RestController
 public class TestController extends ApiController {
@@ -34,6 +34,16 @@ public class HomeController extends WebController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getData(){
 		return "index";
+	}
+}
+```
+* 通过注解`@EnableExceptionHandler`开启异常处理，检测`@RestController`或`@ResponseBody`的请求返回的是`ModelResult`实体，检测`@Controller`的请求返回的是`String`路径，默认返回路径是“/error”，可以在`Controller`上加`@ErrorMapping`类注解自定义异常时跳转路径。
+```
+@EnableExceptionHandler
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
 	}
 }
 ```

@@ -1,5 +1,7 @@
 package org.daijie.core.result;
 
+import com.xiaoleilu.hutool.json.JSONUtil;
+
 import io.swagger.annotations.ApiModelProperty;
 
 
@@ -54,5 +56,9 @@ public class ModelResult<E> {
 
 	public void setData(E data) {
 		this.data = data;
+	}
+	
+	public String toJsonStr(){
+		return JSONUtil.toJsonStr(this);
 	}
 }

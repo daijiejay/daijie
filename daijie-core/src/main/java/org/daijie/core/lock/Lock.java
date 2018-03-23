@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @author daijie_jay
  * @since 2018年3月6日
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
