@@ -6,7 +6,7 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-shiro-oauth2-spring-boot-starter</artifactId>
-	<version>1.0.1-RELEASE</version>
+	<version>1.0.3-RELEASE</version>
 </dependency>
 ```
 ## 启动shiro安全服务

@@ -10,7 +10,7 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-shiro-spring-boot-starter</artifactId>
-	<version>1.0.1-RELEASE</version>
+	<version>1.0.3-RELEASE</version>
 </dependency>
 ```
 ## SSO登录实现

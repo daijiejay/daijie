@@ -85,7 +85,6 @@
 	</build>
 	<modules>
 		<module>daijie-core</module>
-		<module>daijie-mybatis</module>
 		<module>daijie-shiro</module>
 		<module>daijie-social</module>
 		<module>daijie-shiro-security</module>
