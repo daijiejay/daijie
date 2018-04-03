@@ -125,11 +125,6 @@
 			<version>1.7</version>
 		</dependency>
 		<dependency>
-			<groupId>jp.sourceforge.qrcode</groupId>
-			<artifactId>qrcode</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 		</dependency>

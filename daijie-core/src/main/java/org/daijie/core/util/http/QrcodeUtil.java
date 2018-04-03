@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.swetake.util.Qrcode;
+//import com.swetake.util.Qrcode;
 
 /**
  * 生成二维码工具
