@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.daijie</groupId>
     <artifactId>daijie-parent-spring-boot-starter</artifactId>
-    <version>1.0.3-RELEASE</version>
+    <version>1.1.0-RELEASE</version>
   </parent>
   <artifactId>daijie-jdbc-spring-boot-starter</artifactId>
   <name>daijie-jdbc-spring-boot-starter</name>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-core-spring-boot-starter</artifactId>
-			<version>1.0.3-RELEASE</version>
+			<version>1.1.0-RELEASE</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -25,17 +25,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>1.3.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-autoconfigure</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
@@ -49,13 +38,23 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper-spring-boot-starter</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>1.0.29</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-		</dependency>
+		</dependency> -->
   </dependencies>
 </project>

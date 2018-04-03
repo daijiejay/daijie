@@ -2,14 +2,14 @@ package org.daijie.core.factory.proxy;
 
 import java.lang.reflect.Method;
 
-import org.daijie.core.factory.InitialFactory;
+import org.daijie.core.factory.Factory;
 
 /**
  * 处理方法中需要执行指定业务的方法工厂
  * @author daijie_jay
  * @since 2018年3月8日
  */
-public interface HardlerFactory extends InitialFactory {
+public interface HardlerFactory extends Factory {
 
 	/**
 	 * 执行代理对象方法

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.0.3-RELEASE</version>
+		<version>1.1.0-RELEASE</version>
 	</parent>
 	<artifactId>daijie-shiro-security-spring-boot-starter</artifactId>
 	<name>daijie-shiro-security-spring-boot-starter</name>
@@ -15,14 +15,19 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.daijie</groupId>
+			<artifactId>daijie-core-spring-boot-starter</artifactId>
+			<version>1.1.0-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.daijie</groupId>
 			<artifactId>daijie-shiro-spring-boot-starter</artifactId>
-			<version>1.0.3-RELEASE</version>
+			<version>1.1.0-RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zuul</artifactId>
-			<version>1.4.0.RELEASE</version>
-			<exclusions>
+			<version>2.0.0.M2</version>
+			<!-- <exclusions>
 				<exclusion>
 					<groupId>com.netflix.servo</groupId>
 					<artifactId>servo-core</artifactId>
@@ -31,7 +36,54 @@
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>
 				</exclusion>
-			</exclusions>
+			</exclusions> -->
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+			<version>1.4.4.RELEASE</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+			<version>2.0.0.M2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>2.0.0.M2</version>
 		</dependency>
 	</dependencies>
+	<dependencyManagement>
+	    <dependencies>
+	        <dependency>
+	            <groupId>org.springframework.cloud</groupId>
+	            <artifactId>spring-cloud-config</artifactId>
+	            <version>2.0.0.M9</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.springframework.cloud</groupId>
+	            <artifactId>spring-cloud-netflix</artifactId>
+	            <version>2.0.0.M8</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+	    </dependencies>
+	</dependencyManagement>
+	<repositories>
+	    <repository>
+	        <id>spring-milestones</id>
+	        <name>Spring Milestones</name>
+	        <url>https://repo.spring.io/libs-milestone</url>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+	    </repository>
+	</repositories>
 </project>

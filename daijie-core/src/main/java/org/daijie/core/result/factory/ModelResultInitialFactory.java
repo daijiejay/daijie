@@ -1,7 +1,7 @@
 package org.daijie.core.result.factory;
 
 import org.daijie.core.controller.enums.ResultCode;
-import org.daijie.core.factory.InitialFactory;
+import org.daijie.core.factory.Factory;
 import org.daijie.core.result.ApiResult;
 import org.daijie.core.result.ModelResult;
 import org.daijie.core.result.ModelResultWrapper;
@@ -11,7 +11,7 @@ import org.daijie.core.result.ModelResultWrapper;
  * @author daijie
  * @since 2017年10月27日
  */
-public abstract class ModelResultInitialFactory implements InitialFactory {
+public abstract class ModelResultInitialFactory implements Factory {
 	
 	public static <E> ModelResult<E> build(){
 		return Result.build(null);

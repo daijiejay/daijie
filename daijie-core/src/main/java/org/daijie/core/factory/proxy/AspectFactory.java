@@ -2,14 +2,14 @@ package org.daijie.core.factory.proxy;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
-import org.daijie.core.factory.InitialFactory;
+import org.daijie.core.factory.Factory;
 
 /**
  * 定义AOP工厂类
  * @author daijie_jay
  * @since 2018年1月1日
  */
-public interface AspectFactory extends InitialFactory {
+public interface AspectFactory extends Factory {
 
 	/**
 	 * 进入方法需要定义的表达式

@@ -1,7 +1,7 @@
 package org.daijie.core.result.factory;
 
 import org.daijie.core.controller.enums.ResultCode;
-import org.daijie.core.factory.InitialFactory;
+import org.daijie.core.factory.Factory;
 import org.daijie.core.result.ApiResult;
 import org.daijie.core.result.ApiResultWrapper;
 
@@ -10,7 +10,7 @@ import org.daijie.core.result.ApiResultWrapper;
  * @author daijie_jay
  * @since 2018年1月1日
  */
-public abstract class ApiResultInitialFactory implements InitialFactory {
+public abstract class ApiResultInitialFactory implements Factory {
 
 	/**
 	 * 添加返回属性值，默认key为value的类名，不建议用

@@ -30,7 +30,6 @@ import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.quartz.QuartzSessionValidationScheduler2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -45,7 +44,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author daijie
  * @since 2017年6月5日
  */
-@RefreshScope
 @Configuration
 public class SingleShiroConfigure {
 	

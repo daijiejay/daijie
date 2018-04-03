@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.daijie.jdbc.BaseMultipleDataSourceConfiguration;
 import org.daijie.jdbc.MultipleDataSourceProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -47,7 +48,7 @@ public class JpaMultipleDataSourceConfiguration {
 			JpaProperties jpaProperties){
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = entityManagerFactoryBuilder  
 				.dataSource(dataSource)
-				.properties(jpaProperties.getHibernateProperties(dataSource))  
+				.properties(jpaProperties.getHibernateProperties(new HibernateSettings()))  
 				.packages(multipleDataSourceProperties.getJpaEntityPackages())  
 				.build();
 		return entityManagerFactoryBean;

@@ -1,6 +1,6 @@
 package org.daijie.core.controller.enums;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * json字符串枚举

@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 public class ShiroRequestFilterBean {
 
 	@Bean
-    public FilterRegistrationBean ParametersFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
+    public FilterRegistrationBean<ShiroRequestFilter> ParametersFilterRegistration() {
+        FilterRegistrationBean<ShiroRequestFilter> registration = new FilterRegistrationBean<ShiroRequestFilter>();
         registration.setFilter(new ShiroRequestFilter());
         return registration;
     }

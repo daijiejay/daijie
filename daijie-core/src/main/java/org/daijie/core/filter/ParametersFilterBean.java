@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Bean;
 public class ParametersFilterBean {
 
 	@Bean
-    public FilterRegistrationBean ParametersFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
+    public FilterRegistrationBean<ParametersFilter> ParametersFilterRegistration() {
+        FilterRegistrationBean<ParametersFilter> registration = new FilterRegistrationBean<ParametersFilter>();
         registration.setFilter(new ParametersFilter());
         return registration;
     }

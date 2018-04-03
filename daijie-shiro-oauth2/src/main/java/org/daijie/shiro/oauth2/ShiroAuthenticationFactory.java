@@ -4,7 +4,6 @@ import org.daijie.core.factory.RegisterBeanFactory;
 import org.daijie.shiro.oauth2.excption.ShiroOauth2MatchException;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
@@ -31,8 +30,7 @@ public class ShiroAuthenticationFactory implements RegisterBeanFactory, Environm
 	public void registerBeanDefinitions(
 			AnnotationMetadata importingClassMetadata,
 			BeanDefinitionRegistry registry) {
-		RelaxedPropertyResolver propertyResolver = new RelaxedPropertyResolver(environment, "shiro.auth2.match.");
-		String className = propertyResolver.getProperty("className");
+		String className = environment.getProperty("shiro.auth2.match.className");
 		if(StringUtils.isEmpty(className)){
 			className = "org.daijie.shiro.security.oauth2.RequestAuthenticationMatch";
 		}

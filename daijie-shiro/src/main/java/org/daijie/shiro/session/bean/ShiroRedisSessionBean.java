@@ -18,8 +18,8 @@ public class ShiroRedisSessionBean {
 	}
 	
 	@Bean
-	public FilterRegistrationBean delegatingFilterProxy(){
-	    FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+	public FilterRegistrationBean<DelegatingFilterProxy> delegatingFilterProxy(){
+	    FilterRegistrationBean<DelegatingFilterProxy> filterRegistrationBean = new FilterRegistrationBean<DelegatingFilterProxy>();
 	    DelegatingFilterProxy proxy = new DelegatingFilterProxy();
 	    proxy.setTargetFilterLifecycle(true);
 	    proxy.setTargetBeanName("shiroFilter");

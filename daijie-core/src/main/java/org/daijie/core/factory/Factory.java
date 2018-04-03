@@ -5,6 +5,6 @@ package org.daijie.core.factory;
  * @author daijie_jay
  * @since 2018年1月1日
  */
-public interface InitialFactory {
+public interface Factory {
 	
 }
