@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-parent-spring-boot-starter</artifactId>
-	<version>1.0.3-RELEASE</version>
+	<version>1.0.4-RELEASE</version>
 	<packaging>pom</packaging>
 	<parent>
-		<version>1.5.9.RELEASE</version>
+		<version>1.5.10.RELEASE</version>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 	</parent>
@@ -85,12 +85,12 @@
 	</build>
 	<modules>
 		<module>daijie-core</module>
-		<module>daijie-mybatis</module>
 		<module>daijie-shiro</module>
 		<module>daijie-social</module>
 		<module>daijie-shiro-security</module>
 		<module>daijie-jdbc</module>
 		<module>daijie-shiro-oauth2</module>
+		<module>daijie-fastdfs</module>
 	</modules>
 	<licenses>
 		<license>

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.0.3-RELEASE</version>
+		<version>1.0.4-RELEASE</version>
 	</parent>
 	<artifactId>daijie-social-spring-boot-starter</artifactId>
 	<name>daijie-social-spring-boot-starter</name>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-core-spring-boot-starter</artifactId>
-			<version>1.0.3-RELEASE</version>
+			<version>1.0.4-RELEASE</version>
 		</dependency>
 		<!-- <dependency> <groupId>com.mxixm</groupId> <artifactId>fastboot-weixin</artifactId> 
 			<version>0.3.3</version> </dependency> -->

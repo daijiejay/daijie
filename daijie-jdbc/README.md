@@ -6,7 +6,7 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-jdbc-spring-boot-starter</artifactId>
-	<version>1.0.1-RELEASE</version>
+	<version>1.0.4-RELEASE</version>
 </dependency>
 ```
 ## 多数据源配置
