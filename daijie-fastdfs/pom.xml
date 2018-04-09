@@ -9,7 +9,7 @@
 		<version>1.1.0-RELEASE</version>
 	</parent>
 	<artifactId>daijie-fastdfs-spring-boot-starter</artifactId>
-	<name>daijie-fastdfs</name>
+	<name>daijie-fastdfs-spring-boot-starter</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
