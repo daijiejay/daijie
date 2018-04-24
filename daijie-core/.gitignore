@@ -1,2 +1,6 @@
 /target/
+<<<<<<< HEAD
 /.apt_generated/
+=======
+/bin/
+>>>>>>> remotes/origin/1.1.x-RELEASE
