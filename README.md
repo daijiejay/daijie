@@ -42,6 +42,7 @@ outh2授权 | 集成spring-security、shiro、zuul开发启动服务，实现请
 请求处理 | 使用@RestController或@Controller时，处理异常默认结果，替代掉继承ApiController与WebController。 | 已完成 | 2018年3月23日 | 已发布 | 1.0.3-RELEASE
 文件上传 | fastDFS文件上传工具类 | 已完成 | 2018年4月4日 | 已发布 | 1.0.4-RELEASE
 升级版本 | spring-boot升级到2.0，spring-framework升级到5.0，解决兼容性问题 | 已完成 | 2018年4月24日 | 未发布 | 1.1.0-RELEASE
+文件上传 | hadoop HDFS文件上传工具类 | 已完成 | 2018年4月25日 | 未发布 | 1.1.0-RELEASE
 
 ## 任务计划
 * 定义在方法上的注解，异步调用日志处理业务，可以从用户的几个角度解决问题，操作记录，行为记录，爱好记录，在线记录，地点记录，这些记录可以是日志文件输出，可以是数据库存储，这些只需要集成相关的第三方插件就能完成。
