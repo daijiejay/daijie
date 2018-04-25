@@ -91,6 +91,7 @@
 		<module>daijie-jdbc</module>
 		<module>daijie-shiro-oauth2</module>
 		<module>daijie-fastdfs</module>
+		<module>daijie-hadoop</module>
 	</modules>
 	<licenses>
 		<license>

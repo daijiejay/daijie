@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>swagger-bootstrap-ui</artifactId>
-			<version>1.7</version>
+			<version>1.7.2</version>
 		</dependency>
 		<dependency>
 			<groupId>redis.clients</groupId>
