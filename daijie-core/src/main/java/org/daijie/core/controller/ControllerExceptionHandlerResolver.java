@@ -47,6 +47,15 @@ public class ControllerExceptionHandlerResolver implements HandlerExceptionResol
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Method method = handlerMethod.getMethod();
 			Class<? extends Object> cls = handlerMethod.getBean().getClass();
+			try {
+				//可能会有空的情况，重新再获取
+				if(cls.getAnnotations().length == 0){
+					String typeName = cls.getTypeName();
+					cls = Class.forName(typeName.substring(0, typeName.indexOf("$")));
+				}
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
 			if(cls.isAnnotationPresent(RestController.class) || method.isAnnotationPresent(ResponseBody.class)){
 				PrintWriter out = null;
 				try{

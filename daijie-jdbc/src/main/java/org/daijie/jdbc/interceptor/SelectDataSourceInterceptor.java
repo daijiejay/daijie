@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
+@Deprecated
 public class SelectDataSourceInterceptor implements Ordered, AroundAspectFactory {
 
     public static final Logger logger = LoggerFactory.getLogger(SelectDataSourceInterceptor.class);

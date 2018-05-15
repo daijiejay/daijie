@@ -7,12 +7,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.daijie.jdbc.MultipleDataSourceProperties;
 import org.daijie.jdbc.mybatis.MybatisMultipleDataSourceConfiguration;
-import tk.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
+
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * 启用mybatis配置访问数据库
@@ -23,6 +26,7 @@ import org.springframework.core.annotation.AliasFor;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableAutoConfiguration(exclude = {JpaRepositoriesAutoConfiguration.class})
+@EnableConfigurationProperties(MultipleDataSourceProperties.class)
 @Import(MybatisMultipleDataSourceConfiguration.class)
 @Inherited
 @MapperScan

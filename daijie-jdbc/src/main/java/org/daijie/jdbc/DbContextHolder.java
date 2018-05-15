@@ -1,5 +1,8 @@
 package org.daijie.jdbc;
 
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  * 数据源设置
@@ -16,6 +19,12 @@ public class DbContextHolder {
     public static void setDataSourceName(String name){
         if(name==null)throw new NullPointerException();
         contextHolder.set(name);
+    }
+    
+    public static void setDataSourceName(String name, JdbcTemplate jdbcTemplate, DataSource dataSource){
+    	if(name==null)throw new NullPointerException();
+    	setDataSourceName(name);
+    	jdbcTemplate.setDataSource(dataSource);
     }
 
     public static String getDataSourceName(){

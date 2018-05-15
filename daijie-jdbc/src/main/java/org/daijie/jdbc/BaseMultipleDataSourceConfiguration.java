@@ -3,22 +3,24 @@ package org.daijie.jdbc;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.daijie.jdbc.interceptor.DefaultRoutingDataSource;
-import org.daijie.jdbc.interceptor.SelectDataSourceInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -29,25 +31,19 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @author daijie_jay
  * @since 2018年1月2日
  */
-@Import(SelectDataSourceInterceptor.class)
+@EnableConfigurationProperties(MultipleDataSourceProperties.class)
+@EnableTransactionManagement
 @Configuration
 public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {
 	
 	protected Logger logger = LoggerFactory.getLogger(BaseMultipleDataSourceConfiguration.class);
 
-	private MultipleDataSourceProperties multipleDataSourceProperties;
-
 	private Environment environment;
-
-	public BaseMultipleDataSourceConfiguration(
-			MultipleDataSourceProperties multipleDataSourceProperties) {
-		this.multipleDataSourceProperties = multipleDataSourceProperties;
-	}
 
 	@SuppressWarnings("unchecked")
 	@Bean("dataSource")
 	@ConditionalOnMissingBean
-	public AbstractRoutingDataSource routingDataSource(){
+	public AbstractRoutingDataSource routingDataSource(MultipleDataSourceProperties multipleDataSourceProperties){
 		DefaultRoutingDataSource proxy = new DefaultRoutingDataSource();
 		Map<Object,Object> targetDataResources = new HashMap<Object, Object>();
 		Class<? extends DataSource> dataSourceType = null;
@@ -71,7 +67,18 @@ public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {
 				for (String name : names) {
 					try {
 						Map<String, Object> dataSourceProps = Binder.get(environment).bind("spring.datasource."+name, Map.class).get();
-						DataSource dataSource = DataSourceUtil.getDataSource(dataSourceType.getName(), dataSourceProps);
+						
+						AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
+						Properties properties = new Properties();
+						properties.setProperty("user", ValidateJdbcProperty.validProperty(dataSourceProps, "username", name));
+						properties.setProperty("password", ValidateJdbcProperty.validProperty(dataSourceProps, "password", name));
+						properties.setProperty("url", ValidateJdbcProperty.validProperty(dataSourceProps, "url", name));
+						dataSource.setXaProperties(properties);
+						dataSource.setXaDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlXADataSource");
+						dataSource.setPoolSize(10);
+						dataSource.setReapTimeout(20000);
+						dataSource.setUniqueResourceName(name);
+								
 						targetDataResources.put(name, dataSource);
 						if(name.equals(multipleDataSourceProperties.getDefaultName())){
 							proxy.setDefaultTargetDataSource(dataSource);

@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.daijie.core.util.ApplicationContextHolder;
+import org.daijie.core.util.bean.ApplicationContextHolder;
 import org.daijie.social.SocialBeanAutoConfiguration;
 import org.daijie.social.login.config.SocialLoginBeanAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
