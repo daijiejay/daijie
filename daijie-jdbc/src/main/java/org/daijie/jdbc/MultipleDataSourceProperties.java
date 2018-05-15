@@ -3,7 +3,6 @@ package org.daijie.jdbc;
 import javax.sql.DataSource;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 多数据源属性配置
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2018年1月2日
  */
 @ConfigurationProperties(prefix = "spring.datasource")
-@EnableTransactionManagement
 public class MultipleDataSourceProperties {
 	
 	private Class<? extends DataSource> dataSourceType;

@@ -7,11 +7,17 @@
 邮箱：jay@daijie.org
 ## 文档介绍 
 #### daijie-core [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-core)
+* 提供访问异常统一处理、接口文档生成、流程枚举存储容器、分布式锁。
 #### daijie-jdbc [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-jdbc)
+* 提供多数据源配置。
 #### daijie-shiro [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-shiro)
+* 提供非对称加密的单点登录。
 #### daijie-shiro-security [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-shiro-security)
+* 提供权限路由跳转配置服务。
 #### daijie-shiro-oauth2 [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-shiro-oauth2)
+* 提供oauth2权限路由跳转配置服务。
 #### daijie-social [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-social)
+* 提供第三方登录。
 ## 项目demo
 * [daijie-example](https://github.com/daijiejay/daijie-example "demo")
 

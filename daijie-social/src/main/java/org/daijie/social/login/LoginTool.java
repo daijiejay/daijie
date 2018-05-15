@@ -1,6 +1,6 @@
 package org.daijie.social.login;
 
-import org.daijie.core.util.ApplicationContextHolder;
+import org.daijie.core.util.bean.ApplicationContextHolder;
 import org.daijie.social.login.ali.AliLoginTool;
 import org.daijie.social.login.ali.callback.AliLoginCallback;
 import org.daijie.social.login.ali.service.AliLoginService;
