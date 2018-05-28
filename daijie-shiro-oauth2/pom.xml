@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>daijie-shiro-oauth2-spring-boot-starter</artifactId>
 	<name>daijie-shiro-oauth2-spring-boot-starter</name>
+	<description>提供oauth2协议shiro权限路由跳转配置服务。</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -6,7 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 该注解注释在service方法上，选择指定数据源
+ * 选择指定数据源
+ * jpa数据源使用在repository接口上
+ * mybatis数据源使用在mapper接口上
  * @author daijie_jay
  * @since 2017年11月20日
  */

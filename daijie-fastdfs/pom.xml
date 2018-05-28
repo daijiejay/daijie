@@ -10,6 +10,7 @@
 	</parent>
 	<artifactId>daijie-fastdfs-spring-boot-starter</artifactId>
 	<name>daijie-fastdfs-spring-boot-starter</name>
+	<description>提供fastdfs集成，实现可配置的文件上传工具类</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

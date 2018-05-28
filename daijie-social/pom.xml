@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>daijie-social-spring-boot-starter</artifactId>
 	<name>daijie-social-spring-boot-starter</name>
+	<description>提供第三方接口集成，已集成了第三方登录。</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

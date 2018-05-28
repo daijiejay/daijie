@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>daijie-core-spring-boot-starter</artifactId>
 	<name>daijie-core-spring-boot-starter</name>
-	<description>提供分布式工具，如分布式锁，统一接口数据</description>
+	<description>提供微服务访问异常统一处理、接口文档生成、流程枚举存储容器、分布式锁。</description>
 	<url>http://maven.apache.org</url>
 	<issueManagement>
 		<system>Github daijie</system>

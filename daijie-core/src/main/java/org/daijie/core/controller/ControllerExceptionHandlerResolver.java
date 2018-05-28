@@ -70,7 +70,9 @@ public class ControllerExceptionHandlerResolver implements HandlerExceptionResol
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
-					out.close();
+					if (out != null) {
+						out.close();
+					}
 				}
 				return new ModelAndView();
 			}else if(cls.isAnnotationPresent(Controller.class)){

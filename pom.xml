@@ -89,6 +89,7 @@
 		<module>daijie-social</module>
 		<module>daijie-shiro-security</module>
 		<module>daijie-jdbc</module>
+		<module>daijie-jdbc-plugin</module>
 		<module>daijie-shiro-oauth2</module>
 		<module>daijie-fastdfs</module>
 		<module>daijie-hadoop</module>

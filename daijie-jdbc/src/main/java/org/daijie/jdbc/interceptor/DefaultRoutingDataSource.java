@@ -17,6 +17,9 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  */
 public class DefaultRoutingDataSource extends AbstractRoutingDataSource {
 	
+	/**
+	 * 多数据源集合
+	 */
 	private Map<Object, DataSource> targetDataSources;
 
     @Override
@@ -39,4 +42,13 @@ public class DefaultRoutingDataSource extends AbstractRoutingDataSource {
     public Map<Object, DataSource> getTargetDataSources(){
     	return this.targetDataSources;
     }
+
+    /**
+     * 刷新默认数据源
+     * @param resolvedDefaultDataSource 默认数据源
+     */
+	public void freshDefaultDataSource(DataSource resolvedDefaultDataSource) {
+		super.setDefaultTargetDataSource(resolvedDefaultDataSource);
+		super.afterPropertiesSet();
+	}
 }
