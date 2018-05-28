@@ -10,6 +10,8 @@
 * 提供访问异常统一处理、接口文档生成、流程枚举存储容器、分布式锁。
 #### daijie-jdbc [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-jdbc)
 * 提供mybatis与jpa多数据源配置，分布式事务。
+#### daijie-jdbc-plugin [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-jdbc-plugin)
+* maven插件，提供生成mysql数据库结构文档。
 #### daijie-shiro [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-shiro)
 * 提供非对称加密的单点登录。
 #### daijie-shiro-security [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-shiro-security)
@@ -19,7 +21,7 @@
 #### daijie-social [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-social)
 * 提供第三方接口集成，已集成了第三方登录。
 #### daijie-hadoop [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-hadoop)
-* 提供hadoop服务，以集成了文件上传
+* 提供hadoop服务，已集成了文件上传
 ## 项目demo
 * [daijie-example](https://github.com/daijiejay/daijie-example "demo")
 
@@ -52,6 +54,7 @@ outh2授权 | 集成spring-security、shiro、zuul开发启动服务，实现请
 升级版本 | spring-boot升级到2.0，spring-framework升级到5.0，解决兼容性问题 | 已完成 | 2018年4月24日 | 未发布 | 1.1.0-RELEASE
 文件上传 | hadoop HDFS文件上传工具类 | 已完成 | 2018年4月25日 | 未发布 | 1.1.0-RELEASE
 分布式事务 | 单线程mybatis、jpa多数据源动态切换分布式数据库事务处理 | 已完成 | 2018年5月28日 | 未发布 | 1.1.0-RELEASE
+数据库结构文档 | 提供maven插件生成mysql数据库结构文档 | 已完成 | 2018年5月28日 | 未发布 | 1.1.0-RELEASE
 
 ## 任务计划
 * 定义在方法上的注解，异步调用日志处理业务，可以从用户的几个角度解决问题，操作记录，行为记录，爱好记录，在线记录，地点记录，这些记录可以是日志文件输出，可以是数据库存储，这些只需要集成相关的第三方插件就能完成。
