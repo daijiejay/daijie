@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * aop拦截初始化数据源
+ * 在1.1版本后做废，不再使用
  * @author daijie_jay
  * @since 2017年11月20日
  */

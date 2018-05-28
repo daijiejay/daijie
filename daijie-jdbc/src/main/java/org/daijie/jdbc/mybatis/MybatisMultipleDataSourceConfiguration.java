@@ -11,7 +11,7 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.daijie.core.util.bean.RegisterBeanHolder;
 import org.daijie.jdbc.BaseMultipleDataSourceConfiguration;
-import org.daijie.jdbc.transaction.MultipleTransactionFactory;
+import org.daijie.jdbc.mybatis.transaction.MybatisMultipleTransactionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
@@ -74,7 +74,7 @@ public class MybatisMultipleDataSourceConfiguration extends MybatisAutoConfigura
 		SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
 		factory.setDataSource(dataSource);
 		factory.setVfs(SpringBootVFS.class);
-		factory.setTransactionFactory(new MultipleTransactionFactory());
+		factory.setTransactionFactory(new MybatisMultipleTransactionFactory());
 		if (StringUtils.hasText(this.properties.getConfigLocation())) {
 			factory.setConfigLocation(this.resourceLoader.getResource(this.properties.getConfigLocation()));
 		}
