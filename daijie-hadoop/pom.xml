@@ -10,6 +10,7 @@
 	</parent>
 	<artifactId>daijie-hadoop-spring-boot-starter</artifactId>
 	<name>daijie-hadoop-spring-boot-starter</name>
+	<description>提供hadoop服务，以集成了文件上传</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
