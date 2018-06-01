@@ -11,7 +11,7 @@
 ```
 ## 文件上传
 * 通过`@EnableHdfs`注解开启hdfs服务配置。
-```
+```java
 @EnableHdfs
 @SpringBootApplication
 public class BootApplication {
@@ -21,7 +21,7 @@ public class BootApplication {
 }
 ```
 * 工具类使用
-```
+```java
 @RestController
 public class UploadController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)

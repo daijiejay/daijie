@@ -6,12 +6,12 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-fastdfs-spring-boot-starter</artifactId>
-	<version>1.0.4-RELEASE</version>
+	<version>1.1.0-RELEASE</version>
 </dependency>
 ```
 ## 文件上传
 * 通过`@EnableFastdfs`注解开启fastdfs服务配置。
-```
+```java
 @EnableFastdfs
 @SpringBootApplication
 public class BootApplication {
@@ -21,7 +21,7 @@ public class BootApplication {
 }
 ```
 * 工具类使用
-```
+```java
 @RestController
 public class UploadController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
