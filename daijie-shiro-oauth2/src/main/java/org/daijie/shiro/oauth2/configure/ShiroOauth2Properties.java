@@ -12,10 +12,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "shiro.oauth2")
 public class ShiroOauth2Properties {
 
+	/**
+	 * 接口请求路径
+	 */
 	private String loginUrl;
 	
+	/**
+	 * 请求方式
+	 */
 	private String loginMethod;
 	
+	/**
+	 * 过滤路径的角色
+	 */
 	private String matchersRole;
 
 	public String getLoginUrl() {
