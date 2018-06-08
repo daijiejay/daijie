@@ -80,9 +80,7 @@ public class ShiroConfigure {
 					}
 				}
 			}
-			if(shiroProperties.getIsValidation()){
-				filterMap.put("credential", new CredentialFilter());
-			}
+			filterMap.put("credential", new CredentialFilter());
 			shiroFilterFactoryBean.setFilters(filterMap);
 			shiroFilterFactoryBean.setLoginUrl(shiroProperties.getLoginUrl());
 			shiroFilterFactoryBean.setSuccessUrl(shiroProperties.getSuccessUrl());
