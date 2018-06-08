@@ -33,6 +33,9 @@ public class RequestAuthenticationMatch implements AuthenticationMatch {
 	
 	@Autowired
 	private ShiroProperties shiroProperties;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@Override
 	public Boolean match(String username, String password) {
@@ -51,7 +54,6 @@ public class RequestAuthenticationMatch implements AuthenticationMatch {
 		}
 		@SuppressWarnings("rawtypes")
 		ResponseEntity<ModelResult> result = null;
-		RestTemplate restTemplate = new RestTemplate();
 		switch (RequestMethod.valueOf(method.toUpperCase())) {
 		case GET:
 			result = restTemplate.getForEntity(url, ModelResult.class);

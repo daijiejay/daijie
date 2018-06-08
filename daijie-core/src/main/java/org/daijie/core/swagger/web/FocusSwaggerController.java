@@ -31,6 +31,7 @@ public class FocusSwaggerController {
 	protected Logger logger = LoggerFactory.getLogger(FocusSwaggerController.class);
 
 	public static final String SWAGGER_RESOURCES_URL = "/swagger-resources";
+	public static final String SWAGGER_RESOURCES_UI_URL = "/swagger-resources/configuration/ui";
 	public static final String DEFAULT_URL = "/focus/api-docs";
 	public static final String RESOURCES_URL = "/focus-resources";
 	public static final String PARAM = "?group=";
@@ -103,6 +104,8 @@ public class FocusSwaggerController {
 			Entry<String, ZuulRoute> next = iterator.next();
 			try {
 				List<Map<String, String>> datas = null;
+				//初始化资源
+				swaggerResourcesUI(next.getValue().getServiceId());
 				int request = 0;
 				//允许重试3次
 				while (request < 3) {
@@ -130,5 +133,9 @@ public class FocusSwaggerController {
 			}
 		}
 		return list;
+	}
+	
+	public Object swaggerResourcesUI(String serviceId) {
+		return restTemplate.getForObject("http://"+ serviceId + SWAGGER_RESOURCES_UI_URL, Object.class);
 	}
 }

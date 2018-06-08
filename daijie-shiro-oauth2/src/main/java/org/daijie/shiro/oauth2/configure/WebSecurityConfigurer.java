@@ -1,8 +1,10 @@
 package org.daijie.shiro.oauth2.configure;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -13,16 +15,28 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @EnableWebSecurity
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private ShiroOauth2Properties shiroOauth2Properties;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	http.formLogin()
-//    	http.formLogin().loginPage("")
-    		.and()
-    		.requestMatchers().anyRequest()
-        	.and()
-            .authorizeRequests()
-            .antMatchers("/oauth/*").permitAll();
+    	if (StringUtils.isEmpty(shiroOauth2Properties.getLoginPage())) {
+    		http.formLogin()
+	    		.and()
+	    		.requestMatchers().anyRequest()
+	    		.and()
+	    		.authorizeRequests()
+	    		.antMatchers("/oauth/*").permitAll();
+    	} else {
+        	http.formLogin().loginPage(shiroOauth2Properties.getLoginPage())
+        		.and()
+        		.requestMatchers().anyRequest()
+        		.and()
+        		.authorizeRequests()
+        		.antMatchers("/oauth/*").permitAll();
+    		
+    	}
     }
 
 //    @Override
