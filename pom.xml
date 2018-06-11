@@ -93,6 +93,7 @@
 		<module>daijie-shiro-oauth2</module>
 		<module>daijie-fastdfs</module>
 		<module>daijie-hadoop</module>
+		<module>daijie-workflow</module>
 	</modules>
 	<licenses>
 		<license>

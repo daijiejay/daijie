@@ -13,12 +13,12 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-core-spring-boot-starter</artifactId>
-	<version>1.0.4-RELEASE</version>
+	<version>1.1.0-RELEASE</version>
 </dependency>
 ```
 ## 异常全局处理
 * 自定义`@RestController`与`@Controller`需要分别继承`ApiController`与`WebController`，其目的是需要统一管理Controller，目前已实现了异常处理，`ApiController`与`WebController`保证反给消费者的是`ModelResult`实体与`String`路径，`WebController`异常默认返回路径是“/error”，可以在`Controller`上加`@ErrorMapping`类注解自定义异常时跳转路径。
-```
+```java
 @RestController
 public class TestController extends ApiController {
 	@RequestMapping(value = "/data", method = RequestMethod.GET)
@@ -27,7 +27,7 @@ public class TestController extends ApiController {
 	}
 }
 ```
-```
+```java
 @ErrorMapping(path="/error")
 @Controller
 public class HomeController extends WebController {
@@ -38,7 +38,7 @@ public class HomeController extends WebController {
 }
 ```
 * 通过注解`@EnableExceptionHandler`开启异常处理，检测`@RestController`或`@ResponseBody`的请求返回的是`ModelResult`实体，检测`@Controller`的请求返回的是`String`路径，默认返回路径是“/error”，可以在`Controller`上加`@ErrorMapping`类注解自定义异常时跳转路径。
-```
+```java
 @EnableExceptionHandler
 @SpringBootApplication
 public class BootApplication {
@@ -46,10 +46,10 @@ public class BootApplication {
 		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
 	}
 }
-```
+```java
 ## 生成api文档
 * 启动类引用`@EnableMySwagger`注解，官方的`@EnableSwagger2`注解被重写
-```
+```java
 @EnableMySwagger
 @SpringBootApplication
 public class BootApplication {
@@ -85,7 +85,7 @@ swagger.user.version=1.0
 ```
 ## 分布式锁
 * 启动类引用`@EnableRedisLock`注解开启redis分布式锁，引用`@EnableZKLock`注解开启zookeeper分布式锁
-```
+```java
 @EnableRedisLock
 @SpringBootApplication
 public class BootApplication {
@@ -113,7 +113,7 @@ lock.redis.addresses=127.0.0.1:6379
 ##zookeeper分布式锁配置-----------------------------end
 ```
 * 工具类使用
-```
+```java
 @RestController
 public class LockController {
 	private static final Logger logger = Logger.getLogger(LockController.class);
@@ -143,7 +143,7 @@ lockId: 业务ID，优先级大于argNme配置，默认方法名作为唯一字�
 timeOut: 锁时长，默认5秒；
 timeOutMethodName：锁占用时需要执行的方法，默认不执行；
 errorMethodName：锁异常时需要执行的方法，默认不执行。）
-```
+```java
 @RestController
 public class LockController {
 	private static final Logger logger = Logger.getLogger(LockController.class);
@@ -170,7 +170,7 @@ public class LockController {
 }
 ```
 ## 图形验证码工具使用
-```
+```java
 Captcha captcha = CaptchaTool.getCaptcha();
 String randomStr = captcha.getChallenge();
 ```
@@ -178,7 +178,7 @@ String randomStr = captcha.getChallenge();
 ### 线性枚举成员节点的有序序列存储
 * 有序序列存储需要实现`OrderEnumProcessFactory`接口，并实现它的方法
 * 举例，请假流程为“请假申请”->"项目组长审批"->"项目经理审批"->"部门经理审批"->"人事自动审批"->"请假完成"->"流程结束"，其中领导审批有一个不同意都是直接流程结束。
-```
+```java
 public enum LeaveStatus implements OrderEnumProcessFactory<LeaveStatus> {
 	APPLY(1, null, "请假申请"),	
 	PROJECT_LEADER(2, "projectLeaderId", "项目组长审批"),	
@@ -220,7 +220,7 @@ public enum LeaveStatus implements OrderEnumProcessFactory<LeaveStatus> {
 	}
 ```
 * 容器使用
-```
+```java
 //获取下一个流程节点
 LeaveStatus.APPLY.nextProcess(Process.THROUGH);
 //获取上一个流程节点
@@ -231,7 +231,7 @@ LeaveStatus.PROJECT_MANAGER.nextProcess(Process.NOT_THROUGH);
 ### 树形枚举成员节点的链表树状存储
 * 链表树状存储需要实现`TreeEnumProcessFactory`接口，并实现它的方法
 * 举例，文物备案主线流程为“申请文物备案”->“用户支付”->“初审”->“复审”->“预约实物线下终审”->“客户到场确认”->“终审”->“备案入库”->“备案完成”，例举其中一个分支支线任务，“初审”->“重新提交”或者“初审”->“退款”，在流程当中一般只有四种流程走向（并行和串行走也都是同一个流程），这里定义了枚举类`Process`，分别对应为“通过”、“不通过”、“拒绝”、“退回”四个操作，流转时根据业务自由定义。
-```
+```java
 public enum RelicStatus implements TreeEnumProcessFactory<RelicStatus> {
 	APPLY("username", "申请文物备案"),
 	PAY("username", "用户支付"),
@@ -297,7 +297,7 @@ public enum RelicStatus implements TreeEnumProcessFactory<RelicStatus> {
 }
 ```
 * 容器使用
-```
+```java
 //获取主线流程的下一个流程节点（节点“APPLY（申请）”申请成功，得到下一个节点为“PAY（支付）”）
 LeaveStatus.APPLY.nextProcess(Process.THROUGH);
 //获取主线流程的上一个流程节点（得到上一个节点为“REVIWE（复审）”）

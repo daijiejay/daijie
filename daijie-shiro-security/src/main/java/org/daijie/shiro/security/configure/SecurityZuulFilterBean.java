@@ -1,5 +1,6 @@
 package org.daijie.shiro.security.configure;
 
+import org.daijie.shiro.security.filter.ResultErrorZuulFilter;
 import org.daijie.shiro.security.filter.SecurityZuulFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
@@ -17,6 +18,11 @@ public class SecurityZuulFilterBean {
 	@Bean
 	public SecurityZuulFilter securityZuulFilter(){
 		return new SecurityZuulFilter();
+	}
+	
+	@Bean
+	public ResultErrorZuulFilter resultErrorZuulFilter(){
+		return new ResultErrorZuulFilter();
 	}
 
 	@Bean

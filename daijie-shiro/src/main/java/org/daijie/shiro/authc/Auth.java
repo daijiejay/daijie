@@ -1,6 +1,7 @@
 package org.daijie.shiro.authc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,7 @@ public final class Auth {
 	 * @param authc 缓存登录账号信息的值
 	 */
 	public static void login(String username, String pubPwd, String salt, String saltPwd, String authcKey, Object authc){
+		Redis.isExpire(false);
 		userToken = new UserToken();
 		userToken.setAuthc(authc);
 		AuthorizationToken token = new AuthorizationToken(username, 
@@ -82,12 +84,13 @@ public final class Auth {
 	 */
 	public static void logOut(){
 		Session session = Redis.getSession();
-		if(session.getAttribute("kissoEnable") != null && (boolean) session.getAttribute("kissoEnable")){
-			SSOHelper.clearLogin(HttpConversationUtil.getRequest(), HttpConversationUtil.getResponse());
-		}else{
+		if (session != null) {
+			if(session.getAttribute("kissoEnable") != null && (boolean) session.getAttribute("kissoEnable")){
+				SSOHelper.clearLogin(HttpConversationUtil.getRequest(), HttpConversationUtil.getResponse());
+			}
+			Redis.deleteSession();
 			CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), 0);
 		}
-		Redis.deleteSession();
 	}
 	
 	/**
@@ -150,6 +153,17 @@ public final class Auth {
 	}
 	
 	/**
+	 * 验证用户是否有该权限
+	 * @param permissions 权限集
+	 * @return boolean
+	 */
+	public static boolean hasAnyPermissions(String... permissions){
+		List<String> list = getPermissions();
+		list.retainAll(Arrays.asList(permissions));
+		return list.size() > 0;
+	}
+	
+	/**
 	 * 获取登录用户角色集
 	 * @return List
 	 */
@@ -168,6 +182,17 @@ public final class Auth {
 			return ((UserToken) value).getRoles();
 		}
 		return new ArrayList<String>();
+	}
+	
+	/**
+	 * 验证用户是否有该角色
+	 * @param permissions 角色集
+	 * @return boolean
+	 */
+	public static boolean hasAnyRoles(String... roles){
+		List<String> list = getRoles();
+		list.retainAll(Arrays.asList(roles));
+		return list.size() > 0;
 	}
 	
 	/**

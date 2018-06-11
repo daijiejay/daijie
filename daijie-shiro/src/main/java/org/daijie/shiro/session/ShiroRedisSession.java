@@ -21,6 +21,8 @@ public class ShiroRedisSession {
 
 	private static Logger logger = LoggerFactory.getLogger(ShiroRedisSession.class);
 	
+	private static final String SESSION_EXPIRE_KEY = "SESSION_EXPIRE_KEY";
+	
 	private static Session session;  
 
 	private static RedisSessionFactory redisSession;  
@@ -45,11 +47,24 @@ public class ShiroRedisSession {
 				logger.error("redisSession is null!");
 			}else{
 				try {
+					String token = getToken();
+					if (token == null) {
+						token = SecurityUtils.getSubject().getSession().getId().toString();
+						isExpire(true);
+					}
 					session = ((AbstractSessionDAO) redisSession).readSession(getToken());
 				} catch (UnknownSessionException e) {
-					logger.error(e.getMessage());
 					session = null;
 				}
+			}
+		}
+		
+		/**
+		 * 设置session过期	
+		 */
+		public static void isExpire(boolean expire){
+			if (session != null) {
+				session.setAttribute(SESSION_EXPIRE_KEY, expire);
 			}
 		}
 
@@ -142,11 +157,7 @@ public class ShiroRedisSession {
 		 * @return String
 		 */
 		public static String getToken(){
-			String token = HttpConversationUtil.getToken();
-			if(token == null){
-				token = SecurityUtils.getSubject().getSession().getId().toString();
-			}
-			return token;
+			return HttpConversationUtil.getToken();
 		}
 	}
 	

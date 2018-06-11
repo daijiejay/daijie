@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 import org.daijie.core.feign.FeignConfigure;
 import org.daijie.shiro.annotation.EnableShiro;
 import org.daijie.shiro.oauth2.configure.JdbcAuthorizationServerConfigurer;
+import org.daijie.shiro.oauth2.configure.ResourceServerConfiguration;
 import org.daijie.shiro.oauth2.configure.ShiroAuthenticationConfigure;
 import org.daijie.shiro.oauth2.configure.WebSecurityConfigurer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -39,6 +40,7 @@ import org.springframework.context.annotation.Import;
 	ShiroAuthenticationConfigure.class,
 	WebSecurityConfigurer.class,
 	JdbcAuthorizationServerConfigurer.class,
+	ResourceServerConfiguration.class,
 	FeignConfigure.class
 })
 public @interface EnableShiroOauth2SecurityServer {

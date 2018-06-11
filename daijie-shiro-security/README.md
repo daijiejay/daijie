@@ -6,12 +6,12 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-shiro-security-spring-boot-starter</artifactId>
-	<version>1.0.4-RELEASE</version>
+	<version>1.1.0-RELEASE</version>
 </dependency>
 ```
 ## 启动shiro安全服务
 * 启动类引用`@EnableShiroSecurityServer`注解
-```
+```java
 @EnableShiroSecurityServer
 @SpringBootApplication
 public class BootApplication {

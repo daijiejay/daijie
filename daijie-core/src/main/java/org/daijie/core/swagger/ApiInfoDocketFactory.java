@@ -42,7 +42,7 @@ public abstract class ApiInfoDocketFactory implements DocketFactory, RegisterBea
 			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(PackRewirteDocket.class);
 			builder.addConstructorArgValue(DocumentationType.SWAGGER_2);
 			builder.addPropertyValue("apiInfo", apiInfo(swaggerProperties));
-			builder.addPropertyValue("groupName", properties.size() == 1 ? Docket.DEFAULT_GROUP_NAME : swaggerProperties.getGroupName());
+			builder.addPropertyValue("groupName", swaggerProperties.getGroupName() == null ? Docket.DEFAULT_GROUP_NAME : swaggerProperties.getGroupName());
 			builder.addPropertyValue("apiSelector", apiSelector(swaggerProperties));
 			registerBean(swaggerProperties.getGroupName() + "Bean", builder, registry);
 		}

@@ -1,18 +1,19 @@
 # 工程简介
 * 替代daijie-mybatis，集成多个ORM框架，加入动态多数据源配置。
+* 支持分布式数据库事务，使用spring的`@Transactional`注解就可以完成。
 # 使用说明
 ## maven依赖
 ```
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-jdbc-spring-boot-starter</artifactId>
-	<version>1.0.4-RELEASE</version>
+	<version>1.1.0-RELEASE</version>
 </dependency>
 ```
 ## 多数据源配置
 * 启动类需要引用`@EnableMybatis`或`@EnableJpa`注解。
-```
-@EnableMybatis
+```java
+@EnableMybatis(basePackages = {"org.daijie.mybatis.mapper"})
 @SpringBootApplication
 public class BootApplication {
 	public static void main(String[] args) {
@@ -42,13 +43,19 @@ spring.datasource.password=123456
 #jpa配置需要添加扫描实体的包路径，多个以“,”号隔开
 #spring.datasource.jpaEntityPackages=org.daijie.mybatis.model
 ```
-* 多数据源下选择哪个数据源，service引用`@SelectDataSource`注解，不配置将使用默认配置的defaultName数据源。
-```
-@SelectDataSource("demo1")
-@Service
-public class UserService{
-	@Autowired
-	private UserMapper userMapper;
+* 多数据源下选择哪个数据源，接口引用`@SelectDataSource`注解，不配置将使用默认配置的defaultName数据源。
+mybatis使用：
+```java
+@SelectDataSource(name = "demo1")
+public interface UserMapper extends Mapper<User>, ConditionMapper<User>, MySqlMapper<User> {
+	...
+}
+jpa使用：
+```java
+@Repository
+@SelectDataSource(name = "demo1")
+public interface UserRepository extends BaseSearchJpaRepository<User, Integer>{
+	User getUserByUserName(String userName);
 	...
 }
 ```

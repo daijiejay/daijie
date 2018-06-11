@@ -1,12 +1,16 @@
 package org.daijie.shiro.oauth2.configure;
 
+import org.daijie.core.feign.RestTemplateConfigure;
 import org.daijie.shiro.oauth2.AuthenticationMatch;
 import org.daijie.shiro.oauth2.RequestAuthenticationMatch;
 import org.daijie.shiro.oauth2.ShiroAuthenticationManager;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * shiro oauth2权限初始化bean
@@ -14,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
  * @since 2017年12月27日
  */
 @EnableConfigurationProperties(ShiroOauth2Properties.class)
+@Import(RestTemplateConfigure.class)
 @Configuration
 public class ShiroAuthenticationConfigure {
 
@@ -28,4 +33,9 @@ public class ShiroAuthenticationConfigure {
 	public AuthenticationMatch authenticationMatch(){
 		return new RequestAuthenticationMatch();
 	}
+	
+  @Bean
+  PasswordEncoder passwordEncoder(){
+      return new BCryptPasswordEncoder();
+  }
 }

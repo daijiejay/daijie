@@ -17,11 +17,13 @@
 #### daijie-shiro-security [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-shiro-security)
 * 提供shiro权限路由跳转配置服务。
 #### daijie-shiro-oauth2 [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-shiro-oauth2)
-* 提供oauth2协议shiro权限路由跳转配置服务。
+* 提供oauth2协议权限路由跳转配置服务。
 #### daijie-social [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-social)
 * 提供第三方接口集成，已集成了第三方登录。
 #### daijie-hadoop [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-hadoop)
-* 提供hadoop服务，已集成了文件上传
+* 提供hadoop服务，已集成了文件上传。
+#### daijie-workflow [开发文档](https://github.com/daijiejay/daijie/tree/master/daijie-workflow)
+* 集成了activiti版本7-201802-EA，是解决了spring boot版本兼容问题。
 ## 项目demo
 * [daijie-example](https://github.com/daijiejay/daijie-example "demo")
 
@@ -55,6 +57,9 @@ outh2授权 | 集成spring-security、shiro、zuul开发启动服务，实现请
 文件上传 | hadoop HDFS文件上传工具类 | 已完成 | 2018年4月25日 | 未发布 | 1.1.0-RELEASE
 分布式事务 | 单线程mybatis、jpa多数据源动态切换分布式数据库事务处理 | 已完成 | 2018年5月28日 | 未发布 | 1.1.0-RELEASE
 数据库结构文档 | 提供maven插件生成mysql数据库结构文档 | 已完成 | 2018年5月28日 | 未发布 | 1.1.0-RELEASE
+工作流 | 提供activiti兼容spring boot2.0以上的自动配置 | 已完成 | 2018年5月31日 | 未发布 | 1.1.0-RELEASE
+生成接口文档 | 结合zuul配置提供swagger集成式接口文档 | 已完成 | 2018年6月6日 | 未发布 | 1.1.0-RELEASE
+outh2授权 | 优化权限拦截配置 | 已完成 | 2018年6月8日 | 未发布 | 1.1.0-RELEASE
 
 ## 任务计划
 * 定义在方法上的注解，异步调用日志处理业务，可以从用户的几个角度解决问题，操作记录，行为记录，爱好记录，在线记录，地点记录，这些记录可以是日志文件输出，可以是数据库存储，这些只需要集成相关的第三方插件就能完成。

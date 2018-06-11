@@ -10,12 +10,12 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-shiro-spring-boot-starter</artifactId>
-	<version>1.0.4-RELEASE</version>
+	<version>1.1.0-RELEASE</version>
 </dependency>
 ```
 ## SSO登录实现
 * 启动类引用`@EnableShiro`注解
-```
+```java
 @EnableShiro
 @SpringBootApplication
 public class BootApplication {
@@ -51,7 +51,7 @@ kisso.config.cookieName=token
 kisso.config.cookieDomain=daijie.org
 ```
 * 工具类使用
-```
+```java
 @RestController
 public class LoginController extends ApiController {
 	private static final Logger logger = Logger.getLogger(LoginController.class);

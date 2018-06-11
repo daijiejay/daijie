@@ -7,12 +7,12 @@
 <dependency>
 	<groupId>org.daijie</groupId>
 	<artifactId>daijie-social-spring-boot-starter</artifactId>
-	<version>1.0.4-RELEASE</version>
+	<version>1.1.0-RELEASE</version>
 </dependency>
 ```
 ## 第三方登录
 * 启动类引用`@EnableSocialLogin`：
-```
+```java
 @EnableSocialLogin
 @SpringBootApplication
 public class BootApplication {
@@ -30,7 +30,7 @@ weixin.login.errorUri=/error
 weixin.login.callbackUri=/weixin/callback
 ```
 * 工具类使用
-```
+```java
 @Controller
 public class SocialLoginController {
 	private static final Logger logger = Logger.getLogger(SocialLoginController.class);
