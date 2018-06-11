@@ -1,5 +1,7 @@
 # 工程简介
-* 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制，再重定向到对应的子微服务。
+* 集成zuul服务代理，通过`@EnableShiroSecurityServer`注解开启访问权限控制。
+* 配置shiro角色权限拦截，再重定向到对应的子微服务。
+* 结合zuul的微服务管理配置，自动生成被反向代理的所有微服务集中式接口文档。
 #使用说明
 ## maven依赖
 ```
