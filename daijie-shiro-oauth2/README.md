@@ -44,7 +44,7 @@ shiro.redis.maxAttempts=1
 shiro.oauth2.loginUrl=http://daijie.org/login
 #用户授权登录请求接口方式
 shiro.oauth2.loginMethod=post
-#请求权限，比如请求路径/api/user，需要有角色为USER,ADMIN才能访问
+#请求权限，比如请求路径/api/user，需要有角色为USER,ADMIN才能访问。（/api/user等于api_user，/api/user/**等于api_user_）
 shiro.oauth2.matcher.api_user=USER,ADMIN
 shiro.oauth2.matcher.api_setRedis=USER
 shiro.oauth2.matcher.api_getRedis=USER

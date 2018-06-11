@@ -38,6 +38,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     			Entry<String, List<String>> next = iterator.next();
     			String matcher = next.getKey().charAt(0) != '_' ? 
     					("/" + next.getKey()).replaceAll("_", "/") : next.getKey().replaceAll("_", "/");
+    			matcher = next.getKey().charAt(next.getKey().length() - 1) == '_' ?
+    					matcher + "**" : matcher;
     			http.authorizeRequests()
 			        .antMatchers(matcher)
 			        .hasAnyRole(next.getValue().toArray(new String[next.getValue().size()]))
