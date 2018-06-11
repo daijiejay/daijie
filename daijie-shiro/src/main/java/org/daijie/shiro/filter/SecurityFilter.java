@@ -27,18 +27,23 @@ public class SecurityFilter extends PathMatchingFilter {
 	public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 		boolean secutity = true;
 		ModelResult<Object> result = null;
-		if (Redis.getSession() != null) {
-			String[] rolesArray = (String[]) mappedValue;
-			if (rolesArray == null || rolesArray.length == 0) {
-				return secutity;
+		try {
+			if (Redis.getSession() != null) {
+				String[] rolesArray = (String[]) mappedValue;
+				if (rolesArray == null || rolesArray.length == 0) {
+					return secutity;
+				}
+				secutity = Auth.hasAnyRoles(rolesArray);
+				if (!secutity) {
+					result = Result.build(null, ResultCode.CODE_400.getDescription(), ApiResult.ERROR, ResultCode.CODE_400);
+				}
+			} else {
+				secutity = false;
+				result = Result.build(null, ResultCode.CODE_300.getDescription(), ApiResult.ERROR, ResultCode.CODE_300);
 			}
-			secutity = Auth.hasAnyRoles(rolesArray);
-			if (!secutity) {
-				result = Result.build(null, ResultCode.CODE_400.getDescription(), ApiResult.ERROR, ResultCode.CODE_400);
-			}
-		} else {
+		} catch (Exception e) {
+			result = Result.build(null, e.getMessage(), ApiResult.ERROR, ResultCode.CODE_500);
 			secutity = false;
-			result = Result.build(null, ResultCode.CODE_300.getDescription(), ApiResult.ERROR, ResultCode.CODE_300);
 		}
 		if (!secutity) {
 			PrintWriter out = null;
