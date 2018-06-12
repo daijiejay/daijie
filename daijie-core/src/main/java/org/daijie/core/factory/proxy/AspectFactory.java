@@ -18,6 +18,7 @@ public interface AspectFactory extends Factory {
 	
 	/**
 	 * 进入方法后出现运行异常时运行的方法
+	 * @param joinPoint 获取方法
 	 * @param exception 方法处理时捕获的异常
 	 * @return 对应拦截方法的返回参数
 	 */
