@@ -1,7 +1,5 @@
 package org.daijie.shiro.oauth2.configure;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,9 @@ public class JdbcAuthorizationServerConfigurer extends AuthorizationServerConfig
 	
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private ShiroOauth2Properties shiroOauth2Properties;
 
 	@Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -49,7 +50,7 @@ public class JdbcAuthorizationServerConfigurer extends AuthorizationServerConfig
         tokenServices.setSupportRefreshToken(false);
         tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
         tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
-        tokenServices.setAccessTokenValiditySeconds( (int) TimeUnit.DAYS.toSeconds(30)); // 30天
+        tokenServices.setAccessTokenValiditySeconds(shiroOauth2Properties.getAccessTokenValiditySeconds());
         endpoints.tokenServices(tokenServices);
 
     }
