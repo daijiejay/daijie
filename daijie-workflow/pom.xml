@@ -10,6 +10,7 @@
 	</parent>
 	<artifactId>daijie-workflow-spring-boot-starter</artifactId>
 	<name>daijie-workflow-spring-boot-starter</name>
+	<description>集成了activiti版本7-201802-EA，是解决了spring boot版本兼容问题。</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
