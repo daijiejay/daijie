@@ -1,5 +1,9 @@
 package org.daijie.shiro.configure;
 
+import java.util.Map;
+
+import org.apache.shiro.web.servlet.AdviceFilter;
+import org.jboss.netty.util.internal.ConcurrentHashMap;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -27,6 +31,10 @@ public class ShiroProperties {
 	private String filterChainDefinitionMap;
 	
 	private String sessionid = "mysessionid";
+	
+	private Map<String, String> matcher = new ConcurrentHashMap<String, String>();
+	
+	private Class<AdviceFilter>[] filterClasses;
 
 	public String getFilterClassNames() {
 		return filterClassNames;
@@ -98,5 +106,21 @@ public class ShiroProperties {
 
 	public void setSessionid(String sessionid) {
 		this.sessionid = sessionid;
+	}
+
+	public Map<String, String> getMatcher() {
+		return matcher;
+	}
+
+	public void setMatcher(Map<String, String> matcher) {
+		this.matcher = matcher;
+	}
+
+	public Class<AdviceFilter>[] getFilterClasses() {
+		return filterClasses;
+	}
+
+	public void setFilterClasses(Class<AdviceFilter>[] filterClasses) {
+		this.filterClasses = filterClasses;
 	}
 }

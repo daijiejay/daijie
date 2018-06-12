@@ -3,7 +3,9 @@ package org.daijie.shiro.configure;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -23,6 +25,7 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.AdviceFilter;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.daijie.shiro.TokenCredentialsMatcher;
@@ -45,12 +48,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.util.StringUtils;
 
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisCluster;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisCluster;
 
 /**
  * shiro相关bean配置
@@ -70,7 +73,13 @@ public class ShiroConfigure {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		try {
 			shiroFilterFactoryBean.setSecurityManager(securityManager);
-			if(!StringUtils.isEmpty(shiroProperties.getFilterClassNames())){
+			if(shiroProperties.getFilterClasses() != null){
+				for (Class<AdviceFilter> cls : shiroProperties.getFilterClasses()) {
+					String filterClassName = cls.getTypeName();
+					String name = filterClassName.substring(filterClassName.lastIndexOf(".")+1).replace("Filter", "");
+					filterMap.put(name.substring(0,1).toLowerCase()+name.substring(1), cls.newInstance());
+				}
+			}else if(!StringUtils.isEmpty(shiroProperties.getFilterClassNames())){
 				for (String filterClassName : shiroProperties.getFilterClassNames().split(",")) {
 					if(filterClassName.trim().length() > 0){
 						@SuppressWarnings("unchecked")
@@ -86,7 +95,17 @@ public class ShiroConfigure {
 			shiroFilterFactoryBean.setSuccessUrl(shiroProperties.getSuccessUrl());
 			shiroFilterFactoryBean.setUnauthorizedUrl(shiroProperties.getUnauthorizedUrl());
 			Map<String, String> filterChainDefinitionMap = new HashMap<String, String>();
-			if(!StringUtils.isEmpty(shiroProperties.getFilterChainDefinitions())){
+			if(!shiroProperties.getMatcher().isEmpty()){
+				Iterator<Entry<String, String>> iterator = shiroProperties.getMatcher().entrySet().iterator();
+	    		while (iterator.hasNext()) {
+	    			Entry<String, String> next = iterator.next();
+	    			String matcher = next.getKey().charAt(0) != '_' ? 
+	    					("/" + next.getKey()).replaceAll("_", "/") : next.getKey().replaceAll("_", "/");
+	    			matcher = next.getKey().charAt(next.getKey().length() - 1) == '_' ?
+	    					matcher + "**" : matcher;
+	    			filterChainDefinitionMap.put(matcher, next.getValue());
+	    		}
+			}else if(!StringUtils.isEmpty(shiroProperties.getFilterChainDefinitions())){
 				for (String definition : shiroProperties.getFilterChainDefinitions().split(",")) {
 					if(definition.contains("=")){
 						filterChainDefinitionMap.put(definition.split("=")[0], definition.split("=")[1]);
