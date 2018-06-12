@@ -48,6 +48,7 @@ import redis.clients.jedis.JedisCluster;
 
 /**
  * shiro session集群+redis集群bean配置
+ * 1.1.0版本后已弃用，org.daijie.shiro.configure.ShiroConfigure支持单机和集群配置
  * @author daijie
  * @since 2017年6月5日
  */

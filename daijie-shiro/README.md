@@ -2,7 +2,6 @@
 * 集成shiro，提供单机和集群redis自动配置。
 * shiro工具类封装，使用登录登出简单化，实现了session集群，任何工程只需依赖本工程就可获取当前登录用户信息和角色权限信息。
 * shiro的cookie优化为更安全kisso进行管理，可以开关配置，默认kisso管理。
-* shiro配置修改为properties和yml读取，保留shiro原来的配置方式一致，filterClassNames的名字前缀与filterChainDefinitions必须要一致，第一个字母小写，比如UserFilter对应user。
 * 登录方法实现了RSA非对称加密算法。
 # 使用说明
 ## maven依赖

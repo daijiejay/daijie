@@ -24,19 +24,6 @@ public class BootApplication {
 ```
 * shiro安全服务properties相关配置
 ```
-#添加自定义Filter，以“,”号隔开
-shiro.filterClassNames=org.daijie.shiro.filter.SecurityFilter
-#登录过期跳转的访问路径
-shiro.loginUrl=/invalid
-#登录成功跳转的访问路径
-shiro.successUrl=/
-#无权限时跳转的访问路径
-shiro.unauthorizedUrl=/error
-#拦截访问路径，以“,”号隔开
-shiro.filterChainDefinitions=/**=anon,/login=credential,/api/user/**=security
-#拦截访问路径，json对象格式
-#shiro.filterChainDefinitionMap={"*/**":"anon"}
-
 #是否开启redis集群
 shiro.redis.cluster=false
 #服务地址
@@ -66,7 +53,8 @@ zuul.routes.api.stripPrefix=false
 ```
 * shiro角色权限properties相关配置
 ```
-shiro.filterClassNames=org.daijie.shiro.filter.RolesFilter
+shiro.filterClasses=org.daijie.shiro.filter.SecurityFilter
 #允许admin这个角色的用户访问，需要调用Auth.refreshRoles(new ArrayList<String>())添加权限
-shiro.filterChainDefinitions=/api/user/**=roles[admin]
+#请求权限，比如请求路径/api/user，需要有角色为USER,ADMIN才能访问。（/api/user等于api_user，/api/user/**等于api_user_）
+shiro.matcher.api_user_=security[ADMIN,USER]
 ```

@@ -12,7 +12,7 @@ public interface AfterAspectFactory extends AspectFactory {
 
 	/**
 	 * 进入方法之后运行的方法
-	 * @param joinPoint 反射对象
+	 * @param joinPoint 获取方法
 	 * @param result 拦截方法的返回参数
 	 * @return 对应拦截方法的返回参数
 	 * @throws Exception 抛出异常

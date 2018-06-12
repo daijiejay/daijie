@@ -186,7 +186,7 @@ public final class Auth {
 	
 	/**
 	 * 验证用户是否有该角色
-	 * @param permissions 角色集
+	 * @param roles 角色集
 	 * @return boolean
 	 */
 	public static boolean hasAnyRoles(String... roles){
