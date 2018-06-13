@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>daijie-shiro-spring-boot-starter</artifactId>
 	<name>daijie-shiro-spring-boot-starter</name>
+	<description>提供非对称加密的单点登录，角色权限配置。</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
