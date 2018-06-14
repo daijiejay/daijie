@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.1.0-RELEASE</version>
+		<version>1.1.1-RELEASE</version>
 	</parent>
 	<artifactId>daijie-fastdfs-spring-boot-starter</artifactId>
 	<name>daijie-fastdfs-spring-boot-starter</name>
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-core-spring-boot-starter</artifactId>
-			<version>1.1.0-RELEASE</version>
+			<version>1.1.1-RELEASE</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.github.tobato</groupId>
