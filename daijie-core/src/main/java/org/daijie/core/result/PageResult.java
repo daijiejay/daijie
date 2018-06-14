@@ -1,6 +1,13 @@
 package org.daijie.core.result;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.xiaoleilu.hutool.bean.BeanUtil;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 分页列表封装
@@ -10,8 +17,26 @@ import java.util.List;
  * @param <T> 列表实体类型
  */
 public class PageResult<T> {
-	private List<T> rows;
+	
+	@ApiModelProperty(name = "rows", value = "数据集")
+	private List<T> rows = new ArrayList<T>();;
+	
+	@ApiModelProperty(name = "total", value = "总条数")
 	private Long total;
+	
+	public PageResult() {}
+
+	public PageResult(List<T> rows, Long total) {
+		super();
+		this.total = total;
+		this.rows = rows;
+	}
+	
+	public <E> PageResult(List<E> rows, Long total, Class<T> className) {
+		super();
+		this.total = total;
+		setRows(rows, className);
+	}
 
 	public List<T> getRows() {
 		return rows;
@@ -19,6 +44,26 @@ public class PageResult<T> {
 
 	public void setRows(List<T> rows) {
 		this.rows = rows;
+	}
+	
+	public <E> void setRows(List<E> rows, Class<T> className) {
+		if (rows.size() > 0) {
+			List<T> list = Lists.transform(rows, 
+	    		new Function<E, T>() {
+					@Override
+					public T apply(E input) {
+						T entity = null;
+						try {
+							entity = className.newInstance();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						BeanUtil.copyProperties(input, entity);
+						return entity;
+					}
+		        });
+			this.rows = list;
+		}
 	}
 
 	public Long getTotal() {
