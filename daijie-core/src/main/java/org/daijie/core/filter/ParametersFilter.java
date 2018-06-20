@@ -11,6 +11,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpMethod;
 
 /**
  * 拦截请求对body参数进行处理
@@ -29,8 +32,13 @@ public class ParametersFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest hreq = (HttpServletRequest) req;
+		HttpServletResponse hres = (HttpServletResponse) res;
+		hres.addHeader("Access-Control-Allow-Origin", "*");
+		hres.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+		hres.addHeader("Access-Control-Allow-Headers", "token, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+		hres.addHeader("P3P", "CP=CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR");
 		String reqMethod = hreq.getMethod();
-		if (!"GET".equals(reqMethod)) {
+		if (!HttpMethod.GET.name().equals(reqMethod) && !HttpMethod.OPTIONS.name().equals(reqMethod)) {
 			ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(hreq);
 			chain.doFilter(requestWrapper, res);
 			return;
