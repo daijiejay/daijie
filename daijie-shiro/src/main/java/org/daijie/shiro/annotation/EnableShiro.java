@@ -7,6 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.daijie.core.annotation.EnableParametersFilter;
 import org.daijie.core.kisso.KissoConfigure;
 import org.daijie.core.swagger.EnableMySwagger;
 import org.daijie.core.util.bean.ApplicationContextHolderBean;
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@EnableParametersFilter
 @EnableMySwagger
 @Import({
 	ShiroConfigure.class, 
