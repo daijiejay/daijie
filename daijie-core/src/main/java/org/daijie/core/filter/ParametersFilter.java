@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpMethod;
+import org.springframework.util.StringUtils;
 
 /**
  * 拦截请求对body参数进行处理
@@ -22,6 +22,16 @@ import org.springframework.http.HttpMethod;
  */
 @WebFilter(filterName = "parametersFilter", urlPatterns = "/*", initParams = @WebInitParam(name = "paramName", value = "paramValue"))
 public class ParametersFilter implements Filter {
+	
+	private static final String REMOTE_AJAX_ORIGIN = "Access-Control-Allow-Origin";
+	private static final String REMOTE_AJAX_METHODS = "Access-Control-Allow-Methods";
+	private static final String REMOTE_AJAX_HEADERS = "Access-Control-Allow-Headers";
+	
+	private final HttpRequestProperties requestProperties;
+	
+	public ParametersFilter(HttpRequestProperties requestProperties) {
+		this.requestProperties = requestProperties;
+	}
 
 	@Override
 	public void destroy() {
@@ -33,19 +43,20 @@ public class ParametersFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest hreq = (HttpServletRequest) req;
 		HttpServletResponse hres = (HttpServletResponse) res;
-		hres.addHeader("Access-Control-Allow-Origin", "*");
-		hres.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-		hres.addHeader("Access-Control-Allow-Headers", "token, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-		hres.addHeader("P3P", "CP=CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR");
-		String reqMethod = hreq.getMethod();
-		if (!HttpMethod.GET.name().equals(reqMethod) && !HttpMethod.OPTIONS.name().equals(reqMethod)) {
-			ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(hreq);
-			chain.doFilter(requestWrapper, res);
-			return;
-		} else {
-			// get请求直接放行
-			chain.doFilter(req, res);
+		if (requestProperties.getRemoteAjaxEanble()) {
+			hres.addHeader(REMOTE_AJAX_ORIGIN, requestProperties.getAccessControlAllowOrigin());
+			hres.addHeader(REMOTE_AJAX_METHODS, requestProperties.getAccessControlAllowMethods());
+			hres.addHeader(REMOTE_AJAX_HEADERS, requestProperties.getAccessControlAllowHeaders());
 		}
+		if (requestProperties.getBodyByParamEanble() && !StringUtils.isEmpty(requestProperties.getBodyByParamMethods())) {
+			String reqMethod = hreq.getMethod().toUpperCase();
+			if (requestProperties.getBodyByParamMethods().contains(reqMethod)) {
+				ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(hreq);
+				chain.doFilter(requestWrapper, res);
+				return;
+			}
+		}
+		chain.doFilter(req, res);
 	}
 
 	@Override
