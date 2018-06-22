@@ -1,1 +1,12 @@
-/daijie-jdbc/
+*.versionsBackup
+/daijie-core/bin/
+/daijie-core/target/
+/daijie-fastdfs/target/
+/daijie-hadoop/target/
+/daijie-jdbc/target/
+/daijie-jdbc-plugin/target/
+/daijie-shiro/target/
+/daijie-shiro-oauth2/target/
+/daijie-shiro-security/target/
+/daijie-social/target/
+/daijie-social/workflow/
