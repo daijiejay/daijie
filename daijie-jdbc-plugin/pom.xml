@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.1.0-RELEASE</version>
+		<version>1.1.1-RELEASE</version>
 	</parent>
 
 	<dependencies>
@@ -38,7 +38,7 @@
 			<plugin>
 				<groupId>org.daijie</groupId>
 				<artifactId>daijie-jdbc-plugin</artifactId>
-				<version>1.1.0-RELEASE</version>
+				<version>1.1.1-RELEASE</version>
 				<configuration>
 					<goalPrefix>daijie-jdbc</goalPrefix>
 					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>

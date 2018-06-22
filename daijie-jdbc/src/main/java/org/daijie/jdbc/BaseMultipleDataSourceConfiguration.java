@@ -70,13 +70,18 @@ public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {
 						
 						AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
 						Properties properties = new Properties();
-						properties.setProperty("user", ValidateJdbcProperty.validProperty(dataSourceProps, "username", name));
-						properties.setProperty("password", ValidateJdbcProperty.validProperty(dataSourceProps, "password", name));
-						properties.setProperty("url", ValidateJdbcProperty.validProperty(dataSourceProps, "url", name));
+						properties.setProperty("user", ValidateJdbcProperty.validPropertyString(dataSourceProps, "username", name));
+						properties.setProperty("password", ValidateJdbcProperty.validPropertyString(dataSourceProps, "password", name));
+						properties.setProperty("url", ValidateJdbcProperty.validPropertyString(dataSourceProps, "url", name));
 						dataSource.setXaProperties(properties);
 						dataSource.setXaDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlXADataSource");
-						dataSource.setPoolSize(10);
-						dataSource.setReapTimeout(20000);
+						dataSource.setPoolSize(dataSourceProps.get("poolSize") == null ? 10 : (int) dataSourceProps.get("poolSize"));
+						dataSource.setMinPoolSize(dataSourceProps.get("minPoolSize") == null ? 5 : (int) dataSourceProps.get("minPoolSize"));
+						dataSource.setMaxPoolSize(dataSourceProps.get("maxPoolSize") == null ? 20 : (int) dataSourceProps.get("maxPoolSize"));
+						dataSource.setMaxLifetime(dataSourceProps.get("maxLifetime") == null ? 3 : (int) dataSourceProps.get("maxLifetime"));
+						dataSource.setReapTimeout(dataSourceProps.get("reapTimeout") == null ? 5 : (int) dataSourceProps.get("reapTimeout"));
+						dataSource.setMaxIdleTime(dataSourceProps.get("maxIdleTime") == null ? 3 : (int) dataSourceProps.get("maxIdleTime"));
+						dataSource.setBorrowConnectionTimeout(dataSourceProps.get("borrowConnectionTimeout") == null ? 1 : (int) dataSourceProps.get("borrowConnectionTimeout"));
 						dataSource.setUniqueResourceName(name);
 								
 						targetDataResources.put(name, dataSource);

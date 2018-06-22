@@ -53,13 +53,15 @@ outh2授权 | 集成spring-security、shiro、zuul开发启动服务，实现请
 设计模式 | 围绕着AOP设计模式定义工厂方法 | 已完成 | 2018年3月9日 | 已发布 | 1.0.3-RELEASE
 请求处理 | 使用@RestController或@Controller时，处理异常默认结果，替代掉继承ApiController与WebController。 | 已完成 | 2018年3月23日 | 已发布 | 1.0.3-RELEASE
 文件上传 | fastDFS文件上传工具类 | 已完成 | 2018年4月4日 | 已发布 | 1.0.4-RELEASE
-升级版本 | spring-boot升级到2.0，spring-framework升级到5.0，解决兼容性问题 | 已完成 | 2018年4月24日 | 未发布 | 1.1.0-RELEASE
-文件上传 | hadoop HDFS文件上传工具类 | 已完成 | 2018年4月25日 | 未发布 | 1.1.0-RELEASE
-分布式事务 | 单线程mybatis、jpa多数据源动态切换分布式数据库事务处理 | 已完成 | 2018年5月28日 | 未发布 | 1.1.0-RELEASE
-数据库结构文档 | 提供maven插件生成mysql数据库结构文档 | 已完成 | 2018年5月28日 | 未发布 | 1.1.0-RELEASE
-工作流 | 提供activiti兼容spring boot2.0以上的自动配置 | 已完成 | 2018年5月31日 | 未发布 | 1.1.0-RELEASE
-生成接口文档 | 结合zuul配置提供swagger集中式接口文档 | 已完成 | 2018年6月6日 | 未发布 | 1.1.0-RELEASE
-outh2授权 | 优化权限拦截配置 | 已完成 | 2018年6月8日 | 未发布 | 1.1.0-RELEASE
+升级版本 | spring-boot升级到2.0，spring-framework升级到5.0，解决兼容性问题 | 已完成 | 2018年4月24日 | 已发布 | 1.1.0-RELEASE
+文件上传 | hadoop HDFS文件上传工具类 | 已完成 | 2018年4月25日 | 已发布 | 1.1.0-RELEASE
+分布式事务 | 单线程mybatis、jpa多数据源动态切换分布式数据库事务处理 | 已完成 | 2018年5月28日 | 已发布 | 1.1.0-RELEASE
+数据库结构文档 | 提供maven插件生成mysql数据库结构文档 | 已完成 | 2018年5月28日 | 已发布 | 1.1.0-RELEASE
+工作流 | 提供activiti兼容spring boot2.0以上的自动配置 | 已完成 | 2018年5月31日 | 已发布 | 1.1.0-RELEASE
+生成接口文档 | 结合zuul配置提供swagger集中式接口文档 | 已完成 | 2018年6月6日 | 已发布 | 1.1.0-RELEASE
+outh2授权 | 优化权限拦截配置 | 已完成 | 2018年6月8日 | 已发布 | 1.1.0-RELEASE
+多数据源配置 | 优化数据源配置和数据源事务完成后未关闭连接的BUG | 已完成 | 2018年6月21日 | 已发布 | 1.1.1-RELEASE
+请求处理 | ajax运程调用授权配置和请求参数body转param配置 | 已完成 | 2018年6月21日 | 已发布 | 1.1.1-RELEASE
 
 ## 任务计划
 * mybatis-generator生成的实体类加上swagger与persistence系列注解的maven插件实现

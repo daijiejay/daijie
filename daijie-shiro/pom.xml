@@ -4,10 +4,11 @@
 	<parent>
 		<groupId>org.daijie</groupId>
 		<artifactId>daijie-parent-spring-boot-starter</artifactId>
-		<version>1.1.0-RELEASE</version>
+		<version>1.1.1-RELEASE</version>
 	</parent>
 	<artifactId>daijie-shiro-spring-boot-starter</artifactId>
 	<name>daijie-shiro-spring-boot-starter</name>
+	<description>提供非对称加密的单点登录，角色权限配置。</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +18,7 @@
 		<dependency>
 			<groupId>org.daijie</groupId>
 			<artifactId>daijie-core-spring-boot-starter</artifactId>
-			<version>1.1.0-RELEASE</version>
+			<version>1.1.1-RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
