@@ -2,6 +2,7 @@
 *.classpath
 *.project
 *.factorypath
+/.settings/
 /daijie-core/bin/
 /daijie-core/target/
 /daijie-core/.settings/
