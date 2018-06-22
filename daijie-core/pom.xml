@@ -41,7 +41,7 @@
 		<dependency>
 		    <groupId>org.springframework.cloud</groupId>
 		    <artifactId>spring-cloud-commons</artifactId>
-		    <version>1.3.3.RELEASE</version>
+		    <version>${spring.cloud.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
