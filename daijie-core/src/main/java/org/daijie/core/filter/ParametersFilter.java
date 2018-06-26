@@ -26,6 +26,7 @@ public class ParametersFilter implements Filter {
 	private static final String REMOTE_AJAX_ORIGIN = "Access-Control-Allow-Origin";
 	private static final String REMOTE_AJAX_METHODS = "Access-Control-Allow-Methods";
 	private static final String REMOTE_AJAX_HEADERS = "Access-Control-Allow-Headers";
+	private static final String REMOTE_AJAX_CREDENTIALS = "Access-Control-Allow-Credentials";
 	
 	private final HttpRequestProperties requestProperties;
 	
@@ -47,6 +48,7 @@ public class ParametersFilter implements Filter {
 			hres.addHeader(REMOTE_AJAX_ORIGIN, requestProperties.getAccessControlAllowOrigin());
 			hres.addHeader(REMOTE_AJAX_METHODS, requestProperties.getAccessControlAllowMethods());
 			hres.addHeader(REMOTE_AJAX_HEADERS, requestProperties.getAccessControlAllowHeaders());
+			hres.addHeader(REMOTE_AJAX_CREDENTIALS, "true");
 		}
 		if (requestProperties.getBodyByParamEanble() && !StringUtils.isEmpty(requestProperties.getBodyByParamMethods())) {
 			String reqMethod = hreq.getMethod().toUpperCase();
