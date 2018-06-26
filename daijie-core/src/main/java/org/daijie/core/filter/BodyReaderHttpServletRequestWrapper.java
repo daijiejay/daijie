@@ -51,10 +51,6 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 		
 		if (request.getContentType().contains("application/json")) {
 			String param = new String(body, Charset.forName("UTF-8"));
-			// json串 转换为Map
-			if (param != null & param.contains("=")) {
-				param = param.split("=")[1];
-			}
 			ObjectMapper mapper = new ObjectMapper();
 			if(JSONType.getJSONType(param).equals(JSONType.JSON_TYPE_OBJECT)){
 				params.putAll(mapper.readValue(param, Map.class)); //json转换成map
