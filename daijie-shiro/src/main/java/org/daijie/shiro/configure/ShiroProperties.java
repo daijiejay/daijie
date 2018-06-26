@@ -30,11 +30,26 @@ public class ShiroProperties {
 	
 	private String filterChainDefinitionMap;
 	
+	/**
+	 * session名称
+	 */
 	private String sessionid = "mysessionid";
 	
+	/**
+	 * 过滤器对应的路径
+	 */
 	private Map<String, String> matcher = new ConcurrentHashMap<String, String>();
 	
+	/**
+	 * 过滤器加载配置
+	 */
 	private Class<AdviceFilter>[] filterClasses;
+	
+	/**
+	 * 初始化凭证的请求路径
+	 * 目前用于初始化一对非对象密钥
+	 */
+	private String[] initCredentialUrl;
 
 	public String getFilterClassNames() {
 		return filterClassNames;
@@ -122,5 +137,13 @@ public class ShiroProperties {
 
 	public void setFilterClasses(Class<AdviceFilter>[] filterClasses) {
 		this.filterClasses = filterClasses;
+	}
+
+	public String[] getInitCredentialUrl() {
+		return initCredentialUrl;
+	}
+
+	public void setInitCredentialUrl(String[] initCredentialUrl) {
+		this.initCredentialUrl = initCredentialUrl;
 	}
 }

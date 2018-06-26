@@ -116,9 +116,13 @@ public class ShiroConfigure {
 				@SuppressWarnings("unchecked")
 				Map<String, String> map = mapper.readValue(shiroProperties.getFilterChainDefinitionMap(), Map.class);
 				filterChainDefinitionMap = map;
+			}
+			if(shiroProperties.getInitCredentialUrl() != null && shiroProperties.getInitCredentialUrl().length > 0){
+				for (String initCredentialUrl : shiroProperties.getInitCredentialUrl()) {
+					filterChainDefinitionMap.put(initCredentialUrl, "credential");
+				}
 			}else{
-				filterChainDefinitionMap.put("*/**", "anon");
-				filterChainDefinitionMap.put("/login/**", "credential");
+				filterChainDefinitionMap.put("/**", "credential");
 			}
 			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		} catch (ClassNotFoundException e) {
