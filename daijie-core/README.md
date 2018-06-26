@@ -307,3 +307,30 @@ LeaveStatus.TRIAL.nextProcess(Process.REJECT);
 //获取支线流程的下个流程节点（节点“TRIAL（初审）”审批为不通过，得到下一个节点为“REFUND（退款）”）
 LeaveStatus.TRIAL.nextProcess(Process.NOT_THROUGH);
 ```
+## 请求处理配置
+* 启动类引用`@EnableParametersFilter`注解
+```java
+@EnableParametersFilter
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* 请求body转param参数的配置
+```
+//开启body转param参数
+http.bodyByParamEanble=true
+//需要处理的请求方式
+http.bodyByParamMethods=GET,POST,PUT,DELETE,OPTIONS
+```
+* ajax跨域的配置
+```
+//开启ajax跨域请求
+http.remoteAjaxEanble=true
+//允许跨域请求的地址集
+http.accessControlAllowOrigin=http://daijie.org
+//允许跨域请求的请求方式
+http.accessControlAllowMethods=GET,POST,PUT,DELETE,OPTIONS
+```
