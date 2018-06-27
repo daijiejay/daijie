@@ -12,11 +12,11 @@ public class HttpRequestProperties {
 	
 	private Boolean remoteAjaxEanble = false;
 	
-	private String accessControlAllowOrigin = "*";
+	private String accessControlAllowOrigin[] = new String[]{"*"};
 	
 	private String accessControlAllowMethods = "GET,POST,PUT,DELETE,OPTIONS";
 	
-	private String accessControlAllowHeaders = "token, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With";
+	private String accessControlAllowHeaders = "token,Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Authorization,X-Requested-With";
 	
 	private Boolean bodyByParamEanble = false;
 	
@@ -30,11 +30,11 @@ public class HttpRequestProperties {
 		this.remoteAjaxEanble = remoteAjaxEanble;
 	}
 
-	public String getAccessControlAllowOrigin() {
+	public String[] getAccessControlAllowOrigin() {
 		return accessControlAllowOrigin;
 	}
 
-	public void setAccessControlAllowOrigin(String accessControlAllowOrigin) {
+	public void setAccessControlAllowOrigin(String[] accessControlAllowOrigin) {
 		this.accessControlAllowOrigin = accessControlAllowOrigin;
 	}
 

@@ -44,14 +44,26 @@ public class ParametersFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest hreq = (HttpServletRequest) req;
 		HttpServletResponse hres = (HttpServletResponse) res;
+		String reqMethod = hreq.getMethod().toUpperCase();
 		if (requestProperties.getRemoteAjaxEanble()) {
-			hres.addHeader(REMOTE_AJAX_ORIGIN, requestProperties.getAccessControlAllowOrigin());
+			String originUrl = hreq.getHeader("Origin");
+			if (requestProperties.getAccessControlAllowOrigin().length == 1 
+					&& requestProperties.getAccessControlAllowOrigin()[0].equals("*")) {
+				hres.addHeader(REMOTE_AJAX_ORIGIN, requestProperties.getAccessControlAllowOrigin()[0]);
+			} else if (originUrl != null && originUrl.equals("null")) {
+				hres.addHeader(REMOTE_AJAX_ORIGIN, originUrl);
+			}else {
+				for (String url : requestProperties.getAccessControlAllowOrigin()) {
+					if (originUrl != null && originUrl.contains(url)) {
+						hres.addHeader(REMOTE_AJAX_ORIGIN, originUrl);
+					}
+				}
+			}
 			hres.addHeader(REMOTE_AJAX_METHODS, requestProperties.getAccessControlAllowMethods());
 			hres.addHeader(REMOTE_AJAX_HEADERS, requestProperties.getAccessControlAllowHeaders());
 			hres.addHeader(REMOTE_AJAX_CREDENTIALS, "true");
 		}
 		if (requestProperties.getBodyByParamEanble() && !StringUtils.isEmpty(requestProperties.getBodyByParamMethods())) {
-			String reqMethod = hreq.getMethod().toUpperCase();
 			if (requestProperties.getBodyByParamMethods().contains(reqMethod)) {
 				ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(hreq);
 				chain.doFilter(requestWrapper, res);

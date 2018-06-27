@@ -333,4 +333,6 @@ http.remoteAjaxEanble=true
 http.accessControlAllowOrigin=http://daijie.org
 //允许跨域请求的请求方式
 http.accessControlAllowMethods=GET,POST,PUT,DELETE,OPTIONS
+//允许设置headers的字段名
+http.accessControlAllowHeaders=Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Authorization,X-Requested-With
 ```
