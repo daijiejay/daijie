@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.xiaoleilu.hutool.bean.BeanUtil;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.swagger.annotations.ApiModelProperty;
 
 /**

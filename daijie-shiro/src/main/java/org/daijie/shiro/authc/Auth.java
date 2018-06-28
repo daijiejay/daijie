@@ -14,7 +14,8 @@ import org.daijie.core.util.http.HttpConversationUtil;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 import com.baomidou.kisso.SSOHelper;
-import com.xiaoleilu.hutool.bean.BeanUtil;
+
+import cn.hutool.core.bean.BeanUtil;
 
 /**
  * 登录用户管理类

@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import org.daijie.core.factory.Factory;
 
-import com.xiaoleilu.hutool.bean.BeanUtil;
+import cn.hutool.core.bean.BeanUtil;
 
 public abstract class ParamFactory implements Factory {
 

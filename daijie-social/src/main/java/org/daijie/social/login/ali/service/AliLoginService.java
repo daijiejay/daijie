@@ -16,7 +16,8 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayOpenAuthTokenAppRequest;
 import com.alipay.api.response.AlipayOpenAuthTokenAppResponse;
-import com.xiaoleilu.hutool.bean.BeanUtil;
+
+import cn.hutool.core.bean.BeanUtil;
 
 /**
  * 支付宝登录服务

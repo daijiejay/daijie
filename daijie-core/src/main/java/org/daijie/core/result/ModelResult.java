@@ -2,8 +2,7 @@ package org.daijie.core.result;
 
 import java.io.Serializable;
 
-import com.xiaoleilu.hutool.json.JSONUtil;
-
+import cn.hutool.json.JSONUtil;
 import io.swagger.annotations.ApiModelProperty;
 
 
