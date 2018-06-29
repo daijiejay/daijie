@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.daijie.core.controller.exception.UserExpireException;
 import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
@@ -18,7 +19,7 @@ import com.baomidou.kisso.SSOHelper;
 import cn.hutool.core.bean.BeanUtil;
 
 /**
- * 登录用户管理类
+ * 登录用户工具类
  * @author daijie_jay
  * @since 2017年11月15日
  */
@@ -128,6 +129,7 @@ public final class Auth {
 
 	/**
 	 * 获取登录用户基本信息
+	 * 如果没有获取到，将抛出用户过期UserExpireException异常
 	 * @param <T> 用户类型
 	 * @param className 用户对象类型
 	 * @return Object
@@ -138,6 +140,7 @@ public final class Auth {
 	
 	/**
 	 * 获取登录用户基本信息
+	 * 如果没有获取到，将抛出用户过期UserExpireException异常
 	 * @param <T> 用户类型
 	 * @param key 用户键
 	 * @param className 用户对象类型
@@ -153,7 +156,7 @@ public final class Auth {
 			}
 			return (T) authc;
 		}
-		return null;
+		throw new UserExpireException();
 	}
 	
 	/**

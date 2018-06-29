@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.daijie.core.annotation.ErrorMapping;
 import org.daijie.core.controller.enums.ResultCode;
 import org.daijie.core.controller.exception.ApiException;
+import org.daijie.core.controller.exception.UserExpireException;
 import org.daijie.core.result.ApiResult;
 import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.slf4j.Logger;
@@ -64,6 +65,8 @@ public class ControllerExceptionHandlerResolver implements HandlerExceptionResol
 					out = response.getWriter();
 					if(exception instanceof ApiException){
 						out.write(Result.build(null, exception.getMessage(), ApiResult.ERROR, ((ApiException) exception).getCode()).toJsonStr());
+					}else if(exception instanceof UserExpireException){
+						out.write(Result.build(null, ResultCode.CODE_300.getDescription(), ApiResult.ERROR, ResultCode.CODE_300).toJsonStr());
 					}else{
 						out.write(Result.build(null, exception.getMessage(), ApiResult.ERROR, ResultCode.CODE_500).toJsonStr());
 					}
