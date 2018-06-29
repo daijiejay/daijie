@@ -35,7 +35,18 @@ public final class Auth {
 	 * @param permissions 权限集合
 	 */
 	public static void setPermissions(List<String> permissions){
+		if (userToken == null) {
+			userToken = new UserToken();
+		}
 		userToken.setPermissions(permissions);
+	}
+	
+	/**
+	 * 设置登录用户权限集
+	 * @param permissions 权限集合
+	 */
+	public static void setPermissions(String... permissions){
+		setPermissions(Arrays.asList(permissions));
 	}
 	
 	/**
@@ -43,7 +54,18 @@ public final class Auth {
 	 * @param roles 角色集合
 	 */
 	public static void setRoles(List<String> roles){
+		if (userToken == null) {
+			userToken = new UserToken();
+		}
 		userToken.setRoles(roles);
+	}
+	
+	/**
+	 * 设置登录用户角色集
+	 * @param roles 角色集合
+	 */
+	public static void setRoles(String... roles){
+		setRoles(Arrays.asList(roles));
 	}
 	
 	/**
@@ -69,7 +91,9 @@ public final class Auth {
 	 */
 	public static void login(String username, String pubPwd, String salt, String saltPwd, String authcKey, Object authc){
 		Redis.isExpire(false);
-		userToken = new UserToken();
+		if (userToken == null) {
+			userToken = new UserToken();
+		}
 		userToken.setAuthc(authc);
 		AuthorizationToken token = new AuthorizationToken(username, 
 				saltPwd, 
@@ -241,6 +265,23 @@ public final class Auth {
 	}
 	
 	/**
+	 * 刷新登录用户权限集
+	 * @param permissions 用户权限
+	 */
+	public static void refreshPermissions(String... permissions){
+		refreshPermissions(Arrays.asList(permissions));
+	}
+	
+	/**
+	 * 刷新登录用户权限集
+	 * @param key 用户键
+	 * @param permissions 用户权限
+	 */
+	public static void refreshPermissions(String key, String... permissions){
+		refreshPermissions(key, Arrays.asList(permissions));
+	}
+	
+	/**
 	 * 刷新登录用户角色集
 	 * @param roles 角色集
 	 */
@@ -260,6 +301,23 @@ public final class Auth {
 			userToken.setRoles(roles);
 			Redis.setAttribute(key, userToken);
 		}
+	}
+	
+	/**
+	 * 刷新登录用户角色集
+	 * @param roles 角色集
+	 */
+	public static void refreshRoles(String... roles){
+		refreshRoles(Arrays.asList(roles));
+	}
+	
+	/**
+	 * 刷新登录用户角色集
+	 * @param key 用户键
+	 * @param roles 角色集
+	 */
+	public static void refreshRoles(String key, String... roles){
+		refreshRoles(key, Arrays.asList(roles));
 	}
 	
 	/**
