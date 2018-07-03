@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.daijie.core.result.ModelResult;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
-import org.daijie.shiro.configure.ShiroProperties;
+import org.daijie.shiro.ShiroSecurity;
 import org.daijie.shiro.oauth2.configure.ShiroOauth2Properties;
 import org.daijie.shiro.oauth2.excption.ShiroOauth2MatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class RequestAuthenticationMatch implements AuthenticationMatch {
 	private ShiroOauth2Properties shiroOauth2Properties;
 	
 	@Autowired
-	private ShiroProperties shiroProperties;
+	private ShiroSecurity shiroSecurity;
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -67,13 +67,13 @@ public class RequestAuthenticationMatch implements AuthenticationMatch {
 		HttpServletRequest request = HttpConversationUtil.getRequest();
 		for (String key : result.getHeaders().keySet()) {
 			for(String value : result.getHeaders().get(key)){
-				if(key.contains(HEADER_COOKIE_KEY) && value.contains(HttpConversationUtil.TOKEN_NAME)){
+				if(key.contains(HEADER_COOKIE_KEY) && value.contains(shiroSecurity.getCookieName())){
 					String token = value.split(";")[0].split("=")[1];
-					CookieUtil.set(HttpConversationUtil.TOKEN_NAME, token, null);
-					if(shiroProperties.getKissoEnable()){
-						request.setAttribute(HttpConversationUtil.TOKEN_NAME, SSOToken.parser(token, false).getIssuer());
+					CookieUtil.set(shiroSecurity.getCookieName(), token, null);
+					if(shiroSecurity.isKissoEnable()){
+						request.setAttribute(shiroSecurity.getCookieName(), SSOToken.parser(token, false).getIssuer());
 					}else{
-						request.setAttribute(HttpConversationUtil.TOKEN_NAME, token);
+						request.setAttribute(shiroSecurity.getCookieName(), token);
 					}
 				}
 			}

@@ -3,7 +3,9 @@ package org.daijie.shiro.configure;
 import java.util.Map;
 
 import org.apache.shiro.web.servlet.AdviceFilter;
+import org.daijie.shiro.session.ShiroRedisSession;
 import org.jboss.netty.util.internal.ConcurrentHashMap;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -33,7 +35,10 @@ public class ShiroProperties {
 	/**
 	 * session名称
 	 */
-	private String sessionid = "mysessionid";
+	private String sessionid = ShiroRedisSession.TOKEN_NAME;
+	
+	@Value("${kisso.config.cookieName:mysessionid}")
+	private String cookieName;
 	
 	/**
 	 * 过滤器对应的路径
@@ -145,5 +150,13 @@ public class ShiroProperties {
 
 	public void setInitCredentialUrl(String[] initCredentialUrl) {
 		this.initCredentialUrl = initCredentialUrl;
+	}
+
+	public String getCookieName() {
+		return cookieName;
+	}
+
+	public void setCookieName(String cookieName) {
+		this.cookieName = cookieName;
 	}
 }

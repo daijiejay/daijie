@@ -28,6 +28,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.AdviceFilter;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.daijie.shiro.ShiroSecurity;
 import org.daijie.shiro.TokenCredentialsMatcher;
 import org.daijie.shiro.UserAuthorizingRealm;
 import org.daijie.shiro.filter.CredentialFilter;
@@ -151,13 +152,17 @@ public class ShiroConfigure {
 		return securityManager;
 	}
 	
+	/**
+	 * @param credentialsMatcher
+	 * @return
+	 */
 	@Bean(name = "authorizingRealm")
 	@Primary
 	public AuthorizingRealm initAuthorizingRealm(@Qualifier("credentialsMatcher") CredentialsMatcher credentialsMatcher,
-			ShiroProperties shiroProperties){
+			ShiroSecurity shiroSecurity){
 		UserAuthorizingRealm authorizingRealm = new UserAuthorizingRealm();
 		authorizingRealm.setCredentialsMatcher(credentialsMatcher);
-		authorizingRealm.setKissoEnable(shiroProperties.getKissoEnable());
+		authorizingRealm.setShiroSecurity(shiroSecurity);
 		return authorizingRealm;
 	}
 	
@@ -308,5 +313,10 @@ public class ShiroConfigure {
 			cacheManager.setRedisManager((org.crazycake.shiro.RedisManager) redisManager);
 			return cacheManager;
 		}
+	}
+	
+	@Bean
+	public ShiroSecurity shiroSecurity(ShiroProperties shiroProperties) {
+		return new ShiroSecurity(shiroProperties);
 	}
 }

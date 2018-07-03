@@ -54,7 +54,7 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 		super(request);
 		this.params.putAll(request.getParameterMap());
 		String bodyString = HttpConversationUtil.getBodyString();
-		if (StringUtils.isEmpty(bodyString)) {
+		if (StringUtils.isEmpty(bodyString) || JSONType.getJSONType(bodyString).equals(JSONType.JSON_TYPE_ERROR)) {
 			this.body = new byte[0];
 			Collection<RequestMappingInfo> mappings = objHandlerMethodMapping.getHandlerMethods().keySet();
 			mappings.forEach(mapping -> {

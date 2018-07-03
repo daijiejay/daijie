@@ -12,6 +12,7 @@ import org.daijie.core.controller.exception.UserExpireException;
 import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
+import org.daijie.shiro.session.ShiroRedisSession;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 import com.baomidou.kisso.SSOHelper;
@@ -115,7 +116,7 @@ public final class Auth {
 				SSOHelper.clearLogin(HttpConversationUtil.getRequest(), HttpConversationUtil.getResponse());
 			}
 			Redis.deleteSession();
-			CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), 0);
+			CookieUtil.set(ShiroRedisSession.token, session.getId().toString(), 0);
 		}
 	}
 	
