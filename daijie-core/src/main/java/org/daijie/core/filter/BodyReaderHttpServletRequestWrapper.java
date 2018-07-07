@@ -22,6 +22,7 @@ import org.daijie.core.controller.enums.JSONType;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
@@ -53,6 +54,7 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 			AbstractHandlerMethodMapping<RequestMappingInfo> objHandlerMethodMapping) throws IOException {
 		super(request);
 		this.params.putAll(request.getParameterMap());
+		System.out.println(request.getRequestURL());
 		String bodyString = HttpConversationUtil.getBodyString();
 		if (StringUtils.isEmpty(bodyString) || JSONType.getJSONType(bodyString).equals(JSONType.JSON_TYPE_ERROR)) {
 			this.body = new byte[0];
@@ -74,7 +76,11 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 				}
 			});
 		} else {
-			this.body = bodyString.getBytes(Charset.forName("UTF-8"));
+			if (request.getMethod().equals(HttpMethod.GET.name())) {
+				this.body = new byte[0];
+			} else {
+				this.body = bodyString.getBytes(Charset.forName("UTF-8"));
+			}
 			if (request.getContentType().contains("application/json")) {
 				String param = new String(this.body, Charset.forName("UTF-8"));
 				ObjectMapper mapper = new ObjectMapper();
