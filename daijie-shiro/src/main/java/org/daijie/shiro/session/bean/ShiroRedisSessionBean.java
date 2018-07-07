@@ -15,7 +15,7 @@ public class ShiroRedisSessionBean {
 	
 	@Bean
 	public ShiroRedisSession initShiroRedisSession(ShiroSecurity shiroSecurity){
-		return new ShiroRedisSession(shiroSecurity.getCookieName());
+		return new ShiroRedisSession(shiroSecurity.getCookieName(), shiroSecurity.getSessionTimeOut());
 	}
 	
 	@Bean

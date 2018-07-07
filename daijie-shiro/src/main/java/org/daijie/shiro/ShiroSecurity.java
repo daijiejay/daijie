@@ -20,5 +20,9 @@ public class ShiroSecurity implements KissoSecurity {
 	public boolean isKissoEnable() {
 		return shiroProperties.getKissoEnable();
 	}
+	
+	public long getSessionTimeOut() {
+		return shiroProperties.getSesseionTimeOut();
+	}
 
 }

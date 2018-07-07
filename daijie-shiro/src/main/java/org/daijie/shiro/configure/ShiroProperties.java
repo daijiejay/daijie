@@ -32,6 +32,8 @@ public class ShiroProperties {
 	
 	private String filterChainDefinitionMap;
 	
+	private long sesseionTimeOut = 360000;
+	
 	/**
 	 * session名称
 	 */
@@ -158,5 +160,13 @@ public class ShiroProperties {
 
 	public void setCookieName(String cookieName) {
 		this.cookieName = cookieName;
+	}
+
+	public long getSesseionTimeOut() {
+		return sesseionTimeOut;
+	}
+
+	public void setSesseionTimeOut(long sesseionTimeOut) {
+		this.sesseionTimeOut = sesseionTimeOut;
 	}
 }

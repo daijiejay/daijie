@@ -29,6 +29,8 @@ public class ShiroRedisSession {
 	private static Session session;  
 
 	private static RedisSessionFactory redisSession;  
+	
+	private static long sessionTimeOut = 360000;
 
 	public static String token = ShiroRedisSession.TOKEN_NAME;
 	
@@ -36,6 +38,13 @@ public class ShiroRedisSession {
 		if (!StringUtils.isEmpty(token)) {
 			ShiroRedisSession.token = token;
 		}
+	}
+	
+	public ShiroRedisSession(String token, long sessionTimeOut) {
+		if (!StringUtils.isEmpty(token)) {
+			ShiroRedisSession.token = token;
+		}
+		ShiroRedisSession.sessionTimeOut = sessionTimeOut;
 	}
 
 	@Autowired
@@ -87,6 +96,7 @@ public class ShiroRedisSession {
 		public static void setAttribute(Object key, Object value){
 			initSession();
 			session.setAttribute(key, value);
+			session.setTimeout(sessionTimeOut);
 			agentRedisSession().updateSession(session);
 		}
 		
