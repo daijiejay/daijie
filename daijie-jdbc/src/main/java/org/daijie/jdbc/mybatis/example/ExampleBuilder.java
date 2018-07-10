@@ -28,6 +28,16 @@ public abstract class ExampleBuilder {
 			return threadExample.get();
 		}
 		
+		public Builder orderByDesc(String property) {
+			threadExample.get().orderBy(property).desc();
+			return this;
+		}
+		
+		public Builder orderByAsc(String property) {
+			threadExample.get().orderBy(property).asc();
+			return this;
+		}
+		
 		public Builder andIsNull(String property) {
 			threadCriteria.get().andIsNull(property);
             return this;
