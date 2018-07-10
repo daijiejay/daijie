@@ -48,13 +48,12 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 	
 	private final UrlPathHelper pathHelper = new UrlPathHelper();
 
-	private Map<String, Object> params = new HashMap<String, Object>();
+	private Map<Object, Object> params = new HashMap<Object, Object>();
 
 	public BodyReaderHttpServletRequestWrapper(HttpServletRequest request, 
 			AbstractHandlerMethodMapping<RequestMappingInfo> objHandlerMethodMapping) throws IOException {
 		super(request);
 		this.params.putAll(request.getParameterMap());
-		System.out.println(request.getRequestURL());
 		String bodyString = HttpConversationUtil.getBodyString();
 		if (StringUtils.isEmpty(bodyString) || JSONType.getJSONType(bodyString).equals(JSONType.JSON_TYPE_ERROR)) {
 			this.body = new byte[0];
@@ -82,10 +81,9 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 				this.body = bodyString.getBytes(Charset.forName("UTF-8"));
 			}
 			if (request.getContentType().contains("application/json")) {
-				String param = new String(this.body, Charset.forName("UTF-8"));
 				ObjectMapper mapper = new ObjectMapper();
-				if(JSONType.getJSONType(param).equals(JSONType.JSON_TYPE_OBJECT)){
-					this.params.putAll(mapper.readValue(param, Map.class));
+				if(JSONType.getJSONType(bodyString).equals(JSONType.JSON_TYPE_OBJECT)){
+					this.params.putAll(mapper.readValue(bodyString, Map.class));
 				}
 			}
 		}
@@ -166,6 +164,13 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 			return (String[]) v;
 		} else if (v instanceof String) {
 			return new String[] { (String) v };
+		} else if (v instanceof Collection) {
+			Object[] array = ((Collection) v).toArray();
+			String[] strs = new String[array.length];
+			for (int i = 0; i < strs.length; i++) {
+				strs[i] = array[i].toString();
+			}
+			return strs;
 		} else {
 			return new String[] { v.toString() };
 		}
