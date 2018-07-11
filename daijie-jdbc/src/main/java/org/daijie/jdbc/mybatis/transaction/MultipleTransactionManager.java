@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
-import org.daijie.jdbc.DbContextHolder;
 import org.daijie.jdbc.interceptor.DefaultRoutingDataSource;
 import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -59,7 +58,6 @@ public class MultipleTransactionManager extends DataSourceTransactionManager {
 				}
 				txObject.setConnectionHolder(new MultipleConnectionHolder(newCon), true);
 			}
-			DbContextHolder.getDataSourceName();
 			Map<Object, DataSource> targetDataSources = ((DefaultRoutingDataSource) obtainDataSource()).getTargetDataSources();
 			Iterator<Entry<Object, DataSource>> iterator = targetDataSources.entrySet().iterator();
 			while (iterator.hasNext()) {
