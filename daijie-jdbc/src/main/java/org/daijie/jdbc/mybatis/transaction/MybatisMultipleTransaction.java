@@ -108,7 +108,7 @@ public class MybatisMultipleTransaction implements Transaction {
 
 	private void openConnection() throws SQLException {
 		DataSource dataSource = (DataSource) this.dataSource.getTargetDataSources().get(DbContextHolder.getDataSourceName());
-		if (dataSource == null) {
+		if (dataSource == null || this.dataSource.getTargetDataSources().size() == 1) {
 			dataSource = this.dataSource;
 		}
 		this.connection = DataSourceUtils.getConnection(dataSource);
