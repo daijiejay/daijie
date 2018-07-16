@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.handler.AbstractHandlerMapping;
+import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
 /**
  * 拦截请求对body参数进行处理
@@ -26,11 +29,16 @@ public class ParametersFilter implements Filter {
 	private static final String REMOTE_AJAX_ORIGIN = "Access-Control-Allow-Origin";
 	private static final String REMOTE_AJAX_METHODS = "Access-Control-Allow-Methods";
 	private static final String REMOTE_AJAX_HEADERS = "Access-Control-Allow-Headers";
+	private static final String REMOTE_AJAX_CREDENTIALS = "Access-Control-Allow-Credentials";
 	
 	private final HttpRequestProperties requestProperties;
 	
-	public ParametersFilter(HttpRequestProperties requestProperties) {
+	private final AbstractHandlerMethodMapping<RequestMappingInfo> objHandlerMethodMapping;// = requestMappingHandlerMapping
+	
+	@SuppressWarnings("unchecked")
+	public ParametersFilter(HttpRequestProperties requestProperties, AbstractHandlerMapping requestMappingHandlerMapping) {
 		this.requestProperties = requestProperties;
+		this.objHandlerMethodMapping = (AbstractHandlerMethodMapping<RequestMappingInfo>) requestMappingHandlerMapping;
 	}
 
 	@Override
@@ -43,15 +51,28 @@ public class ParametersFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest hreq = (HttpServletRequest) req;
 		HttpServletResponse hres = (HttpServletResponse) res;
-		if (requestProperties.getRemoteAjaxEanble()) {
-			hres.addHeader(REMOTE_AJAX_ORIGIN, requestProperties.getAccessControlAllowOrigin());
-			hres.addHeader(REMOTE_AJAX_METHODS, requestProperties.getAccessControlAllowMethods());
-			hres.addHeader(REMOTE_AJAX_HEADERS, requestProperties.getAccessControlAllowHeaders());
+		String reqMethod = hreq.getMethod().toUpperCase();
+		if (this.requestProperties.getRemoteAjaxEanble()) {
+			String originUrl = hreq.getHeader("Origin");
+			if (this.requestProperties.getAccessControlAllowOrigin().length == 1 
+					&& this.requestProperties.getAccessControlAllowOrigin()[0].equals("*")) {
+				hres.addHeader(REMOTE_AJAX_ORIGIN, this.requestProperties.getAccessControlAllowOrigin()[0]);
+			} else if (originUrl != null && originUrl.equals("null")) {
+				hres.addHeader(REMOTE_AJAX_ORIGIN, originUrl);
+			}else {
+				for (String url : this.requestProperties.getAccessControlAllowOrigin()) {
+					if (originUrl != null && originUrl.contains(url)) {
+						hres.addHeader(REMOTE_AJAX_ORIGIN, originUrl);
+					}
+				}
+			}
+			hres.addHeader(REMOTE_AJAX_METHODS, this.requestProperties.getAccessControlAllowMethods());
+			hres.addHeader(REMOTE_AJAX_HEADERS, this.requestProperties.getAccessControlAllowHeaders());
+			hres.addHeader(REMOTE_AJAX_CREDENTIALS, "true");
 		}
-		if (requestProperties.getBodyByParamEanble() && !StringUtils.isEmpty(requestProperties.getBodyByParamMethods())) {
-			String reqMethod = hreq.getMethod().toUpperCase();
-			if (requestProperties.getBodyByParamMethods().contains(reqMethod)) {
-				ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(hreq);
+		if (this.requestProperties.getBodyByParamEanble() && !StringUtils.isEmpty(this.requestProperties.getBodyByParamMethods())) {
+			if (this.requestProperties.getBodyByParamMethods().contains(reqMethod)) {
+				ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(hreq, this.objHandlerMethodMapping);
 				chain.doFilter(requestWrapper, res);
 				return;
 			}

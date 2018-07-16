@@ -61,7 +61,10 @@ outh2授权 | 集成spring-security、shiro、zuul开发启动服务，实现请
 生成接口文档 | 结合zuul配置提供swagger集中式接口文档 | 已完成 | 2018年6月6日 | 已发布 | 1.1.0-RELEASE
 outh2授权 | 优化权限拦截配置 | 已完成 | 2018年6月8日 | 已发布 | 1.1.0-RELEASE
 多数据源配置 | 优化数据源配置和数据源事务完成后未关闭连接的BUG | 已完成 | 2018年6月21日 | 已发布 | 1.1.1-RELEASE
-请求处理 | ajax运程调用授权配置和请求参数body转param配置 | 已完成 | 2018年6月21日 | 已发布 | 1.1.1-RELEASE
+请求处理 | ajax远程调用授权配置和请求参数body转param配置 | 已完成 | 2018年6月21日 | 已发布 | 1.1.1-RELEASE
+请求处理 | 支持ajax跨域请求不丢失cookie配置 | 已完成 | 2018年6月26日 |未发布 | 1.1.2-RELEASE
+请求处理 | 访问接口时初始化一对非对称密钥凭证的路径配置 | 已完成 | 2018年6月26日 |未发布 | 1.1.2-RELEASE
+请求处理 | 微服务提供者实现feign接口时不需要再手动重复加@RequestBody、@PathVariable、@RequestParam等注解 | 已完成 | 2018年6月29日 |未发布 | 1.1.2-RELEASE
 
 ## 任务计划
 * mybatis-generator生成的实体类加上swagger与persistence系列注解的maven插件实现

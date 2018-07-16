@@ -30,8 +30,6 @@ import com.baomidou.kisso.security.token.SSOToken;
 public class HttpConversationUtil {
 	
 	private static Logger logger = LoggerFactory.getLogger(HttpConversationUtil.class);
-
-	public static final String TOKEN_NAME = "token";
 	
 	/**
 	 * 获取当前请求会话
@@ -82,26 +80,26 @@ public class HttpConversationUtil {
 
 	/**
 	 * 获取当前请求会话token
+	 * @param tokenName 存储token的key
 	 * @return String
 	 */
-	public static String getToken(){
+	public static String getToken(String tokenName){
 		if(getRequest() != null){
 			SSOToken ssoToken = null;
 			try {
 				ssoToken = SSOHelper.getSSOToken(getRequest());
 			} catch (Exception e) {
-				logger.debug("ssoToken获取失败");
 			}
 			if(ssoToken != null && !StringUtils.isEmpty(ssoToken.getIssuer())){
 				return ssoToken.getIssuer();
-			}else if(!StringUtils.isEmpty(getRequest().getAttribute(TOKEN_NAME))){
-				return getRequest().getAttribute(TOKEN_NAME).toString();
-			}else if(!StringUtils.isEmpty(getRequest().getParameter(TOKEN_NAME))){
-				return getRequest().getParameter(TOKEN_NAME);
-			}else if(!StringUtils.isEmpty(getRequest().getHeader(TOKEN_NAME))){
-				return getRequest().getHeader(TOKEN_NAME);
-			}else if(!StringUtils.isEmpty(CookieUtil.get(TOKEN_NAME))){
-				return CookieUtil.get(TOKEN_NAME);
+			}else if(!StringUtils.isEmpty(getRequest().getAttribute(tokenName))){
+				return getRequest().getAttribute(tokenName).toString();
+			}else if(!StringUtils.isEmpty(getRequest().getParameter(tokenName))){
+				return getRequest().getParameter(tokenName);
+			}else if(!StringUtils.isEmpty(getRequest().getHeader(tokenName))){
+				return getRequest().getHeader(tokenName);
+			}else if(!StringUtils.isEmpty(CookieUtil.get(tokenName))){
+				return CookieUtil.get(tokenName);
 			}
 		}
 		return null;

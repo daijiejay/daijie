@@ -11,6 +11,8 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.daijie.core.util.bean.RegisterBeanHolder;
 import org.daijie.jdbc.BaseMultipleDataSourceConfiguration;
+import org.daijie.jdbc.MultipleDataSourceProperties;
+import org.daijie.jdbc.interceptor.DefaultRoutingDataSource;
 import org.daijie.jdbc.mybatis.transaction.MybatisMultipleTransactionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,10 +23,16 @@ import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.jta.JtaTransactionManager;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -35,6 +43,8 @@ import com.atomikos.icatch.jta.UserTransactionManager;
 
 /**
  * mybatis多数据源相关bean配置
+ * 单数据源时使用DataSourceTransactionManager事务管理
+ * 多数据源时使用JtaTransactionManager事务管理
  * @author daijie_jay
  * @since 2018年1月2日
  */
@@ -121,13 +131,15 @@ public class MybatisMultipleDataSourceConfiguration extends MybatisAutoConfigura
 		}
 	}
 
-//	@Bean
-//	@ConditionalOnMissingBean
-//	public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-//		return new MultipleTransactionManager(dataSource);
-//	}
+	@Bean
+	@Conditional(IsSignle.class)
+	@ConditionalOnMissingBean
+	public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
+	}
 
 	@Bean(name = "userTransactionManager", initMethod = "init", destroyMethod = "close")
+	@Conditional(IsMultiple.class)
 	@ConditionalOnMissingBean
 	public UserTransactionManager userTransactionManager() {
 		UserTransactionManager userTransactionManager = new UserTransactionManager();
@@ -136,15 +148,17 @@ public class MybatisMultipleDataSourceConfiguration extends MybatisAutoConfigura
 	}
 
 	@Bean("userTransactionImp")
+	@Conditional(IsMultiple.class)
 	@ConditionalOnMissingBean
-	public UserTransactionImp userTransactionImp() throws SystemException {
+	public UserTransactionImp userTransactionImp(MultipleDataSourceProperties multipleDataSourceProperties) throws SystemException {
 		UserTransactionImp userTransactionImp = new UserTransactionImp();
-		userTransactionImp.setTransactionTimeout(300);
+		userTransactionImp.setTransactionTimeout(multipleDataSourceProperties.getTransactionTimeout());
 		return userTransactionImp;
 	}
 
 	@Bean("jtaTransactionManager")
 	@DependsOn({"userTransactionImp", "userTransactionManager"})
+	@Conditional(IsMultiple.class)
 	@ConditionalOnMissingBean
 	public JtaTransactionManager jtaTransactionManager(UserTransactionManager userTransactionManager,
 			UserTransactionImp userTransactionImp) {
@@ -152,5 +166,23 @@ public class MybatisMultipleDataSourceConfiguration extends MybatisAutoConfigura
 		jtaTransactionManager.setTransactionManager(userTransactionManager);
 		jtaTransactionManager.setUserTransaction(userTransactionImp);
 		return jtaTransactionManager;
+	}
+	
+	private static class IsMultiple implements Condition {
+
+		@Override
+		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+			DefaultRoutingDataSource dataSouce = context.getBeanFactory().getBean("dataSource", DefaultRoutingDataSource.class);
+			return dataSouce.getTargetDataSources().size() > 1;
+		}
+	}
+	
+	private static class IsSignle implements Condition {
+		
+		@Override
+		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+			DefaultRoutingDataSource dataSouce = context.getBeanFactory().getBean("dataSource", DefaultRoutingDataSource.class);
+			return dataSouce.getTargetDataSources().size() == 1;
+		}
 	}
 }

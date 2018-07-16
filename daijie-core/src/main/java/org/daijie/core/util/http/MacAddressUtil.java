@@ -14,8 +14,9 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import com.baomidou.kisso.common.util.EnvUtil;
-import com.xiaoleilu.hutool.json.JSONObject;
-import com.xiaoleilu.hutool.json.JSONUtil;
+
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 
 /**
  * 获取request的IP、MAC和城市地址

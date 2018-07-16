@@ -79,7 +79,7 @@ public class BaseMultipleDataSourceConfiguration implements EnvironmentAware {
 						dataSource.setMinPoolSize(dataSourceProps.get("minPoolSize") == null ? 5 : (int) dataSourceProps.get("minPoolSize"));
 						dataSource.setMaxPoolSize(dataSourceProps.get("maxPoolSize") == null ? 20 : (int) dataSourceProps.get("maxPoolSize"));
 						dataSource.setMaxLifetime(dataSourceProps.get("maxLifetime") == null ? 3 : (int) dataSourceProps.get("maxLifetime"));
-						dataSource.setReapTimeout(dataSourceProps.get("reapTimeout") == null ? 5 : (int) dataSourceProps.get("reapTimeout"));
+						dataSource.setReapTimeout(dataSourceProps.get("reapTimeout") == null ? 0 : (int) dataSourceProps.get("reapTimeout"));
 						dataSource.setMaxIdleTime(dataSourceProps.get("maxIdleTime") == null ? 3 : (int) dataSourceProps.get("maxIdleTime"));
 						dataSource.setBorrowConnectionTimeout(dataSourceProps.get("borrowConnectionTimeout") == null ? 1 : (int) dataSourceProps.get("borrowConnectionTimeout"));
 						dataSource.setUniqueResourceName(name);

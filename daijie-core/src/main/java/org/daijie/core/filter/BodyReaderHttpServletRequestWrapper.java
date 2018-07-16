@@ -5,9 +5,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import javax.servlet.ReadListener;
@@ -19,11 +22,18 @@ import org.daijie.core.controller.enums.JSONType;
 import org.daijie.core.util.http.HttpConversationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.util.UrlPathHelper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * 将请求body参数转换为form-data
+ * 将请求参数转换为form-data
+ * 支持application/json和restful传参的转换
  * @author daijie
  * @since 2017年6月13日
  */
@@ -33,33 +43,51 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 	private static Logger logger = LoggerFactory.getLogger(BodyReaderHttpServletRequestWrapper.class);
 
 	private final byte[] body;
+	
+	private final AntPathMatcher matcher = new AntPathMatcher();
+	
+	private final UrlPathHelper pathHelper = new UrlPathHelper();
 
-	private Map<String, Object> params = new HashMap<String, Object>();
+	private Map<Object, Object> params = new HashMap<Object, Object>();
 
-	public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
+	public BodyReaderHttpServletRequestWrapper(HttpServletRequest request, 
+			AbstractHandlerMethodMapping<RequestMappingInfo> objHandlerMethodMapping) throws IOException {
 		super(request);
-		params.putAll(request.getParameterMap());
+		this.params.putAll(request.getParameterMap());
 		String bodyString = HttpConversationUtil.getBodyString();
-		logger.info("params = {}", params);
-		logger.info("body = {}", bodyString);
-		if (bodyString == null || "".equals(bodyString)) {
-			body = new byte[0];
-			return;
-		}
-		body = bodyString.getBytes(Charset.forName("UTF-8"));
-		
-		
-		if (request.getContentType().contains("application/json")) {
-			String param = new String(body, Charset.forName("UTF-8"));
-			// json串 转换为Map
-			if (param != null & param.contains("=")) {
-				param = param.split("=")[1];
+		if (StringUtils.isEmpty(bodyString) || JSONType.getJSONType(bodyString).equals(JSONType.JSON_TYPE_ERROR)) {
+			this.body = new byte[0];
+			Collection<RequestMappingInfo> mappings = objHandlerMethodMapping.getHandlerMethods().keySet();
+			mappings.forEach(mapping -> {
+				RequestMappingInfo requestMappingInfo = mapping.getMatchingCondition(request);
+				if (requestMappingInfo != null) {
+					String pattern = requestMappingInfo.getPatternsCondition().getPatterns().iterator().next();
+					if (pattern.contains("{") && pattern.contains("}")) {
+						Map<String, String> result = this.matcher.extractUriTemplateVariables(pattern, this.pathHelper.getLookupPathForRequest(request));
+						Iterator<Entry<String, String>> iterator = result.entrySet().iterator();
+						while (iterator.hasNext()) {
+							Entry<String, String> next = iterator.next();
+							if (!(next.getValue().contains("{") && next.getValue().contains("}"))) {
+								this.params.put(next.getKey(), next.getValue());
+							}
+						}
+					}
+				}
+			});
+		} else {
+			if (request.getMethod().equals(HttpMethod.GET.name())) {
+				this.body = new byte[0];
+			} else {
+				this.body = bodyString.getBytes(Charset.forName("UTF-8"));
 			}
-			ObjectMapper mapper = new ObjectMapper();
-			if(JSONType.getJSONType(param).equals(JSONType.JSON_TYPE_OBJECT)){
-				params.putAll(mapper.readValue(param, Map.class)); //json转换成map
+			if (request.getContentType().contains("application/json")) {
+				ObjectMapper mapper = new ObjectMapper();
+				if(JSONType.getJSONType(bodyString).equals(JSONType.JSON_TYPE_OBJECT)){
+					this.params.putAll(mapper.readValue(bodyString, Map.class));
+				}
 			}
 		}
+		logger.info("params = {}", this.params);
 	}
 
 	@Override
@@ -136,6 +164,13 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 			return (String[]) v;
 		} else if (v instanceof String) {
 			return new String[] { (String) v };
+		} else if (v instanceof Collection) {
+			Object[] array = ((Collection) v).toArray();
+			String[] strs = new String[array.length];
+			for (int i = 0; i < strs.length; i++) {
+				strs[i] = array[i].toString();
+			}
+			return strs;
 		} else {
 			return new String[] { v.toString() };
 		}

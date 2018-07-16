@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.daijie.core.feign.FeignConfigure;
 import org.daijie.core.filter.ParametersFilterBean;
 import org.springframework.context.annotation.Import;
 
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Import;
 @Target({ ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(ParametersFilterBean.class)
+@Import({ParametersFilterBean.class, FeignConfigure.class})
 public @interface EnableParametersFilter {
 
 }

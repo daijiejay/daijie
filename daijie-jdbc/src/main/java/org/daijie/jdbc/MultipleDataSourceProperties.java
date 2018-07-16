@@ -19,6 +19,8 @@ public class MultipleDataSourceProperties {
 	private String defaultName;
 	
 	private String jpaEntityPackages;
+	
+	private int transactionTimeout;
 
 	public Class<? extends DataSource> getDataSourceType() {
 		return dataSourceType;
@@ -50,5 +52,13 @@ public class MultipleDataSourceProperties {
 
 	public void setJpaEntityPackages(String jpaEntityPackages) {
 		this.jpaEntityPackages = jpaEntityPackages;
+	}
+
+	public int getTransactionTimeout() {
+		return transactionTimeout;
+	}
+
+	public void setTransactionTimeout(int transactionTimeout) {
+		this.transactionTimeout = transactionTimeout;
 	}
 }

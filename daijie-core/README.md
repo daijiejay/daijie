@@ -1,9 +1,9 @@
 # 工程简介
 * 基于spring-cloud与spring-boot系列jar包，以解决分布式问题为目标提供简单易用的集成工具。
-* 封装RESTful风格统一返回参数实体，包括正常返回及异常返回，Controller异常全局处理。
+* 封装统一返回参数实体，包括正常返回及异常返回，异常返回定义错误码，Controller异常全局处理。
 * 集成swagger生成api文档，以配置形式自定义docket，可配置需要指定生成的组、包路径等。
-* 微服务请求报文与客服端请求header报文一致性处理，请求数据json转换param处理。
-* 单点登录集成Kisso管理客服端cookie。
+* 微服务之间传递header报文丢失处理，请求接口时任何参数格式最终转换param格式处理，ajax跨域配置。
+* 单点登录集成Kisso管理客服端cookie，cookie作用域配置。
 * 加入了redis和zookeeper分布式锁，可配置单机或集群的redis及zookeeper，由@EnableRedisLock和@EnableZKLock开启自动装置。(注意：redis用到了avel命令，只支持2.6版本以上服务器)
 * 添加流程枚举存储容器，枚举成员节点提供线性数据结构的有序序列存储和双向链表存储、树形数据结构的树形链表存储、图形数据结构的十字链表存储。
 * 提供一些常用工具类。
@@ -306,4 +306,33 @@ LeaveStatus.APPOINTENT.preProcess(Process.THROUGH);
 LeaveStatus.TRIAL.nextProcess(Process.REJECT);
 //获取支线流程的下个流程节点（节点“TRIAL（初审）”审批为不通过，得到下一个节点为“REFUND（退款）”）
 LeaveStatus.TRIAL.nextProcess(Process.NOT_THROUGH);
+```
+## 请求处理配置
+* 启动类引用`@EnableParametersFilter`注解
+```java
+@EnableParametersFilter
+@SpringBootApplication
+public class BootApplication {
+	public static void main(String[] args) {
+		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
+	}
+}
+```
+* 任何请求参数格式转param参数的配置
+```
+//开启body转param参数
+http.bodyByParamEanble=true
+//需要处理的请求方式
+http.bodyByParamMethods=GET,POST,PUT,DELETE,OPTIONS
+```
+* ajax跨域的配置
+```
+//开启ajax跨域请求
+http.remoteAjaxEanble=true
+//允许跨域请求的地址集
+http.accessControlAllowOrigin=http://daijie.org
+//允许跨域请求的请求方式
+http.accessControlAllowMethods=GET,POST,PUT,DELETE,OPTIONS
+//允许设置headers的字段名
+http.accessControlAllowHeaders=Content-Type,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Authorization,X-Requested-With
 ```

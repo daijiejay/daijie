@@ -3,7 +3,9 @@ package org.daijie.shiro.configure;
 import java.util.Map;
 
 import org.apache.shiro.web.servlet.AdviceFilter;
+import org.daijie.shiro.session.ShiroRedisSession;
 import org.jboss.netty.util.internal.ConcurrentHashMap;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -30,11 +32,31 @@ public class ShiroProperties {
 	
 	private String filterChainDefinitionMap;
 	
-	private String sessionid = "mysessionid";
+	private long sesseionTimeOut = 360000;
 	
+	/**
+	 * session名称
+	 */
+	private String sessionid = ShiroRedisSession.TOKEN_NAME;
+	
+	@Value("${kisso.config.cookieName:mysessionid}")
+	private String cookieName;
+	
+	/**
+	 * 过滤器对应的路径
+	 */
 	private Map<String, String> matcher = new ConcurrentHashMap<String, String>();
 	
+	/**
+	 * 过滤器加载配置
+	 */
 	private Class<AdviceFilter>[] filterClasses;
+	
+	/**
+	 * 初始化凭证的请求路径
+	 * 目前用于初始化一对非对象密钥
+	 */
+	private String[] initCredentialUrl;
 
 	public String getFilterClassNames() {
 		return filterClassNames;
@@ -122,5 +144,29 @@ public class ShiroProperties {
 
 	public void setFilterClasses(Class<AdviceFilter>[] filterClasses) {
 		this.filterClasses = filterClasses;
+	}
+
+	public String[] getInitCredentialUrl() {
+		return initCredentialUrl;
+	}
+
+	public void setInitCredentialUrl(String[] initCredentialUrl) {
+		this.initCredentialUrl = initCredentialUrl;
+	}
+
+	public String getCookieName() {
+		return cookieName;
+	}
+
+	public void setCookieName(String cookieName) {
+		this.cookieName = cookieName;
+	}
+
+	public long getSesseionTimeOut() {
+		return sesseionTimeOut;
+	}
+
+	public void setSesseionTimeOut(long sesseionTimeOut) {
+		this.sesseionTimeOut = sesseionTimeOut;
 	}
 }

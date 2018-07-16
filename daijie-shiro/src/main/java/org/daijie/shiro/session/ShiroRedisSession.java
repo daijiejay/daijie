@@ -9,6 +9,7 @@ import org.daijie.core.util.http.HttpConversationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 /**
  * shiro redis管理类
@@ -22,10 +23,29 @@ public class ShiroRedisSession {
 	private static Logger logger = LoggerFactory.getLogger(ShiroRedisSession.class);
 	
 	private static final String SESSION_EXPIRE_KEY = "SESSION_EXPIRE_KEY";
+
+	public static final String TOKEN_NAME = "token";
 	
 	private static Session session;  
 
 	private static RedisSessionFactory redisSession;  
+	
+	private static long sessionTimeOut = 360000;
+
+	public static String token = ShiroRedisSession.TOKEN_NAME;
+	
+	public ShiroRedisSession(String token) {
+		if (!StringUtils.isEmpty(token)) {
+			ShiroRedisSession.token = token;
+		}
+	}
+	
+	public ShiroRedisSession(String token, long sessionTimeOut) {
+		if (!StringUtils.isEmpty(token)) {
+			ShiroRedisSession.token = token;
+		}
+		ShiroRedisSession.sessionTimeOut = sessionTimeOut;
+	}
 
 	@Autowired
 	public void setRedisSession(RedisSessionFactory redisSession) {
@@ -52,7 +72,7 @@ public class ShiroRedisSession {
 						token = SecurityUtils.getSubject().getSession().getId().toString();
 						isExpire(true);
 					}
-					session = ((AbstractSessionDAO) redisSession).readSession(getToken());
+					session = ((AbstractSessionDAO) redisSession).readSession(token);
 				} catch (UnknownSessionException e) {
 					session = null;
 				}
@@ -76,6 +96,7 @@ public class ShiroRedisSession {
 		public static void setAttribute(Object key, Object value){
 			initSession();
 			session.setAttribute(key, value);
+			session.setTimeout(sessionTimeOut);
 			agentRedisSession().updateSession(session);
 		}
 		
@@ -157,7 +178,7 @@ public class ShiroRedisSession {
 		 * @return String
 		 */
 		public static String getToken(){
-			return HttpConversationUtil.getToken();
+			return HttpConversationUtil.getToken(token);
 		}
 	}
 	

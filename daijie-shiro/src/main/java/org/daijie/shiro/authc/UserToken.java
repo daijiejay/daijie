@@ -1,6 +1,7 @@
 package org.daijie.shiro.authc;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +21,12 @@ public class UserToken implements Serializable {
 	/**
 	 * 用户角色集合
 	 */
-	private List<String> roles;
+	private List<String> roles = new ArrayList<String>();
 	
 	/**
 	 * 用户权限集合
 	 */
-	private List<String> permissions;
+	private List<String> permissions = new ArrayList<String>();
 
 	public Object getAuthc() {
 		return authc;

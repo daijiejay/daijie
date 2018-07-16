@@ -1,7 +1,8 @@
 package org.daijie.core.result;
 
-import com.xiaoleilu.hutool.json.JSONUtil;
+import java.io.Serializable;
 
+import cn.hutool.json.JSONUtil;
 import io.swagger.annotations.ApiModelProperty;
 
 
@@ -12,7 +13,9 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2017年10月27日
  * @param <E> 设置返回数据实体对应的类型
  */
-public class ModelResult<E> {
+public class ModelResult<E> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value="请求状态码")
 	protected String code;

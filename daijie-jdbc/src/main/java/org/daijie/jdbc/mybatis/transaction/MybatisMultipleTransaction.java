@@ -55,39 +55,45 @@ public class MybatisMultipleTransaction implements Transaction {
 
 	@Override
 	public void commit() throws SQLException {
-		Iterator<Entry<String, MybatisMultipleTransaction>> iterator = this.trancationsManage.getIterator();
-		while (iterator.hasNext()) {
-			Entry<String, MybatisMultipleTransaction> next = iterator.next();
-			if (next.getValue().getConnection() != null && !next.getValue().getConnectionTransactional() && !next.getValue().getAutoCommit()) {
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("提交事务 [" + next.getValue().getConnection() + "]");
+		if (this.trancationsManage != null) {
+			Iterator<Entry<String, MybatisMultipleTransaction>> iterator = this.trancationsManage.getIterator();
+			while (iterator.hasNext()) {
+				Entry<String, MybatisMultipleTransaction> next = iterator.next();
+				if (next.getValue().getConnection() != null && !next.getValue().getConnectionTransactional() && !next.getValue().getAutoCommit()) {
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("提交事务 [" + next.getValue().getConnection() + "]");
+					}
+					next.getValue().getConnection().commit();
 				}
-				next.getValue().getConnection().commit();
 			}
 		}
 	}
 
 	@Override
 	public void rollback() throws SQLException {
-		Iterator<Entry<String, MybatisMultipleTransaction>> iterator = this.trancationsManage.getIterator();
-		while (iterator.hasNext()) {
-			Entry<String, MybatisMultipleTransaction> next = iterator.next();
-			if (next.getValue().getConnection() != null && !next.getValue().getConnectionTransactional() && !next.getValue().getAutoCommit()) {
-				if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("回滚事务 [" + next.getValue().getConnection() + "]");
+		if (this.trancationsManage != null) {
+			Iterator<Entry<String, MybatisMultipleTransaction>> iterator = this.trancationsManage.getIterator();
+			while (iterator.hasNext()) {
+				Entry<String, MybatisMultipleTransaction> next = iterator.next();
+				if (next.getValue().getConnection() != null && !next.getValue().getConnectionTransactional() && !next.getValue().getAutoCommit()) {
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("回滚事务 [" + next.getValue().getConnection() + "]");
+					}
+					next.getValue().getConnection().rollback();
 				}
-				next.getValue().getConnection().rollback();
 			}
 		}
 	}
 
 	@Override
 	public void close() throws SQLException {
-		Iterator<Entry<String, MybatisMultipleTransaction>> iterator = this.trancationsManage.getIterator();
-		while (iterator.hasNext()) {
-			Entry<String, MybatisMultipleTransaction> next = iterator.next();
-			DataSourceUtils.releaseConnection(next.getValue().getConnection(), next.getValue().getDataSource());
-			this.trancationsManage.remove(next.getKey());
+		if (this.trancationsManage != null) {
+			Iterator<Entry<String, MybatisMultipleTransaction>> iterator = this.trancationsManage.getIterator();
+			while (iterator.hasNext()) {
+				Entry<String, MybatisMultipleTransaction> next = iterator.next();
+				DataSourceUtils.releaseConnection(next.getValue().getConnection(), next.getValue().getDataSource());
+				this.trancationsManage.remove(next.getKey());
+			}
 		}
 	}
 
@@ -102,7 +108,7 @@ public class MybatisMultipleTransaction implements Transaction {
 
 	private void openConnection() throws SQLException {
 		DataSource dataSource = (DataSource) this.dataSource.getTargetDataSources().get(DbContextHolder.getDataSourceName());
-		if (dataSource == null) {
+		if (dataSource == null || this.dataSource.getTargetDataSources().size() == 1) {
 			dataSource = this.dataSource;
 		}
 		this.connection = DataSourceUtils.getConnection(dataSource);

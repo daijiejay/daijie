@@ -8,16 +8,19 @@ import java.util.Map;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.daijie.core.controller.exception.UserExpireException;
 import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.core.util.http.CookieUtil;
 import org.daijie.core.util.http.HttpConversationUtil;
+import org.daijie.shiro.session.ShiroRedisSession;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 import com.baomidou.kisso.SSOHelper;
-import com.xiaoleilu.hutool.bean.BeanUtil;
+
+import cn.hutool.core.bean.BeanUtil;
 
 /**
- * 登录用户管理类
+ * 登录用户工具类
  * @author daijie_jay
  * @since 2017年11月15日
  */
@@ -34,7 +37,18 @@ public final class Auth {
 	 * @param permissions 权限集合
 	 */
 	public static void setPermissions(List<String> permissions){
+		if (userToken == null) {
+			userToken = new UserToken();
+		}
 		userToken.setPermissions(permissions);
+	}
+	
+	/**
+	 * 设置登录用户权限集
+	 * @param permissions 权限集合
+	 */
+	public static void setPermissions(String... permissions){
+		setPermissions(Arrays.asList(permissions));
 	}
 	
 	/**
@@ -42,7 +56,18 @@ public final class Auth {
 	 * @param roles 角色集合
 	 */
 	public static void setRoles(List<String> roles){
+		if (userToken == null) {
+			userToken = new UserToken();
+		}
 		userToken.setRoles(roles);
+	}
+	
+	/**
+	 * 设置登录用户角色集
+	 * @param roles 角色集合
+	 */
+	public static void setRoles(String... roles){
+		setRoles(Arrays.asList(roles));
 	}
 	
 	/**
@@ -68,7 +93,9 @@ public final class Auth {
 	 */
 	public static void login(String username, String pubPwd, String salt, String saltPwd, String authcKey, Object authc){
 		Redis.isExpire(false);
-		userToken = new UserToken();
+		if (userToken == null) {
+			userToken = new UserToken();
+		}
 		userToken.setAuthc(authc);
 		AuthorizationToken token = new AuthorizationToken(username, 
 				saltPwd, 
@@ -89,7 +116,7 @@ public final class Auth {
 				SSOHelper.clearLogin(HttpConversationUtil.getRequest(), HttpConversationUtil.getResponse());
 			}
 			Redis.deleteSession();
-			CookieUtil.set(HttpConversationUtil.TOKEN_NAME, session.getId().toString(), 0);
+			CookieUtil.set(ShiroRedisSession.token, session.getId().toString(), 0);
 		}
 	}
 	
@@ -103,6 +130,7 @@ public final class Auth {
 
 	/**
 	 * 获取登录用户基本信息
+	 * 如果没有获取到，将抛出用户过期UserExpireException异常
 	 * @param <T> 用户类型
 	 * @param className 用户对象类型
 	 * @return Object
@@ -113,6 +141,7 @@ public final class Auth {
 	
 	/**
 	 * 获取登录用户基本信息
+	 * 如果没有获取到，将抛出用户过期UserExpireException异常
 	 * @param <T> 用户类型
 	 * @param key 用户键
 	 * @param className 用户对象类型
@@ -128,7 +157,7 @@ public final class Auth {
 			}
 			return (T) authc;
 		}
-		return null;
+		throw new UserExpireException();
 	}
 	
 	/**
@@ -240,6 +269,23 @@ public final class Auth {
 	}
 	
 	/**
+	 * 刷新登录用户权限集
+	 * @param permissions 用户权限
+	 */
+	public static void refreshPermissions(String... permissions){
+		refreshPermissions(Arrays.asList(permissions));
+	}
+	
+	/**
+	 * 刷新登录用户权限集
+	 * @param key 用户键
+	 * @param permissions 用户权限
+	 */
+	public static void refreshPermissions(String key, String... permissions){
+		refreshPermissions(key, Arrays.asList(permissions));
+	}
+	
+	/**
 	 * 刷新登录用户角色集
 	 * @param roles 角色集
 	 */
@@ -259,6 +305,23 @@ public final class Auth {
 			userToken.setRoles(roles);
 			Redis.setAttribute(key, userToken);
 		}
+	}
+	
+	/**
+	 * 刷新登录用户角色集
+	 * @param roles 角色集
+	 */
+	public static void refreshRoles(String... roles){
+		refreshRoles(Arrays.asList(roles));
+	}
+	
+	/**
+	 * 刷新登录用户角色集
+	 * @param key 用户键
+	 * @param roles 角色集
+	 */
+	public static void refreshRoles(String key, String... roles){
+		refreshRoles(key, Arrays.asList(roles));
 	}
 	
 	/**
