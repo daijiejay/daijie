@@ -7,6 +7,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -58,7 +59,7 @@ public class PageResult<T> {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						BeanUtil.copyProperties(input, entity);
+						BeanUtil.copyProperties(input, entity, CopyOptions.create().setIgnoreError(true));
 						return entity;
 					}
 		        });
