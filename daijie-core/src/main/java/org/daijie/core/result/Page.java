@@ -18,6 +18,10 @@ public abstract class Page implements Serializable {
 	
 	@ApiModelProperty(name = "pageSize", value = "每页结果数")
 	private int pageSize = 20;
+	
+	private String order;
+	
+	private String sort;
 
 	public int getPageNumber() {
 		return pageNumber;
@@ -33,5 +37,21 @@ public abstract class Page implements Serializable {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 }
