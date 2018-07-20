@@ -81,6 +81,7 @@ public interface ExampleConditions extends Serializable {
 					}
 				}
 			}
+			extendConditions(criteria);
 			if (org.daijie.core.result.Page.class == conditionsClassName.getSuperclass()) {
 				order = (String) conditionsClassName.getMethod("getOrder").invoke(this);
 				sort = (String) conditionsClassName.getMethod("getSort").invoke(this);
@@ -97,5 +98,9 @@ public interface ExampleConditions extends Serializable {
 			e.printStackTrace();
 		}
 		return example;
+	}
+	
+	default public void extendConditions(Criteria criteria) {
+		
 	}
 }
