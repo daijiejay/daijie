@@ -62,6 +62,9 @@ public class ModelResultWrapper<E> implements Serializable {
 	}
 
 	public ModelResult<E> build() {
+		if (modelResult.getMsg() == null && modelResult.getCode() != null) {
+			modelResult.setMsg(modelResult.getCode());
+		}
 		return modelResult;
 	}
 }
