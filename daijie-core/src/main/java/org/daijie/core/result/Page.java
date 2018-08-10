@@ -14,10 +14,10 @@ public abstract class Page implements Serializable {
 	private static final long serialVersionUID = 6550659921425449000L;
 
 	@ApiModelProperty(name = "pageNumber", value = "页码")
-	private int pageNumber = 1;
+	private int pageNumber;
 	
 	@ApiModelProperty(name = "pageSize", value = "每页结果数")
-	private int pageSize = 20;
+	private int pageSize;
 	
 	private String order;
 	

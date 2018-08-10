@@ -100,6 +100,11 @@ public interface ExampleConditions extends Serializable {
 		return example;
 	}
 	
+	/**
+	 * 扩展条件
+	 * 
+	 * @param criteria 
+	 */
 	default public void extendConditions(Criteria criteria) {
 		
 	}
