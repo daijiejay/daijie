@@ -119,8 +119,16 @@ public class FocusSwaggerController {
 				if (datas != null) {
 					datas.forEach(data -> {
 						SwaggerResource swaggerResource = new SwaggerResource();
-						swaggerResource.setLocation(data.get("location").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT));
-						swaggerResource.setUrl(data.get("url").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT));
+						if (data.get("location").contains(PARAM)) {
+							swaggerResource.setLocation(data.get("location").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT));
+						} else {
+							swaggerResource.setLocation(data.get("location") + PARAM + next.getValue().getServiceId() + SPLIT + data.get("name"));
+						}
+						if (data.get("url").contains(PARAM)) {
+							swaggerResource.setLocation(data.get("url").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT));
+						} else {
+							swaggerResource.setLocation(data.get("url") + PARAM + next.getValue().getServiceId() + SPLIT + data.get("name"));
+						}
 						swaggerResource.setSwaggerVersion(data.get("swaggerVersion"));
 						swaggerResource.setName(next.getValue().getServiceId() + SPLIT + data.get("name"));
 						list.add(swaggerResource);
@@ -129,7 +137,6 @@ public class FocusSwaggerController {
 			} catch (Exception e) {
 				logger.error("API服务名{}加载资源失败！", next.getValue().getServiceId());
 				logger.error("", e);
-				return list;
 			}
 		}
 		return list;
