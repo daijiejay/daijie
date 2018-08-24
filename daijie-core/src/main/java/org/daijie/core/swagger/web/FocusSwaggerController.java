@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.daijie.core.swagger.web.ZuulSwaggerProperties.ZuulRoute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,8 @@ public class FocusSwaggerController {
 	public static final String SWAGGER_RESOURCES_UI_URL = "/swagger-resources/configuration/ui";
 	public static final String DEFAULT_URL = "/focus/api-docs";
 	public static final String RESOURCES_URL = "/focus-resources";
+	public static final String API_DEFAULT_URL = "/api-focus/api-docs";
+	public static final String API_RESOURCES_URL = "/api-focus-resources";
 	public static final String PARAM = "?group=";
 	private static final String HAL_MEDIA_TYPE = "application/hal+json";
 	private static final String SPLIT = ".";
@@ -142,7 +145,23 @@ public class FocusSwaggerController {
 		return list;
 	}
 	
-	public Object swaggerResourcesUI(String serviceId) {
+	private Object swaggerResourcesUI(String serviceId) {
 		return restTemplate.getForObject("http://"+ serviceId + SWAGGER_RESOURCES_UI_URL, Object.class);
+	}
+
+	@RequestMapping(
+		      value = API_RESOURCES_URL,
+		      method = RequestMethod.GET)
+	public Object swaggerResourcesApi() {
+		return Result.build(swaggerResources());
+	}
+
+	@RequestMapping(
+			value = API_DEFAULT_URL,
+			method = RequestMethod.GET)
+	public Object getDocumentationApi(
+		      @RequestParam(value = "group", required = false) String swaggerGroup,
+		      HttpServletRequest servletRequest) {
+		return Result.build(getDocumentation(swaggerGroup, servletRequest));
 	}
 }
