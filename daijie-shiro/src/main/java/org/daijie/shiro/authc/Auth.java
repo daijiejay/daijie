@@ -121,6 +121,14 @@ public final class Auth {
 	}
 	
 	/**
+	 * 是否登录
+	 * @return boolean
+	 */
+	public static boolean isLogin() {
+		return getAuthcKey() != null && Redis.getAttribute(getAuthcKey()) != null;
+	}
+	
+	/**
 	 * 获取登录用户redis中的key
 	 * @return String
 	 */
