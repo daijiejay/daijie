@@ -47,6 +47,8 @@ zuul.sensitive-headers=
 zuul.routes.api.path=/**
 #重定向到指定服务
 zuul.routes.api.serviceId=daijie-api-cloud
+#重定向到指定服务的显示名称
+zuul.routes.api.serviceName=api接口
 #为true时，访问/api/** = daijie-api-cloud/**，为false时，访问/api/** = daijie-api-cloud/api/**
 zuul.routes.api.stripPrefix=false
 
