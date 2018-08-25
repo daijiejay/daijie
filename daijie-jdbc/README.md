@@ -44,6 +44,7 @@ spring.datasource.password=123456
 #spring.datasource.jpaEntityPackages=org.daijie.mybatis.model
 ```
 * 多数据源下选择哪个数据源，接口引用`@SelectDataSource`注解，不配置将使用默认配置的defaultName数据源。
+
 mybatis使用：
 ```java
 @SelectDataSource(name = "demo1")
