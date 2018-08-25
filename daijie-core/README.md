@@ -62,6 +62,8 @@ public class BootApplication {
 ```
 #文档生成需要扫描的包路径，多个以“,”号隔开
 swagger.basePackage=org.daijie.api
+#组名称
+swagger.groupName=
 #标题
 swagger.title=
 #描述

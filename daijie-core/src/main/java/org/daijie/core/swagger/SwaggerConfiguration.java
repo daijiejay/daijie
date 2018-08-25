@@ -35,7 +35,6 @@ public class SwaggerConfiguration extends ApiInfoDocketFactory implements Enviro
 		if(groupNames == null || groupNames.length == 0){
 			try {
 				SwaggerProperties swaggerProperties = Binder.get(environment).bind("swagger", SwaggerProperties.class).get();
-				swaggerProperties.setGroupName("swaggerDocment");
 				properties.add(swaggerProperties);
 			} catch (NoSuchElementException e) {
 				logger.debug("没有读取到配置swagger属性，使用swagger官方默认配置！");

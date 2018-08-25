@@ -5,6 +5,11 @@ import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * 集中式swagger文档配置
+ * @author daijie_jay
+ * @since 2018年8月25日
+ */
 @ConfigurationProperties("zuul")
 public class ZuulSwaggerProperties {
 	
@@ -22,9 +27,20 @@ public class ZuulSwaggerProperties {
 		
 		private String id;
 		
+		/**
+		 * 拦截路径
+		 */
 		private String path;
 
+		/**
+		 * 微服务名称
+		 */
 		private String serviceId;
+
+		/**
+		 * 微服务别名，用于显示
+		 */
+		private String serviceName;
 
 		private String url;
 
@@ -50,6 +66,14 @@ public class ZuulSwaggerProperties {
 
 		public void setServiceId(String serviceId) {
 			this.serviceId = serviceId;
+		}
+
+		public String getServiceName() {
+			return serviceName;
+		}
+
+		public void setServiceName(String serviceName) {
+			this.serviceName = serviceName;
 		}
 
 		public String getUrl() {
