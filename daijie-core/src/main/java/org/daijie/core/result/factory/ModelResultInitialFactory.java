@@ -28,13 +28,17 @@ public abstract class ModelResultInitialFactory implements Factory {
 	public static <E> ModelResult<E> build(E value, String msg, boolean success){
 		return Result.clear(value).setMsg(msg).setSuccess(success).build();
 	}
+	
+	public static <E> ModelResult<E> build(E value, ResultCode code){
+		return Result.clear(value).setCode(code).build();
+	}
 
 	public static <E> ModelResult<E> build(E value, String msg, boolean success, ResultCode code){
 		return Result.clear(value).setMsg(msg).setSuccess(success).setCode(code).build();
 	}
 	
-	public static <E> ModelResult<E> build(boolean success){
-		return build(null, success);
+	public static <E> ModelResult<E> build(ResultCode code){
+		return build(null, code);
 	}
 	
 	public static <E> ModelResult<E> build(String msg, boolean success){

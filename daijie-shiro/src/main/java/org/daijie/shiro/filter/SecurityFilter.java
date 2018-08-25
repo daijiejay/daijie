@@ -12,7 +12,6 @@ import org.daijie.core.result.ApiResult;
 import org.daijie.core.result.ModelResult;
 import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.daijie.shiro.authc.Auth;
-import org.daijie.shiro.session.ShiroRedisSession.Redis;
 
 /**
  * 请求拦截器
@@ -28,7 +27,7 @@ public class SecurityFilter extends PathMatchingFilter {
 		boolean secutity = true;
 		ModelResult<Object> result = null;
 		try {
-			if (Redis.getSession() != null) {
+			if (Auth.isLogin()) {
 				String[] rolesArray = (String[]) mappedValue;
 				if (rolesArray == null || rolesArray.length == 0) {
 					return secutity;

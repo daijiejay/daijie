@@ -168,11 +168,21 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 			Object[] array = ((Collection) v).toArray();
 			String[] strs = new String[array.length];
 			for (int i = 0; i < strs.length; i++) {
-				strs[i] = array[i].toString();
+				if (array[i] == null) {
+					strs[i] = null;
+				} else if (array[i] instanceof Map || array[i] instanceof Collection) {
+					logger.info("param请求参数{}数组{}只允许是基本数据类型", name, i);
+					strs[i] = null;
+				} else {
+					strs[i] = array[i].toString();
+				}
 			}
 			return strs;
+		} else if (v instanceof Map) {
+			logger.info("param请求参数属性{}只允许是基本数据类型", name);
+			return new String[] {};
 		} else {
-			return new String[] { v.toString() };
+			return new String[] {v.toString()};
 		}
 	}
 
@@ -195,4 +205,19 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 		}
 	}
 
+	public String[] generatorObject(Map map) {
+		String[] array = new String[map.size()];
+		Iterator iterator = map.keySet().iterator();
+		int index = 0;
+		while (iterator.hasNext()) {
+			Object next = iterator.next();
+			if (next instanceof Map) {
+				generatorObject((Map) next);
+			} else {
+				array[index] = next.toString();
+			}
+			index ++;
+		}
+		return array;
+	}
 }

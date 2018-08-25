@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -52,6 +54,9 @@ public class ParametersFilter implements Filter {
 		HttpServletRequest hreq = (HttpServletRequest) req;
 		HttpServletResponse hres = (HttpServletResponse) res;
 		String reqMethod = hreq.getMethod().toUpperCase();
+		if (RequestContextHolder.getRequestAttributes() == null) {
+			RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(hreq));
+		}
 		if (this.requestProperties.getRemoteAjaxEanble()) {
 			String originUrl = hreq.getHeader("Origin");
 			if (this.requestProperties.getAccessControlAllowOrigin().length == 1 

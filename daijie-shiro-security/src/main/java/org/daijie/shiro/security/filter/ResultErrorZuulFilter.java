@@ -42,7 +42,11 @@ public class ResultErrorZuulFilter extends ZuulFilter {
 			response.setContentType("application/json;charset=utf-8");
 			response.setCharacterEncoding("UTF-8");
 			out = response.getWriter();
-			out.write(Result.build(null, ctx.getThrowable().getMessage(), ApiResult.ERROR, ResultCode.CODE_500).toJsonStr());
+			if (ctx.getThrowable() instanceof ZuulException) {
+				out.write(Result.build(null, ResultCode.CODE_501.getDescription(), ApiResult.ERROR, ResultCode.CODE_501).toJsonStr());
+			} else {
+				out.write(Result.build(null, ctx.getThrowable().getMessage(), ApiResult.ERROR, ResultCode.CODE_500).toJsonStr());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

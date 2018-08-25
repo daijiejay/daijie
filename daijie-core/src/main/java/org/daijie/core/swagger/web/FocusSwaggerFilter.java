@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import springfox.documentation.swagger2.web.Swagger2Controller;
 
+/**
+ * 调用官方默认资源路径跳转拦截
+ * @author daijie_jay
+ * @since 2018年8月25日
+ */
 public class FocusSwaggerFilter implements Filter {
 
 	@Override

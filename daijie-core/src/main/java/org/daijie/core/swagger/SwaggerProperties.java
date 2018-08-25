@@ -10,18 +10,39 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("swagger")
 public class SwaggerProperties {
 	
+	/**
+	 * 组名
+	 */
 	private String groupName;
 
+	/**
+	 * 标题
+	 */
 	private String basePackage;
-	
+
+	/**
+	 * 标题
+	 */
 	private String title;
-	
+
+	/**
+	 * 描述
+	 */
 	private String description;
-	
+
+	/**
+	 * 地址
+	 */
 	private String termsOfServiceUrl;
-	
+
+	/**
+	 * 联系方式
+	 */
 	private String contact;
-	
+
+	/**
+	 * 版本
+	 */
 	private String version;
 
 	public String getGroupName() {

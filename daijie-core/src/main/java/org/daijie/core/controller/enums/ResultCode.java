@@ -23,6 +23,8 @@ public enum ResultCode {
 
 	CODE_500("500", "服务器未知异常"),
 
+	CODE_501("501", "请求服务失败"),
+
 	;
 
 	private String value;

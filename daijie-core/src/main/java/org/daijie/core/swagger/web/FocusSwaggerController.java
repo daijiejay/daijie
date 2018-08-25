@@ -2,7 +2,9 @@ package org.daijie.core.swagger.web;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,9 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.daijie.core.swagger.web.ZuulSwaggerProperties.ZuulRoute;
+import org.daijie.core.util.IdWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +28,14 @@ import springfox.documentation.spring.web.PropertySourcedMapping;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger2.web.Swagger2Controller;
 
-@SuppressWarnings("unchecked")
+/**
+ * 集中式swagger文档资源调用入口
+ * @author daijie_jay
+ * @since 2018年8月25日
+ */
+@SuppressWarnings({ "unchecked", "serial" })
 @RestController
-public class FocusSwaggerController {
+public class FocusSwaggerController implements Serializable {
 	
 	protected Logger logger = LoggerFactory.getLogger(FocusSwaggerController.class);
 
@@ -34,9 +43,13 @@ public class FocusSwaggerController {
 	public static final String SWAGGER_RESOURCES_UI_URL = "/swagger-resources/configuration/ui";
 	public static final String DEFAULT_URL = "/focus/api-docs";
 	public static final String RESOURCES_URL = "/focus-resources";
+	public static final String API_DEFAULT_URL = "/api-focus/api-docs";
+	public static final String API_RESOURCES_URL = "/api-focus-resources";
 	public static final String PARAM = "?group=";
 	private static final String HAL_MEDIA_TYPE = "application/hal+json";
 	private static final String SPLIT = ".";
+	
+	private static Map<String, SwaggerCache> swaggerCaches = new HashMap<>();
 
 	private final RestTemplate restTemplate;
 
@@ -64,6 +77,9 @@ public class FocusSwaggerController {
 			return null;
 		}
 		String[] split = swaggerGroup.split("\\" + SPLIT);
+		if (swaggerCaches.get(split[0]) != null) {
+			split[1] = swaggerCaches.get(split[0]).getValue(split[1]);
+		}
 		Map<String, Object> documentation = null;
 		try {
 			int request = 0;
@@ -118,24 +134,66 @@ public class FocusSwaggerController {
 				}
 				if (datas != null) {
 					datas.forEach(data -> {
+						String name = null;
 						SwaggerResource swaggerResource = new SwaggerResource();
-						swaggerResource.setLocation(data.get("location").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT));
-						swaggerResource.setUrl(data.get("url").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT));
+						if (swaggerCaches == null || swaggerCaches.get(next.getValue().getServiceId()) == null) {
+							swaggerCaches = new HashMap<>();
+							name = IdWorker.getDayId();
+							SwaggerCache swaggerCache = new SwaggerCache();
+							swaggerCache.set(name, data.get("name"));
+							swaggerCaches.put(next.getValue().getServiceId(), swaggerCache);
+						} else {
+							SwaggerCache swaggerCache = swaggerCaches.get(next.getValue().getServiceId());
+							name = swaggerCache.getKey(data.get("name"));
+							if (name == null) {
+								name = IdWorker.getDayId();
+								swaggerCache.set(name, data.get("name"));
+							}
+						}
+						
+						String location = null;
+						if (data.get("location").contains(PARAM)) {
+							location = data.get("location").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT);
+						} else {
+							location = data.get("location") + PARAM + next.getValue().getServiceId() + SPLIT + name;
+						}
+						if (data.get("url").contains(PARAM)) {
+							location = data.get("url").replace(PARAM, PARAM + next.getValue().getServiceId() + SPLIT);
+						} else {
+							location = data.get("url") + PARAM + next.getValue().getServiceId() + SPLIT + name;
+						}
+						location = location.replace(location.substring(location.lastIndexOf(".")+1), name);
+						swaggerResource.setLocation(location);
 						swaggerResource.setSwaggerVersion(data.get("swaggerVersion"));
-						swaggerResource.setName(next.getValue().getServiceId() + SPLIT + data.get("name"));
+						swaggerResource.setName(next.getValue().getServiceName() + SPLIT + data.get("name"));
 						list.add(swaggerResource);
 					});
 				}
 			} catch (Exception e) {
 				logger.error("API服务名{}加载资源失败！", next.getValue().getServiceId());
 				logger.error("", e);
-				return list;
 			}
 		}
 		return list;
 	}
 	
-	public Object swaggerResourcesUI(String serviceId) {
+	private Object swaggerResourcesUI(String serviceId) {
 		return restTemplate.getForObject("http://"+ serviceId + SWAGGER_RESOURCES_UI_URL, Object.class);
+	}
+
+	@RequestMapping(
+		      value = API_RESOURCES_URL,
+		      method = RequestMethod.GET)
+	public Object swaggerResourcesApi() {
+		return Result.build(swaggerResources());
+	}
+
+	@RequestMapping(
+			value = API_DEFAULT_URL,
+			method = RequestMethod.GET)
+	public Object getDocumentationApi(
+		      @RequestParam(value = "group", required = false) String swaggerGroup,
+		      HttpServletRequest servletRequest) {
+		return Result.build(getDocumentation(swaggerGroup, servletRequest));
 	}
 }

@@ -20,7 +20,7 @@ public class HttpRequestProperties {
 	
 	private Boolean bodyByParamEanble = false;
 	
-	private String bodyByParamMethods = "GET,POST,PUT,DELETE,OPTIONS";
+	private String bodyByParamMethods = "GET,POST,PUT,DELETE";
 
 	public Boolean getRemoteAjaxEanble() {
 		return remoteAjaxEanble;

@@ -121,6 +121,14 @@ public final class Auth {
 	}
 	
 	/**
+	 * 是否登录
+	 * @return boolean
+	 */
+	public static boolean isLogin() {
+		return getAuthcKey() != null && Redis.getAttribute(getAuthcKey()) != null;
+	}
+	
+	/**
 	 * 获取登录用户redis中的key
 	 * @return String
 	 */
@@ -357,5 +365,29 @@ public final class Auth {
 			return (String) key;
 		}
 		return null;
+	}
+	
+	/**
+	 * 用公钥解析公钥加密的密码
+	 * @param priKeyCryptograph 私钥加密的密文
+	 * @return String
+	 * @throws Exception
+	 */
+	public static String decryptByPubKey(String priKeyCryptograph) throws Exception {
+		RSAUtil.set(null, getPublicKey());
+		String password = RSAUtil.decryptByPubKey(priKeyCryptograph);
+		return password;
+	}
+	
+	/**
+	 * 用私钥解析公钥加密的密码
+	 * @param pubKeyCryptograph 公钥加密的密文
+	 * @return String
+	 * @throws Exception
+	 */
+	public static String decryptByPriKey(String pubKeyCryptograph) throws Exception {
+		RSAUtil.set(null, getPrivateKey());
+		String password = RSAUtil.decryptByPriKey(pubKeyCryptograph);
+		return password;
 	}
 }
