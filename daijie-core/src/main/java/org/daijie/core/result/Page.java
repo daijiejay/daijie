@@ -18,9 +18,11 @@ public abstract class Page implements Serializable {
 	
 	@ApiModelProperty(name = "pageSize", value = "每页结果数")
 	private int pageSize;
-	
+
+	@ApiModelProperty(name = "order", value = "排序字段名")
 	private String order;
-	
+
+	@ApiModelProperty(name = "sort", value = "排序方式：ASC/DESC")
 	private String sort;
 
 	public int getPageNumber() {
