@@ -1,10 +1,10 @@
 package org.daijie.shiro.configure;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.shiro.web.servlet.AdviceFilter;
 import org.daijie.shiro.session.ShiroRedisSession;
-import org.jboss.netty.util.internal.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
