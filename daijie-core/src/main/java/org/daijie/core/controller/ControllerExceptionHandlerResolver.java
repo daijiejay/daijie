@@ -67,7 +67,7 @@ public class ControllerExceptionHandlerResolver implements HandlerExceptionResol
 						out.write(Result.build(null, exception.getMessage(), ApiResult.ERROR, ((ApiException) exception).getCode()).toJsonStr());
 					}else if(exception instanceof UserExpireException){
 						out.write(Result.build(null, ResultCode.CODE_300.getDescription(), ApiResult.ERROR, ResultCode.CODE_300).toJsonStr());
-					}else if(exception.getMessage().contains("com.netflix.client.ClientException")){
+					}else if(exception.getMessage() != null && exception.getMessage().contains("com.netflix.client.ClientException")){
 						out.write(Result.build(null, ResultCode.CODE_501.getDescription(), ApiResult.ERROR, ResultCode.CODE_501).toJsonStr()+exception.getMessage().substring(exception.getMessage().lastIndexOf(":")));
 					}else{
 						out.write(Result.build(null, exception.getMessage(), ApiResult.ERROR, ResultCode.CODE_500).toJsonStr());
