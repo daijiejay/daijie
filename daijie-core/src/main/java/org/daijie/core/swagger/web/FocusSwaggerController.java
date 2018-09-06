@@ -136,8 +136,10 @@ public class FocusSwaggerController implements Serializable {
 					datas.forEach(data -> {
 						String name = null;
 						SwaggerResource swaggerResource = new SwaggerResource();
-						if (swaggerCaches == null || swaggerCaches.get(next.getValue().getServiceId()) == null) {
+						if (swaggerCaches == null) {
 							swaggerCaches = new HashMap<>();
+						}
+						if (swaggerCaches.get(next.getValue().getServiceId()) == null) {
 							name = IdWorker.getDayId();
 							SwaggerCache swaggerCache = new SwaggerCache();
 							swaggerCache.set(name, data.get("name"));
