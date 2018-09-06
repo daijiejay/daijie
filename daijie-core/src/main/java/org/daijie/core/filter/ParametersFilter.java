@@ -61,19 +61,19 @@ public class ParametersFilter implements Filter {
 			String originUrl = hreq.getHeader("Origin");
 			if (this.requestProperties.getAccessControlAllowOrigin().length == 1 
 					&& this.requestProperties.getAccessControlAllowOrigin()[0].equals("*")) {
-				hres.addHeader(REMOTE_AJAX_ORIGIN, this.requestProperties.getAccessControlAllowOrigin()[0]);
+				hres.setHeader(REMOTE_AJAX_ORIGIN, this.requestProperties.getAccessControlAllowOrigin()[0]);
 			} else if (originUrl != null && originUrl.equals("null")) {
-				hres.addHeader(REMOTE_AJAX_ORIGIN, originUrl);
+				hres.setHeader(REMOTE_AJAX_ORIGIN, originUrl);
 			}else {
 				for (String url : this.requestProperties.getAccessControlAllowOrigin()) {
 					if (originUrl != null && originUrl.contains(url)) {
-						hres.addHeader(REMOTE_AJAX_ORIGIN, originUrl);
+						hres.setHeader(REMOTE_AJAX_ORIGIN, originUrl);
 					}
 				}
 			}
-			hres.addHeader(REMOTE_AJAX_METHODS, this.requestProperties.getAccessControlAllowMethods());
-			hres.addHeader(REMOTE_AJAX_HEADERS, this.requestProperties.getAccessControlAllowHeaders());
-			hres.addHeader(REMOTE_AJAX_CREDENTIALS, "true");
+			hres.setHeader(REMOTE_AJAX_METHODS, this.requestProperties.getAccessControlAllowMethods());
+			hres.setHeader(REMOTE_AJAX_HEADERS, this.requestProperties.getAccessControlAllowHeaders());
+			hres.setHeader(REMOTE_AJAX_CREDENTIALS, "true");
 		}
 		if (this.requestProperties.getBodyByParamEanble() && !StringUtils.isEmpty(this.requestProperties.getBodyByParamMethods())) {
 			if (this.requestProperties.getBodyByParamMethods().contains(reqMethod)) {

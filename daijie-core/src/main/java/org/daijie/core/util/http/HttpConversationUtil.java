@@ -122,7 +122,7 @@ public class HttpConversationUtil {
 				sb.append(line);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.info("未读取到请求body中数据");
 		} finally {
 			if (inputStream != null) {
 				try {
@@ -135,7 +135,7 @@ public class HttpConversationUtil {
 				try {
 					reader.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.info("未读取到请求body中数据");
 				}
 			}
 		}
