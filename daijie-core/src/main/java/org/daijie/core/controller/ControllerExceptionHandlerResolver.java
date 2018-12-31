@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,7 +61,7 @@ public class ControllerExceptionHandlerResolver implements HandlerExceptionResol
 			if(cls.isAnnotationPresent(RestController.class) || method.isAnnotationPresent(ResponseBody.class)){
 				PrintWriter out = null;
 				try{
-					response.setContentType("application/json;charset=utf-8");
+					response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 					response.setCharacterEncoding("UTF-8");
 					out = response.getWriter();
 					if(exception instanceof ApiException){
