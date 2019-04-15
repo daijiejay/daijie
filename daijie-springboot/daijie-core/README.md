@@ -46,7 +46,7 @@ public class BootApplication {
 		new SpringApplicationBuilder(BootApplication.class).web(true).run(args);
 	}
 }
-```java
+```
 ## 生成api文档
 * 启动类引用`@EnableMySwagger`注解，官方的`@EnableSwagger2`注解被重写
 ```java
