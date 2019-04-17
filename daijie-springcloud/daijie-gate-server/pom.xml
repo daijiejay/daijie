@@ -5,11 +5,11 @@
     <parent>
         <artifactId>daijie-parent-spring-cloud-starter</artifactId>
         <groupId>org.daijie</groupId>
-        <version>2.0.0-RELEASE</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>daijie-gate-server-spring-cloud-starter</artifactId>
-    <name>daijie-gate-server-spring-boot-starter</name>
+    <name>daijie-gate-server-spring-cloud-starter</name>
     <description>提供shiro权限路由跳转配置服务</description>
     <url>http://maven.apache.org</url>
     <properties>

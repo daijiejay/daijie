@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
@@ -93,15 +94,14 @@ public class JpaMultipleRepositoryConfigExtension extends RepositoryConfiguratio
 	public void registerBeansForRoot(BeanDefinitionRegistry registry, RepositoryConfigurationSource config) {
 		super.registerBeansForRoot(registry, config);
 		Object source = config.getSource();
-		registerIfNotAlreadyRegistered(new RootBeanDefinition(MultipleEntityManagerBeanDefinitionRegistrarPostProcessor.class),
-				registry, EM_BEAN_DEFINITION_REGISTRAR_POST_PROCESSOR_BEAN_NAME, source);
-		registerIfNotAlreadyRegistered(new RootBeanDefinition(JpaMultipleMetamodelMappingContextFactoryBean.class), registry,
-				JPA_MAPPING_CONTEXT_BEAN_NAME, source);
-		registerIfNotAlreadyRegistered(new RootBeanDefinition(PAB_POST_PROCESSOR), registry,
-				AnnotationConfigUtils.PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME, source);
-		RootBeanDefinition contextDefinition = new RootBeanDefinition(DefaultJpaContext.class);
-		contextDefinition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_CONSTRUCTOR);
-		registerIfNotAlreadyRegistered(contextDefinition, registry, JPA_CONTEXT_BEAN_NAME, source);
+		Supplier<AbstractBeanDefinition> multipleEntityManagerBeanDefinitionRegistrarPostProcessor = ()-> new RootBeanDefinition(MultipleEntityManagerBeanDefinitionRegistrarPostProcessor.class);
+		Supplier<AbstractBeanDefinition> jpaMultipleMetamodelMappingContextFactoryBean = ()-> new RootBeanDefinition(JpaMultipleMetamodelMappingContextFactoryBean.class);
+		Supplier<AbstractBeanDefinition> persistenceAnnotationBeanPostProcessor = ()-> new RootBeanDefinition(PAB_POST_PROCESSOR);
+		Supplier<AbstractBeanDefinition> defaultJpaContext = ()-> new RootBeanDefinition(DefaultJpaContext.class);
+		registerIfNotAlreadyRegistered(multipleEntityManagerBeanDefinitionRegistrarPostProcessor, registry, EM_BEAN_DEFINITION_REGISTRAR_POST_PROCESSOR_BEAN_NAME, source);
+		registerIfNotAlreadyRegistered(jpaMultipleMetamodelMappingContextFactoryBean, registry, JPA_MAPPING_CONTEXT_BEAN_NAME, source);
+		registerIfNotAlreadyRegistered(persistenceAnnotationBeanPostProcessor, registry, AnnotationConfigUtils.PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME, source);
+		registerIfNotAlreadyRegistered(defaultJpaContext, registry, JPA_CONTEXT_BEAN_NAME, source);
 	}
 	
 	private static AbstractBeanDefinition getEntityManagerBeanDefinitionFor(RepositoryConfigurationSource config,

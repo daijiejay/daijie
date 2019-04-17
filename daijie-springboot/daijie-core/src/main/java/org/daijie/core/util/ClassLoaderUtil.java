@@ -22,6 +22,7 @@ public class ClassLoaderUtil {
     /**
      * 从包package中获取所有的Class
      * @param packageName 包路径
+     * @return Set
      */
     public static Set<Class<?>> getClassesInPackage(String packageName) {
         Set<Class<?>> classes = new LinkedHashSet<Class<?>>();
@@ -106,6 +107,7 @@ public class ClassLoaderUtil {
 
     /**
      * 根据包名以及class文件名添加Class到集合中
+     * @param classLoader class加载类
      * @param packageName 包名
      * @param classFileName 文件名
      * @param classes 加载class数据集

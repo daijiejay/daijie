@@ -13,7 +13,6 @@ import com.baomidou.kisso.web.interceptor.SSOSpringInterceptor;
  * @author daijie_jay
  * @since 2017年11月17日
  */
-@SuppressWarnings("deprecation")
 @ControllerAdvice
 @Configuration
 public class KissoConfigure extends WebMvcConfigurerAdapter {

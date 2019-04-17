@@ -3,7 +3,7 @@
     <parent>
         <artifactId>daijie-parent</artifactId>
         <groupId>org.daijie</groupId>
-        <version>2.0.0-RELEASE</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>daijie-parent-spring-boot-starter</artifactId>
@@ -12,7 +12,7 @@
     <url>http://maven.apache.org</url>
     <properties>
         <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
-        <daijie.spring.boot.version>2.0.0-RELEASE</daijie.spring.boot.version>
+        <daijie.spring.boot.version>2.0.0</daijie.spring.boot.version>
     </properties>
     <modules>
         <module>daijie-core</module>
@@ -20,6 +20,8 @@
         <module>daijie-jdbc-plugin</module>
         <module>daijie-shiro</module>
         <module>daijie-workflow</module>
+        <module>daijie-admin</module>
+        <module>daijie-admin-ui</module>
     </modules>
     <dependencies>
         <dependency>

@@ -103,7 +103,7 @@ public interface ExampleConditions extends Serializable {
 	/**
 	 * 扩展条件
 	 * 
-	 * @param criteria 
+	 * @param criteria mybatis添加条件的Criteria
 	 */
 	default public void extendConditions(Criteria criteria) {
 		

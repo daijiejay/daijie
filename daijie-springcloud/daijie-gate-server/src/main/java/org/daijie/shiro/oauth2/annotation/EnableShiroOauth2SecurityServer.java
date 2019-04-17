@@ -7,7 +7,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.daijie.core.feign.FeignConfigure;
 import org.daijie.shiro.annotation.EnableShiro;
 import org.daijie.shiro.oauth2.configure.JdbcAuthorizationServerConfigurer;
 import org.daijie.shiro.oauth2.configure.ResourceServerConfiguration;
@@ -40,8 +39,7 @@ import org.springframework.context.annotation.Import;
 	ShiroAuthenticationConfigure.class,
 	WebSecurityConfigurer.class,
 	JdbcAuthorizationServerConfigurer.class,
-	ResourceServerConfiguration.class,
-	FeignConfigure.class
+	ResourceServerConfiguration.class
 })
 public @interface EnableShiroOauth2SecurityServer {
 }

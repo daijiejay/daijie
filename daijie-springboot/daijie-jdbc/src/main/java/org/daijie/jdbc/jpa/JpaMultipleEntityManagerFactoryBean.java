@@ -196,7 +196,7 @@ public class JpaMultipleEntityManagerFactoryBean extends LocalContainerEntityMan
 	 * @param method 方法名
 	 * @param args 参数
 	 * @return Object
-	 * @throws Throwable
+	 * @throws Throwable 抛出异常
 	 */
 	public Object invokeProxyMethod2(Method method, @Nullable Object[] args) throws Throwable {
 		if (method.getDeclaringClass().isAssignableFrom(EntityManagerFactoryInfo.class)) {

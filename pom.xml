@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.daijie</groupId>
     <artifactId>daijie-parent</artifactId>
-    <version>2.0.0-RELEASE</version>
+    <version>2.0.0</version>
     <name>daijie-parent</name>
     <packaging>pom</packaging>
     <parent>
