@@ -1,6 +1,4 @@
-package org.daijie.jdbc.transaction;
-
-import javax.persistence.EntityManager;
+package org.daijie.jdbc.jpa.transaction;
 
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.core.Ordered;
@@ -12,24 +10,26 @@ import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.transaction.support.ResourceHolderSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import javax.persistence.EntityManager;
+
 /**
  * 多数据源处理管理器
  * @author daijie_jay
  * @since 2018年5月28日
  */
-public class MultipleTransactionSynchronizationEntityManager extends ResourceHolderSynchronization<EntityManagerHolder, EntityManager>
+public class JpaMultipleTransactionSynchronizationEntityManager extends ResourceHolderSynchronization<EntityManagerHolder, EntityManager>
 	implements Ordered {
 
 	@Nullable
 	private final PersistenceExceptionTranslator exceptionTranslator;
 
 	private TransactionStatus status = TransactionStatus.NOT_ACTIVE;
-	
+
 	public volatile boolean closeOnCompletion = false;
-	
+
 	private final EntityManager entityManager;
 
-	public MultipleTransactionSynchronizationEntityManager(EntityManager entityManager, @Nullable PersistenceExceptionTranslator exceptionTranslator) {
+	public JpaMultipleTransactionSynchronizationEntityManager(EntityManager entityManager, @Nullable PersistenceExceptionTranslator exceptionTranslator) {
 		super(new EntityManagerHolder(entityManager), entityManager);
 		this.entityManager = entityManager;
 		this.exceptionTranslator = exceptionTranslator;

@@ -1,7 +1,7 @@
 package org.daijie.jdbc.jpa;
 
 import org.daijie.jdbc.interceptor.DefaultRoutingDataSource;
-import org.daijie.jdbc.transaction.MultipleTransactionSynchronizationEntityManager;
+import org.daijie.jdbc.jpa.transaction.JpaMultipleTransactionSynchronizationEntityManager;
 import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.datasource.lookup.SingleDataSourceLookup;
 import org.springframework.lang.Nullable;
@@ -222,7 +222,7 @@ public class JpaMultipleEntityManagerFactoryBean extends LocalContainerEntityMan
 			MultipleSessionImpl sessionImpl = new MultipleSessionImpl();
 			if (entityManagerFactory instanceof MultipleProxySessionFactory) {
 				for (String datesSourceName : dateSourceNames) {
-					sessionImpl.getEntityManagers().put(datesSourceName, new MultipleTransactionSynchronizationEntityManager((EntityManager) method
+					sessionImpl.getEntityManagers().put(datesSourceName, new JpaMultipleTransactionSynchronizationEntityManager((EntityManager) method
 							.invoke(((MultipleProxySessionFactory) entityManagerFactory).getEntityManagerFactories().get(datesSourceName), args),
 							this.getJpaDialect()));
 					sessionImpl.getEntityManagers().get(datesSourceName);

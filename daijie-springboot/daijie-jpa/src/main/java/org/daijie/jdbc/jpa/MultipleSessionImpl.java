@@ -1,7 +1,7 @@
 package org.daijie.jdbc.jpa;
 
 import org.daijie.jdbc.DbContextHolder;
-import org.daijie.jdbc.transaction.MultipleTransactionSynchronizationEntityManager;
+import org.daijie.jdbc.jpa.transaction.JpaMultipleTransactionSynchronizationEntityManager;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -21,13 +21,13 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 public class MultipleSessionImpl implements EntityManager {
 	
-	private Map<String, MultipleTransactionSynchronizationEntityManager> entityManagers = new HashMap<String, MultipleTransactionSynchronizationEntityManager>();
+	private Map<String, JpaMultipleTransactionSynchronizationEntityManager> entityManagers = new HashMap<String, JpaMultipleTransactionSynchronizationEntityManager>();
 
-	public Map<String, MultipleTransactionSynchronizationEntityManager> getEntityManagers() {
+	public Map<String, JpaMultipleTransactionSynchronizationEntityManager> getEntityManagers() {
 		return entityManagers;
 	}
 
-	public void setEntityManagers(Map<String, MultipleTransactionSynchronizationEntityManager> entityManagers) {
+	public void setEntityManagers(Map<String, JpaMultipleTransactionSynchronizationEntityManager> entityManagers) {
 		this.entityManagers = entityManagers;
 	}
 	

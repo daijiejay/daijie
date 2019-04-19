@@ -3,7 +3,7 @@ package org.daijie.jdbc.jpa;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.daijie.jdbc.DbContextHolder;
-import org.daijie.jdbc.transaction.MultipleTransactionSynchronizationEntityManager;
+import org.daijie.jdbc.jpa.transaction.JpaMultipleTransactionSynchronizationEntityManager;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 import org.springframework.lang.Nullable;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
@@ -222,7 +222,7 @@ public class MultipleExtendedEntityManagerCreator {
 		@Nullable
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			// 切换数据源
-			MultipleTransactionSynchronizationEntityManager synchronizationEntityManager = ((MultipleSessionImpl) target).getEntityManagers().get(DbContextHolder.getDataSourceName());
+			JpaMultipleTransactionSynchronizationEntityManager synchronizationEntityManager = ((MultipleSessionImpl) target).getEntityManagers().get(DbContextHolder.getDataSourceName());
 			if (this.target instanceof MultipleSessionImpl && synchronizationEntityManager != null) {
 				this.defaultEntityManager = synchronizationEntityManager.getEntityManager();
 				synchronizationEntityManager.begin();
@@ -254,7 +254,7 @@ public class MultipleExtendedEntityManagerCreator {
 				if (this.containerManaged) {
 					throw new IllegalStateException("Invalid usage: Cannot close a container-managed EntityManager");
 				}
-				MultipleTransactionSynchronizationEntityManager synch = (MultipleTransactionSynchronizationEntityManager)
+				JpaMultipleTransactionSynchronizationEntityManager synch = (JpaMultipleTransactionSynchronizationEntityManager)
 						TransactionSynchronizationManager.getResource(this.defaultEntityManager);
 				if (synch != null) {
 					synch.closeOnCompletion = true;

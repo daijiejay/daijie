@@ -10,9 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>daijie-mybatis-spring-boot-starter</artifactId>
     <properties>
-        <pagehelper.spring.boot.version>1.2.3</pagehelper.spring.boot.version>
+        <pagehelper.spring.boot.version>1.2.10</pagehelper.spring.boot.version>
         <tk.mybatis.mapper.spring.boot.version>2.0.0</tk.mybatis.mapper.spring.boot.version>
-        <tk.mybatis.mapper.version>4.0.0</tk.mybatis.mapper.version>
+        <tk.mybatis.mapper.version>4.1.5</tk.mybatis.mapper.version>
         <alibaba.druid.version>1.0.29</alibaba.druid.version>
     </properties>
     <dependencies>
@@ -22,23 +22,9 @@
             <version>${daijie.spring.boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>${pagehelper.spring.boot.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-autoconfigure</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>tk.mybatis</groupId>
@@ -49,11 +35,6 @@
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper</artifactId>
             <version>${tk.mybatis.mapper.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${alibaba.druid.version}</version>
         </dependency>
     </dependencies>
 </project>
