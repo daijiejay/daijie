@@ -22,6 +22,8 @@
         <module>daijie-workflow</module>
         <module>daijie-admin</module>
         <module>daijie-admin-ui</module>
+        <module>daijie-mybatis</module>
+        <module>daijie-jpa</module>
     </modules>
     <dependencies>
         <dependency>
