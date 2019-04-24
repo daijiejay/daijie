@@ -25,7 +25,7 @@
         <commons.net.version>3.6</commons.net.version>
         <commons.lang3.version>3.9</commons.lang3.version>
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
-        <apache.curator.recipes.version>4.2.0</apache.curator.recipes.version>
+        <apache.curator.recipes.version>3.0.0</apache.curator.recipes.version>
         <hutool.version>4.5.6</hutool.version>
         <github.openfeign.version>10.2.0</github.openfeign.version>
         <google.guava.version>20.0</google.guava.version>
@@ -35,6 +35,12 @@
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-javanica</artifactId>
             <version>${netflix.hystrix.javanica.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -107,6 +113,11 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
             <version>${github.openfeign.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${google.guava.version}</version>
         </dependency>
     </dependencies>
 </project>

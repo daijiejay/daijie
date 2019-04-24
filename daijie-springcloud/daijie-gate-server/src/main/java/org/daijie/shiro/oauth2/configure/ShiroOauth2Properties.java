@@ -1,9 +1,9 @@
 package org.daijie.shiro.oauth2.configure;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import org.jboss.netty.util.internal.ConcurrentHashMap;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpMethod;
 

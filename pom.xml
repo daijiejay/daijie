@@ -41,12 +41,12 @@
             <version>${codehaus.groovy.version}</version>
             <scope>compile</scope>
         </dependency>-->
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>${apache.maven.compiler.plugin.version}</version>
-            <type>maven-plugin</type>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.maven.plugins</groupId>-->
+<!--            <artifactId>maven-compiler-plugin</artifactId>-->
+<!--            <version>${apache.maven.compiler.plugin.version}</version>-->
+<!--            <type>maven-plugin</type>-->
+<!--        </dependency>-->
     </dependencies>
     <build>
         <plugins>
