@@ -11,9 +11,7 @@ import org.daijie.core.swagger.web.FocusSwaggerConfiguration;
 import org.daijie.shiro.annotation.EnableShiro;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -31,8 +29,6 @@ import org.springframework.context.annotation.Import;
 @EnableSecurityZuulFilter
 @EnableZuulProxy
 @EnableDiscoveryClient
-@EnableFeignClients
-@EnableEurekaClient
 @RefreshScope
 @Import(FocusSwaggerConfiguration.class)
 public @interface EnableShiroSecurityServer {

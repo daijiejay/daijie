@@ -11,7 +11,7 @@
     <artifactId>daijie-parent-spring-cloud-starter</artifactId>
     <packaging>pom</packaging>
     <properties>
-        <spring.cloud.version>2.0.1.RELEASE</spring.cloud.version>
+        <spring.cloud.version>2.1.1.RELEASE</spring.cloud.version>
         <daijie.spring.boot.version>2.0.0</daijie.spring.boot.version>
     </properties>
     <modules>
