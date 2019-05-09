@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 
 import org.daijie.core.swagger.web.FocusSwaggerConfiguration;
 import org.daijie.shiro.annotation.EnableShiro;
+import org.daijie.shiro.security.configure.ShiroWebSecurityConfigurerAdapter;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -30,6 +31,9 @@ import org.springframework.context.annotation.Import;
 @EnableZuulProxy
 @EnableDiscoveryClient
 @RefreshScope
-@Import(FocusSwaggerConfiguration.class)
+@Import({
+        FocusSwaggerConfiguration.class,
+        ShiroWebSecurityConfigurerAdapter.class
+})
 public @interface EnableShiroSecurityServer {
 }

@@ -1,9 +1,9 @@
 package org.daijie.core.swagger.web;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 集中式swagger文档配置

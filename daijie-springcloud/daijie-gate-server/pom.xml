@@ -14,12 +14,18 @@
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.framework.version>5.1.5.RELEASE</spring.framework.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.daijie</groupId>
             <artifactId>daijie-shiro-spring-boot-starter</artifactId>
             <version>${daijie.spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.daijie</groupId>
+            <artifactId>daijie-core-spring-cloud-starter</artifactId>
+            <version>${daijie.spring.cloud.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -49,6 +55,11 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.framework.version}</version>
         </dependency>
     </dependencies>
 </project>

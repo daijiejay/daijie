@@ -27,7 +27,6 @@
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <apache.curator.recipes.version>3.0.0</apache.curator.recipes.version>
         <hutool.version>4.5.6</hutool.version>
-        <github.openfeign.version>10.2.0</github.openfeign.version>
         <google.guava.version>20.0</google.guava.version>
     </properties>
     <dependencies>
@@ -108,11 +107,6 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-core</artifactId>
-            <version>${github.openfeign.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

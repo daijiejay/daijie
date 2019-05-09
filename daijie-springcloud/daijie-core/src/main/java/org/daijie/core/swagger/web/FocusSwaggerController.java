@@ -1,17 +1,5 @@
 package org.daijie.core.swagger.web;
 
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.daijie.core.result.factory.ModelResultInitialFactory.Result;
 import org.daijie.core.swagger.web.ZuulSwaggerProperties.ZuulRoute;
 import org.daijie.core.util.IdWorker;
@@ -23,10 +11,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import springfox.documentation.spring.web.PropertySourcedMapping;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger2.web.Swagger2Controller;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.*;
+import java.util.Map.Entry;
+
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 /**
  * 集中式swagger文档资源调用入口

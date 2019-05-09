@@ -1,17 +1,11 @@
 package org.daijie.core.swagger.web;
 
-import java.io.IOException;
+import springfox.documentation.swagger2.web.Swagger2Controller;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import springfox.documentation.swagger2.web.Swagger2Controller;
+import java.io.IOException;
 
 /**
  * 调用官方默认资源路径跳转拦截

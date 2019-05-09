@@ -13,9 +13,11 @@
     <properties>
         <spring.cloud.version>2.1.1.RELEASE</spring.cloud.version>
         <daijie.spring.boot.version>2.0.0</daijie.spring.boot.version>
+        <daijie.spring.cloud.version>2.0.0</daijie.spring.cloud.version>
     </properties>
     <modules>
         <module>daijie-gate-server</module>
+        <module>daijie-core</module>
     </modules>
 
 
