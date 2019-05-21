@@ -14,19 +14,22 @@ public class LockService {
 
     @Lock(argName = "id",
             timeout = 5000,
-            errorMethodName = "org.daijie.lock.RedisLockAnontationSpringBootTest.lockError(java.lang.String)",
-            timeOutMethodName = "org.daijie.lock.RedisLockAnontationSpringBootTest.lockTimeOut(java.lang.String)")
-    public void anontationLockAdd(int increment, AtomicInteger runFrequency) {
+            errorMethodName = "org.daijie.lock.LockService.lockError(java.util.concurrent.atomic.AtomicInteger)",
+            timeOutMethodName = "org.daijie.lock.LockService.lockTimeOut(java.util.concurrent.atomic.AtomicInteger)")
+    public void anontationLockAdd(String id, int increment, AtomicInteger runFrequency, AtomicInteger successIncrement) {
         System.out.println(Thread.currentThread().getName() + ":进入获取锁成功处理方法.....");
         runFrequency.incrementAndGet();
+        successIncrement.incrementAndGet();
         increment ++;
     }
 
-    public void lockError(String id) {
+    public void lockError(AtomicInteger errorFrequency) {
+        errorFrequency.incrementAndGet();
         System.out.println(Thread.currentThread().getName() + ":进入获取锁异常处理方法.....");
     }
 
-    public void lockTimeOut(String id) {
+    public void lockTimeOut(AtomicInteger timeOutFrequency) {
+        timeOutFrequency.incrementAndGet();
         System.out.println(Thread.currentThread().getName() + ":进入获取锁超时处理方法.....");
     }
 

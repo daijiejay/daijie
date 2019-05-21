@@ -2,6 +2,7 @@ package org.daijie.lock.redis;
 
 import org.daijie.lock.LockAspect;
 import org.daijie.lock.LockTool;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -18,6 +19,7 @@ import java.lang.annotation.*;
 		RedisLockAutoConfiguration.class,
 		LockAspect.class,
 		LockTool.class})
+@EnableAspectJAutoProxy
 public @interface EnableRedisLock {
 
 }

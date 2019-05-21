@@ -5,8 +5,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.daijie.common.aspect.BeforeAspectFactory;
+import org.daijie.lock.Exception.LockException;
+import org.daijie.lock.Exception.LockTimeOutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -70,9 +73,14 @@ public class LockAspect implements BeforeAspectFactory {
 			public Object onTimeout() throws InterruptedException {
 				String timeOutMethodName = lock.timeOutMethodName();
 				if(timeOutMethodName != null){
-					return execute(timeOutMethodName);
+					new Runnable() {
+						@Override
+						public void run() {
+							execute(timeOutMethodName);
+						}
+					}.run();
 				}
-				return false;
+				throw new LockTimeOutException("获取锁超时，当前设置超时时间为" + lock.timeout() + "ms");
 			}
 			@Override
 			public Object onGetLock() throws InterruptedException {
@@ -82,9 +90,14 @@ public class LockAspect implements BeforeAspectFactory {
 			public Object onError(Exception exception){
 				String errorMethodName = lock.errorMethodName();
 				if(errorMethodName != null){
-					return execute(errorMethodName);
+					new Runnable() {
+						@Override
+						public void run() {
+							execute(errorMethodName);
+						}
+					}.run();
 				}
-				return false;
+				throw new LockException("获取锁异常", exception);
 			}
 		});
 	}
@@ -93,7 +106,7 @@ public class LockAspect implements BeforeAspectFactory {
 	 * 获取锁异常时执行的方法
 	 * @param serviceName 方法名
 	 */
-	private Object execute(String serviceName){
+	private void execute(String serviceName){
 		String str1 = serviceName.substring(0, serviceName.indexOf("("));
 		String className = str1.substring(0, str1.lastIndexOf("."));
 		String methodName = str1.substring(str1.lastIndexOf(".")+1);
@@ -102,7 +115,7 @@ public class LockAspect implements BeforeAspectFactory {
 			Class<?> clz = Class.forName(className);
 			if(StringUtils.isEmpty(args)){
 				Method method = clz.getDeclaredMethod(methodName);
-				return method.invoke(clz.newInstance());
+				method.invoke(clz.newInstance());
 			}else{
 				String[] argNames = args.split(",");
 				Object[] argObjects = new Object[argNames.length];
@@ -114,11 +127,10 @@ public class LockAspect implements BeforeAspectFactory {
 					}
 				}
 				Method method = clz.getDeclaredMethod(methodName, argClasses);
-				return method.invoke(clz.newInstance(), argObjects);
+				method.invoke(clz.newInstance(), argObjects);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 }

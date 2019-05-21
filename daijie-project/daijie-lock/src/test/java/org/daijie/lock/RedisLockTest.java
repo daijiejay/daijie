@@ -17,12 +17,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RedisLockTest {
     //操作公共数据，测试是否安全
     private int increment = 0;
-    //使用一个原子类的公共数据与之比较，如果用锁结果应该是一致，如果不用锁则反之
+    //线程记数器
     private AtomicInteger runFrequency = new AtomicInteger(0);
+    //获取锁成功的计数器，使用一个原子类的公共数据与之比较，如果用锁结果应该是一致，如果不用锁则反之
+    private AtomicInteger successIncrement = new AtomicInteger(0);
+    //获取锁超时的计数器
+    private AtomicInteger timeOutIncrement = new AtomicInteger(0);
+    //获取锁异常的计数器
+    private AtomicInteger errorIncrement = new AtomicInteger(0);
     // 请求总数
-    public static int clientTotal = 1000;
+    public static int clientTotal = 2000;
     // 同时并发执行的线程数
     public static int threadTotal = 200;
+    //构建锁
     private LockCreator proxy;
     @Before
     public void initJedis() {
@@ -37,18 +44,15 @@ public class RedisLockTest {
      */
     @Test
     public void testLock() throws Exception {
+        init();
         //不加锁
         concurrentExecute(false);
-        Assert.assertNotEquals(increment, runFrequency.get());
-        Assert.assertTrue(increment < clientTotal);
-        Assert.assertTrue(runFrequency.get() == clientTotal);
+        validate(false);
         //重置累加数
-        increment = 0;
-        runFrequency = new AtomicInteger(0);
-        //加锁
+        init();
+        //用工具类加锁
         concurrentExecute(true);
-        Assert.assertEquals(increment, runFrequency.get());
-        Assert.assertTrue(runFrequency.get() >= 1);
+        validate(true);
     }
 
     /**
@@ -70,7 +74,7 @@ public class RedisLockTest {
                     if (isLock) {
                         lockAdd();
                     } else {
-                        add();
+                        addSucess();
                     }
                     //释放许可
                     semaphore.release();
@@ -87,14 +91,6 @@ public class RedisLockTest {
     }
 
     /**
-     * 累加
-     */
-    public void add() {
-        runFrequency.incrementAndGet();
-        increment ++;
-    }
-
-    /**
      * 加入redis锁累加
      */
     public void lockAdd() {
@@ -102,20 +98,81 @@ public class RedisLockTest {
             @Override
             public Object onGetLock() throws InterruptedException {
                 System.out.println(Thread.currentThread().getName() + ":获取锁成功，开始处理业务");
-                add();
+                addSucess();
                 Thread.sleep(ThreadLocalRandom.current().nextInt(5)*1000);
                 return null;
             }
             @Override
             public Object onTimeout() throws InterruptedException {
+                addTimeOut();
                 System.out.println(Thread.currentThread().getName() + ":获取锁超时.....");
                 return null;
             }
             @Override
             public Object onError(Exception exception){
+                addError();
                 System.out.println(Thread.currentThread().getName() + ":获取锁异常.....");
                 return null;
             }
         });
+    }
+
+    /**
+     * 初始化计数器
+     */
+    public void init() {
+        increment = 0;
+        runFrequency = new AtomicInteger(0);
+        successIncrement = new AtomicInteger(0);
+        timeOutIncrement = new AtomicInteger(0);
+        errorIncrement = new AtomicInteger(0);
+    }
+
+    /**
+     * 累加
+     */
+    public void add() {
+        runFrequency.incrementAndGet();
+    }
+
+    /**
+     * 成功锁累加
+     */
+    public void addSucess() {
+        add();
+        increment ++;
+        successIncrement.incrementAndGet();
+    }
+
+    /**
+     * 超时锁累加
+     */
+    public void addTimeOut() {
+        add();
+        timeOutIncrement.incrementAndGet();
+    }
+
+    /**
+     * 异常锁累加
+     */
+    public void addError() {
+        add();
+        errorIncrement.incrementAndGet();
+    }
+
+    /**
+     * 校验数据是不是达到要求
+     * @param isLock 是否加锁
+     */
+    public void validate(boolean isLock) {
+        Assert.assertTrue(runFrequency.get() == clientTotal);
+        if (!isLock) {
+            Assert.assertNotEquals(increment, successIncrement.get());
+            Assert.assertTrue(increment < clientTotal);
+            Assert.assertTrue(successIncrement.get() == clientTotal);
+        } else {
+            Assert.assertEquals(increment, successIncrement.get());
+            Assert.assertTrue(successIncrement.addAndGet(timeOutIncrement.addAndGet(errorIncrement.get())) == clientTotal);
+        }
     }
 }
