@@ -1,51 +1,33 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>daijie-parent</artifactId>
         <groupId>org.daijie</groupId>
         <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>daijie-parent-spring-boot-starter</artifactId>
+    <artifactId>daijie-springboot</artifactId>
     <packaging>pom</packaging>
-    <name>daijie-parent-spring-boot-starter</name>
-    <url>http://maven.apache.org</url>
+
     <properties>
-        <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
-        <daijie.spring.boot.version>2.0.0</daijie.spring.boot.version>
+        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
     </properties>
+
     <modules>
-        <module>daijie-core</module>
-        <module>daijie-jdbc</module>
-        <module>daijie-jdbc-plugin</module>
-        <module>daijie-shiro</module>
-        <module>daijie-workflow</module>
-        <module>daijie-admin</module>
-        <module>daijie-admin-ui</module>
-        <module>daijie-mybatis</module>
-        <module>daijie-jpa</module>
+        <module>daijie-lock-spring-boot-starter</module>
+        <module>daijie-common-spring-boot-starter</module>
+        <module>daijie-swagger-spring-boot-starter</module>
+        <module>daijie-shiro-spring-boot-starter</module>
     </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>${spring.boot.version}</version>
-            <!-- <scope>provided</scope> -->
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>${spring.boot.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

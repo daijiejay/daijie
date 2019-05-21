@@ -9,7 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>daijie-springcloud</artifactId>
+    <artifactId>daijie-project</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>daijie-core</module>
+        <module>daijie-jdbc-generator</module>
+        <module>daijie-lock</module>
+    </modules>
 
 
 </project>

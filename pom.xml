@@ -7,24 +7,21 @@
     <version>2.0.0</version>
     <name>daijie-parent</name>
     <packaging>pom</packaging>
-    <parent>
-        <version>2.1.1.RELEASE</version>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-    </parent>
     <modules>
+        <module>daijie-project</module>
         <module>daijie-springboot</module>
         <module>daijie-springcloud</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
-        <spring.freamwork.version>5.0.5.RELEASE</spring.freamwork.version>
         <apache.maven.compiler.plugin.version>3.0</apache.maven.compiler.plugin.version>
         <apache.maven.javadoc.plugin.version>3.0.0</apache.maven.javadoc.plugin.version>
         <apache.maven.source.plugin.version>3.0.1</apache.maven.source.plugin.version>
         <apache.maven.gpg.plugin.version>1.6</apache.maven.gpg.plugin.version>
         <codehaus.groovy.version>2.5.4</codehaus.groovy.version>
+        <junit.version>4.12</junit.version>
+        <daijie.version>2.0.0</daijie.version>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
         <destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}</destDir>
@@ -33,6 +30,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <!--<dependency>
