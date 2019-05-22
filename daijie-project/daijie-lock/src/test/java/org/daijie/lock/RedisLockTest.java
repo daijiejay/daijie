@@ -15,12 +15,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 2019/5/9
  */
 public class RedisLockTest {
-    //操作公共数据，测试是否安全
-    private int increment = 0;
+    //定义一个不安全的公共数据，测试是否安全
+    private int unsafeIncrement = 0;
     //线程记数器
     private AtomicInteger runFrequency = new AtomicInteger(0);
     //获取锁成功的计数器，使用一个原子类的公共数据与之比较，如果用锁结果应该是一致，如果不用锁则反之
-    private AtomicInteger successIncrement = new AtomicInteger(0);
+    private AtomicInteger successSafeIncrement = new AtomicInteger(0);
     //获取锁超时的计数器
     private AtomicInteger timeOutIncrement = new AtomicInteger(0);
     //获取锁异常的计数器
@@ -121,9 +121,9 @@ public class RedisLockTest {
      * 初始化计数器
      */
     public void init() {
-        increment = 0;
+        unsafeIncrement = 0;
         runFrequency = new AtomicInteger(0);
-        successIncrement = new AtomicInteger(0);
+        successSafeIncrement = new AtomicInteger(0);
         timeOutIncrement = new AtomicInteger(0);
         errorIncrement = new AtomicInteger(0);
     }
@@ -140,8 +140,8 @@ public class RedisLockTest {
      */
     public void addSucess() {
         add();
-        increment ++;
-        successIncrement.incrementAndGet();
+        unsafeIncrement ++;
+        successSafeIncrement.incrementAndGet();
     }
 
     /**
@@ -167,12 +167,12 @@ public class RedisLockTest {
     public void validate(boolean isLock) {
         Assert.assertTrue(runFrequency.get() == clientTotal);
         if (!isLock) {
-            Assert.assertNotEquals(increment, successIncrement.get());
-            Assert.assertTrue(increment < clientTotal);
-            Assert.assertTrue(successIncrement.get() == clientTotal);
+            Assert.assertNotEquals(unsafeIncrement, successSafeIncrement.get());
+            Assert.assertTrue(unsafeIncrement < clientTotal);
+            Assert.assertTrue(successSafeIncrement.get() == clientTotal);
         } else {
-            Assert.assertEquals(increment, successIncrement.get());
-            Assert.assertTrue(successIncrement.addAndGet(timeOutIncrement.addAndGet(errorIncrement.get())) == clientTotal);
+            Assert.assertEquals(unsafeIncrement, successSafeIncrement.get());
+            Assert.assertTrue(successSafeIncrement.addAndGet(timeOutIncrement.addAndGet(errorIncrement.get())) == clientTotal);
         }
     }
 }

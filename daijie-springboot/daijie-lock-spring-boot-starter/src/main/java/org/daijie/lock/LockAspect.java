@@ -9,7 +9,6 @@ import org.daijie.lock.Exception.LockException;
 import org.daijie.lock.Exception.LockTimeOutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -42,9 +41,9 @@ public class LockAspect implements BeforeAspectFactory {
 			lock = joinPoint.getTarget().getClass().getAnnotation(Lock.class);
 		}
 		String lockId = lock.lockId();
+		Object[] args = joinPoint.getArgs();
 		if(StringUtils.isEmpty(lockId)){
 			if(!StringUtils.isEmpty(lock.argName())){
-				Object[] args = joinPoint.getArgs();
 				for (int i = 0; i < args.length; i++) {
 					if(parameterNames[i].contains(lock.argName())){
 						lockId = (String) args[i];
@@ -54,7 +53,7 @@ public class LockAspect implements BeforeAspectFactory {
 				lockId = method.getName();
 			}
 		}
-		tryLock(lockId, lock);
+		tryLock(lockId, lock, args);
 	}
 
 	@Override
@@ -67,7 +66,7 @@ public class LockAspect implements BeforeAspectFactory {
 	 * @param lockId 锁业务ID
 	 * @param lock @Lock注解
 	 */
-	private void tryLock(String lockId, Lock lock){
+	private void tryLock(String lockId, Lock lock, Object[] args){
 		LockTool.execute(lockId, lock.timeout(), new Callback() {
 			@Override
 			public Object onTimeout() throws InterruptedException {
@@ -76,7 +75,7 @@ public class LockAspect implements BeforeAspectFactory {
 					new Runnable() {
 						@Override
 						public void run() {
-							execute(timeOutMethodName);
+							execute(timeOutMethodName, args);
 						}
 					}.run();
 				}
@@ -93,7 +92,7 @@ public class LockAspect implements BeforeAspectFactory {
 					new Runnable() {
 						@Override
 						public void run() {
-							execute(errorMethodName);
+							execute(errorMethodName, args);
 						}
 					}.run();
 				}
@@ -106,28 +105,21 @@ public class LockAspect implements BeforeAspectFactory {
 	 * 获取锁异常时执行的方法
 	 * @param serviceName 方法名
 	 */
-	private void execute(String serviceName){
-		String str1 = serviceName.substring(0, serviceName.indexOf("("));
-		String className = str1.substring(0, str1.lastIndexOf("."));
-		String methodName = str1.substring(str1.lastIndexOf(".")+1);
-		String args = serviceName.substring(serviceName.lastIndexOf("(")+1, serviceName.indexOf(")"));
+	private void execute(String serviceName, Object[] args){
+		String className = serviceName.substring(0, serviceName.lastIndexOf("."));
+		String methodName = serviceName.substring(serviceName.lastIndexOf(".")+1);
 		try {
 			Class<?> clz = Class.forName(className);
-			if(StringUtils.isEmpty(args)){
+			if(args.length == 0){
 				Method method = clz.getDeclaredMethod(methodName);
 				method.invoke(clz.newInstance());
 			}else{
-				String[] argNames = args.split(",");
-				Object[] argObjects = new Object[argNames.length];
-				Class<?>[] argClasses = new Class[argNames.length];
-				for (int i = 0; i < argClasses.length; i++) {
-					if(argNames[i].trim().length() > 0){
-						argClasses[i] = Class.forName(argNames[i].trim());
-						argObjects[i] = argClasses[i].newInstance();
-					}
+				Class<?>[] argClasses = new Class[args.length];
+				for (int i = 0; i < args.length; i++) {
+					argClasses[i] = args[i].getClass();
 				}
 				Method method = clz.getDeclaredMethod(methodName, argClasses);
-				method.invoke(clz.newInstance(), argObjects);
+				method.invoke(clz.newInstance(), args);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

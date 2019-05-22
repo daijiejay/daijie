@@ -6,6 +6,8 @@ import java.lang.annotation.*;
 
 /**
  * 分布式锁，作用于类和方法上的注解，优先方法的注解配置
+ * 如果获取锁失败会分别抛出LockException和LockTimeOutException，可以捕获对应的异常处理逻辑
+ * 也可以在timeOutMethodName和errorMethodName属性上定义指定方法名称，方法参数必须与用锁方法参数一致
  * @author daijie_jay
  * @since 2018年3月6日
  */
@@ -38,14 +40,14 @@ public @interface Lock {
 	
 	/**
 	 * 可以不需要配置，锁定时间内需要执行的类方法名称
-	 * 比如：java.lang.Object.wait(java.lang.Long)
+	 * 比如：java.lang.Object.wait
 	 * @return 类方法名
 	 */
 	String timeOutMethodName() default "";
 
 	/**
 	 * 可以不需要配置，获取锁异常时需要执行的类方法名称
-	 * 比如：java.lang.Object.wait(java.lang.Long)
+	 * 比如：java.lang.Object.wait
 	 * @return 类方法名
 	 */
 	String errorMethodName() default "";

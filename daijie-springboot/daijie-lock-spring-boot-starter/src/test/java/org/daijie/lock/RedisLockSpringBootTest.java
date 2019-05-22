@@ -1,20 +1,19 @@
 package org.daijie.lock;
 
+import org.daijie.lock.Exception.LockException;
+import org.daijie.lock.Exception.LockTimeOutException;
 import org.daijie.lock.redis.EnableRedisLock;
 import org.daijie.lock.zk.ZKLockAutoConfiguration;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * redis实现锁工具类测试，使用默认为本地redis服务地址
@@ -28,16 +27,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RedisLockSpringBootTest.class)
 public class RedisLockSpringBootTest {
-    //操作公共数据，测试是否安全
-    private int increment = 0;
-    //线程记数器
-    private AtomicInteger runFrequency = new AtomicInteger(0);
-    //获取锁成功的计数器，使用一个原子类的公共数据与之比较，如果用锁结果应该是一致，如果不用锁则反之
-    private AtomicInteger successIncrement = new AtomicInteger(0);
-    //获取锁超时的计数器
-    private AtomicInteger timeOutIncrement = new AtomicInteger(0);
-    //获取锁异常的计数器
-    private AtomicInteger errorIncrement = new AtomicInteger(0);
     // 请求总数
     public static int clientTotal = 2000;
     // 同时并发执行的线程数
@@ -56,20 +45,20 @@ public class RedisLockSpringBootTest {
      */
     @Test
     public void testLock() throws Exception {
-//        //重置累加数
-//        init();
-//        //不加锁
-//        concurrentExecute(LockType.NONE);
-//        validate(false);
-//        init();
-//        //用工具类加锁
-//        concurrentExecute(LockType.TOOL);
-//        validate(true);
         //重置累加数
-        init();
+        lockService.init();
+        //不加锁
+        concurrentExecute(LockType.NONE);
+        lockService.validate(false, clientTotal);
+        lockService.init();
+        //用工具类加锁
+        concurrentExecute(LockType.TOOL);
+        lockService.validate(true, clientTotal);
+        //重置累加数
+        lockService.init();
         //用注解加锁
         concurrentExecute(LockType.ANONTATION);
-        validate(true);
+        lockService.validate(true, clientTotal);
     }
 
     /**
@@ -90,7 +79,7 @@ public class RedisLockSpringBootTest {
                     semaphore.acquire();
                     switch (lockType) {
                         case NONE:
-                            addSucess();
+                            lockService.addSucess();
                             break;
                         case TOOL:
                             lockToolAdd();
@@ -102,7 +91,6 @@ public class RedisLockSpringBootTest {
                     //释放许可
                     semaphore.release();
                 } catch (Exception e) {
-                    //log.error("exception", e);
                     e.printStackTrace();
                 }
                 //闭锁减一
@@ -121,19 +109,19 @@ public class RedisLockSpringBootTest {
             @Override
             public Object onGetLock() throws InterruptedException {
                 System.out.println(Thread.currentThread().getName() + ":获取锁成功，开始处理业务");
-                addSucess();
+                lockService.addSucess();
                 Thread.sleep(ThreadLocalRandom.current().nextInt(5)*1000);
                 return null;
             }
             @Override
             public Object onTimeout() throws InterruptedException {
-                addTimeOut();
+                lockService.addTimeOut();
                 System.out.println(Thread.currentThread().getName() + ":获取锁超时.....");
                 return null;
             }
             @Override
             public Object onError(Exception exception){
-                addError();
+                lockService.addError();
                 System.out.println(Thread.currentThread().getName() + ":获取锁异常.....");
                 return null;
             }
@@ -144,65 +132,16 @@ public class RedisLockSpringBootTest {
      * 注解类加锁测试
      */
     public void anontationLockAdd() {
-        lockService.anontationLockAdd("test", increment, runFrequency, successIncrement);
-    }
-
-    /**
-     * 初始化计数器
-     */
-    public void init() {
-        increment = 0;
-        runFrequency = new AtomicInteger(0);
-        successIncrement = new AtomicInteger(0);
-        timeOutIncrement = new AtomicInteger(0);
-        errorIncrement = new AtomicInteger(0);
-    }
-
-    /**
-     * 累加
-     */
-    public void add() {
-        runFrequency.incrementAndGet();
-    }
-
-    /**
-     * 成功锁累加
-     */
-    public void addSucess() {
-        add();
-        increment ++;
-        successIncrement.incrementAndGet();
-    }
-
-    /**
-     * 超时锁累加
-     */
-    public void addTimeOut() {
-        add();
-        timeOutIncrement.incrementAndGet();
-    }
-
-    /**
-     * 异常锁累加
-     */
-    public void addError() {
-        add();
-        errorIncrement.incrementAndGet();
-    }
-
-    /**
-     * 校验数据是不是达到要求
-     * @param isLock 是否加锁
-     */
-    public void validate(boolean isLock) {
-        Assert.assertTrue(runFrequency.get() == clientTotal);
-        if (!isLock) {
-            Assert.assertNotEquals(increment, successIncrement.get());
-            Assert.assertTrue(increment < clientTotal);
-            Assert.assertTrue(successIncrement.get() == clientTotal);
-        } else {
-            Assert.assertEquals(increment, successIncrement.get());
-            Assert.assertTrue(successIncrement.addAndGet(timeOutIncrement.addAndGet(errorIncrement.get())) == clientTotal);
+        try {
+            //调用加注解锁的方法
+            lockService.andAnontationLockService("test");
+            //只有成功获取锁时才会往下执行，否则抛出异常
+        } catch (Exception e) {
+            if (e instanceof LockTimeOutException) {
+                //执行锁超时处理
+            } else if(e instanceof LockException) {
+                //执行锁异常处理
+            }
         }
     }
 }
