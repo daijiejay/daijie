@@ -15,6 +15,7 @@
         <module>daijie-core</module>
         <module>daijie-jdbc-generator</module>
         <module>daijie-lock</module>
+        <module>daijie-jdbc</module>
     </modules>
 
 
