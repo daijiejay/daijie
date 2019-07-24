@@ -49,7 +49,7 @@ public class JDBCTest {
         this.userService.testDelete();
         this.userService.testSelectWrapper();
         this.userService.testDeleteWrapper();
-//        this.userService.testCostomize();
+        this.userService.testCostomize();
     }
 
     /**

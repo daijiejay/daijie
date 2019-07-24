@@ -1,11 +1,8 @@
 package org.daijie.jdbc.result;
 
-import org.daijie.core.util.ClassInfoUtil;
 import org.daijie.jdbc.matedata.ColumnMateData;
 import org.daijie.jdbc.matedata.TableMatedata;
 
-import javax.persistence.Column;
-import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,26 +36,17 @@ public class BaseResult implements Result {
             }
             try {
                 Object entity = null;
-                if (!tableMatedata.getEntityClass().isAssignableFrom(returnClass)
-                        && !tableMatedata.getEntityClass().isAssignableFrom(ClassInfoUtil.getSuperClassGenricType(returnClass))
-                        && !ClassInfoUtil.getSuperClassGenricType(returnClass).isAssignableFrom(Object.class)) {
-                    entity = ClassInfoUtil.getSuperClassGenricType(returnClass).newInstance();
-                    Field[] fields = entity.getClass().getDeclaredFields();
-                    for (Field field : fields) {
-                        Column column = field.getAnnotation(Column.class);
-                        String columnName = field.getName();
-                        if (column != null) {
-                            columnName = column.name();
-                        }
-                        field.setAccessible(true);
-                        field.set(entity, resultSet.getObject(columnName));
-                    }
+                Map<String, ColumnMateData> columns;
+                if (tableMatedata.isCostomResult()) {
+                    entity = tableMatedata.getReturnClass().newInstance();
+                    columns = tableMatedata.getResultColumns();
                 } else {
-                        entity = tableMatedata.getEntityClass().newInstance();
-                        for (Map.Entry<String, ColumnMateData> entry : tableMatedata.getColumns().entrySet()) {
-                            entry.getValue().getField().setAccessible(true);
-                            entry.getValue().getField().set(entity, resultSet.getObject(entry.getValue().getName()));
-                        }
+                    entity = tableMatedata.getEntityClass().newInstance();
+                    columns =  tableMatedata.getColumns();
+                }
+                for (Map.Entry<String, ColumnMateData> entry : columns.entrySet()) {
+                    entry.getValue().getField().setAccessible(true);
+                    entry.getValue().getField().set(entity, resultSet.getObject(entry.getValue().getName()));
                 }
                 result.add(entity);
             } catch (Exception e) {

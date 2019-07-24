@@ -61,15 +61,8 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
     @Override
     public void generatingSql(TableMatedata table, T entity, Method method, Wrapper wrapper) {
         this.sql = sqlSpelling(table, entity, method, wrapper);
-        if (sql.startsWith("select")) {
+        if (this.sql.startsWith("select")) {
             this.type = SqlExecutor.Type.QUERY;
-            if (method.getReturnType() == PageResult.class) {
-                try {
-                    this.countSql = sqlSpelling(table, entity, method.getDeclaringClass().getDeclaredMethod("selectCountByWrapper", Wrapper.class), wrapper.pageAndOrderClear());
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-            }
         } else {
             this.type = SqlExecutor.Type.UPDATE;
         }
@@ -105,6 +98,7 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
      */
     private String sqlSpelling(TableMatedata table, T entity, Method method, Wrapper wrapper) {
         StringBuilder sql = new StringBuilder();
+        StringBuilder whereSql = new StringBuilder();
         String methodName = method.getName();
         SqlSpelling sqlSpelling = SqlSpelling.getInstance();
         if (method.getAnnotation(Select.class) != null || (method.getAnnotation(Select.class) == null && methodName.startsWith("select"))) {
@@ -114,10 +108,22 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
                 sqlSpelling.selectSql(sql, table);
             }
             if (entity != null) {
-                sqlSpelling.whereSql(sql, table, entity);
+                sqlSpelling.whereSql(whereSql, table, entity);
+                sql.append(whereSql);
                 setParams(table, entity, sqlSpelling);
             } else if (wrapper != null) {
-                sqlSpelling.whereSql(sql, table, wrapper, params).finalSql(sql, table, wrapper);
+                sqlSpelling.whereSql(whereSql, table, wrapper, params);
+                sql.append(whereSql);
+                sqlSpelling.finalSql(sql, table, wrapper);
+            }
+            if (PageResult.class.isAssignableFrom(method.getReturnType())) {
+                StringBuilder countSql = new StringBuilder();
+                sqlSpelling.selectCountSql(countSql, table);
+                countSql.append(whereSql);
+                if (wrapper != null) {
+                    sqlSpelling.finalSql(sql, table, wrapper.pageAndOrderClear());
+                }
+                this.countSql = countSql.toString();
             }
         } else if(method.getAnnotation(Update.class) != null || (method.getAnnotation(Update.class) == null && methodName.startsWith("update"))) {
             T setEntity = null;

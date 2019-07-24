@@ -55,7 +55,7 @@ public class SqlSpelling {
      * @return SqlSpelling SQL拼接
      */
     public SqlSpelling columnsSql(StringBuilder sql, TableMatedata table) {
-        sql.append(collectionToCommaDelimitedString(table.getColumns().entrySet().stream().map(entry -> entry.getValue().getName()).collect(Collectors.toList())));
+        sql.append(collectionToCommaDelimitedString(table.getDefaultColumns().entrySet().stream().map(entry -> entry.getValue().getName()).collect(Collectors.toList())));
         return this;
     }
 

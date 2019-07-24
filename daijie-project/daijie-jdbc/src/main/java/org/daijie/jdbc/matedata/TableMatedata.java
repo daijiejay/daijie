@@ -33,6 +33,17 @@ public class TableMatedata {
     private ColumnMateData primaryKey;
 
     /**
+     * 表映射返回对象
+     */
+    private Class returnClass;
+
+    /**
+     * 表列元数据数组（自定义返回对象对应字段）
+     * key值为映射对象字段名
+     */
+    private final Map<String, ColumnMateData> resultColumns = new HashMap();
+
+    /**
      * 构建表元数据
      * @param name 表名
      * @param entityClass 表映射对象类型
@@ -59,7 +70,7 @@ public class TableMatedata {
     }
 
     public Map<String, ColumnMateData> getColumns() {
-        return columns;
+        return this.columns;
     }
 
     public String[] getColumnNames() {
@@ -76,5 +87,32 @@ public class TableMatedata {
 
     public Class getEntityClass() {
         return entityClass;
+    }
+
+    public void setReturnClass(Class returnClass) {
+        this.returnClass = returnClass;
+    }
+
+    public Class getReturnClass() {
+        return this.returnClass;
+    }
+
+    public boolean isCostomResult() {
+        return this.returnClass != null;
+    }
+
+    public void addResultColumn(String name, ColumnMateData col) {
+        this.resultColumns.put(name.toUpperCase(Locale.ENGLISH), col);
+    }
+
+    public Map<String, ColumnMateData> getResultColumns() {
+        return this.resultColumns;
+    }
+
+    public Map<String, ColumnMateData> getDefaultColumns() {
+        if (isCostomResult()) {
+            return this.resultColumns;
+        }
+        return this.columns;
     }
 }

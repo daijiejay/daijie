@@ -63,7 +63,7 @@ public class SqlExecutor implements Executor {
      * @throws SQLException SQL异常
      */
     public SqlExecutor(Class entityClass, Method method, Object[] args) throws SQLException {
-        this.tableMatedata = TableMatedataManage.initTable(entityClass);
+        this.tableMatedata = TableMatedataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
         this.transation = TransactionManage.createTransaction();
         if (method.getReturnType() == PageResult.class) {
             this.result = new PageResult(method.getReturnType());
