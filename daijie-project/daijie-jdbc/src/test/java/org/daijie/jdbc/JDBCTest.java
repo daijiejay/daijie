@@ -50,6 +50,7 @@ public class JDBCTest {
         this.userService.testSelectWrapper();
         this.userService.testDeleteWrapper();
         this.userService.testCostomize();
+        this.userService.testCostomizeAgileWrapper();
     }
 
     /**

@@ -430,7 +430,7 @@ public class Wrapper {
             this.conditions.add(condition);
         }
 
-        public List<Condition> getConditions() {
+        protected List<Condition> getConditions() {
             return conditions;
         }
 
@@ -438,7 +438,7 @@ public class Wrapper {
             this.orders.put(columnName, orderType);
         }
 
-        public Map<String, OrderType> getOrders() {
+        protected Map<String, OrderType> getOrders() {
             return orders;
         }
 
@@ -451,11 +451,11 @@ public class Wrapper {
             this.groups.addAll(Arrays.asList(columnNames));
         }
 
-        public List<String> getGroups() {
+        protected List<String> getGroups() {
             return groups;
         }
 
-        public Page getPage() {
+        protected Page getPage() {
             return page;
         }
 
@@ -509,7 +509,7 @@ public class Wrapper {
          */
         private WhereType whereType;
 
-        public Condition(String columnName, Object columnValue, String fix, WhereType whereType) {
+        protected Condition(String columnName, Object columnValue, String fix, WhereType whereType) {
             this.columnNames = new String[1];
             this.columnNames[0] = columnName;
             this.columnValues = new Object[1];
@@ -519,7 +519,7 @@ public class Wrapper {
             this.conditionType = ConditionType.COMMON;
         }
 
-        public Condition(String columnName, Object[] columnValues, String fix, WhereType whereType) {
+        protected Condition(String columnName, Object[] columnValues, String fix, WhereType whereType) {
             this.columnNames = new String[1];
             this.columnNames[0] = columnName;
             this.columnValues = columnValues;
@@ -528,13 +528,13 @@ public class Wrapper {
             this.conditionType = ConditionType.BETWEEN;
         }
 
-        public Condition(Wrapper wrapper, WhereType whereType) {
+        protected Condition(Wrapper wrapper, WhereType whereType) {
             this.wrapper = wrapper;
             this.whereType = whereType;
             this.conditionType = ConditionType.BRACKET;
         }
 
-        public Condition(Wrapper wrapper, Class<?> entityClass, String[][] equalNames, WhereType whereType) {
+        protected Condition(Wrapper wrapper, Class<?> entityClass, String[][] equalNames, WhereType whereType) {
             this.equalNames = equalNames;
             this.wrapper = wrapper;
             this.entityClass = entityClass;
@@ -542,35 +542,35 @@ public class Wrapper {
             this.conditionType = ConditionType.EXISTS;
         }
 
-        public String[] getColumnNames() {
+        protected String[] getColumnNames() {
             return columnNames;
         }
 
-        public Object[] getColumnValues() {
+        protected Object[] getColumnValues() {
             return columnValues;
         }
 
-        public Wrapper getWrapper() {
+        protected Wrapper getWrapper() {
             return wrapper;
         }
 
-        public Class<?> getEntityClass() {
+        protected Class<?> getEntityClass() {
             return entityClass;
         }
 
-        public String[][] getEqualNames() {
+        protected String[][] getEqualNames() {
             return equalNames;
         }
 
-        public String getFix() {
+        protected String getFix() {
             return fix;
         }
 
-        public ConditionType getConditionType() {
+        protected ConditionType getConditionType() {
             return conditionType;
         }
 
-        public WhereType getWhereType() {
+        protected WhereType getWhereType() {
             return whereType;
         }
     }
@@ -590,16 +590,16 @@ public class Wrapper {
          */
         private int pageSize;
 
-        public Page(int pageNumber, int pageSize) {
+        protected Page(int pageNumber, int pageSize) {
             this.pageNumber = pageNumber;
             this.pageSize = pageSize;
         }
 
-        public int getPageNumber() {
+        protected int getPageNumber() {
             return pageNumber;
         }
 
-        public int getPageSize() {
+        protected int getPageSize() {
             return pageSize;
         }
     }

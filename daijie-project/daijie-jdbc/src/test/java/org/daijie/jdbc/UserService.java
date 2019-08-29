@@ -1,5 +1,6 @@
 package org.daijie.jdbc;
 
+import org.daijie.jdbc.scripting.AgileWrapper;
 import org.daijie.jdbc.scripting.Wrapper;
 import org.junit.Assert;
 
@@ -102,5 +103,11 @@ public class UserService /*implements IUserService*/ {
     public void testCostomize() {
         Assert.assertNotNull(userMapper.selectByWrapper2(Wrapper.newWrapper().andEqualTo("userId", 1)));
         Assert.assertNotNull(userMapper.selectPageByWrapper2(Wrapper.newWrapper().page(1, 1)));
+    }
+
+    public void testCostomizeAgileWrapper() {
+        AgileWrapper agileWrapper = AgileWrapper.newWrapper(User.class, null)
+                .and(UserInfo.class, Wrapper.newWrapper()).leftJoin().on(User.class, "id", "userId").end()
+                .and(UserLinkman.class, Wrapper.newWrapper()).leftJoin().on(User.class, "id", "userId").end();
     }
 }

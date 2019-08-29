@@ -2,6 +2,7 @@ package org.daijie.jdbc.matedata;
 
 import org.daijie.core.util.ClassInfoUtil;
 import org.daijie.jdbc.result.PageResult;
+import org.daijie.jdbc.scripting.AgileWrapper;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 表元数据初始化管理工具
@@ -69,8 +71,12 @@ public class TableMatedataManage {
      * @return TableMatedata 表元数据
      */
     public static TableMatedata initTable(Class entityClass) {
-        Table table = (Table) entityClass.getAnnotation(Table.class);
-        String tableName = table.name();
+        String tableName = null;
+        Object annotation = entityClass.getAnnotation(Table.class);
+        if (annotation instanceof Table) {
+            Table table = (Table) entityClass.getAnnotation(Table.class);
+            tableName = table.name();
+        }
         TableMatedata tableMatedata = new TableMatedata(tableName, entityClass);
         Field[] fields = entityClass.getDeclaredFields();
         for (Field field : fields) {
@@ -86,5 +92,20 @@ public class TableMatedataManage {
             }
         }
         return tableMatedata;
+    }
+
+    /**
+     * 表元数据初始化
+     * @param returnEntityClass 表映射对象类型
+     * @return TableMatedata 表元数据
+     */
+    public static AgileTableMateData initTable(Class returnEntityClass, AgileWrapper agileWrapper) {
+        Set<Class> entityClasses = agileWrapper.getEntityClasses();
+        AgileTableMateData agileTableMateData = TableMatedataManage.initTable(returnEntityClass, agileWrapper);
+        for (Class entityClass : entityClasses) {
+            TableMatedata matedata = TableMatedataManage.initTable(entityClass);
+            agileTableMateData.addMateData(matedata.getEntityClass(), matedata);
+        }
+        return agileTableMateData;
     }
 }

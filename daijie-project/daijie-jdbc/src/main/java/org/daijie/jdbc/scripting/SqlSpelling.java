@@ -1,5 +1,6 @@
 package org.daijie.jdbc.scripting;
 
+import org.daijie.jdbc.matedata.AgileTableMateData;
 import org.daijie.jdbc.matedata.TableMatedata;
 import org.daijie.jdbc.matedata.TableMatedataManage;
 
@@ -317,6 +318,29 @@ public class SqlSpelling {
         }
         sql.append(collectionToDelimitedString(equalSql, " and "));
         wrapperConditions(sql, childTable, wrapper, params);
+        return this;
+    }
+
+    /**
+     * 条件SQL拼接
+     * @param sql SQL语句
+     * @param table 表元数据
+     * @param agileWrapper 包装条件对象，多表关联查询
+     * @param params 占位符对应的参数
+     * @return SqlSpelling SQL拼接
+     */
+    public SqlSpelling agileSql(StringBuilder sql, AgileTableMateData table, AgileWrapper agileWrapper, List<Object> params) {
+        AgileWrapper.AgileWrapperBuilder wrapperBuilder = agileWrapper.getWrapperBuilder();
+        Map<Class, AgileWrapper.JoinCondition> joining = wrapperBuilder.getJoining();
+        Map<Class, Wrapper> wrapping =  wrapperBuilder.getWrapping();
+        sql.append("select ");
+        this.columnsSql(sql, table);
+        sql.append(" from ");
+        sql.append(table.getMateData(wrapperBuilder.getEntityClass()).getName());
+        Iterator<Class> it = wrapperBuilder.getJoining().keySet().iterator();
+        while (it.hasNext()) {
+
+        }
         return this;
     }
 
