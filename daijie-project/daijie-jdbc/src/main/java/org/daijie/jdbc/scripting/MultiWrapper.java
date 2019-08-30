@@ -15,58 +15,118 @@ import java.util.Set;
  */
 public class MultiWrapper {
 
+    /**
+     * 多表关联查询时，两个表关联字段的分隔符
+     */
     protected static final String EQUAL_FIX = ":";
+
+    /**
+     * 多表关联查询包装类构建类
+     */
     private MultiWrapperBuilder wrapperBuilder;
+
+    /**
+     * 多表关联查询对应的映射对象集合
+     */
     private Set<Class> entityClasses = Sets.newHashSet();
 
+    /**
+     * 构建多表关联查询包装类
+     * @param wrapperBuilder 多表关联查询包装类构建类
+     */
     public MultiWrapper(MultiWrapperBuilder wrapperBuilder) {
         this.wrapperBuilder = wrapperBuilder;
         this.entityClasses.add(this.wrapperBuilder.getEntityClass());
     }
 
     /**
-     * 实例包装条件构建
-     * @return 条件包装
+     * 实例多表关联查询包装类
+     * @param entityClass 查询表对应的映射对象
+     * @param whereWrapper 查询表对应的映射对象的条件包装类
+     * @return 多表关联查询包装类
      */
     public static MultiWrapper newWrapper(Class<?> entityClass, Wrapper whereWrapper) {
         return new MultiWrapper(new MultiWrapper.MultiWrapperBuilder(entityClass, whereWrapper));
     }
 
+    /**
+     * 添加关联查询映射对象
+     * @param entityClass 查询表对应的映射对象
+     * @param whereWrapper 查询表对应的映射对象的条件包装类
+     * @return 关联查询属性设置
+     */
     public JoinWrapper andJoin(Class<?> entityClass, Wrapper whereWrapper) {
         this.entityClasses.add(entityClass);
         return this.wrapperBuilder.andJoin(entityClass, whereWrapper, this).join();
     }
 
+    /**
+     * 添加左连接关联查询映射对象
+     * @param entityClass 查询表对应的映射对象
+     * @param whereWrapper 查询表对应的映射对象的条件包装类
+     * @return 关联查询ON条件语句属性设置
+     */
     public OnEqual andLeftJoin(Class<?> entityClass, Wrapper whereWrapper) {
         this.entityClasses.add(entityClass);
         return this.wrapperBuilder.andJoin(entityClass, whereWrapper, this).leftJoin();
     }
 
+    /**
+     * 添加右连接关联查询映射对象
+     * @param entityClass 查询表对应的映射对象
+     * @param whereWrapper 查询表对应的映射对象的条件包装类
+     * @return 关联查询ON条件语句属性设置
+     */
     public OnEqual andRightJoin(Class<?> entityClass, Wrapper whereWrapper) {
         this.entityClasses.add(entityClass);
         return this.wrapperBuilder.andJoin(entityClass, whereWrapper, this).rightJoin();
     }
 
+    /**
+     * 添加内连接关联查询映射对象
+     * @param entityClass 查询表对应的映射对象
+     * @param whereWrapper 查询表对应的映射对象的条件包装类
+     * @return 关联查询ON条件语句属性设置
+     */
     public OnEqual andInnerJoin(Class<?> entityClass, Wrapper whereWrapper) {
         this.entityClasses.add(entityClass);
         return this.wrapperBuilder.andJoin(entityClass, whereWrapper, this).innerJoin();
     }
 
+    /**
+     * 获取多表关联查询包装类构建类
+     * @return 多表关联查询包装类构建类
+     */
     protected MultiWrapperBuilder getWrapperBuilder() {
         return wrapperBuilder;
     }
 
+    /**
+     * 获取多表关联查询对应的映射对象集合
+     * @return 多表关联查询对应的映射对象集合
+     */
     public Set<Class> getEntityClasses() {
         return entityClasses;
     }
 
     /**
-     * 条件包装构建类，封装查询条件、排序、分组、分页的相关信息
+     * 多表关联查询包装类构建类，封装连接查询方式、查询条件、排序、分组、分页的相关信息
      */
     public static class MultiWrapperBuilder {
 
+        /**
+         * 主表对应的映射对象
+         */
         private Class entityClass;
+
+        /**
+         * 每个表映射对象对应的连接方式及关联字段设置集合
+         */
         private Map<Class, JoinCondition> joining = Maps.newHashMap();
+
+        /**
+         * 每个表映射对象对应的关联条件集合
+         */
         private Map<Class, Wrapper> wrapping =  Maps.newHashMap();
 
         protected MultiWrapperBuilder(Class<?> entityClass, Wrapper whereWrapper) {

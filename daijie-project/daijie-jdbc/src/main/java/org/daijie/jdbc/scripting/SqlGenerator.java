@@ -13,6 +13,12 @@ import java.util.List;
  */
 public class SqlGenerator {
 
+    /**
+     * 生成多表关联查询SQL语句
+     * @param returnClass 执行SQL需要映射的返回对象
+     * @param multiWrapper 多表关联的包装工具类
+     * @return 返回SQL语句
+     */
     public static String generator(Class returnClass, MultiWrapper multiWrapper) {
         MultiTableMateData tableMatedata = TableMatedataManage.initTable(returnClass, multiWrapper);
         SqlSpelling sqlSpelling = SqlSpelling.getInstance();
