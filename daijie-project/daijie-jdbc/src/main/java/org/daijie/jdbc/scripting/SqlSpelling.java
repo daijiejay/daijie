@@ -1,6 +1,6 @@
 package org.daijie.jdbc.scripting;
 
-import org.daijie.jdbc.matedata.AgileTableMateData;
+import org.daijie.jdbc.matedata.MultiTableMateData;
 import org.daijie.jdbc.matedata.TableMatedata;
 import org.daijie.jdbc.matedata.TableMatedataManage;
 
@@ -61,6 +61,17 @@ public class SqlSpelling {
     }
 
     /**
+     * 多表查询结果字段SQL拼接
+     * @param sql SQL语句
+     * @param table 表元数据
+     * @return SqlSpelling SQL拼接
+     */
+    public SqlSpelling multiColumnsSql(StringBuilder sql, TableMatedata table) {
+        sql.append(collectionToCommaDelimitedString(table.getDefaultColumns().entrySet().stream().map(entry -> (entry.getValue().getTable() + "." + entry.getValue().getName())).collect(Collectors.toList())));
+        return this;
+    }
+
+    /**
      * 条件SQL拼接
      * @param sql SQL语句
      * @param table 表元数据
@@ -87,7 +98,7 @@ public class SqlSpelling {
     public SqlSpelling whereSql(StringBuilder sql, TableMatedata table, Wrapper wrapper, List<Object> params) {
         if (wrapper.getWrapperBuilder().getConditions().size() > 0) {
             sql.append(" where ");
-            wrapperConditions(sql, table, wrapper, params);
+            wrapperConditions(sql, table, wrapper, params, false);
         }
         return this;
     }
@@ -248,9 +259,14 @@ public class SqlSpelling {
      * @param table 表元数据
      * @param wrapper 包装工具
      * @param params 占位符对应的参数
+     * @param isMultiTable 是否多表查询
      * @return 返回拼接好的sql语句
      */
-    public String  wrapperConditions(StringBuilder sql, TableMatedata table, Wrapper wrapper, List<Object> params) {
+    public String  wrapperConditions(StringBuilder sql, TableMatedata table, Wrapper wrapper, List<Object> params, boolean isMultiTable) {
+        String tableName = "";
+        if (isMultiTable) {
+            tableName = table.getName() + MultiTableMateData.TABLE_COLUMN_FIX;
+        }
         Map<String, Wrapper.WhereType> spells = new HashMap();
         for (Wrapper.Condition condition : wrapper.getWrapperBuilder().getConditions()) {
             switch (condition.getConditionType()) {
@@ -258,7 +274,7 @@ public class SqlSpelling {
                     Object value = condition.getColumnValues()[0];
                     if (value instanceof List) {
                         StringBuilder inSql = new StringBuilder();
-                        inSql.append(table.getColumn(condition.getColumnNames()[0]).getName() + condition.getFix() + "(");
+                        inSql.append(tableName).append(table.getColumn(condition.getColumnNames()[0]).getName()).append(condition.getFix()).append("(");
                         Iterator it = ((List) value).iterator();
                         while (it.hasNext()) {
                             params.add(it.next());
@@ -270,19 +286,19 @@ public class SqlSpelling {
                         inSql.append(")");
                         spells.put(inSql.toString(), condition.getWhereType());
                     } else {
-                        spells.put(table.getColumn(condition.getColumnNames()[0]).getName() + condition.getFix() + "?", condition.getWhereType());
+                        spells.put(tableName + table.getColumn(condition.getColumnNames()[0]).getName() + condition.getFix() + "?", condition.getWhereType());
                         params.add(condition.getColumnValues()[0]);
                     }
                     break;
                 case BETWEEN:
-                    spells.put(table.getColumn(condition.getColumnNames()[0]).getName() + condition.getFix() + "? and" + "?", condition.getWhereType());
+                    spells.put(tableName + table.getColumn(condition.getColumnNames()[0]).getName() + condition.getFix() + "? and" + "?", condition.getWhereType());
                     params.add(condition.getColumnValues()[0]);
                     params.add(condition.getColumnValues()[1]);
                     break;
                 case BRACKET:
                     StringBuilder bracketSql = new StringBuilder();
                     bracketSql.append("(");
-                    bracketSql.append(wrapperConditions(new StringBuilder(), table, condition.getWrapper(), params));
+                    bracketSql.append(wrapperConditions(new StringBuilder(), table, condition.getWrapper(), params, isMultiTable));
                     bracketSql.append(")");
                     spells.put(bracketSql.toString(), condition.getWhereType());
                     break;
@@ -317,7 +333,7 @@ public class SqlSpelling {
             equalSql.add(parentTable.getName() + "." + parentTable.getColumn(equalName[0]).getName() + " = " + childTable.getName() + "." + childTable.getColumn(equalName[1]).getName());
         }
         sql.append(collectionToDelimitedString(equalSql, " and "));
-        wrapperConditions(sql, childTable, wrapper, params);
+        wrapperConditions(sql, childTable, wrapper, params, false);
         return this;
     }
 
@@ -325,21 +341,71 @@ public class SqlSpelling {
      * 条件SQL拼接
      * @param sql SQL语句
      * @param table 表元数据
-     * @param agileWrapper 包装条件对象，多表关联查询
+     * @param multiWrapper 包装条件对象，多表关联查询
      * @param params 占位符对应的参数
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling agileSql(StringBuilder sql, AgileTableMateData table, AgileWrapper agileWrapper, List<Object> params) {
-        AgileWrapper.AgileWrapperBuilder wrapperBuilder = agileWrapper.getWrapperBuilder();
-        Map<Class, AgileWrapper.JoinCondition> joining = wrapperBuilder.getJoining();
+    public SqlSpelling agileSql(StringBuilder sql, MultiTableMateData table, MultiWrapper multiWrapper, List<Object> params) {
+        MultiWrapper.MultiWrapperBuilder wrapperBuilder = multiWrapper.getWrapperBuilder();
+        Map<Class, MultiWrapper.JoinCondition> joining = wrapperBuilder.getJoining();
         Map<Class, Wrapper> wrapping =  wrapperBuilder.getWrapping();
         sql.append("select ");
-        this.columnsSql(sql, table);
+        this.multiColumnsSql(sql, table);
         sql.append(" from ");
         sql.append(table.getMateData(wrapperBuilder.getEntityClass()).getName());
-        Iterator<Class> it = wrapperBuilder.getJoining().keySet().iterator();
-        while (it.hasNext()) {
+        Iterator<Class> tableClasses = joining.keySet().iterator();
+        while (tableClasses.hasNext()) {
+            Class tableClass = tableClasses.next();
+            MultiWrapper.JoinCondition joinCondition = joining.get(tableClass);
+           if (joinCondition.getJoinType() == MultiWrapper.JoinType.COMMON) {
+               sql.append(", ").append(table.getMateData(tableClass).getName());
+           } else {
+               if (joinCondition.getJoinType() == MultiWrapper.JoinType.LEFT) {
+                   sql.append(" left join ").append(table.getMateData(tableClass).getName());
+               } else if (joinCondition.getJoinType() == MultiWrapper.JoinType.RIGHT) {
+                   sql.append(" right join ").append(table.getMateData(tableClass).getName());
+               } else if (joinCondition.getJoinType() == MultiWrapper.JoinType.INNER) {
+                   sql.append(" inner join ").append(table.getMateData(tableClass).getName());
+               }
+               sql.append(" on ");
+               MultiWrapper.OnCondition onCondition = joinCondition.getOnCondition();
+               Map<Class, List<String>> equaling = onCondition.getEqualing();
+               Iterator<Class> equalClasses = equaling.keySet().iterator();
+               while (equalClasses.hasNext()) {
+                   Class equalClass = equalClasses.next();
+                   Iterator<String> equal = equaling.get(equalClass).iterator();
+                   while (equal.hasNext()) {
+                        String[] equalFileds = equal.next().split(MultiWrapper.EQUAL_FIX);
+                        sql.append(table.getMateData(equalClass).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(equalClass).getColumn(equalFileds[0]).getName());
+                        sql.append(" = ");
+                        sql.append(table.getMateData(tableClass).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(equalClass).getColumn(equalFileds[1]).getName());
+                       if (equal.hasNext()) {
+                           sql.append(" add ");
+                       }
+                   }
+                   if (equalClasses.hasNext()) {
+                       sql.append(" add ");
+                   }
+               }
+               if (!onCondition.getWrapper().getWrapperBuilder().getConditions().isEmpty()) {
+                   sql.append(" add ");
+                   this.wrapperConditions(sql, table.getMateData(tableClass), onCondition.getWrapper(), params, true);
+               }
 
+           }
+        }
+        if (wrapperBuilder.isCondition()) {
+            Iterator<Class> whereClasses = wrapping.keySet().iterator();
+            if (whereClasses.hasNext()) {
+                sql.append(" where ");
+            }
+            while (whereClasses.hasNext()) {
+                Class whereClass = whereClasses.next();
+                this.wrapperConditions(sql, table.getMateData(whereClass), wrapping.get(whereClass), params, true);
+                if (whereClasses.hasNext()) {
+                    sql.append(" add ");
+                }
+            }
         }
         return this;
     }

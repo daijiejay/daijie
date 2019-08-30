@@ -10,6 +10,11 @@ import java.lang.reflect.Field;
 public class ColumnMateData {
 
     /**
+     * 表名
+     */
+    private String table;
+
+    /**
      * 表字段名
      */
     private String name;
@@ -34,6 +39,28 @@ public class ColumnMateData {
         this.name = name;
         this.javaType = javaType;
         this.field = field;
+    }
+
+    /**
+     * 构建表列元数据
+     * @param table 表名
+     * @param name 表字段名
+     * @param javaType 表字段类类型
+     * @param field 表字段
+     */
+    public ColumnMateData(String table, String name, Class<?> javaType, Field field) {
+        this.table = table;
+        this.name = name;
+        this.javaType = javaType;
+        this.field = field;
+    }
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 
     public String getName() {

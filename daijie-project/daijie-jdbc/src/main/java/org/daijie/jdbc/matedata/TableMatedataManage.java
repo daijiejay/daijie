@@ -1,8 +1,9 @@
 package org.daijie.jdbc.matedata;
 
+import org.apache.commons.lang3.StringUtils;
 import org.daijie.core.util.ClassInfoUtil;
 import org.daijie.jdbc.result.PageResult;
-import org.daijie.jdbc.scripting.AgileWrapper;
+import org.daijie.jdbc.scripting.MultiWrapper;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -95,13 +96,64 @@ public class TableMatedataManage {
     }
 
     /**
+     * 多个表元数据初始化
+     * @param entityClass 表映射对象类型
+     * @return TableMatedata 多表元数据
+     */
+    public static MultiTableMateData initMultiTable(Class entityClass) {
+        MultiTableMateData tableMatedata = new MultiTableMateData(entityClass);
+        initMultiTableColumnMataData(tableMatedata, entityClass);
+        return tableMatedata;
+    }
+
+    /**
+     * 深度遍历初始化表对象映射属性
+     * @param tableMatedata 多表元数据
+     * @param entityClass 表映射对象类型
+     */
+    private static void initMultiTableColumnMataData(MultiTableMateData tableMatedata, Class entityClass) {
+        String tableName = null;
+        Object annotation = entityClass.getAnnotation(Table.class);
+        if (annotation instanceof Table) {
+            Table table = (Table) entityClass.getAnnotation(Table.class);
+            tableName = table.name();
+        }
+        Field[] fields = entityClass.getDeclaredFields();
+        for (Field field : fields) {
+            Column column = field.getAnnotation(Column.class);
+            String columnName = field.getName();
+            String columnTable = tableName;
+            if (column != null) {
+                if (StringUtils.isNotEmpty(column.table())) {
+                    columnTable = column.table();
+                }
+                if (StringUtils.isNotEmpty(column.name())) {
+                    columnName = column.name();
+                }
+                if (!isBaseClass(field.getType())) {
+                    Class fieldClass;
+                    if (field.getType().isAssignableFrom(List.class)) {
+                        fieldClass = ClassInfoUtil.getSuperClassGenricType(field.getGenericType());
+                    } else {
+                        fieldClass = field.getDeclaringClass();
+                    }
+                    initMultiTableColumnMataData(tableMatedata, fieldClass);
+                    break;
+                }
+            }
+            ColumnMateData columnMateData = new ColumnMateData(columnTable, columnName, field.getType(), field);
+            tableMatedata.addResultColumn(columnTable + MultiTableMateData.TABLE_COLUMN_FIX + field.getName(), columnMateData);
+        }
+    }
+
+    /**
      * 表元数据初始化
      * @param returnEntityClass 表映射对象类型
      * @return TableMatedata 表元数据
      */
-    public static AgileTableMateData initTable(Class returnEntityClass, AgileWrapper agileWrapper) {
+    public static MultiTableMateData initTable(Class returnEntityClass, MultiWrapper agileWrapper) {
         Set<Class> entityClasses = agileWrapper.getEntityClasses();
-        AgileTableMateData agileTableMateData = TableMatedataManage.initTable(returnEntityClass, agileWrapper);
+        MultiTableMateData agileTableMateData = TableMatedataManage.initMultiTable(returnEntityClass);
         for (Class entityClass : entityClasses) {
             TableMatedata matedata = TableMatedataManage.initTable(entityClass);
             agileTableMateData.addMateData(matedata.getEntityClass(), matedata);

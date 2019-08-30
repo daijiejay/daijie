@@ -1,6 +1,7 @@
 package org.daijie.jdbc;
 
-import org.daijie.jdbc.scripting.AgileWrapper;
+import org.daijie.jdbc.scripting.MultiWrapper;
+import org.daijie.jdbc.scripting.SqlGenerator;
 import org.daijie.jdbc.scripting.Wrapper;
 import org.junit.Assert;
 
@@ -105,9 +106,22 @@ public class UserService /*implements IUserService*/ {
         Assert.assertNotNull(userMapper.selectPageByWrapper2(Wrapper.newWrapper().page(1, 1)));
     }
 
-    public void testCostomizeAgileWrapper() {
-        AgileWrapper agileWrapper = AgileWrapper.newWrapper(User.class, null)
-                .and(UserInfo.class, Wrapper.newWrapper()).leftJoin().on(User.class, "id", "userId").end()
-                .and(UserLinkman.class, Wrapper.newWrapper()).leftJoin().on(User.class, "id", "userId").end();
+    public void testCostomizeMultiWrapper() {
+        MultiWrapper multiWrapper = MultiWrapper.newWrapper(User.class, null)
+                .andLeftJoin(UserInfo.class, Wrapper.newWrapper())
+                .onEqual(User.class, "userId", "userId")
+                .endWrapper()
+                .andLeftJoin(UserLinkman.class, Wrapper.newWrapper())
+                .onEqual(User.class, "userId", "userId")
+                .endWrapper()
+                .end();
+        System.out.println(SqlGenerator.generator(UserDetailVo.class, multiWrapper));
+        MultiWrapper.newWrapper(User.class, null).andJoin(User.class, null).andJoin(User.class, null).andEqual(User.class, UserInfo.class, "userId", "userId").end();
+        MultiWrapper.newWrapper(User.class, null).andLeftJoin(User.class, null).onEqual(User.class, "userId", "userId").andEqual(User.class, "userId", "userId").endWrapper().andLeftJoin(User.class, null).onEqual(User.class, "userId", "userId").endWrapper().end();
+    }
+
+    public static void main(String[] args) {
+        UserService userService = new UserService();
+        userService.testCostomizeMultiWrapper();
     }
 }
