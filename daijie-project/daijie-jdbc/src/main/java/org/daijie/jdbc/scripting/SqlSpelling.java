@@ -343,14 +343,19 @@ public class SqlSpelling {
      * @param table 表元数据
      * @param multiWrapper 包装条件对象，多表关联查询
      * @param params 占位符对应的参数
+     * @param isCount 是否拼接查询总数的语句
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling agileSql(StringBuilder sql, MultiTableMateData table, MultiWrapper multiWrapper, List<Object> params) {
+    public SqlSpelling agileSql(StringBuilder sql, MultiTableMateData table, MultiWrapper multiWrapper, List<Object> params, boolean isCount) {
         MultiWrapper.MultiWrapperBuilder wrapperBuilder = multiWrapper.getWrapperBuilder();
         Map<Class, MultiWrapper.JoinCondition> joining = wrapperBuilder.getJoining();
         Map<Class, Wrapper> wrapping =  wrapperBuilder.getWrapping();
         sql.append("select ");
-        this.multiColumnsSql(sql, table);
+        if (isCount) {
+            sql.append("*");
+        } else {
+            this.multiColumnsSql(sql, table);
+        }
         sql.append(" from ");
         sql.append(table.getMateData(wrapperBuilder.getEntityClass()).getName());
         Iterator<Class> tableClasses = joining.keySet().iterator();
@@ -401,7 +406,11 @@ public class SqlSpelling {
             }
             while (whereClasses.hasNext()) {
                 Class whereClass = whereClasses.next();
-                this.wrapperConditions(sql, table.getMateData(whereClass), wrapping.get(whereClass), params, true);
+                Wrapper wrapper = wrapping.get(whereClass);
+                if (isCount) {
+                    wrapper.pageAndOrderClear();
+                }
+                this.wrapperConditions(sql, table.getMateData(whereClass), wrapper, params, true);
                 if (whereClasses.hasNext()) {
                     sql.append(" add ");
                 }

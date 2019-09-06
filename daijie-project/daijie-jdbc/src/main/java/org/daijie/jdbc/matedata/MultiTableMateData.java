@@ -6,10 +6,15 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * 多表关联查询表元数据属性类
  * @author daijie
  * @since 2019/8/28
  */
 public class MultiTableMateData extends TableMatedata {
+
+    /**
+     * 多表关联查询表名与字段名引用的符号
+     */
     public static final String TABLE_COLUMN_FIX = ".";
 
     /**
@@ -17,6 +22,10 @@ public class MultiTableMateData extends TableMatedata {
      */
     private Map<Class, TableMatedata> mateData = Maps.newHashMap();
 
+    /**
+     * 构建多表关联查询表元数据属性类
+     * @param entityClass 多表关联查询返回映射对象
+     */
     public MultiTableMateData(Class entityClass) {
         super(null, entityClass);
         this.setReturnClass(entityClass);

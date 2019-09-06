@@ -1,11 +1,13 @@
 package org.daijie.jdbc.scripting;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.google.common.collect.Lists;
 import org.daijie.jdbc.annotation.Delete;
 import org.daijie.jdbc.annotation.Insert;
 import org.daijie.jdbc.annotation.Select;
 import org.daijie.jdbc.annotation.Update;
 import org.daijie.jdbc.executor.SqlExecutor;
+import org.daijie.jdbc.matedata.MultiTableMateData;
 import org.daijie.jdbc.matedata.TableMatedata;
 import org.daijie.jdbc.result.PageResult;
 
@@ -66,6 +68,21 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
         } else {
             this.type = SqlExecutor.Type.UPDATE;
         }
+    }
+
+    @Override
+    public void generatingSql(MultiTableMateData table, Method method, MultiWrapper multiWrapper) {
+        SqlSpelling sqlSpelling = SqlSpelling.getInstance();
+        List<Object> params = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        if (PageResult.class.isAssignableFrom(method.getReturnType())) {
+            StringBuilder countSql = new StringBuilder();
+            sqlSpelling.agileSql(countSql, table, multiWrapper, Lists.newArrayList(), true);
+            this.countSql = countSql.toString();
+        }
+        sqlSpelling.agileSql(sql, table, multiWrapper, params, false);
+        this.sql = sql.toString();
+        this.type = SqlExecutor.Type.QUERY;
     }
 
     @Override

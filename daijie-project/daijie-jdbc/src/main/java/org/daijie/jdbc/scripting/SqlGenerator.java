@@ -24,7 +24,7 @@ public class SqlGenerator {
         SqlSpelling sqlSpelling = SqlSpelling.getInstance();
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sqlSpelling.agileSql(sql, tableMatedata, multiWrapper, params);
+        sqlSpelling.agileSql(sql, tableMatedata, multiWrapper, params, false);
         return sql.toString();
     }
 }

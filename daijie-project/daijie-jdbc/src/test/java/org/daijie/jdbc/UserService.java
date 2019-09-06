@@ -115,9 +115,7 @@ public class UserService /*implements IUserService*/ {
                 .onEqual(User.class, "userId", "userId")
                 .endWrapper()
                 .end();
-        System.out.println(SqlGenerator.generator(UserDetailVo.class, multiWrapper));
-        MultiWrapper.newWrapper(User.class, null).andJoin(User.class, null).andJoin(User.class, null).andEqual(User.class, UserInfo.class, "userId", "userId").end();
-        MultiWrapper.newWrapper(User.class, null).andLeftJoin(User.class, null).onEqual(User.class, "userId", "userId").andEqual(User.class, "userId", "userId").endWrapper().andLeftJoin(User.class, null).onEqual(User.class, "userId", "userId").endWrapper().end();
+        Assert.assertNotNull(multiWrapper);
     }
 
     public static void main(String[] args) {

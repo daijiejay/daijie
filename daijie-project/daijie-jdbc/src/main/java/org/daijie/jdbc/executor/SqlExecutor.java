@@ -1,11 +1,13 @@
 package org.daijie.jdbc.executor;
 
 import org.daijie.jdbc.cache.CacheManage;
+import org.daijie.jdbc.matedata.MultiTableMateData;
 import org.daijie.jdbc.matedata.TableMatedata;
 import org.daijie.jdbc.matedata.TableMatedataManage;
 import org.daijie.jdbc.result.BaseResult;
 import org.daijie.jdbc.result.PageResult;
 import org.daijie.jdbc.result.Result;
+import org.daijie.jdbc.scripting.MultiWrapper;
 import org.daijie.jdbc.scripting.SqlAnalyzer;
 import org.daijie.jdbc.scripting.SqlAnalyzerImpl;
 import org.daijie.jdbc.scripting.Wrapper;
@@ -172,6 +174,7 @@ public class SqlExecutor implements Executor {
         this.sqlAnalyzer = new SqlAnalyzerImpl<>();
         Object entity = null;
         Wrapper wrapper = null;
+        MultiWrapper multiWrapper = null;
         try {
             if (args == null || args.length == 0) {
                 entity = this.tableMatedata.getEntityClass().newInstance();
@@ -188,10 +191,16 @@ public class SqlExecutor implements Executor {
                         field.set(entity, obj);
                     } else if (obj instanceof Wrapper) {
                         wrapper = (Wrapper) obj;
+                    } else if (obj instanceof MultiWrapper) {
+                        multiWrapper = (MultiWrapper) obj;
                     }
                 }
             }
-            this.sqlAnalyzer.generatingSql(this.tableMatedata, entity, method, wrapper);
+            if (multiWrapper != null) {
+                this.sqlAnalyzer.generatingSql(TableMatedataManage.initTable(method.getReturnType(), multiWrapper), method, multiWrapper);
+            } else {
+                this.sqlAnalyzer.generatingSql(this.tableMatedata, entity, method, wrapper);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
