@@ -62,17 +62,22 @@ public class SqlExecutor implements Executor {
      * @param entityClass 具体关系映射对象
      * @param method mapper方法
      * @param args mapper方法参数
-     * @throws SQLException SQL异常
      */
-    public SqlExecutor(Class entityClass, Method method, Object[] args) throws SQLException {
-        this.tableMatedata = TableMatedataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
+    public SqlExecutor(Class entityClass, Method method, Object[] args) {
         this.transation = TransactionManage.createTransaction();
         if (method.getReturnType() == PageResult.class) {
             this.result = new PageResult(method.getReturnType());
         } else {
             this.result = new BaseResult(method.getReturnType());
         }
-        this.initSqlAnalyzer(method, args);
+        MultiWrapper multiWrapper = this.getMultiWrapper(args);
+        if (multiWrapper != null) {
+            this.tableMatedata = TableMatedataManage.initTable(method.getReturnType(), multiWrapper);
+            this.initSqlAnalyzer(method, multiWrapper);
+        } else {
+            this.tableMatedata = TableMatedataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
+            this.initSqlAnalyzer(method, args);
+        }
     }
 
     @Override
@@ -167,8 +172,8 @@ public class SqlExecutor implements Executor {
 
     /**
      * 初始化SQL分析器
-     * @param method
-     * @param args
+     * @param method mapper方法
+     * @param args mapper方法参数
      */
     private void initSqlAnalyzer(Method method, Object[] args) {
         this.sqlAnalyzer = new SqlAnalyzerImpl<>();
@@ -191,19 +196,32 @@ public class SqlExecutor implements Executor {
                         field.set(entity, obj);
                     } else if (obj instanceof Wrapper) {
                         wrapper = (Wrapper) obj;
-                    } else if (obj instanceof MultiWrapper) {
-                        multiWrapper = (MultiWrapper) obj;
                     }
                 }
             }
-            if (multiWrapper != null) {
-                this.sqlAnalyzer.generatingSql(TableMatedataManage.initTable(method.getReturnType(), multiWrapper), method, multiWrapper);
-            } else {
-                this.sqlAnalyzer.generatingSql(this.tableMatedata, entity, method, wrapper);
-            }
+            this.sqlAnalyzer.generatingSql(this.tableMatedata, entity, method, wrapper);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 初始化多表关联查询SQL分析器
+     * @param method mapper方法
+     * @param multiWrapper 多表查询包装类
+     */
+    private void initSqlAnalyzer(Method method, MultiWrapper multiWrapper) {
+        this.sqlAnalyzer = new SqlAnalyzerImpl<>();
+        this.sqlAnalyzer.generatingSql((MultiTableMateData) this.tableMatedata, method, multiWrapper);
+    }
+
+    private MultiWrapper getMultiWrapper(Object[] args) {
+        for (Object obj : args) {
+            if (obj instanceof MultiWrapper) {
+                return (MultiWrapper) obj;
+            }
+        }
+        return null;
     }
 
     private void createParams() throws SQLException {
