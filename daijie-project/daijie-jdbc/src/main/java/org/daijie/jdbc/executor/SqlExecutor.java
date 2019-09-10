@@ -96,7 +96,8 @@ public class SqlExecutor implements Executor {
                 result = executeUpdate();
                 commit();
             }
-        } catch (Exception E) {
+        } catch (Exception e) {
+            log.error("SQL执行失败：" + this.sqlAnalyzer.getSql(), e);
             if (Type.UPDATE == this.sqlAnalyzer.getScriptType()) {
                 rollback();
             }
@@ -216,6 +217,9 @@ public class SqlExecutor implements Executor {
     }
 
     private MultiWrapper getMultiWrapper(Object[] args) {
+        if (args == null) {
+            return null;
+        }
         for (Object obj : args) {
             if (obj instanceof MultiWrapper) {
                 return (MultiWrapper) obj;

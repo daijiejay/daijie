@@ -1,7 +1,6 @@
 package org.daijie.jdbc;
 
 import org.daijie.jdbc.scripting.MultiWrapper;
-import org.daijie.jdbc.scripting.SqlGenerator;
 import org.daijie.jdbc.scripting.Wrapper;
 import org.junit.Assert;
 
@@ -115,7 +114,7 @@ public class UserService /*implements IUserService*/ {
                 .onEqual(User.class, "userId", "userId")
                 .endWrapper()
                 .end();
-        Assert.assertNotNull(multiWrapper);
+        Assert.assertNotNull(userMapper.selectUserDetail(multiWrapper));
     }
 
     public static void main(String[] args) {
