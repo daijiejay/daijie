@@ -1,5 +1,6 @@
 package org.daijie.jdbc.executor;
 
+import org.daijie.core.util.ClassInfoUtil;
 import org.daijie.jdbc.cache.CacheManage;
 import org.daijie.jdbc.matedata.MultiTableMateData;
 import org.daijie.jdbc.matedata.TableMatedata;
@@ -65,18 +66,22 @@ public class SqlExecutor implements Executor {
      */
     public SqlExecutor(Class entityClass, Method method, Object[] args) {
         this.transation = TransactionManage.createTransaction();
-        if (method.getReturnType() == PageResult.class) {
-            this.result = new PageResult(method.getReturnType());
-        } else {
-            this.result = new BaseResult(method.getReturnType());
-        }
         MultiWrapper multiWrapper = this.getMultiWrapper(args);
+        Class returnClass = method.getReturnType();
+        if (method.getReturnType() == List.class || method.getReturnType() == PageResult.class) {
+            returnClass = ClassInfoUtil.getSuperClassGenricType(method.getGenericReturnType());
+        }
         if (multiWrapper != null) {
-            this.tableMatedata = TableMatedataManage.initTable(method.getReturnType(), multiWrapper);
+            this.tableMatedata = TableMatedataManage.initTable(returnClass, multiWrapper);
             this.initSqlAnalyzer(method, multiWrapper);
         } else {
             this.tableMatedata = TableMatedataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
             this.initSqlAnalyzer(method, args);
+        }
+        if (method.getReturnType() == PageResult.class) {
+            this.result = new PageResult(method.getReturnType(), multiWrapper != null);
+        } else {
+            this.result = new BaseResult(method.getReturnType(), multiWrapper != null);
         }
     }
 
@@ -108,7 +113,7 @@ public class SqlExecutor implements Executor {
     }
 
     @Override
-    public Object executeQuery() throws SQLException, IllegalAccessException, InstantiationException {
+    public Object executeQuery() throws SQLException {
         if (CacheManage.get(this.tableMatedata.getName(), this.sqlAnalyzer.getSql()) != null) {
            return this.result.getResult(CacheManage.get(this.tableMatedata.getName(), this.sqlAnalyzer.getSql()));
         }

@@ -352,7 +352,7 @@ public class SqlSpelling {
         Map<Class, Wrapper> wrapping =  wrapperBuilder.getWrapping();
         sql.append("select ");
         if (isCount) {
-            sql.append("*");
+            sql.append("count(1)");
         } else {
             this.multiColumnsSql(sql, table);
         }

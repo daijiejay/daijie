@@ -32,7 +32,7 @@ public class TableMatedataManage {
      * 判断对象是否基本类
      * @return 布尔值
      */
-    private static boolean isBaseClass(Class objectClass) {
+    public static boolean isBaseClass(Class objectClass) {
         for (Class cls : baseClass) {
             if (cls.isAssignableFrom(objectClass)) return true;
         }
@@ -102,7 +102,7 @@ public class TableMatedataManage {
      */
     public static MultiTableMateData initMultiTable(Class entityClass) {
         MultiTableMateData tableMatedata = new MultiTableMateData(entityClass);
-        initMultiTableColumnMataData(tableMatedata, entityClass);
+        initMultiTableColumnMataData(tableMatedata, entityClass, null, true);
         return tableMatedata;
     }
 
@@ -110,8 +110,10 @@ public class TableMatedataManage {
      * 深度遍历初始化表对象映射属性
      * @param tableMatedata 多表元数据
      * @param entityClass 表映射对象类型
+     * @param childrenTableMatedata 子表元数据
+     * @param isRoot 是否根节点
      */
-    private static void initMultiTableColumnMataData(MultiTableMateData tableMatedata, Class entityClass) {
+    private static void initMultiTableColumnMataData(MultiTableMateData tableMatedata, Class entityClass, MultiTableMateData childrenTableMatedata, boolean isRoot) {
         String tableName = null;
         Object annotation = entityClass.getAnnotation(Table.class);
         if (annotation instanceof Table) {
@@ -123,6 +125,7 @@ public class TableMatedataManage {
             Column column = field.getAnnotation(Column.class);
             String columnName = field.getName();
             String columnTable = tableName;
+            Class fieldClass = field.getType();
             if (column != null) {
                 if (StringUtils.isNotEmpty(column.table())) {
                     columnTable = column.table();
@@ -130,19 +133,26 @@ public class TableMatedataManage {
                 if (StringUtils.isNotEmpty(column.name())) {
                     columnName = column.name();
                 }
-                if (!isBaseClass(field.getType())) {
-                    Class fieldClass;
-                    if (field.getType().isAssignableFrom(List.class)) {
-                        fieldClass = ClassInfoUtil.getSuperClassGenricType(field.getGenericType());
-                    } else {
-                        fieldClass = field.getDeclaringClass();
-                    }
-                    initMultiTableColumnMataData(tableMatedata, fieldClass);
-                    break;
-                }
             }
-            ColumnMateData columnMateData = new ColumnMateData(columnTable, columnName, field.getType(), field);
-            tableMatedata.addResultColumn(columnTable + MultiTableMateData.TABLE_COLUMN_FIX + field.getName(), columnMateData);
+            if (!isBaseClass(fieldClass)) {
+                if (field.getType().isAssignableFrom(List.class)) {
+                    fieldClass = ClassInfoUtil.getSuperClassGenricType(field.getGenericType());
+                } else {
+                    fieldClass = field.getDeclaringClass();
+                }
+                childrenTableMatedata = new MultiTableMateData(fieldClass);
+                initMultiTableColumnMataData(tableMatedata, fieldClass, childrenTableMatedata, false);
+            }
+            ColumnMateData columnMateData = new ColumnMateData(columnTable, columnName, fieldClass, field);
+            columnMateData.setTableMatedata(childrenTableMatedata);
+            if (isRoot) {
+                tableMatedata.addColumn(field.getName(), columnMateData);
+            } else {
+                childrenTableMatedata.addColumn(field.getName(), columnMateData);
+            }
+            if (isBaseClass(fieldClass)) {
+                tableMatedata.addResultColumn(columnTable + MultiTableMateData.TABLE_COLUMN_FIX + field.getName(), columnMateData);
+            }
         }
     }
 
@@ -152,8 +162,8 @@ public class TableMatedataManage {
      * @return TableMatedata 表元数据
      */
     public static MultiTableMateData initTable(Class returnEntityClass, MultiWrapper agileWrapper) {
-        Set<Class> entityClasses = agileWrapper.getEntityClasses();
         MultiTableMateData agileTableMateData = TableMatedataManage.initMultiTable(returnEntityClass);
+        Set<Class> entityClasses = agileWrapper.getEntityClasses();
         for (Class entityClass : entityClasses) {
             TableMatedata matedata = TableMatedataManage.initTable(entityClass);
             agileTableMateData.addMateData(matedata.getEntityClass(), matedata);

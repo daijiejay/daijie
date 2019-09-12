@@ -1,11 +1,24 @@
 package org.daijie.jdbc.result;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
+import org.daijie.jdbc.executor.SqlExecutor;
 import org.daijie.jdbc.matedata.ColumnMateData;
+import org.daijie.jdbc.matedata.MultiTableMateData;
 import org.daijie.jdbc.matedata.TableMatedata;
+import org.daijie.jdbc.matedata.TableMatedataManage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +29,21 @@ import java.util.Map;
  */
 public class BaseResult implements Result {
 
+    private final Logger log = LoggerFactory.getLogger(BaseResult.class);
+
     /**
      * mapper方法返回对象类型
      */
     private final Class<?> returnClass;
 
-    public BaseResult(Class<?> returnClass) {
+    /**
+     * 是否多表查询
+     */
+    private boolean isMulti;
+
+    public BaseResult(Class<?> returnClass, boolean isMulti) {
         this.returnClass = returnClass;
+        this.isMulti = isMulti;
     }
 
     @Override
@@ -39,21 +60,136 @@ public class BaseResult implements Result {
                 Map<String, ColumnMateData> columns;
                 if (tableMatedata.isCostomResult()) {
                     entity = tableMatedata.getReturnClass().newInstance();
-                    columns = tableMatedata.getResultColumns();
+                    columns = tableMatedata.getColumns();
                 } else {
                     entity = tableMatedata.getEntityClass().newInstance();
                     columns =  tableMatedata.getColumns();
                 }
-                for (Map.Entry<String, ColumnMateData> entry : columns.entrySet()) {
-                    entry.getValue().getField().setAccessible(true);
-                    entry.getValue().getField().set(entity, resultSet.getObject(entry.getValue().getName()));
+                mappingObject(resultSet, entity, columns);
+                if (!(this.isMulti() && mergeRepeatRows(result, entity, columns))) {
+                    result.add(entity);
                 }
-                result.add(entity);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("查询结果映射对象失败", e);
             }
         }
         return getResult(result);
+    }
+
+    /**
+     * 返回结果映射对象，处理对象中基础类属性和对象属性
+     * @param resultSet JDBC执行查询结果对象
+     * @param entity 映秀的具体对象
+     * @param columns 对象与表对应的字段元数据
+     * @throws SQLException 获取JDBC执行查询结果时异常
+     * @throws IllegalAccessException 将查询结果映射到对象中时异常
+     * @throws InstantiationException 初始化映射对象中具体对象属性时异常
+     */
+    private void mappingObject(ResultSet resultSet, Object entity, Map<String, ColumnMateData> columns) throws SQLException, IllegalAccessException, InstantiationException {
+        for (Map.Entry<String, ColumnMateData> entry : columns.entrySet()) {
+            entry.getValue().getField().setAccessible(true);
+            if (!TableMatedataManage.isBaseClass(entry.getValue().getJavaType())) {
+                Object fieldObject = entry.getValue().getJavaType().newInstance();
+                TableMatedata tableMatedata = entry.getValue().getTableMatedata();
+                mappingObject(resultSet, fieldObject, tableMatedata.getColumns());
+                if (entry.getValue().getField().getType().isAssignableFrom(List.class)) {
+                    List<Object> list = (List<Object>) entry.getValue().getField().get(entity);
+                    if (list == null) {
+                        list = Lists.newArrayList();
+                    }
+                    list.add(fieldObject);
+                    entry.getValue().getField().set(entity, list);
+                } else {
+                    entry.getValue().getField().set(entity, fieldObject);
+                }
+            } else {
+                Object value = null;
+                if (StringUtils.isNotEmpty(entry.getValue().getTable())) {
+                    value = resultSet.getObject(entry.getValue().getTable() + MultiTableMateData.TABLE_COLUMN_FIX + entry.getValue().getName());
+                } else {
+                    value = resultSet.getObject(entry.getValue().getName());
+                }
+                if (value != null) {
+                    entry.getValue().getField().set(entity, value);
+                }
+            }
+        }
+    }
+
+    /**
+     * 处理多表查询重复数据合并到对象list中
+     * @param result 查询结果集
+     * @param entity 映秀的具体对象
+     * @param columns 对象与表对应的字段元数据
+     * @throws IllegalAccessException 将查询结果映射到对象中时异常
+     * @throws IntrospectionException 将查询结果映射到对象中时异常
+     * @throws InstantiationException 初始化映射对象中具体对象属性时异常
+     * @return 是否已合并且list中
+     */
+    private boolean mergeRepeatRows(List<Object> result, Object entity, Map<String, ColumnMateData> columns) throws IllegalAccessException, IntrospectionException, InvocationTargetException {
+        Object obj = null;
+        for (Object resultEntity : result) {
+            if (compareBasicParams(resultEntity, entity)) obj = resultEntity;
+        }
+        if (obj != null) {
+            for (Map.Entry<String, ColumnMateData> entry : columns.entrySet()) {
+                if (entry.getValue().getField().getType().isAssignableFrom(List.class)) {
+                    List<Object> list1 = (List<Object>) entry.getValue().getField().get(obj);
+                    List<Object> list2 = (List<Object>) entry.getValue().getField().get(entity);
+                    list1.addAll(list2);
+                    entry.getValue().getField().set(entity, list1);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 比较两个对象基本属性是否相等
+     * @param entity1 第一个对象
+     * @param entity2 第二个对象
+     * @throws IllegalAccessException 将查询结果映射到对象中时异常
+     * @throws IntrospectionException 将查询结果映射到对象中时异常
+     * @throws InstantiationException 初始化映射对象中具体对象属性时异常
+     * @return 返回布尔值
+     */
+    private boolean compareBasicParams(Object entity1, Object entity2) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        if (entity1.getClass() != entity2.getClass()) {
+            return false;
+        }
+        PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(entity1.getClass(), Object.class).getPropertyDescriptors();
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            Object value1 = propertyDescriptor.getReadMethod().invoke(entity1);
+            Object value2 = propertyDescriptor.getReadMethod().invoke(entity2);
+            if (value1.getClass().isAssignableFrom(byte.class) || value1.getClass().isAssignableFrom(boolean.class) || value1.getClass().isAssignableFrom(char.class) || value1.getClass().isAssignableFrom(short.class)
+                    || value1.getClass().isAssignableFrom(long.class) || value1.getClass().isAssignableFrom(double.class) || value1.getClass().isAssignableFrom(int.class) || value1.getClass().isAssignableFrom(float.class)) {
+                if (value1 != value2) return false;
+            } else if (value1 instanceof Byte) {
+                if (((Byte) value1).byteValue() != ((Byte) value2).byteValue()) return false;
+            } else if (value1 instanceof Boolean) {
+                if (((Boolean) value1).booleanValue() != ((Boolean) value2).booleanValue()) return false;
+            } else if (value1 instanceof Character) {
+                if (((Character) value1).charValue() != ((Character) value2).charValue()) return false;
+            } else if (value1 instanceof Short) {
+                if (((Short) value1).shortValue() != ((Short) value2).shortValue()) return false;
+            } else if (value1 instanceof Long) {
+                if (((Long) value1).longValue() != ((Long) value2).longValue()) return false;
+            } else if (value1 instanceof Double) {
+                if (((Double) value1).doubleValue() != ((Double) value2).doubleValue()) return false;
+            } else if (value1 instanceof Integer) {
+                if (((Integer) value1).intValue() != ((Integer) value2).intValue()) return false;
+            } else if (value1 instanceof Float) {
+                if (((Float) value1).floatValue() != ((Float) value2).floatValue()) return false;
+            } else if (value1 instanceof Date) {
+                if (((Date) value1).getTime() != ((Date) value2).getTime()) return false;
+            } else if (value1 instanceof String) {
+                if (!value1.equals(value2)) return false;
+            } else if (value1 instanceof BigDecimal) {
+                if (((BigDecimal) value1).compareTo((BigDecimal) value2) != 0) return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -84,31 +220,8 @@ public class BaseResult implements Result {
         return null;
     }
 
-    private int getIntResutl(ResultSet resultSet) throws SQLException {
-        return resultSet.getInt(1);
+    @Override
+    public boolean isMulti() {
+        return isMulti;
     }
-
-    private long getLongResutl(ResultSet resultSet) throws SQLException {
-        return resultSet.getLong(1);
-    }
-
-    private List<Object> getMateDateResutl(ResultSet resultSet, TableMatedata tableMatedata) throws SQLException {
-        List<Object> result = new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-                Object entity = tableMatedata.getEntityClass().newInstance();
-                for (Map.Entry<String, ColumnMateData> entry : tableMatedata.getColumns().entrySet()) {
-                    entry.getValue().getField().setAccessible(true);
-                    entry.getValue().getField().set(entity, resultSet.getObject(entry.getValue().getName()));
-                }
-                result.add(entity);
-            }
-        } catch (IllegalAccessException illegalAccessException) {
-            throw new SqlResultException(tableMatedata.getEntityClass().getName() + "映射属性值失败", illegalAccessException);
-        } catch (InstantiationException instantiationException) {
-            throw new SqlResultException(tableMatedata.getEntityClass().getName() + "没有无参构造方法", instantiationException);
-        }
-        return result;
-    }
-
 }

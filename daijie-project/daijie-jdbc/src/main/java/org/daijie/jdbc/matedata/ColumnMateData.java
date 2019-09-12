@@ -30,6 +30,11 @@ public class ColumnMateData {
     private Field field;
 
     /**
+     * 子表元数据
+     */
+    private TableMatedata tableMatedata;
+
+    /**
      * 构建表列元数据
      * @param name 表字段名
      * @param javaType 表字段类类型
@@ -85,5 +90,13 @@ public class ColumnMateData {
 
     public void setField(Field field) {
         this.field = field;
+    }
+
+    public TableMatedata getTableMatedata() {
+        return tableMatedata;
+    }
+
+    public void setTableMatedata(TableMatedata tableMatedata) {
+        this.tableMatedata = tableMatedata;
     }
 }
