@@ -20,7 +20,7 @@ import java.util.Set;
  * @author daijie
  * @since 2019/5/23
  */
-public class TableMatedataManage {
+public class TableMateDataManage {
 
     /**
      * 表字段对应java中的对象类型
@@ -46,8 +46,8 @@ public class TableMatedataManage {
      * @param returnClassType 返回表映射对象类型
      * @return TableMatedata 表元数据
      */
-    public static TableMatedata initTable(Class entityClass, Class returnClass, Type returnClassType) {
-        TableMatedata tableMatedata = null;
+    public static TableMateData initTable(Class entityClass, Class returnClass, Type returnClassType) {
+        TableMateData tableMatedata = null;
         Class realityReturnClass = returnClass;
         if (returnClass.isAssignableFrom(PageResult.class) || returnClass.isAssignableFrom(List.class)) {
             realityReturnClass = ClassInfoUtil.getSuperClassGenricType(returnClassType);
@@ -71,14 +71,14 @@ public class TableMatedataManage {
      * @param entityClass 表映射对象类型
      * @return TableMatedata 表元数据
      */
-    public static TableMatedata initTable(Class entityClass) {
+    public static TableMateData initTable(Class entityClass) {
         String tableName = null;
         Object annotation = entityClass.getAnnotation(Table.class);
         if (annotation instanceof Table) {
             Table table = (Table) entityClass.getAnnotation(Table.class);
             tableName = table.name();
         }
-        TableMatedata tableMatedata = new TableMatedata(tableName, entityClass);
+        TableMateData tableMatedata = new TableMateData(tableName, entityClass);
         Field[] fields = entityClass.getDeclaredFields();
         for (Field field : fields) {
             Column column = field.getAnnotation(Column.class);
@@ -162,10 +162,10 @@ public class TableMatedataManage {
      * @return TableMatedata 表元数据
      */
     public static MultiTableMateData initTable(Class returnEntityClass, MultiWrapper agileWrapper) {
-        MultiTableMateData agileTableMateData = TableMatedataManage.initMultiTable(returnEntityClass);
+        MultiTableMateData agileTableMateData = TableMateDataManage.initMultiTable(returnEntityClass);
         Set<Class> entityClasses = agileWrapper.getEntityClasses();
         for (Class entityClass : entityClasses) {
-            TableMatedata matedata = TableMatedataManage.initTable(entityClass);
+            TableMateData matedata = TableMateDataManage.initTable(entityClass);
             agileTableMateData.addMateData(matedata.getEntityClass(), matedata);
         }
         return agileTableMateData;

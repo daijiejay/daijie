@@ -9,7 +9,7 @@ import java.util.Map;
  * @author daijie
  * @since 2019/5/23
  */
-public class TableMatedata {
+public class TableMateData {
 
     /**
      * 表名
@@ -48,7 +48,7 @@ public class TableMatedata {
      * @param name 表名
      * @param entityClass 表映射对象类型
      */
-    public TableMatedata(String name, Class entityClass) {
+    public TableMateData(String name, Class entityClass) {
         this.name = name;
         this.entityClass = entityClass;
     }

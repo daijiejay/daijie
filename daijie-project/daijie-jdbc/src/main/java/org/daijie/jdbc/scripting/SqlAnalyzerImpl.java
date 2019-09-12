@@ -8,7 +8,7 @@ import org.daijie.jdbc.annotation.Select;
 import org.daijie.jdbc.annotation.Update;
 import org.daijie.jdbc.executor.SqlExecutor;
 import org.daijie.jdbc.matedata.MultiTableMateData;
-import org.daijie.jdbc.matedata.TableMatedata;
+import org.daijie.jdbc.matedata.TableMateData;
 import org.daijie.jdbc.result.PageResult;
 
 import java.lang.reflect.Method;
@@ -61,7 +61,7 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
 //    }
 
     @Override
-    public void generatingSql(TableMatedata table, T entity, Method method, Wrapper wrapper) {
+    public void generatingSql(TableMateData table, T entity, Method method, Wrapper wrapper) {
         this.sql = sqlSpelling(table, entity, method, wrapper);
         if (this.sql.startsWith("select")) {
             this.type = SqlExecutor.Type.QUERY;
@@ -113,7 +113,7 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
      * @param wrapper 包装工具
      * @return String SQL语句
      */
-    private String sqlSpelling(TableMatedata table, T entity, Method method, Wrapper wrapper) {
+    private String sqlSpelling(TableMateData table, T entity, Method method, Wrapper wrapper) {
         StringBuilder sql = new StringBuilder();
         StringBuilder whereSql = new StringBuilder();
         String methodName = method.getName();
@@ -194,7 +194,7 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
      * @param entity 映射对象
      * @param sqlSpelling SQL拼接类
      */
-    public void setParams(TableMatedata table, T entity, SqlSpelling sqlSpelling) {
+    public void setParams(TableMateData table, T entity, SqlSpelling sqlSpelling) {
         sqlSpelling.getFieldValue(table, entity).entrySet().forEach(entry -> {
             this.params.add(entry.getValue());
         });
@@ -206,7 +206,7 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
      * @param entity 映射对象
      * @param sqlSpelling SQL拼接类
      */
-    public void setAllParams(TableMatedata table, T entity, SqlSpelling sqlSpelling) {
+    public void setAllParams(TableMateData table, T entity, SqlSpelling sqlSpelling) {
         sqlSpelling.getAllFieldValue(table, entity).entrySet().forEach(entry -> {
             this.params.add(entry.getValue());
         });
@@ -218,7 +218,7 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
      * @param entities 映射对象集
      * @param sqlSpelling SQL拼接类
      */
-    public void setAllParams(TableMatedata table, List<T> entities, SqlSpelling sqlSpelling) {
+    public void setAllParams(TableMateData table, List<T> entities, SqlSpelling sqlSpelling) {
         entities.forEach(entity -> {
             sqlSpelling.getAllFieldValue(table, entity).entrySet().forEach(entry -> {
                 this.params.add(entry.getValue());

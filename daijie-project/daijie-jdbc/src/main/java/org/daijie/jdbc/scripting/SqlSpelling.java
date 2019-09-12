@@ -1,8 +1,8 @@
 package org.daijie.jdbc.scripting;
 
 import org.daijie.jdbc.matedata.MultiTableMateData;
-import org.daijie.jdbc.matedata.TableMatedata;
-import org.daijie.jdbc.matedata.TableMatedataManage;
+import org.daijie.jdbc.matedata.TableMateData;
+import org.daijie.jdbc.matedata.TableMateDataManage;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
@@ -30,7 +30,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling selectSql(StringBuilder sql, TableMatedata table) {
+    public SqlSpelling selectSql(StringBuilder sql, TableMateData table) {
         sql.append("select ");
         columnsSql(sql, table);
         sql.append(" from ").append(table.getName());
@@ -43,7 +43,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling selectCountSql(StringBuilder sql, TableMatedata table) {
+    public SqlSpelling selectCountSql(StringBuilder sql, TableMateData table) {
         sql.append("select count(1)");
         sql.append(" from ").append(table.getName());
         return this;
@@ -55,7 +55,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling columnsSql(StringBuilder sql, TableMatedata table) {
+    public SqlSpelling columnsSql(StringBuilder sql, TableMateData table) {
         sql.append(collectionToCommaDelimitedString(table.getDefaultColumns().entrySet().stream().map(entry -> entry.getValue().getName()).collect(Collectors.toList())));
         return this;
     }
@@ -66,7 +66,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling multiColumnsSql(StringBuilder sql, TableMatedata table) {
+    public SqlSpelling multiColumnsSql(StringBuilder sql, TableMateData table) {
         sql.append(collectionToCommaDelimitedString(table.getDefaultColumns().entrySet().stream().map(entry -> (entry.getValue().getTable() + "." + entry.getValue().getName())).collect(Collectors.toList())));
         return this;
     }
@@ -78,7 +78,7 @@ public class SqlSpelling {
      * @param entity 映射对象或包装对象
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling whereSql(StringBuilder sql, TableMatedata table, Object entity) {
+    public SqlSpelling whereSql(StringBuilder sql, TableMateData table, Object entity) {
         Map<String, Object> names = getFieldValue(table, entity);
         if (names.size() > 0) {
             sql.append(" where ").append(collectionToDelimitedString(names.entrySet().stream().map(entry -> entry.getKey()).collect(Collectors.toList()), " = ? and "));
@@ -95,7 +95,7 @@ public class SqlSpelling {
      * @param params 占位符对应的参数
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling whereSql(StringBuilder sql, TableMatedata table, Wrapper wrapper, List<Object> params) {
+    public SqlSpelling whereSql(StringBuilder sql, TableMateData table, Wrapper wrapper, List<Object> params) {
         if (wrapper.getWrapperBuilder().getConditions().size() > 0) {
             sql.append(" where ");
             wrapperConditions(sql, table, wrapper, params, false);
@@ -110,7 +110,7 @@ public class SqlSpelling {
      * @param entity 映射对象
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling updateSql(StringBuilder sql, TableMatedata table, Object entity) {
+    public SqlSpelling updateSql(StringBuilder sql, TableMateData table, Object entity) {
         Map<String, Object> names = getFieldValue(table, entity);
         if (names.size() > 0) {
             sql.append("update ").append(table.getName()).append(" set ").append(collectionToDelimitedString(names.entrySet().stream().map(entry -> entry.getKey()).collect(Collectors.toList()), " = ?, "));
@@ -126,7 +126,7 @@ public class SqlSpelling {
      * @param data 映射对象单个或多个
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling insertSql(StringBuilder sql, TableMatedata table, Object data) {
+    public SqlSpelling insertSql(StringBuilder sql, TableMateData table, Object data) {
         Object entity = null;
         int rows = 1;
         if (data instanceof List) {
@@ -160,7 +160,7 @@ public class SqlSpelling {
      * @param entity 映射对象
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling insertSelectiveSql(StringBuilder sql, TableMatedata table, Object entity) {
+    public SqlSpelling insertSelectiveSql(StringBuilder sql, TableMateData table, Object entity) {
         Map<String, Object> names = getFieldValue(table, entity);
         if (names.size() > 0) {
             sql.append("insert into ").append(table.getName()).append(" (");
@@ -182,7 +182,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling deleteSql(StringBuilder sql, TableMatedata table) {
+    public SqlSpelling deleteSql(StringBuilder sql, TableMateData table) {
         sql.append("delete from ").append(table.getName());
         return this;
     }
@@ -194,7 +194,7 @@ public class SqlSpelling {
      * @param wrapper 包装条件对象
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling finalSql(StringBuilder sql, TableMatedata table, Wrapper wrapper) {
+    public SqlSpelling finalSql(StringBuilder sql, TableMateData table, Wrapper wrapper) {
         wrapperGroups(sql, table, wrapper.getWrapperBuilder().getGroups());
         wrapperOrders(sql, table, wrapper.getWrapperBuilder().getOrders());
         wrapperPages(sql, table, wrapper.getWrapperBuilder().getPage());
@@ -207,7 +207,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @param groups 分组字段集
      */
-    private void wrapperGroups(StringBuilder sql, TableMatedata table, List<String> groups) {
+    private void wrapperGroups(StringBuilder sql, TableMateData table, List<String> groups) {
         if (!groups.isEmpty()) {
             sql.append(" group by ");
             Iterator<String> it = groups.iterator();
@@ -227,7 +227,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @param orders 排序字段集
      */
-    private void wrapperOrders(StringBuilder sql, TableMatedata table, Map<String, Wrapper.OrderType> orders) {
+    private void wrapperOrders(StringBuilder sql, TableMateData table, Map<String, Wrapper.OrderType> orders) {
         if (!orders.isEmpty()) {
             sql.append(" order by ");
             Iterator<String> it = orders.keySet().iterator();
@@ -247,7 +247,7 @@ public class SqlSpelling {
      * @param table 表元数据
      * @param page 分页属性对象
      */
-    private void wrapperPages(StringBuilder sql, TableMatedata table, Wrapper.Page page) {
+    private void wrapperPages(StringBuilder sql, TableMateData table, Wrapper.Page page) {
         if (page != null) {
             sql.append(" limit ").append((page.getPageNumber() - 1) * page.getPageSize()).append(", ").append(page.getPageSize());
         }
@@ -262,7 +262,7 @@ public class SqlSpelling {
      * @param isMultiTable 是否多表查询
      * @return 返回拼接好的sql语句
      */
-    public String  wrapperConditions(StringBuilder sql, TableMatedata table, Wrapper wrapper, List<Object> params, boolean isMultiTable) {
+    public String  wrapperConditions(StringBuilder sql, TableMateData table, Wrapper wrapper, List<Object> params, boolean isMultiTable) {
         String tableName = "";
         if (isMultiTable) {
             tableName = table.getName() + MultiTableMateData.TABLE_COLUMN_FIX;
@@ -305,7 +305,7 @@ public class SqlSpelling {
                 case EXISTS:
                     StringBuilder existsSql = new StringBuilder();
                     existsSql.append(" exists (");
-                    childSelectSql(existsSql, table, TableMatedataManage.initTable(condition.getEntityClass()), condition.getWrapper(), condition.getEqualNames(), params);
+                    childSelectSql(existsSql, table, TableMateDataManage.initTable(condition.getEntityClass()), condition.getWrapper(), condition.getEqualNames(), params);
                     existsSql.append(")");
                     spells.put(existsSql.toString(), condition.getWhereType());
             }
@@ -324,7 +324,7 @@ public class SqlSpelling {
      * @param params 占位符对应的参数
      * @return SqlSpelling SQL拼接
      */
-    public SqlSpelling childSelectSql(StringBuilder sql, TableMatedata parentTable, TableMatedata childTable, Wrapper wrapper, String[][] equalNames, List<Object> params) {
+    public SqlSpelling childSelectSql(StringBuilder sql, TableMateData parentTable, TableMateData childTable, Wrapper wrapper, String[][] equalNames, List<Object> params) {
         sql.append("select 1");
         sql.append(" from ").append(childTable.getName());
         sql.append(" where ");
@@ -426,7 +426,7 @@ public class SqlSpelling {
      * @param entity 映射对象
      * @return Map 得到已过滤值为空的字段对象
      */
-    public Map<String, Object> getFieldValue(TableMatedata table, Object entity) {
+    public Map<String, Object> getFieldValue(TableMateData table, Object entity) {
         Map<String, Object> names = new LinkedHashMap<>();
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -449,7 +449,7 @@ public class SqlSpelling {
      * @param entity 映射对象
      * @return Map 得到已过滤值为空的字段对象
      */
-    public Map<String, Object> getAllFieldValue(TableMatedata table, Object entity) {
+    public Map<String, Object> getAllFieldValue(TableMateData table, Object entity) {
         Map<String, Object> names = new LinkedHashMap<>();
         for (Field field : entity.getClass().getDeclaredFields()) {
             field.setAccessible(true);

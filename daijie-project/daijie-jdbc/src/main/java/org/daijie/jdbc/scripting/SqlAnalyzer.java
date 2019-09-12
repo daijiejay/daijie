@@ -2,7 +2,7 @@ package org.daijie.jdbc.scripting;
 
 import org.daijie.jdbc.executor.SqlExecutor;
 import org.daijie.jdbc.matedata.MultiTableMateData;
-import org.daijie.jdbc.matedata.TableMatedata;
+import org.daijie.jdbc.matedata.TableMateData;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -20,7 +20,7 @@ public interface SqlAnalyzer<T> {
      * @param method mapper方法
      * @param wrapper 条件包装工具
      */
-    void generatingSql(TableMatedata table, T entity, Method method, Wrapper wrapper);
+    void generatingSql(TableMateData table, T entity, Method method, Wrapper wrapper);
 
     /**
      * 生成SQL

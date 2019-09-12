@@ -1,6 +1,6 @@
 package org.daijie.jdbc.result;
 
-import org.daijie.jdbc.matedata.TableMatedata;
+import org.daijie.jdbc.matedata.TableMateData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ public class PageResult<T> extends BaseResult {
     }
 
     @Override
-    public Object mappingObjectResult(ResultSet resultSet, TableMatedata tableMatedata) throws SQLException {
+    public Object mappingObjectResult(ResultSet resultSet, TableMateData tableMatedata) throws SQLException {
         this.rows = (List<T>) super.mappingObjectResult(resultSet, tableMatedata);
         return this;
     }

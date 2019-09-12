@@ -32,7 +32,7 @@ public class ColumnMateData {
     /**
      * 子表元数据
      */
-    private TableMatedata tableMatedata;
+    private TableMateData tableMatedata;
 
     /**
      * 构建表列元数据
@@ -92,11 +92,11 @@ public class ColumnMateData {
         this.field = field;
     }
 
-    public TableMatedata getTableMatedata() {
+    public TableMateData getTableMatedata() {
         return tableMatedata;
     }
 
-    public void setTableMatedata(TableMatedata tableMatedata) {
+    public void setTableMatedata(TableMateData tableMatedata) {
         this.tableMatedata = tableMatedata;
     }
 }

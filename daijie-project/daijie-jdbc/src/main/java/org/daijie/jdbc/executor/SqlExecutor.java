@@ -3,8 +3,8 @@ package org.daijie.jdbc.executor;
 import org.daijie.core.util.ClassInfoUtil;
 import org.daijie.jdbc.cache.CacheManage;
 import org.daijie.jdbc.matedata.MultiTableMateData;
-import org.daijie.jdbc.matedata.TableMatedata;
-import org.daijie.jdbc.matedata.TableMatedataManage;
+import org.daijie.jdbc.matedata.TableMateData;
+import org.daijie.jdbc.matedata.TableMateDataManage;
 import org.daijie.jdbc.result.BaseResult;
 import org.daijie.jdbc.result.PageResult;
 import org.daijie.jdbc.result.Result;
@@ -40,7 +40,7 @@ public class SqlExecutor implements Executor {
     /**
      * 表元数据
      */
-    private final TableMatedata tableMatedata;
+    private final TableMateData tableMatedata;
     /**
      * SQL分析器
      */
@@ -72,10 +72,10 @@ public class SqlExecutor implements Executor {
             returnClass = ClassInfoUtil.getSuperClassGenricType(method.getGenericReturnType());
         }
         if (multiWrapper != null) {
-            this.tableMatedata = TableMatedataManage.initTable(returnClass, multiWrapper);
+            this.tableMatedata = TableMateDataManage.initTable(returnClass, multiWrapper);
             this.initSqlAnalyzer(method, multiWrapper);
         } else {
-            this.tableMatedata = TableMatedataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
+            this.tableMatedata = TableMateDataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
             this.initSqlAnalyzer(method, args);
         }
         if (method.getReturnType() == PageResult.class) {

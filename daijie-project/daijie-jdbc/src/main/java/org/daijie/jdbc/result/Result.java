@@ -1,6 +1,6 @@
 package org.daijie.jdbc.result;
 
-import org.daijie.jdbc.matedata.TableMatedata;
+import org.daijie.jdbc.matedata.TableMateData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ public interface Result {
      * @return Objcet 返回表元数据中对应的对象
      * @throws SQLException SQL异常
      */
-    Object mappingObjectResult(ResultSet resultSet, TableMatedata tableMatedata) throws SQLException;
+    Object mappingObjectResult(ResultSet resultSet, TableMateData tableMatedata) throws SQLException;
 
     /**
      * 将已映射对象结果集跟据返回对象类型对应处理

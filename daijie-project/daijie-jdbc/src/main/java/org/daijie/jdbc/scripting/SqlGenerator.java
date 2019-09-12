@@ -1,7 +1,7 @@
 package org.daijie.jdbc.scripting;
 
 import org.daijie.jdbc.matedata.MultiTableMateData;
-import org.daijie.jdbc.matedata.TableMatedataManage;
+import org.daijie.jdbc.matedata.TableMateDataManage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class SqlGenerator {
      * @return 返回SQL语句
      */
     public static String generator(Class returnClass, MultiWrapper multiWrapper) {
-        MultiTableMateData tableMatedata = TableMatedataManage.initTable(returnClass, multiWrapper);
+        MultiTableMateData tableMatedata = TableMateDataManage.initTable(returnClass, multiWrapper);
         SqlSpelling sqlSpelling = SqlSpelling.getInstance();
         List<Object> params = new ArrayList<>();
         StringBuilder sql = new StringBuilder();

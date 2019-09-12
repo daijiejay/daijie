@@ -2,11 +2,10 @@ package org.daijie.jdbc.result;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
-import org.daijie.jdbc.executor.SqlExecutor;
 import org.daijie.jdbc.matedata.ColumnMateData;
 import org.daijie.jdbc.matedata.MultiTableMateData;
-import org.daijie.jdbc.matedata.TableMatedata;
-import org.daijie.jdbc.matedata.TableMatedataManage;
+import org.daijie.jdbc.matedata.TableMateData;
+import org.daijie.jdbc.matedata.TableMateDataManage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,7 @@ public class BaseResult implements Result {
     }
 
     @Override
-    public Object mappingObjectResult(ResultSet resultSet, TableMatedata tableMatedata) throws SQLException {
+    public Object mappingObjectResult(ResultSet resultSet, TableMateData tableMatedata) throws SQLException {
         List<Object> result = new ArrayList<>();
         while (resultSet.next()) {
             if (this.returnClass == Long.class || this.returnClass == long.class) {
@@ -88,9 +87,9 @@ public class BaseResult implements Result {
     private void mappingObject(ResultSet resultSet, Object entity, Map<String, ColumnMateData> columns) throws SQLException, IllegalAccessException, InstantiationException {
         for (Map.Entry<String, ColumnMateData> entry : columns.entrySet()) {
             entry.getValue().getField().setAccessible(true);
-            if (!TableMatedataManage.isBaseClass(entry.getValue().getJavaType())) {
+            if (!TableMateDataManage.isBaseClass(entry.getValue().getJavaType())) {
                 Object fieldObject = entry.getValue().getJavaType().newInstance();
-                TableMatedata tableMatedata = entry.getValue().getTableMatedata();
+                TableMateData tableMatedata = entry.getValue().getTableMatedata();
                 mappingObject(resultSet, fieldObject, tableMatedata.getColumns());
                 if (entry.getValue().getField().getType().isAssignableFrom(List.class)) {
                     List<Object> list = (List<Object>) entry.getValue().getField().get(entity);

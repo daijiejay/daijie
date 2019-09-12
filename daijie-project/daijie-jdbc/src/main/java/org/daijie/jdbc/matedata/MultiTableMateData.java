@@ -2,7 +2,6 @@ package org.daijie.jdbc.matedata;
 
 import com.google.common.collect.Maps;
 
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Map;
  * @author daijie
  * @since 2019/8/28
  */
-public class MultiTableMateData extends TableMatedata {
+public class MultiTableMateData extends TableMateData {
 
     /**
      * 多表关联查询表名与字段名引用的符号
@@ -20,7 +19,7 @@ public class MultiTableMateData extends TableMatedata {
     /**
      * 整个查询语句中所有用到的表对象映射元数据集合
      */
-    private Map<Class, TableMatedata> mateData = Maps.newHashMap();
+    private Map<Class, TableMateData> mateData = Maps.newHashMap();
 
     /**
      * 构建多表关联查询表元数据属性类
@@ -31,15 +30,15 @@ public class MultiTableMateData extends TableMatedata {
         this.setReturnClass(entityClass);
     }
 
-    public Map<Class, TableMatedata> getMateData() {
+    public Map<Class, TableMateData> getMateData() {
         return mateData;
     }
 
-    public TableMatedata getMateData(Class entityClass) {
+    public TableMateData getMateData(Class entityClass) {
         return mateData.get(entityClass);
     }
 
-    public void addMateData(Class entityClass, TableMatedata mateData) {
+    public void addMateData(Class entityClass, TableMateData mateData) {
         this.mateData.put(entityClass, mateData);
     }
 
