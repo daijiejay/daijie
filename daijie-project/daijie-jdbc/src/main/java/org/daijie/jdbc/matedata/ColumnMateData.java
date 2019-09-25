@@ -35,6 +35,34 @@ public class ColumnMateData {
     private TableMateData tableMatedata;
 
     /**
+     * 表字段类型
+     */
+    private String columnType;
+
+    /**
+     * 表字段大小
+     */
+    private int columnSize;
+
+    /**
+     * 表字段长度
+     */
+    private int columnDecimalDigits;
+
+    /**
+     * 表字段是否可为空
+     */
+    private boolean nullable;
+
+    /**
+     * 构建表列元数据
+     * @param name 表字段名
+     */
+    public ColumnMateData(String name) {
+        this.name = name;
+    }
+
+    /**
      * 构建表列元数据
      * @param name 表字段名
      * @param javaType 表字段类类型
@@ -58,6 +86,22 @@ public class ColumnMateData {
         this.name = name;
         this.javaType = javaType;
         this.field = field;
+    }
+
+    /**
+     * 构建表列元数据
+     * @param name 表字段名
+     * @param columnType 表字段类型
+     * @param columnSize 表字段大小
+     * @param columnDecimalDigits 表字段长度
+     * @param nullable 表字段是否可为空
+     */
+    public ColumnMateData(String name, String columnType, int columnSize, int columnDecimalDigits, boolean nullable) {
+        this.name = name;
+        this.columnType = columnType;
+        this.columnSize = columnSize;
+        this.columnDecimalDigits = columnDecimalDigits;
+        this.nullable = nullable;
     }
 
     public String getTable() {
@@ -98,5 +142,37 @@ public class ColumnMateData {
 
     public void setTableMatedata(TableMateData tableMatedata) {
         this.tableMatedata = tableMatedata;
+    }
+
+    public String getColumnType() {
+        return columnType;
+    }
+
+    public void setColumnType(String columnType) {
+        this.columnType = columnType;
+    }
+
+    public int getColumnSize() {
+        return columnSize;
+    }
+
+    public void setColumnSize(int columnSize) {
+        this.columnSize = columnSize;
+    }
+
+    public int getColumnDecimalDigits() {
+        return columnDecimalDigits;
+    }
+
+    public void setColumnDecimalDigits(int columnDecimalDigits) {
+        this.columnDecimalDigits = columnDecimalDigits;
+    }
+
+    public boolean isNullable() {
+        return nullable;
+    }
+
+    public void setNullable(boolean nullable) {
+        this.nullable = nullable;
     }
 }

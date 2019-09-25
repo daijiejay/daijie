@@ -15,4 +15,8 @@ public interface IUserService {
     public void testSelectWrapper();
 
     public void testCostomize();
+
+    public void testCommitTransaction();
+
+    public void testCallbackTransaction();
 }

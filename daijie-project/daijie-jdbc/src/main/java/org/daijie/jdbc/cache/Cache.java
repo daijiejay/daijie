@@ -43,4 +43,11 @@ public interface Cache {
      * 回滚事务后不对对应表缓存清除
      */
     public void rollback();
+
+    /**
+     * 是否在当前事物中更新过这个表
+     * @param tableName 表名称
+     * @return 返回布尔值
+     */
+    boolean isChangeTable(String tableName);
 }

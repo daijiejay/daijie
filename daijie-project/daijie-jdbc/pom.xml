@@ -14,7 +14,6 @@
         <slf4j.version>1.7.26</slf4j.version>
         <persistence.version>1.0</persistence.version>
         <aopalliance.version>1.0</aopalliance.version>
-        <cglib.version>3.2.12</cglib.version>
         <alibaba.druid.version>1.0.29</alibaba.druid.version>
         <atomikos.version>4.0.6</atomikos.version>
         <google.guava.version>27.1-jre</google.guava.version>
@@ -23,20 +22,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>${alibaba.druid.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.atomikos</groupId>-->
-<!--            <artifactId>transactions-jdbc</artifactId>-->
-<!--            <version>${atomikos.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
@@ -64,9 +53,10 @@
             <version>${aopalliance.version}</version>
         </dependency>
         <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>${cglib.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -12,7 +12,7 @@ import java.util.List;
  * @author daijie
  * @since 2019/6/9
  */
-public class UserService /*implements IUserService*/ {
+public class JDKProxyUserService implements IUserService {
 
     private UserMapper userMapper;
 
@@ -141,8 +141,8 @@ public class UserService /*implements IUserService*/ {
             e.printStackTrace();
         }
         List<User> users = userMapper.selectAll();
-        Assert.assertNotEquals(users.get(users.size() - 1).getSalt(), "555");
-        Assert.assertNotEquals(users.get(users.size() - 1).getSalt(), "666");
+        Assert.assertEquals(users.get(users.size() - 1).getSalt(), "555");
+        Assert.assertNotEquals(users.get(users.size() - 1).getSalt(), "888");
 
         User user = new User();
         user.setUserId(users.get(users.size() - 1).getUserId());

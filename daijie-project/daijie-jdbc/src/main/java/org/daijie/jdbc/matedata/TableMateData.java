@@ -19,7 +19,7 @@ public class TableMateData {
     /**
      * 表映射对象类型
      */
-    private final Class entityClass;
+    private Class entityClass;
 
     /**
      * 表列元数据数组
@@ -42,6 +42,14 @@ public class TableMateData {
      * key值为映射对象字段名
      */
     private final Map<String, ColumnMateData> resultColumns = new HashMap();
+
+    /**
+     * 构建表元数据
+     * @param name 表名
+     */
+    public TableMateData(String name) {
+        this.name = name;
+    }
 
     /**
      * 构建表元数据

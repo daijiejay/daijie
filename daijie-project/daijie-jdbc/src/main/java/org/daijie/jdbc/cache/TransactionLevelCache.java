@@ -21,4 +21,9 @@ public class TransactionLevelCache extends AbstractCache {
     public void rollback() {
 
     }
+
+    @Override
+    public boolean isChangeTable(String tableName) {
+        return false;
+    }
 }

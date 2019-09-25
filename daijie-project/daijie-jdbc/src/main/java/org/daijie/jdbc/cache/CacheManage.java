@@ -54,6 +54,15 @@ public class CacheManage {
     }
 
     /**
+     * 是否在当前事物中更新过这个表
+     * @param tableName 表名称
+     * @return 返回布尔值
+     */
+    public static boolean isChangeTable(String tableName) {
+        return CacheManage.cache.isChangeTable(tableName);
+    }
+
+    /**
      * 缓存变更提交
      */
     public static void commit() {

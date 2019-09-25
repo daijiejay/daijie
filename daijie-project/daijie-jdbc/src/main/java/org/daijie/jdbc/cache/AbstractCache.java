@@ -30,6 +30,9 @@ public abstract class AbstractCache implements Cache {
             info = new CacheInfo();
             this.tableData.put(tableName, info);
         } else {
+            if (isChangeTable(tableName)) {
+                return null;
+            }
             info = this.tableData.get(tableName);
         }
         return info.getResultData(sql);

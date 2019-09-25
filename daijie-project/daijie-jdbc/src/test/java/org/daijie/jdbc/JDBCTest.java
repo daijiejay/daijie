@@ -18,8 +18,6 @@ import java.util.Map;
  * @since 2019/5/30
  */
 public class JDBCTest {
-
-    private DataSource dataSource;
     private UserMapper userMapper;
     private UserService userService;
 
@@ -27,12 +25,14 @@ public class JDBCTest {
     public void init() throws ReflectiveOperationException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("driverClassName", "com.mysql.jdbc.Driver");
-        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8");
+//        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8");
+//        properties.put("username", "root");
+//        properties.put("password", "123456");
+        properties.put("url", "jdbc:mysql://10.13.10.104:3306/test11?useUnicode=true&characterEncoding=UTF8");
         properties.put("username", "root");
-        properties.put("password", "123456");
+        properties.put("password", "Shiji@2018");
         DataSource druidDataSource = DataSourceUtil.getDataSource(DruidDataSource.class, properties);
-        this.dataSource = new SimpleDataSource(druidDataSource);
-        DataSourceManage.setDataSource(this.dataSource);
+        DataSourceManage.setDataSource(new SimpleDataSource(druidDataSource));
         this.userMapper = SessionMapperManage.createSessionMapper(UserMapper.class);
     }
 
@@ -54,18 +54,14 @@ public class JDBCTest {
     }
 
     /**
-     * 测试有事务的增删改查
+     * 测试CGLib代理有事务的增删改查
      */
     @Test
-    public void testSRUDTransaction() {
+    public void testCGLibProxySRUDTransaction() {
         this.userService = TransactionManage.registerTransactionManageTarget(UserService.class);
         this.userService.setUserMapper(userMapper);
-        this.userService.testInsert();
-        this.userService.testSelect();
-        this.userService.testUpdate();
-        this.userService.testDelete();
-        this.userService.testSelectWrapper();
-        this.userService.testDeleteWrapper();
+        this.userService.testCommitTransaction();
+        this.userService.testCallbackTransaction();
     }
 
     /**
@@ -73,13 +69,9 @@ public class JDBCTest {
      */
     @Test
     public void testJDKProxySRUDTransaction() {
-        IUserService iUserService = TransactionManage.registerTransactionManageTarget(UserService.class);
+        IUserService iUserService = TransactionManage.registerTransactionManageTarget(JDKProxyUserService.class);
         iUserService.setUserMapper(userMapper);
-        iUserService.testInsert();
-        iUserService.testSelect();
-        iUserService.testUpdate();
-        iUserService.testDelete();
-        iUserService.testSelectWrapper();
-        this.userService.testDeleteWrapper();
+        iUserService.testCommitTransaction();
+        iUserService.testCallbackTransaction();
     }
 }

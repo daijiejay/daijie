@@ -65,6 +65,7 @@ public class SqlExecutor implements Executor {
      * @param args mapper方法参数
      */
     public SqlExecutor(Class entityClass, Method method, Object[] args) {
+        log.debug("执行mapper方法：{}", method);
         this.transation = TransactionManage.createTransaction();
         MultiWrapper multiWrapper = this.getMultiWrapper(args);
         Class returnClass = method.getReturnType();
@@ -106,6 +107,7 @@ public class SqlExecutor implements Executor {
             if (Type.UPDATE == this.sqlAnalyzer.getScriptType()) {
                 rollback();
             }
+            throw e;
         } finally {
             closed();
         }
@@ -123,14 +125,19 @@ public class SqlExecutor implements Executor {
                 return this.result;
             }
         }
-        Object resultData = this.result.mappingObjectResult(executeQuery(this.sqlAnalyzer.getSql()), this.tableMatedata);
-        CacheManage.set(this.tableMatedata.getName(), this.sqlAnalyzer.getSql(), resultData);
+        ResultSet resultSet = executeQuery(this.sqlAnalyzer.getSql());
+        Object resultData = this.result.mappingObjectResult(resultSet, this.tableMatedata);
+        if (!CacheManage.isChangeTable(this.tableMatedata.getName())) {
+            CacheManage.set(this.tableMatedata.getName(), this.sqlAnalyzer.getSql(), resultData);
+        }
+        log.info("查询条数为：{}", resultSet.getRow());
         return resultData;
     }
 
     @Override
     public Object executeUpdate() throws SQLException{
         int count = executeUpdate(this.sqlAnalyzer.getSql());
+        log.info("变更条数为：{}", count);
         if (count > 0) {
             CacheManage.remove(this.tableMatedata.getName());
         }
@@ -140,7 +147,7 @@ public class SqlExecutor implements Executor {
     private ResultSet executeQuery(String sql) throws SQLException {
         this.statement = getConnection().prepareStatement(sql);
         createParams();
-        log.debug(this.statement.toString());
+        log.info(this.statement.toString());
         return this.statement.executeQuery();
     }
 

@@ -2,6 +2,7 @@ package org.daijie.jdbc.cache;
 
 import com.google.common.collect.Sets;
 
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -43,5 +44,16 @@ public class SessionLevelCache extends AbstractCache {
      */
     private void clear() {
         this.changedTable.get().clear();
+    }
+
+    @Override
+    public boolean isChangeTable(String tableName) {
+        Iterator<String> iterator = this.changedTable.get().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().equals(tableName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

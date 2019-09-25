@@ -74,7 +74,7 @@ public class DataSourceTransaction implements Transaction {
 
     @Override
     public void commit() throws SQLException {
-        if (this.connection != null && !this.isAutoCommit()) {
+        if (!isClosed() && !this.isAutoCommit()) {
             if (log.isDebugEnabled()) {
                 log.debug("Committing JDBC Connection [" + this.connection + "]");
             }
@@ -84,7 +84,7 @@ public class DataSourceTransaction implements Transaction {
 
     @Override
     public void rollback() throws SQLException {
-        if (this.connection != null && !this.isAutoCommit()) {
+        if (!isClosed() && !this.isAutoCommit()) {
             if (log.isDebugEnabled()) {
                 log.debug("Rolling back JDBC Connection [" + this.connection + "]");
             }
@@ -94,7 +94,7 @@ public class DataSourceTransaction implements Transaction {
 
     @Override
     public void close() throws SQLException {
-        if (this.connection != null) {
+        if (!isClosed()) {
             if (!this.connection.getAutoCommit()) {
                 this.connection.setAutoCommit(true);
             }
@@ -108,6 +108,15 @@ public class DataSourceTransaction implements Transaction {
     @Override
     public Integer getTimeout() throws SQLException {
         return null;
+    }
+
+    /**
+     * 连接是否已关闭
+     * @return 返回布尔值
+     * @throws SQLException SQL异常
+     */
+    private boolean isClosed() throws SQLException {
+        return this.connection == null || this.connection.isClosed();
     }
 
     public boolean isAutoCommit() {

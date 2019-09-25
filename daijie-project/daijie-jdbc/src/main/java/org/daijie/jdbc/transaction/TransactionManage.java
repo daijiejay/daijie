@@ -1,6 +1,8 @@
 package org.daijie.jdbc.transaction;
 
 import org.daijie.jdbc.datasource.DataSourceManage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 事务管理
@@ -8,6 +10,8 @@ import org.daijie.jdbc.datasource.DataSourceManage;
  * @since 2019/6/3
  */
 public class TransactionManage {
+
+    private static final Logger log = LoggerFactory.getLogger(TransactionManage.class);
 
     /**
      * 当前持有事务信息
@@ -22,8 +26,10 @@ public class TransactionManage {
     public static Transaction createTransaction() {
         if (isTransaction()) {
             if (TransactionManage.holder.get().isExistsTransaction()) {
+                log.info("获取事务：此次数据源连接已列入当前事务连接池中，直接获取连接");
                 return TransactionManage.holder.get().getTransaction();
             }
+            log.info("获取事务：列入一个新的数据源连接到当前事务连接池中，并获取连接");
             return TransactionManage.holder.get().setTransaction(getTransaction());
         }
         return getTransaction();
