@@ -2,9 +2,7 @@ package org.daijie.jdbc.generator.executor;
 
 import com.google.common.collect.Lists;
 import org.daijie.jdbc.generator.code.CodeGeneratorUtil;
-import org.daijie.jdbc.generator.config.AbstractJavaFileConfiguration;
-import org.daijie.jdbc.generator.config.DatasourceConfiguration;
-import org.daijie.jdbc.generator.config.GeneratorConfiguration;
+import org.daijie.jdbc.generator.config.*;
 import org.daijie.jdbc.generator.file.BaseFileCreator;
 import org.daijie.jdbc.generator.file.FileCreator;
 import org.daijie.jdbc.matedata.TableMateData;
@@ -13,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * 文件生成器
@@ -34,22 +33,35 @@ public class FileGenerator implements Generator {
     @Override
     public Object execute() {
         List<DatasourceConfiguration> datasourceConfigurations = this.configuration.getDatasourceConfigurations();
-        Collection<AbstractJavaFileConfiguration> fileConfigurations = this.configuration.getFileConfigurations();
+        Collection<FileConfiguration> fileConfigurations = this.configuration.getFileConfigurations();
         List<TableMateData> tableMateDatas = Lists.newArrayList();
         for (DatasourceConfiguration datasourceConfiguration : datasourceConfigurations) {
-            String url = datasourceConfiguration.getUrl() + "&user=" + datasourceConfiguration.getUser() + "&password=" + datasourceConfiguration.getPassword();
-            tableMateDatas.addAll(ConnectionManage.getMatedata(url, datasourceConfiguration.getDriverClassName()));
+            Properties properties = new Properties();
+            properties.setProperty("user", datasourceConfiguration.getUser());
+            properties.setProperty("password", datasourceConfiguration.getPassword());
+            properties.setProperty("remarks", "true");
+            properties.setProperty("useInformationSchema", "true");
+            tableMateDatas.addAll(ConnectionManage.getMatedata(datasourceConfiguration.getUrl(), datasourceConfiguration.getDriverClassName(), properties));
         }
-        for (AbstractJavaFileConfiguration fileConfiguration : fileConfigurations) {
-            String path = System.getProperty("user.dir") + "/" + fileConfiguration.getTargetProject() + "/" +  CodeGeneratorUtil.pathSpotToSlash(fileConfiguration.getTargetPackage());
-            for (TableMateData tableMateData : tableMateDatas) {
-                fileConfiguration.setTableMateData(tableMateData);
-                fileConfiguration.execute();
-                String fileName = fileConfiguration.getFileName() + fileConfiguration.getSuffix();
-                String code = fileConfiguration.getCode();
-                log.debug("{}表生成文件：{}/{}", tableMateData.getName(), path, fileName);
-                log.debug("{}表生成文件内容：{}", tableMateData.getName(), code);
-                this.fileCreator.createFile(path, code, fileName);
+        for (FileConfiguration fileConfiguration : fileConfigurations) {
+            if (fileConfiguration instanceof AbstractJavaFileConfiguration) {
+                AbstractJavaFileConfiguration javaFileConfiguration = (AbstractJavaFileConfiguration) fileConfiguration;
+                String path = System.getProperty("user.dir") + "/" + javaFileConfiguration.getTargetProject() + "/" +  CodeGeneratorUtil.pathSpotToSlash(javaFileConfiguration.getTargetPackage());
+                for (TableMateData tableMateData : tableMateDatas) {
+                    javaFileConfiguration.setTableMateData(tableMateData);
+                    javaFileConfiguration.execute();
+                    String fileName = javaFileConfiguration.getFileName() + javaFileConfiguration.getSuffix();
+                    String code = javaFileConfiguration.getCode();
+                    log.debug("{}表生成文件：{}/{}", tableMateData.getName(), path, fileName);
+                    log.debug("{}表生成文件内容：{}", tableMateData.getName(), code);
+                    this.fileCreator.createFile(path, code, fileName);
+                }
+            } else if (fileConfiguration instanceof AbstractHtmlFileConfiguration) {
+                AbstractHtmlFileConfiguration htmlFileConfiguration = (AbstractHtmlFileConfiguration) fileConfiguration;
+                htmlFileConfiguration.setTableMateDatas(tableMateDatas);
+                htmlFileConfiguration.execute();
+                String code = htmlFileConfiguration.getCode();
+                this.fileCreator.createFile(htmlFileConfiguration.getPath(), code, htmlFileConfiguration.getFileName() + htmlFileConfiguration.getSuffix());
             }
         }
         return null;

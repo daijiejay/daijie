@@ -17,6 +17,11 @@ public class TableMateData {
     private final String name;
 
     /**
+     * 表注释
+     */
+    private final String remarks;
+
+    /**
      * 表映射对象类型
      */
     private Class entityClass;
@@ -47,8 +52,9 @@ public class TableMateData {
      * 构建表元数据
      * @param name 表名
      */
-    public TableMateData(String name) {
+    public TableMateData(String name, String remarks) {
         this.name = name;
+        this.remarks = remarks;
     }
 
     /**
@@ -56,13 +62,18 @@ public class TableMateData {
      * @param name 表名
      * @param entityClass 表映射对象类型
      */
-    public TableMateData(String name, Class entityClass) {
+    public TableMateData(String name, String remarks, Class entityClass) {
         this.name = name;
+        this.remarks = remarks;
         this.entityClass = entityClass;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public String getRemarks() {
+        return remarks;
     }
 
     public void addColumn(ColumnMateData col) {

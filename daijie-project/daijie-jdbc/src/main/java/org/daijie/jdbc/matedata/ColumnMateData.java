@@ -20,6 +20,11 @@ public class ColumnMateData {
     private String name;
 
     /**
+     * 表字段注释
+     */
+    private String remarks;
+
+    /**
      * 表字段类类型
      */
     private Class<?> javaType;
@@ -91,13 +96,15 @@ public class ColumnMateData {
     /**
      * 构建表列元数据
      * @param name 表字段名
+     * @param remarks 表字段注释
      * @param columnType 表字段类型
      * @param columnSize 表字段大小
      * @param columnDecimalDigits 表字段长度
      * @param nullable 表字段是否可为空
      */
-    public ColumnMateData(String name, String columnType, int columnSize, int columnDecimalDigits, boolean nullable) {
+    public ColumnMateData(String name, String remarks, String columnType, int columnSize, int columnDecimalDigits, boolean nullable) {
         this.name = name;
+        this.remarks = remarks;
         this.columnType = columnType;
         this.columnSize = columnSize;
         this.columnDecimalDigits = columnDecimalDigits;
@@ -118,6 +125,14 @@ public class ColumnMateData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public Class<?> getJavaType() {

@@ -6,6 +6,7 @@ import org.daijie.jdbc.matedata.TableMateData;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author daijie
@@ -56,19 +57,20 @@ public class ConnectionManage {
      * @param driverName 驱动类名
      * @return 返回查询结果集
      */
-    public static List<TableMateData> getMatedata(String url, String driverName) {
+    public static List<TableMateData> getMatedata(String url, String driverName, Properties properties) {
         List<TableMateData> list = Lists.newArrayList();
         Connection conn = null;
         try {
             Class.forName(driverName);
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url, properties);
             conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             DatabaseMetaData metaData = conn.getMetaData();
             ResultSet resultSet = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
             while (resultSet.next()) {
                 String tableName = resultSet.getString("TABLE_NAME");
+                String remarks = resultSet.getString("REMARKS");
                 ResultSet keySet = metaData.getPrimaryKeys(null, "%", tableName);
-                TableMateData tableMateData = new TableMateData(tableName);
+                TableMateData tableMateData = new TableMateData(tableName, remarks);
                 String key = null;
                 if (keySet.next()) {
                     key = keySet.getString(4);
@@ -112,6 +114,7 @@ public class ConnectionManage {
         int columnSize = columnSet.getInt("COLUMN_SIZE");
         int decimalDigits = columnSet.getInt("DECIMAL_DIGITS");
         boolean nullable = columnSet.getBoolean("NULLABLE");
-        return new ColumnMateData(columnName, columnType, columnSize, decimalDigits, nullable);
+        String remarks = columnSet.getString("REMARKS");
+        return new ColumnMateData(columnName, remarks, columnType, columnSize, decimalDigits, nullable);
     }
 }

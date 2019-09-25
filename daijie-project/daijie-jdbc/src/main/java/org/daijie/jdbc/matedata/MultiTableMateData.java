@@ -26,7 +26,7 @@ public class MultiTableMateData extends TableMateData {
      * @param entityClass 多表关联查询返回映射对象
      */
     public MultiTableMateData(Class entityClass) {
-        super(entityClass.getName(), entityClass);
+        super(entityClass.getName(), "", entityClass);
         this.setReturnClass(entityClass);
     }
 

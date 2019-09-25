@@ -78,7 +78,7 @@ public class TableMateDataManage {
             Table table = (Table) entityClass.getAnnotation(Table.class);
             tableName = table.name();
         }
-        TableMateData tableMatedata = new TableMateData(tableName, entityClass);
+        TableMateData tableMatedata = new TableMateData(tableName, "", entityClass);
         Field[] fields = entityClass.getDeclaredFields();
         for (Field field : fields) {
             Column column = field.getAnnotation(Column.class);

@@ -1,7 +1,4 @@
-import org.daijie.jdbc.generator.config.FileConfigurationManager;
-import org.daijie.jdbc.generator.config.GeneratorConfiguration;
-import org.daijie.jdbc.generator.config.MapperFileConfiguration;
-import org.daijie.jdbc.generator.config.ModelFileConfiguration;
+import org.daijie.jdbc.generator.config.*;
 import org.daijie.jdbc.generator.executor.FileGenerator;
 import org.daijie.jdbc.generator.executor.Generator;
 import org.junit.Before;
@@ -33,6 +30,9 @@ public class FileGeneratorTest {
         MapperFileConfiguration mapperFileConfiguration = FileConfigurationManager.newInstance(MapperFileConfiguration.class, "org.daijie.mapper", "src/test/java");
         mapperFileConfiguration.addInterfacePackages("org.daijie.jdbc.session.SessionMapper");
         generatorConfiguration.addFileConfiguration(mapperFileConfiguration);
+
+        AbstractHtmlFileConfiguration htmlFileConfiguration = FileConfigurationManager.newInstance(AbstractHtmlFileConfiguration.class, "C:\\Users\\shiji\\Desktop", "数据结构");
+        generatorConfiguration.addFileConfiguration(htmlFileConfiguration);
         this.generator = new FileGenerator(generatorConfiguration);
     }
 

@@ -16,7 +16,7 @@ public class GeneratorConfiguration {
 
     private List<DatasourceConfiguration> datasourceConfigurations;
 
-    private Map<Class, AbstractJavaFileConfiguration> fileConfigurations;
+    private Map<Class, FileConfiguration> fileConfigurations;
 
     public GeneratorConfiguration() {
         this.datasourceConfigurations = Lists.newArrayList();
@@ -39,11 +39,11 @@ public class GeneratorConfiguration {
         return datasourceConfigurations;
     }
 
-    public void addFileConfiguration(AbstractJavaFileConfiguration configuration) {
+    public void addFileConfiguration(FileConfiguration configuration) {
         this.fileConfigurations.put(configuration.getClass(), configuration);
     }
 
-    public Collection<AbstractJavaFileConfiguration> getFileConfigurations() {
+    public Collection<FileConfiguration> getFileConfigurations() {
         return fileConfigurations.values();
     }
 }
