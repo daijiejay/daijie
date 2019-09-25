@@ -25,12 +25,9 @@ public class JDBCTest {
     public void init() throws ReflectiveOperationException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("driverClassName", "com.mysql.jdbc.Driver");
-//        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8");
-//        properties.put("username", "root");
-//        properties.put("password", "123456");
-        properties.put("url", "jdbc:mysql://10.13.10.104:3306/test11?useUnicode=true&characterEncoding=UTF8");
+        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8");
         properties.put("username", "root");
-        properties.put("password", "Shiji@2018");
+        properties.put("password", "123456");
         DataSource druidDataSource = DataSourceUtil.getDataSource(DruidDataSource.class, properties);
         DataSourceManage.setDataSource(new SimpleDataSource(druidDataSource));
         this.userMapper = SessionMapperManage.createSessionMapper(UserMapper.class);
