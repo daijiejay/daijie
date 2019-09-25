@@ -54,6 +54,12 @@ public abstract class MapperFileConfiguration extends AbstractJavaFileConfigurat
         this.importPackages.add(className);
     }
 
+    public void addInterfacePackages(Set<String> interfacePackages) {
+        for (String interfacePackage : interfacePackages) {
+            addInterfacePackages(interfacePackage);
+        }
+    }
+
     public Set<String> getInterfacePackages() {
         return interfacePackages;
     }

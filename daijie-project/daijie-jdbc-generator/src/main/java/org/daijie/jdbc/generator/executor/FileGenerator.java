@@ -41,7 +41,7 @@ public class FileGenerator implements Generator {
             properties.setProperty("password", datasourceConfiguration.getPassword());
             properties.setProperty("remarks", "true");
             properties.setProperty("useInformationSchema", "true");
-            tableMateDatas.addAll(ConnectionManage.getMatedata(datasourceConfiguration.getUrl(), datasourceConfiguration.getDriverClassName(), properties));
+            tableMateDatas.addAll(ConnectionClientManage.getMatedata(datasourceConfiguration.getUrl(), datasourceConfiguration.getDriverClassName(), properties));
         }
         for (FileConfiguration fileConfiguration : fileConfigurations) {
             if (fileConfiguration instanceof AbstractJavaFileConfiguration) {

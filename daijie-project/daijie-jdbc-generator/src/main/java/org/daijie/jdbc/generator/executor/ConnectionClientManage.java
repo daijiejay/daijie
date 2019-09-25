@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Properties;
 
 /**
+ * 数据库连接客户端
  * @author daijie
  * @since 2019/9/16
  */
-public class ConnectionManage {
+public class ConnectionClientManage {
 
     /**
      * 执行查询语句

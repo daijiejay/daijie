@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author jerry.dai
- * @version SDP_V2.00.00
- * @date 2019/9/17
+ * 文件生成器测试
+ * @author daijie
+ * @since 2019/9/16
  */
 public class FileGeneratorTest {
 
