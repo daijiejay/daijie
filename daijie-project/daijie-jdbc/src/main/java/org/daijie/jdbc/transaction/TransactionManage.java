@@ -26,10 +26,10 @@ public class TransactionManage {
     public static Transaction createTransaction() {
         if (isTransaction()) {
             if (TransactionManage.holder.get().isExistsTransaction()) {
-                log.info("获取事务：此次数据源连接已列入当前事务连接池中，直接获取连接");
+                log.debug("获取事务：此次数据源连接已列入当前事务连接池中，直接获取连接");
                 return TransactionManage.holder.get().getTransaction();
             }
-            log.info("获取事务：列入一个新的数据源连接到当前事务连接池中，并获取连接");
+            log.debug("获取事务：列入一个新的数据源连接到当前事务连接池中，并获取连接");
             return TransactionManage.holder.get().setTransaction(getTransaction());
         }
         return getTransaction();

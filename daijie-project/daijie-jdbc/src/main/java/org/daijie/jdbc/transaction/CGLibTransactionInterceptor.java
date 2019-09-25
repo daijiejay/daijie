@@ -25,40 +25,31 @@ public class CGLibTransactionInterceptor implements MethodInterceptor, Transacti
     /**
      * 实例代理对象
      * @param target 代理对象Class
-     * @param args 构造参数
      * @param <T> 代理对象
      * @return 返回代理对象实例
      */
-    public <T> T newProxyInstance(Class<T> target, Object... args) {
+    public <T> T newProxyInstance(Class<T> target) {
         Enhancer enhancer  = new Enhancer();
         enhancer.setSuperclass(target);
-        if (args.length > 0) {
-            Class[] argTypes = new Class[args.length];
-            int i = 0;
-            for (Object object : args) {
-                argTypes[i++] = object.getClass();
-            }
-            enhancer.create(argTypes, args);
-        }
         enhancer.setCallback(this);
         return (T) enhancer.create();
     }
 
     @Override
     public Object intercept(Object object, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        log.info("{}方法开启事务", method);
+        log.debug("{}方法开启事务", method);
         TransactionInfo transactionInfo = TransactionManage.createTransactionInfo();
         Object result = null;
         try {
             result = methodProxy.invokeSuper(object, args);
             doCommitTransactionAfterReturning(transactionInfo);
             if (TransactionManage.isTransaction()) {
-                log.info("{}方法事务结束，提交事务", method);
+                log.debug("{}方法事务结束，提交事务", method);
             }
         }catch (Throwable e) {
             doRollbackTransactionAfterThrowing(transactionInfo, e);
             if (TransactionManage.isTransaction()) {
-                log.info("{}方法事务异常，回滚事务", method);
+                log.debug("{}方法事务异常，回滚事务", method);
                 log.error("事务异常", e);
             }
             throw e;
@@ -66,7 +57,7 @@ public class CGLibTransactionInterceptor implements MethodInterceptor, Transacti
             transactionInfo.setSuccessStatus(StatusType.COMMIT);
             doFinally(transactionInfo);
             TransactionManage.removeTransactionInfo();
-            log.info("{}方法事务结束，关闭连接", method);
+            log.debug("{}方法事务结束，关闭连接", method);
         }
         return result;
     }

@@ -20,20 +20,20 @@ public class JDKTransactionInterceptor implements MethodInterceptor, Transaction
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        log.info("{}方法开启事务", methodInvocation.getMethod());
+        log.debug("{}方法开启事务", methodInvocation.getMethod());
         TransactionInfo transactionInfo = TransactionManage.createTransactionInfo();
         Object result = null;
         try {
             result = methodInvocation.proceed();
-            log.info("{}方法事务结束，提交事务", methodInvocation.getMethod());
+            log.debug("{}方法事务结束，提交事务", methodInvocation.getMethod());
             doCommitTransactionAfterReturning(transactionInfo);
         }catch (Throwable e) {
-            log.info("{}方法事务异常，回滚事务", methodInvocation.getMethod());
+            log.debug("{}方法事务异常，回滚事务", methodInvocation.getMethod());
             log.error("执行事务异常", e);
             doRollbackTransactionAfterThrowing(transactionInfo, e);
             throw e;
         } finally {
-            log.info("{}方法事务结束，关闭连接", methodInvocation.getMethod());
+            log.debug("{}方法事务结束，关闭连接", methodInvocation.getMethod());
             transactionInfo.setSuccessStatus(StatusType.COMMIT);
             doFinally(transactionInfo);
             TransactionManage.removeTransactionInfo();

@@ -127,17 +127,18 @@ public class SqlExecutor implements Executor {
         }
         ResultSet resultSet = executeQuery(this.sqlAnalyzer.getSql());
         Object resultData = this.result.mappingObjectResult(resultSet, this.tableMatedata);
+        resultSet.last();
+        log.debug("查询条数为：{}", resultSet.getRow());
         if (!CacheManage.isChangeTable(this.tableMatedata.getName())) {
             CacheManage.set(this.tableMatedata.getName(), this.sqlAnalyzer.getSql(), resultData);
         }
-        log.info("查询条数为：{}", resultSet.getRow());
         return resultData;
     }
 
     @Override
     public Object executeUpdate() throws SQLException{
         int count = executeUpdate(this.sqlAnalyzer.getSql());
-        log.info("变更条数为：{}", count);
+        log.debug("变更条数为：{}", count);
         if (count > 0) {
             CacheManage.remove(this.tableMatedata.getName());
         }
@@ -147,7 +148,7 @@ public class SqlExecutor implements Executor {
     private ResultSet executeQuery(String sql) throws SQLException {
         this.statement = getConnection().prepareStatement(sql);
         createParams();
-        log.info(this.statement.toString());
+        log.debug(this.statement.toString());
         return this.statement.executeQuery();
     }
 
