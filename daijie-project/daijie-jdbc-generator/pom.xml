@@ -11,5 +11,11 @@
 
     <artifactId>daijie-jdbc-generator</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.daijie</groupId>
+            <artifactId>daijie-jdbc</artifactId>
+            <version>${daijie.version}</version>
+        </dependency>
+    </dependencies>
 </project>
