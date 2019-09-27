@@ -25,7 +25,7 @@ public class CacheManage {
      * 缓存查询结果
      * @param tableName 缓存对应的表名
      * @param sql sql语句
-     * @resultData key 缓存数据
+     * @param resultData 缓存数据
      */
     public static void set(String tableName, String sql, Object resultData) {
         CacheManage.cache.set(tableName, sql, resultData);

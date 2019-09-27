@@ -51,6 +51,7 @@ public class TableMateData {
     /**
      * 构建表元数据
      * @param name 表名
+     * @param remarks 表注释
      */
     public TableMateData(String name, String remarks) {
         this.name = name;
@@ -60,6 +61,7 @@ public class TableMateData {
     /**
      * 构建表元数据
      * @param name 表名
+     * @param remarks 表注释
      * @param entityClass 表映射对象类型
      */
     public TableMateData(String name, String remarks, Class entityClass) {

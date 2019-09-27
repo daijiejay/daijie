@@ -464,8 +464,9 @@ public class SqlSpelling {
     }
 
     /**
-     * 通过字符串拼接“,”获取字符串次数
+     * 通过字符串拼接“,”获取字符串次数，如?,?,?
      * @param str 要拼接的字符串
+     * @param number 要拼接的数量
      * @return String 拼接完成后的字符串
      */
     public String numberToDelimitedString(@Nullable String str, int number) {

@@ -192,7 +192,7 @@ public class MultiWrapper {
          * @param entityClass 表对应的映射对象
          * @param whereWrapper 表对应的条件包装
          * @param multiWrapper 多表关联查询包装类，用于把装包装类传递到下个类方法中设置更多的条件
-         * @return
+         * @return 返回多表连接的条件信息
          */
         protected JoinCondition andJoin(Class<?> entityClass, Wrapper whereWrapper, MultiWrapper multiWrapper) {
             if (whereWrapper == null) {

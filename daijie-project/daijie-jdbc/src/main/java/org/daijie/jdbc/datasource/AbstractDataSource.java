@@ -50,7 +50,7 @@ public abstract class AbstractDataSource implements DataSource {
 
     /**
      * 初始化数据源
-     * @param targetDataSources
+     * @param targetDataSources 设置数据源
      */
     public void setTargetDataSources(Map<Object, DataSource> targetDataSources) {
         this.targetDataSources = targetDataSources;

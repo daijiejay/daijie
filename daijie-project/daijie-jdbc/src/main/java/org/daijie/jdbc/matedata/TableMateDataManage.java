@@ -30,6 +30,7 @@ public class TableMateDataManage {
 
     /**
      * 判断对象是否基本类
+     * @param objectClass 具体对象
      * @return 布尔值
      */
     public static boolean isBaseClass(Class objectClass) {
@@ -159,11 +160,12 @@ public class TableMateDataManage {
     /**
      * 表元数据初始化
      * @param returnEntityClass 表映射对象类型
+     * @param multiWrapper 多表条件包装
      * @return TableMatedata 表元数据
      */
-    public static MultiTableMateData initTable(Class returnEntityClass, MultiWrapper agileWrapper) {
+    public static MultiTableMateData initTable(Class returnEntityClass, MultiWrapper multiWrapper) {
         MultiTableMateData agileTableMateData = TableMateDataManage.initMultiTable(returnEntityClass);
-        Set<Class> entityClasses = agileWrapper.getEntityClasses();
+        Set<Class> entityClasses = multiWrapper.getEntityClasses();
         for (Class entityClass : entityClasses) {
             TableMateData matedata = TableMateDataManage.initTable(entityClass);
             agileTableMateData.addMateData(matedata.getEntityClass(), matedata);

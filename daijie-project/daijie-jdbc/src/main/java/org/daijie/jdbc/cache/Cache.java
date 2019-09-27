@@ -11,7 +11,7 @@ public interface Cache {
      * 缓存查询结果
      * @param tableName 缓存对应的表名
      * @param sql sql语句
-     * @resultData key 缓存数据
+     * @param resultData 缓存数据
      */
     void set(String tableName, String sql, Object resultData);
 
@@ -25,6 +25,7 @@ public interface Cache {
 
     /**
      * 删除缓存数据
+     * @param tableName 缓存对应的表名
      */
     void remove(String tableName);
 

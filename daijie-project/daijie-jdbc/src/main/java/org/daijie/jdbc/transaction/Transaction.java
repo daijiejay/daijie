@@ -37,6 +37,7 @@ public interface Transaction {
 
     /**
      * 连接超时时间
+     * @return 返回连接超时时间
      * @throws SQLException SQL异常
      */
     Integer getTimeout() throws SQLException;

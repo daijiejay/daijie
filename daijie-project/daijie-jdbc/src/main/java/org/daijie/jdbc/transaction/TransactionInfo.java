@@ -48,6 +48,7 @@ public class TransactionInfo<T> {
     /**
      * 当前线程添加事务
      * @param transaction 具体事务实现
+     * @return 设置事物并返回
      */
     public Transaction setTransaction(Transaction transaction) {
         this.pool.put(DataSourceManage.getDataSourceName(), transaction);

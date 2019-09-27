@@ -26,7 +26,8 @@ public interface TransactionInterceptor {
     /**
      * 回滚事务
      * @param transactionInfo 当前事务信息
+     * @param throwable 异常栈信息
      * @throws SQLException SQL异常
      */
-    void doRollbackTransactionAfterThrowing(TransactionInfo transactionInfo, Throwable e) throws SQLException;
+    void doRollbackTransactionAfterThrowing(TransactionInfo transactionInfo, Throwable throwable) throws SQLException;
 }

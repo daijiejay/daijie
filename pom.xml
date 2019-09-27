@@ -24,6 +24,7 @@
         <daijie.version>2.0.0</daijie.version>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
+        <argLine>-Dfile.encoding=UTF-8</argLine>
         <destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${project.version}</destDir>
     </properties>
     <dependencies>
@@ -94,6 +95,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skipTests>${skipTests}</skipTests>
+                    <forkMode>once</forkMode>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
         </plugins>

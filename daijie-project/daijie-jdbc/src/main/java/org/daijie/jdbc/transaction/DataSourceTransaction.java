@@ -47,7 +47,7 @@ public class DataSourceTransaction implements Transaction {
      * 获取数据库连接
      * @param autoCommit 是否自动提交
      * @return 返回数据库连接
-     * @throws SQLException
+     * @throws SQLException sql异常
      */
     public Connection getConnection(boolean autoCommit) throws SQLException {
         return this.getConnection(autoCommit, TransactionIsolationLevel.NONE);
@@ -58,7 +58,7 @@ public class DataSourceTransaction implements Transaction {
      * @param autoCommit 是否自动提交
      * @param level 事务隔离级别
      * @return 返回数据库连接
-     * @throws SQLException
+     * @throws SQLException sql异常
      */
     public Connection getConnection(boolean autoCommit, TransactionIsolationLevel level) throws SQLException {
         if (this.connection == null || this.connection.isClosed()) {

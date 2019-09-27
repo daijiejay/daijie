@@ -24,7 +24,7 @@ public class ClassInfoUtil {
      * @param clazz 指定类
      * @param index 第几个
      * @return Class
-     * @throws IndexOutOfBoundsException
+     * @throws IndexOutOfBoundsException 获取泛型类异常
      */
     public static Class getSuperClassGenricType(Class clazz, int index)
             throws IndexOutOfBoundsException {
@@ -50,7 +50,7 @@ public class ClassInfoUtil {
      * @param type 指定类的类型
      * @param index 第几个
      * @return Class
-     * @throws IndexOutOfBoundsException
+     * @throws IndexOutOfBoundsException 获取泛型类异常
      */
     public static Class getSuperClassGenricType(Type type, int index)
             throws IndexOutOfBoundsException {
