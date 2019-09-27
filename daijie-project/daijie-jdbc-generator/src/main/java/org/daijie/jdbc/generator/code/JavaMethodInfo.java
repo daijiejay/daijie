@@ -53,6 +53,11 @@ public class JavaMethodInfo {
      */
     private List<JavaAnnotationInfo> javaAnnotationInfos = Lists.newArrayList();
 
+    /**
+     * 方法注释
+     */
+    private JavaNoteInfo javaNoteInfo;
+
     public JavaMethodInfo(String name, String returnType, Map<String, String> agrs, boolean isStatic, String visibleDecorate, String content) {
         this.name = name;
         this.returnType = returnType;
@@ -72,13 +77,14 @@ public class JavaMethodInfo {
         this.javaAnnotationInfos = javaAnnotationInfos;
     }
 
-    public JavaMethodInfo(String name, String returnType, Map<String, String> agrs, boolean isStatic, String visibleDecorate, boolean isModelSetterOrGetter) {
+    public JavaMethodInfo(String name, String returnType, Map<String, String> agrs, boolean isStatic, String visibleDecorate, boolean isModelSetterOrGetter, JavaNoteInfo javaNoteInfo) {
         this.name = name;
         this.returnType = returnType;
         this.agrs = agrs;
         this.isStatic = isStatic;
         this.visibleDecorate = visibleDecorate;
         this.isModelSetterOrGetter = isModelSetterOrGetter;
+        this.javaNoteInfo = javaNoteInfo;
     }
 
     public String getName() {
@@ -115,5 +121,9 @@ public class JavaMethodInfo {
 
     public List<JavaAnnotationInfo> getJavaAnnotationInfos() {
         return javaAnnotationInfos;
+    }
+
+    public JavaNoteInfo getJavaNoteInfo() {
+        return javaNoteInfo;
     }
 }

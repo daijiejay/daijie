@@ -2,6 +2,8 @@ package org.daijie.jdbc.generator.code;
 
 import org.apache.commons.lang3.StringUtils;
 import org.daijie.jdbc.scripting.SqlSpelling;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -11,6 +13,8 @@ import java.util.List;
  * @since 2019/9/16
  */
 public class JavaClassGenerator extends CodeGenerator {
+
+    private static final Logger log = LoggerFactory.getLogger(JavaClassGenerator.class);
 
     /**
      * 是否内部类
@@ -33,11 +37,14 @@ public class JavaClassGenerator extends CodeGenerator {
 
     @Override
     public List<String> generate() {
+        System.out.println("开始生成"+this.javaClassInfo.getClassName()+"类");
+        log.info("开始生成{}类", this.javaClassInfo.getClassName());
         CodeString codeString = new CodeString();
         if (!this.isInnerClass) {
             generateHeader(codeString);
             codeString.andCodeLine("\n");
         }
+        generateNote(codeString, this.javaClassInfo.getJavaNoteInfo(), "", JavaNoteInfo.NOTE_CLASS);
         generateAnnotation(codeString, this.javaClassInfo.getJavaAnnotationInfos(), "");
         if (JavaClassInfo.ABSTRACT.equals(this.javaClassInfo.getClassDecorate())) {
             codeString.append("public abstract class ").append(this.javaClassInfo.getClassName());
@@ -61,6 +68,7 @@ public class JavaClassGenerator extends CodeGenerator {
         if (!this.javaClassInfo.getJavaFieldInfos().isEmpty()) {
             codeString.andCodeLine("\n");
             for (JavaFieldInfo javaFieldInfo : this.javaClassInfo.getJavaFieldInfos()) {
+                generateNote(codeString, javaFieldInfo.getJavaNoteInfo(), "\t", JavaNoteInfo.NOTE_FIELD);
                 generateAnnotation(codeString, javaFieldInfo.getJavaAnnotationInfos(), "\t");
                 codeString.append("\t").append(new JavaFieldGenerator(javaFieldInfo).generate().get(0)).append("\n");
                 codeString.andCodeLine("\n");
@@ -68,6 +76,7 @@ public class JavaClassGenerator extends CodeGenerator {
         }
         if (!this.javaClassInfo.getJavaMethodInfos().isEmpty()) {
             for (JavaMethodInfo javaMethodInfo : this.javaClassInfo.getJavaMethodInfos()) {
+                generateNote(codeString, javaMethodInfo.getJavaNoteInfo(), "\t", JavaNoteInfo.NOTE_METHOD);
                 generateAnnotation(codeString, javaMethodInfo.getJavaAnnotationInfos(), "\t");
                 codeString.andCodeLines("\t", new JavaMethodGenerator(javaMethodInfo).generate());
                 codeString.andCodeLine("\n");
@@ -89,12 +98,31 @@ public class JavaClassGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * 生成多条注解代码
+     * @param codeString 代码字符串
+     * @param javaAnnotationInfos 多个注解信息
+     * @param space 使用"\n"占用多少个空格
+     */
     private void generateAnnotation(CodeString codeString, List<JavaAnnotationInfo> javaAnnotationInfos, String space) {
         if (!javaAnnotationInfos.isEmpty()) {
             for (JavaAnnotationInfo javaAnnotationInfo : javaAnnotationInfos) {
                 codeString.append(space).append(new JavaAnnotationGenerator(javaAnnotationInfo).generate().get(0));
                 codeString.andCodeLine("\n");
             }
+        }
+    }
+
+    /**
+     * 生成注释代码
+     * @param codeString 代码字符串
+     * @param javaNoteInfo 注释信息
+     * @param space 使用"\n"占用多少个空格
+     * @param noteType 注释类型
+     */
+    private void generateNote(CodeString codeString, JavaNoteInfo javaNoteInfo, String space, String noteType) {
+        if (javaNoteInfo != null) {
+            codeString.andCodeLines(space, new JavaNoteGenerator(javaNoteInfo, noteType).generate());
         }
     }
 }

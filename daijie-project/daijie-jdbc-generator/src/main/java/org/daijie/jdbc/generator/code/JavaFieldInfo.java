@@ -46,6 +46,11 @@ public class JavaFieldInfo {
      */
     private List<JavaAnnotationInfo> javaAnnotationInfos = Lists.newArrayList();
 
+    /**
+     * 属性注释
+     */
+    private JavaNoteInfo javaNoteInfo;
+
     public JavaFieldInfo(String name, boolean isStatic, boolean isFinal, String type, Object value, String visibleDecorate) {
         this.name = name;
         this.isStatic = isStatic;
@@ -55,7 +60,7 @@ public class JavaFieldInfo {
         this.visibleDecorate = visibleDecorate;
     }
 
-    public JavaFieldInfo(String name, boolean isStatic, boolean isFinal, String type, Object value, String visibleDecorate, List<JavaAnnotationInfo> javaAnnotationInfos) {
+    public JavaFieldInfo(String name, boolean isStatic, boolean isFinal, String type, Object value, String visibleDecorate, List<JavaAnnotationInfo> javaAnnotationInfos, JavaNoteInfo javaNoteInfo) {
         this.name = name;
         this.isStatic = isStatic;
         this.isFinal = isFinal;
@@ -63,6 +68,7 @@ public class JavaFieldInfo {
         this.value = value;
         this.visibleDecorate = visibleDecorate;
         this.javaAnnotationInfos = javaAnnotationInfos;
+        this.javaNoteInfo = javaNoteInfo;
     }
 
     public String getName() {
@@ -95,5 +101,9 @@ public class JavaFieldInfo {
 
     public List<JavaAnnotationInfo> getJavaAnnotationInfos() {
         return javaAnnotationInfos;
+    }
+
+    public JavaNoteInfo getJavaNoteInfo() {
+        return javaNoteInfo;
     }
 }

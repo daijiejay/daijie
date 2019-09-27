@@ -3,6 +3,7 @@ package org.daijie.jdbc.generator.code;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.StringUtils;
 import org.daijie.jdbc.matedata.ColumnMateData;
 import org.daijie.jdbc.matedata.TableMateData;
 
@@ -78,6 +79,11 @@ public class JavaClassInfo {
     private List<JavaAnnotationInfo> javaAnnotationInfos = Lists.newArrayList();
 
     /**
+     * 类注释
+     */
+    private JavaNoteInfo javaNoteInfo;
+
+    /**
      * JAVA类信息初始化，初始化一个类的信息
      * @param targetPackage 当前类包路径
      * @param importPackages 引入的包路径
@@ -131,6 +137,7 @@ public class JavaClassInfo {
         this.classDecorate = classDecorate;
         this.className = CodeGeneratorUtil.UnderlineToClassName(tableMateData.getName());
         this.importPackages.add("javax.persistence.*");
+        this.javaNoteInfo = new JavaNoteInfo(new String[]{tableMateData.getRemarks()});
         this.javaAnnotationInfos.add(new JavaAnnotationInfo("Table").addMember("name", tableMateData.getName()));
         MysqlTypeConvertor typeConvertor = new MysqlTypeConvertor();
         for (ColumnMateData columnMateData : tableMateData.getColumns().values()) {
@@ -140,22 +147,29 @@ public class JavaClassInfo {
             if (!fieldType.contains("java.lang")) {
                 this.importPackages.add(fieldType);
             }
+            JavaNoteInfo fieldNote = new JavaNoteInfo(new String[]{columnMateData.getRemarks()});
             List<JavaAnnotationInfo> javaAnnotationInfos = Lists.newArrayList();
             if (tableMateData.getPrimaryKey().getName().equals(columnMateData.getName())) {
                 javaAnnotationInfos.add(new JavaAnnotationInfo("Id"));
                 List<JavaFieldInfo> javaFieldInfos = Lists.newArrayList();
-                javaFieldInfos.add(new JavaFieldInfo(name, false, false, shortFieldType, null, JavaClassInfo.VISIBLE_PUBLIC, javaAnnotationInfos));
+                javaFieldInfos.add(new JavaFieldInfo(name, false, false, shortFieldType, null, JavaClassInfo.VISIBLE_PUBLIC, javaAnnotationInfos, fieldNote));
                 javaFieldInfos.addAll(this.javaFieldInfos);
                 this.javaFieldInfos = javaFieldInfos;
             } else {
-                this.javaFieldInfos.add(new JavaFieldInfo(name, false, false, shortFieldType, null, JavaClassInfo.VISIBLE_PUBLIC, javaAnnotationInfos));
+                this.javaFieldInfos.add(new JavaFieldInfo(name, false, false, shortFieldType, null, JavaClassInfo.VISIBLE_PUBLIC, javaAnnotationInfos, fieldNote));
             }
             javaAnnotationInfos.add(new JavaAnnotationInfo("Column").addMember("name", columnMateData.getName()));
 
             Map<String, String> agrs = Maps.newHashMap();
             agrs.put(name, shortFieldType);
-            this.javaMethodInfos.add(new JavaMethodInfo(name, null, agrs, false, JavaClassInfo.VISIBLE_PUBLIC, true));
-            this.javaMethodInfos.add(new JavaMethodInfo(name, shortFieldType, Maps.newHashMap(), false, JavaClassInfo.VISIBLE_PUBLIC, true));
+            JavaNoteInfo setterNote = new JavaNoteInfo(new String[]{"设置" + columnMateData.getRemarks()}, null, new String[]{name + "," + columnMateData.getRemarks()}, new String[]{}, new String[]{});
+            this.javaMethodInfos.add(new JavaMethodInfo(name, null, agrs, false, JavaClassInfo.VISIBLE_PUBLIC, true, setterNote));
+            String returnContent = columnMateData.getName();
+            if (StringUtils.isNotEmpty(columnMateData.getRemarks())) {
+                returnContent += "," + columnMateData.getRemarks();
+            }
+            JavaNoteInfo getterNote = new JavaNoteInfo(new String[]{"获取" + columnMateData.getRemarks()}, returnContent);
+            this.javaMethodInfos.add(new JavaMethodInfo(name, shortFieldType, Maps.newHashMap(), false, JavaClassInfo.VISIBLE_PUBLIC, true, getterNote));
         }
     }
 
@@ -251,5 +265,9 @@ public class JavaClassInfo {
 
     public List<JavaAnnotationInfo> getJavaAnnotationInfos() {
         return javaAnnotationInfos;
+    }
+
+    public JavaNoteInfo getJavaNoteInfo() {
+        return javaNoteInfo;
     }
 }

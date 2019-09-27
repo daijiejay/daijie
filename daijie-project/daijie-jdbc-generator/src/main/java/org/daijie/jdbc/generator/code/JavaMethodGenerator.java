@@ -55,6 +55,10 @@ public class JavaMethodGenerator extends CodeGenerator {
         }
     }
 
+    /**
+     * 生成实体类set方法
+     * @return 返回生成代码
+     */
     private List<String> generateSetter() {
         CodeString codeString = new CodeString();
         codeString.append(this.javaMethodInfo.getVisibleDecorate()).append(" void set");
@@ -68,6 +72,10 @@ public class JavaMethodGenerator extends CodeGenerator {
         return codeString.getCodeLines();
     }
 
+    /**
+     * 生成实体类get方法
+     * @return 返回生成代码
+     */
     private List<String> generateGetter() {
         CodeString codeString = new CodeString();
         codeString.append(this.javaMethodInfo.getVisibleDecorate()).append(" ").append(this.javaMethodInfo.getReturnType()).append(" get");
@@ -79,6 +87,10 @@ public class JavaMethodGenerator extends CodeGenerator {
         return codeString.getCodeLines();
     }
 
+    /**
+     * 生成方法参数
+     * @return 返回生成代码
+     */
     private String generateMehtodArgs() {
         StringBuilder code = new StringBuilder();
         Iterator<String> iterator = this.javaMethodInfo.getAgrs().keySet().iterator();
