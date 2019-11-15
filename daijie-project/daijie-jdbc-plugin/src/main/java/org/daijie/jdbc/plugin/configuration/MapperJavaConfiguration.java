@@ -1,5 +1,7 @@
 package org.daijie.jdbc.plugin.configuration;
 
+import org.apache.maven.plugins.annotations.Parameter;
+
 import java.util.Set;
 
 /**
@@ -12,29 +14,33 @@ public class MapperJavaConfiguration {
     /**
      * 自定义的mapper配置类
      */
-    private String mapperClass;
+    @Parameter(property = "mapperConfigurationClass")
+    private String mapperConfigurationClass;
 
     /**
      * 包路径
      */
+    @Parameter(property = "targetPackage")
     private String targetPackage;
 
     /**
      * 项目的跟路径
      */
+    @Parameter(property = "targetProject")
     private String targetProject;
 
     /**
      * 继承类和接口类的路径
      */
+    @Parameter(property = "interfacePackages")
     private Set<String> interfacePackages;
 
-    public String getMapperClass() {
-        return mapperClass;
+    public String getMapperConfigurationClass() {
+        return mapperConfigurationClass;
     }
 
-    public void setMapperClass(String mapperClass) {
-        this.mapperClass = mapperClass;
+    public void setMapperConfigurationClass(String mapperConfigurationClass) {
+        this.mapperConfigurationClass = mapperConfigurationClass;
     }
 
     public String getTargetPackage() {

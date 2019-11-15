@@ -28,7 +28,7 @@ public class JavaMethodGenerator extends CodeGenerator {
             }
         } else {
             CodeString codeString = new CodeString();
-            codeString.append(this.javaMethodInfo.getVisibleDecorate());
+            codeString.append(this.javaMethodInfo.getVisibleDecorate()).append(" ");
             if (this.javaMethodInfo.isStatic()) {
                 codeString.append(" static ");
             }
@@ -48,7 +48,7 @@ public class JavaMethodGenerator extends CodeGenerator {
             }
             codeString.append(") {");
             codeString.andCodeLine("\n");
-            codeString.andCodeLine(this.javaMethodInfo.getContent());
+            codeString.andCodeLines("\t", this.javaMethodInfo.getContents());
 
             codeString.andCodeLine("}");
             return codeString.getCodeLines();

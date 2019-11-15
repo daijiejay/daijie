@@ -1,11 +1,15 @@
 package org.daijie.jdbc.generator.code;
 
+import cn.hutool.core.collection.CollUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.daijie.jdbc.scripting.SqlSpelling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * JAVA类代码生成器
@@ -37,8 +41,6 @@ public class JavaClassGenerator extends CodeGenerator {
 
     @Override
     public List<String> generate() {
-        System.out.println("开始生成"+this.javaClassInfo.getClassName()+"类");
-        log.info("开始生成{}类", this.javaClassInfo.getClassName());
         CodeString codeString = new CodeString();
         if (!this.isInnerClass) {
             generateHeader(codeString);
@@ -53,15 +55,12 @@ public class JavaClassGenerator extends CodeGenerator {
         } else {
             codeString.append("public class ").append(this.javaClassInfo.getClassName());
         }
-        if (StringUtils.isNotEmpty(this.javaClassInfo.getParentPackage())) {
-            codeString.append(" extends ").append(this.javaClassInfo.getParentPackage());
+        if (CollUtil.isNotEmpty(this.javaClassInfo.getParentPackages())) {
+            generateInheritClass(codeString, this.javaClassInfo.getParentPackages(), true);
+
         }
-        if (!this.javaClassInfo.getInterfacePackages().isEmpty()) {
-            if (JavaClassInfo.INTERFACE.equals(this.javaClassInfo.getClassDecorate())) {
-                codeString.append(" extends ").append(new SqlSpelling().collectionToCommaDelimitedString(this.javaClassInfo.getInterfacePackages()));
-            } else {
-                codeString.append(" implements ").append(new SqlSpelling().collectionToCommaDelimitedString(this.javaClassInfo.getInterfacePackages()));
-            }
+        if (CollUtil.isNotEmpty(this.javaClassInfo.getInterfacePackages())) {
+            generateInheritClass(codeString, this.javaClassInfo.getInterfacePackages(), false);
         }
         codeString.append(" {");
         codeString.andCodeLine("\n");
@@ -87,6 +86,10 @@ public class JavaClassGenerator extends CodeGenerator {
         return codeString.getCodeLines();
     }
 
+    /**
+     * 生成类头部的导入包代码
+     * @param codeString
+     */
     private void generateHeader(CodeString codeString) {
         if (StringUtils.isNotEmpty(this.javaClassInfo.getTargetPackage())) {
             codeString.append("package ").append(this.javaClassInfo.getTargetPackage()).append(";\n");
@@ -123,6 +126,32 @@ public class JavaClassGenerator extends CodeGenerator {
     private void generateNote(CodeString codeString, JavaNoteInfo javaNoteInfo, String space, String noteType) {
         if (javaNoteInfo != null) {
             codeString.andCodeLines(space, new JavaNoteGenerator(javaNoteInfo, noteType).generate());
+        }
+    }
+
+    /**
+     * 生成继承class名，包括类泛型
+     * @param codeString 代码字符串
+     * @param genericities 类和泛型
+     * @param commonClass 普通泛型类的父类
+     */
+    private void generateInheritClass(CodeString codeString, Map<String, String[]> genericities, boolean commonClass) {
+        if (commonClass || JavaClassInfo.INTERFACE.equals(this.javaClassInfo.getClassDecorate())) {
+            codeString.append(" extends ");
+        } else {
+            codeString.append(" implements ");
+        }
+        Iterator<String> it = genericities.keySet().iterator();
+        while (it.hasNext()) {
+            String className = it.next();
+            String[] genericity = genericities.get(className);
+            codeString.append(className);
+            if (genericity != null && genericity.length > 0) {
+                codeString.append("<").append(new SqlSpelling().collectionToCommaDelimitedString(Arrays.asList(genericity))).append(">");
+            }
+            if (it.hasNext()) {
+                codeString.append(", ");
+            }
         }
     }
 }

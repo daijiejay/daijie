@@ -52,17 +52,20 @@ public class FileGenerator implements Generator {
                     javaFileConfiguration.execute();
                     String fileName = javaFileConfiguration.getFileName() + javaFileConfiguration.getSuffix();
                     String code = javaFileConfiguration.getCode();
-                    log.debug("{}表生成文件：{}/{}", tableMateData.getName(), path, fileName);
-                    log.debug("{}表生成文件内容：{}", tableMateData.getName(), code);
+                    log.info("{}表已生成文件：{}/{}", tableMateData.getName(), path, fileName);
+                    log.debug("{}表已生成文件内容：{}", tableMateData.getName(), code);
                     this.fileCreator.createFile(path, code, fileName);
                 }
             } else if (fileConfiguration instanceof AbstractHtmlFileConfiguration) {
                 AbstractHtmlFileConfiguration htmlFileConfiguration = (AbstractHtmlFileConfiguration) fileConfiguration;
                 htmlFileConfiguration.setTableMateDatas(tableMateDatas);
                 htmlFileConfiguration.execute();
+                String fileName = htmlFileConfiguration.getFileName() + htmlFileConfiguration.getSuffix();
                 String code = htmlFileConfiguration.getCode();
-                this.fileCreator.createFile(htmlFileConfiguration.getPath(), code, htmlFileConfiguration.getFileName() + htmlFileConfiguration.getSuffix());
+                this.fileCreator.createFile(htmlFileConfiguration.getPath(), code, fileName);
+                log.info("已生成文件：{}", fileName);
             }
+
         }
         return null;
     }

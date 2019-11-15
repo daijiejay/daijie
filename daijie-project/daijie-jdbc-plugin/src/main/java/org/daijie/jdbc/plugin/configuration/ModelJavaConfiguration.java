@@ -10,7 +10,7 @@ public class ModelJavaConfiguration {
     /**
      * 自定义的model配置类
      */
-    private String modeClass;
+    private String modeConfigurationClass;
 
     /**
      * 包路径
@@ -42,12 +42,12 @@ public class ModelJavaConfiguration {
      */
     private boolean isSerializeble;
 
-    public String getModeClass() {
-        return modeClass;
+    public String getModeConfigurationClass() {
+        return modeConfigurationClass;
     }
 
-    public void setModeClass(String modeClass) {
-        this.modeClass = modeClass;
+    public void setModeConfigurationClass(String modeConfigurationClass) {
+        this.modeConfigurationClass = modeConfigurationClass;
     }
 
     public String getTargetPackage() {

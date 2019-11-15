@@ -20,6 +20,7 @@
         <module>daijie-common-spring-boot-starter</module>
         <module>daijie-swagger-spring-boot-starter</module>
         <module>daijie-shiro-spring-boot-starter</module>
+        <module>daijie-jdbc-spring-boot-starter</module>
     </modules>
 
     <dependencies>

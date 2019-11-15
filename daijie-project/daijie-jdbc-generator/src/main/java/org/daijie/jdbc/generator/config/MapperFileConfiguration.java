@@ -1,6 +1,8 @@
 package org.daijie.jdbc.generator.config;
 
+import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.daijie.jdbc.generator.code.CodeGeneratorUtil;
 import org.daijie.jdbc.generator.code.JavaAnnotationInfo;
@@ -9,6 +11,7 @@ import org.daijie.jdbc.generator.code.JavaClassInfo;
 import org.daijie.jdbc.generator.executor.Generator;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -33,8 +36,14 @@ public abstract class MapperFileConfiguration extends AbstractJavaFileConfigurat
      */
     private Set<String> interfacePackages;
 
-    public MapperFileConfiguration(String targetPackage, String targetProject) {
+    /**
+     * 对应实体类的包路径
+     */
+    private String modelTargetPackage;
+
+    public MapperFileConfiguration(String targetPackage, String targetProject, String modelTargetPackage) {
         super(targetPackage, targetProject);
+        this.modelTargetPackage = modelTargetPackage;
         this.importPackages = Sets.newHashSet();
         this.classAnnotations = Lists.newArrayList();
         this.interfacePackages = Sets.newHashSet();
@@ -75,6 +84,14 @@ public abstract class MapperFileConfiguration extends AbstractJavaFileConfigurat
 
     @Override
     public Generator initGenerator() {
+        Map<String, String[]> interfacePackages = Maps.newHashMap();
+        if (CollUtil.isNotEmpty(this.interfacePackages)) {
+            String modelName = CodeGeneratorUtil.UnderlineToClassName(this.getTableMateData().getName());
+            for (String className : this.interfacePackages) {
+                interfacePackages.put(className, new String[]{modelName});
+            }
+            this.importPackages.add(this.modelTargetPackage + "." + modelName);
+        }
         JavaClassInfo javaClassInfo = new JavaClassInfo(this.getTargetPackage(), this.getImportPackages(), interfacePackages, null, JavaClassInfo.INTERFACE, this.getFileName());
         return new JavaClassGenerator(javaClassInfo);
     }

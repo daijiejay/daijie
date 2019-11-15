@@ -44,14 +44,14 @@ public class JavaClassInfo {
     private Set<String> importPackages;
 
     /**
-     * 继承类和接口类的路径
+     * 继承类和接口类的路径，value是类泛型
      */
-    private Set<String> interfacePackages;
+    private Map<String, String[]> interfacePackages;
 
     /**
-     * 父类路径
+     * 父类路径，value是类泛型
      */
-    private String parentPackage;
+    private Map<String, String[]> parentPackages;
 
     /**
      * 类修饰关键字
@@ -88,15 +88,15 @@ public class JavaClassInfo {
      * @param targetPackage 当前类包路径
      * @param importPackages 引入的包路径
      * @param interfacePackages 继承类和接口类的路径
-     * @param parentPackage 父类路径
+     * @param parentPackages 父类路径
      * @param classDecorate 类修饰关键字
      * @param className 类名
      */
-    public JavaClassInfo(String targetPackage, Set<String> importPackages, Set<String> interfacePackages, String parentPackage, String classDecorate, String className) {
+    public JavaClassInfo(String targetPackage, Set<String> importPackages, Map<String, String[]> interfacePackages, Map<String, String[]> parentPackages, String classDecorate, String className) {
         this.targetPackage = targetPackage;
         this.importPackages = importPackages;
         this.interfacePackages = interfacePackages;
-        this.parentPackage = parentPackage;
+        this.parentPackages = parentPackages;
         this.classDecorate = classDecorate;
         this.className = className;
     }
@@ -106,15 +106,15 @@ public class JavaClassInfo {
      * @param targetPackage 当前类包路径
      * @param importPackages 引入的包路径
      * @param interfacePackages 继承类和接口类的路径
-     * @param parentPackage 父类路径
+     * @param parentPackages 父类路径
      * @param classDecorate 类修饰关键字
      * @param className 类名
      */
-    public JavaClassInfo(String targetPackage, Set<String> importPackages, Set<String> interfacePackages, String parentPackage, String classDecorate, String className, List<JavaAnnotationInfo> javaAnnotationInfos) {
+    public JavaClassInfo(String targetPackage, Set<String> importPackages, Map<String, String[]> interfacePackages, Map<String, String[]> parentPackages, String classDecorate, String className, List<JavaAnnotationInfo> javaAnnotationInfos) {
         this.targetPackage = targetPackage;
         this.importPackages = importPackages;
         this.interfacePackages = interfacePackages;
-        this.parentPackage = parentPackage;
+        this.parentPackages = parentPackages;
         this.classDecorate = classDecorate;
         this.className = className;
         this.javaAnnotationInfos = javaAnnotationInfos;
@@ -125,20 +125,28 @@ public class JavaClassInfo {
      * @param targetPackage 当前类包路径
      * @param importPackages 引入的包路径
      * @param interfacePackages 继承类和接口类的路径
-     * @param parentPackage 父类路径
+     * @param parentPackages 父类路径
      * @param classDecorate 类修饰关键字
      * @param tableMateData 表元数据
+     * @param isLombok 是否使用lombok注解
      */
-    public JavaClassInfo(String targetPackage, Set<String> importPackages, Set<String> interfacePackages, String parentPackage, String classDecorate, TableMateData tableMateData) {
+    public JavaClassInfo(String targetPackage, Set<String> importPackages, Map<String, String[]> interfacePackages, Map<String, String[]> parentPackages, String classDecorate, TableMateData tableMateData, boolean isLombok) {
         this.importPackages = Sets.newHashSet();
         this.targetPackage = targetPackage;
         this.interfacePackages = interfacePackages;
-        this.parentPackage = parentPackage;
+        this.parentPackages = parentPackages;
         this.classDecorate = classDecorate;
         this.className = CodeGeneratorUtil.UnderlineToClassName(tableMateData.getName());
-        this.importPackages.add("javax.persistence.*");
+        if (importPackages != null) {
+            this.importPackages.addAll(importPackages);
+        }
         this.javaNoteInfo = new JavaNoteInfo(new String[]{tableMateData.getRemarks()});
+        this.importPackages.add("javax.persistence.*");
         this.javaAnnotationInfos.add(new JavaAnnotationInfo("Table").addMember("name", tableMateData.getName()));
+        if (isLombok) {
+            this.importPackages.add("lombok.Data");
+            this.javaAnnotationInfos.add(new JavaAnnotationInfo("Data"));
+        }
         MysqlTypeConvertor typeConvertor = new MysqlTypeConvertor();
         for (ColumnMateData columnMateData : tableMateData.getColumns().values()) {
             String name = CodeGeneratorUtil.UnderlineToHump(columnMateData.getName());
@@ -160,16 +168,18 @@ public class JavaClassInfo {
             }
             javaAnnotationInfos.add(new JavaAnnotationInfo("Column").addMember("name", columnMateData.getName()));
 
-            Map<String, String> agrs = Maps.newHashMap();
-            agrs.put(name, shortFieldType);
-            JavaNoteInfo setterNote = new JavaNoteInfo(new String[]{"设置" + columnMateData.getRemarks()}, null, new String[]{name + "," + columnMateData.getRemarks()}, new String[]{}, new String[]{});
-            this.javaMethodInfos.add(new JavaMethodInfo(name, null, agrs, false, JavaClassInfo.VISIBLE_PUBLIC, true, setterNote));
-            String returnContent = columnMateData.getName();
-            if (StringUtils.isNotEmpty(columnMateData.getRemarks())) {
-                returnContent += "," + columnMateData.getRemarks();
+            if (!isLombok) {
+                Map<String, String> agrs = Maps.newHashMap();
+                agrs.put(name, shortFieldType);
+                JavaNoteInfo setterNote = new JavaNoteInfo(new String[]{"设置" + columnMateData.getRemarks()}, null, new String[]{name + "," + columnMateData.getRemarks()}, new String[]{}, new String[]{});
+                this.javaMethodInfos.add(new JavaMethodInfo(name, null, agrs, false, JavaClassInfo.VISIBLE_PUBLIC, true, setterNote));
+                String returnContent = columnMateData.getName();
+                if (StringUtils.isNotEmpty(columnMateData.getRemarks())) {
+                    returnContent += "," + columnMateData.getRemarks();
+                }
+                JavaNoteInfo getterNote = new JavaNoteInfo(new String[]{"获取" + columnMateData.getRemarks()}, returnContent);
+                this.javaMethodInfos.add(new JavaMethodInfo(name, shortFieldType, Maps.newHashMap(), false, JavaClassInfo.VISIBLE_PUBLIC, true, getterNote));
             }
-            JavaNoteInfo getterNote = new JavaNoteInfo(new String[]{"获取" + columnMateData.getRemarks()}, returnContent);
-            this.javaMethodInfos.add(new JavaMethodInfo(name, shortFieldType, Maps.newHashMap(), false, JavaClassInfo.VISIBLE_PUBLIC, true, getterNote));
         }
     }
 
@@ -231,6 +241,10 @@ public class JavaClassInfo {
         }
     }
 
+    public void addMethodInfo(JavaMethodInfo javaMethodInfo) {
+        this.javaMethodInfos.add(javaMethodInfo);
+    }
+
     public String getTargetPackage() {
         return targetPackage;
     }
@@ -239,12 +253,12 @@ public class JavaClassInfo {
         return importPackages;
     }
 
-    public Set<String> getInterfacePackages() {
+    public Map<String, String[]> getInterfacePackages() {
         return interfacePackages;
     }
 
-    public String getParentPackage() {
-        return parentPackage;
+    public Map<String, String[]> getParentPackages() {
+        return parentPackages;
     }
 
     public String getClassDecorate() {

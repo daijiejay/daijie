@@ -41,7 +41,7 @@ public class JavaMethodInfo {
     /**
      * 方法体内容
      */
-    private String content;
+    private List<String> contents = Lists.newArrayList();
 
     /**
      * 是否实体类的set或get方法
@@ -58,22 +58,22 @@ public class JavaMethodInfo {
      */
     private JavaNoteInfo javaNoteInfo;
 
-    public JavaMethodInfo(String name, String returnType, Map<String, String> agrs, boolean isStatic, String visibleDecorate, String content) {
+    public JavaMethodInfo(String name, String returnType, Map<String, String> agrs, boolean isStatic, String visibleDecorate, List<String> contents) {
         this.name = name;
         this.returnType = returnType;
         this.agrs = agrs;
         this.isStatic = isStatic;
         this.visibleDecorate = visibleDecorate;
-        this.content = content;
+        this.contents = contents;
     }
 
-    public JavaMethodInfo(String name, String returnType, Map<String, String> agrs, boolean isStatic, String visibleDecorate, String content, List<JavaAnnotationInfo> javaAnnotationInfos) {
+    public JavaMethodInfo(String name, String returnType, Map<String, String> agrs, boolean isStatic, String visibleDecorate, List<String> contents, List<JavaAnnotationInfo> javaAnnotationInfos) {
         this.name = name;
         this.returnType = returnType;
         this.agrs = agrs;
         this.isStatic = isStatic;
         this.visibleDecorate = visibleDecorate;
-        this.content = content;
+        this.contents = contents;
         this.javaAnnotationInfos = javaAnnotationInfos;
     }
 
@@ -107,8 +107,8 @@ public class JavaMethodInfo {
         return visibleDecorate;
     }
 
-    public String getContent() {
-        return content;
+    public List<String> getContents() {
+        return contents;
     }
 
     public boolean isModelSetterOrGetter() {
