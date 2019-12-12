@@ -7,6 +7,7 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.jar.JarEntry;
@@ -76,6 +77,19 @@ public class ClassLoaderUtil {
     }
 
     /**
+     * 通过启用应用main方法的主类所在的包路径下获取所有的Class
+     * @return Set
+     */
+    public static Set<Class<?>> getClassesInMianMethodClass() {
+        Class<?> cls = getMainApplicationClass();
+        if (cls != null) {
+            String packageName = cls.getName().substring(0, cls.getName().lastIndexOf("."));
+            return getClassesInPackage(packageName);
+        }
+        return new HashSet<>();
+    }
+
+    /**
      * 扫描文件获取包下的所有Class
      * @param classLoader class加载类
      * @param packageName 包名
@@ -97,7 +111,7 @@ public class ClassLoaderUtil {
         for (File file : dirfiles) {
             if (file.isDirectory()) {
                 //目录递归
-                addClassesInPackageByFile(classLoader,packageName + "." + file.getName(), file.getAbsolutePath(), recursive, classes);
+                addClassesInPackageByFile(classLoader, (packageName.length() > 0 ? packageName + "." : "") + file.getName(), file.getAbsolutePath(), recursive, classes);
             } else {
                 //class文件
                 addClass(classLoader,packageName,file.getName(),classes);
@@ -120,5 +134,33 @@ public class ClassLoaderUtil {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * 获取应用入口主类
+     * @return
+     */
+    public static Class<?> getMainApplicationClass() {
+        try {
+            StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
+            for (StackTraceElement stackTraceElement : stackTrace) {
+                if ("main".equals(stackTraceElement.getMethodName())) {
+                    return Class.forName(stackTraceElement.getClassName());
+                }
+            }
+        }
+        catch (ClassNotFoundException ex) {
+        }
+        return null;
+    }
+
+    public static boolean isRunTest() {
+        StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
+        for (StackTraceElement stackTraceElement : stackTrace) {
+            if ("loadContext".equals(stackTraceElement.getMethodName()) && "org.springframework.boot.test.context.SpringBootContextLoader".equals(stackTraceElement.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

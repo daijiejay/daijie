@@ -9,28 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>daijie-jdbc-spring-boot-starter</artifactId>
+    <artifactId>daijie-test-spring-boot-starter</artifactId>
+
+    <properties>
+        <spring.version>5.1.6.RELEASE</spring.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.daijie</groupId>
-            <artifactId>daijie-jdbc</artifactId>
-            <version>${daijie.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.daijie</groupId>
             <artifactId>daijie-common-spring-boot-starter</artifactId>
             <version>${daijie.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.daijie</groupId>
-            <artifactId>daijie-test-spring-boot-starter</artifactId>
-            <version>${daijie.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -38,5 +27,12 @@
             <version>${junit.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
+
 </project>

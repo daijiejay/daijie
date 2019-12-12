@@ -11,23 +11,20 @@ public interface TransactionInterceptor {
 
     /**
      * 关闭事务
-     * @param transactionInfo 当前事务信息
      * @throws SQLException SQL异常
      */
-    void doFinally(TransactionInfo transactionInfo) throws SQLException;
+    void doFinally() throws SQLException;
 
     /**
      * 提交事务
-     * @param transactionInfo 当前事务信息
      * @throws SQLException SQL异常
      */
-    void doCommitTransactionAfterReturning(TransactionInfo transactionInfo) throws SQLException;
+    void doCommitTransactionAfterReturning() throws SQLException;
 
     /**
      * 回滚事务
-     * @param transactionInfo 当前事务信息
      * @param throwable 异常栈信息
      * @throws SQLException SQL异常
      */
-    void doRollbackTransactionAfterThrowing(TransactionInfo transactionInfo, Throwable throwable) throws SQLException;
+    void doRollbackTransactionAfterThrowing(Throwable throwable) throws SQLException;
 }

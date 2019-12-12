@@ -1,6 +1,6 @@
 package org.daijie.jdbc.cache;
 
-import org.daijie.jdbc.transaction.TransactionManage;
+import org.daijie.jdbc.transaction.TransactionManager;
 
 /**
  * 缓存管理
@@ -46,7 +46,7 @@ public class CacheManage {
      * @param tableName 表名称
      */
     public static void remove(String tableName) {
-        if (TransactionManage.isTransaction()) {
+        if (TransactionManager.isTransaction()) {
             CacheManage.cache.recodeChangedTable(tableName);
         } else {
             CacheManage.cache.remove(tableName);

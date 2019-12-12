@@ -13,7 +13,7 @@ import java.lang.reflect.Proxy;
  * @author daijie
  * @since 2019/5/31
  */
-public class SessionMapperManage {
+public class SessionMapperManager {
 
     /**
      * 操作数据库映射对象创建会话

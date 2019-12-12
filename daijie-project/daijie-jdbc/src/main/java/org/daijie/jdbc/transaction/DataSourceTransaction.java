@@ -37,7 +37,7 @@ public class DataSourceTransaction implements Transaction {
 
     @Override
     public Connection getConnection() throws SQLException {
-        if (TransactionManage.isTransaction()) {
+        if (TransactionManager.isTransaction()) {
             return this.getConnection(false);
         }
         return this.getConnection(true);

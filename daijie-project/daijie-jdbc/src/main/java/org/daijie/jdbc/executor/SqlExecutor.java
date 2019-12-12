@@ -13,7 +13,7 @@ import org.daijie.jdbc.scripting.SqlAnalyzer;
 import org.daijie.jdbc.scripting.SqlAnalyzerImpl;
 import org.daijie.jdbc.scripting.Wrapper;
 import org.daijie.jdbc.transaction.Transaction;
-import org.daijie.jdbc.transaction.TransactionManage;
+import org.daijie.jdbc.transaction.TransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +66,7 @@ public class SqlExecutor implements Executor {
      */
     public SqlExecutor(Class entityClass, Method method, Object[] args) {
         log.debug("执行mapper方法：{}", method);
-        this.transation = TransactionManage.createTransaction();
+        this.transation = TransactionManager.createTransaction();
         MultiWrapper multiWrapper = this.getMultiWrapper(args);
         Class returnClass = method.getReturnType();
         if (method.getReturnType() == List.class || method.getReturnType() == PageResult.class) {
@@ -161,14 +161,14 @@ public class SqlExecutor implements Executor {
 
     @Override
     public void commit() throws SQLException {
-        if (!isClosed && !TransactionManage.isTransaction()) {
+        if (!isClosed && !TransactionManager.isTransaction()) {
             this.transation.commit();
         }
     }
 
     @Override
     public void rollback() throws SQLException {
-        if (!isClosed && !TransactionManage.isTransaction()) {
+        if (!isClosed && !TransactionManager.isTransaction()) {
             this.transation.rollback();
         }
     }
@@ -179,7 +179,7 @@ public class SqlExecutor implements Executor {
         if (this.statement != null && !this.statement.isClosed()) {
             this.statement.close();
         }
-        if (!TransactionManage.isTransaction()) {
+        if (!TransactionManager.isTransaction()) {
             this.transation.close();
         }
     }

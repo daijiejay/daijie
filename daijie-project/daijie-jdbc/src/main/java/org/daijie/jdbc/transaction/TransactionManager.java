@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
  * @author daijie
  * @since 2019/6/3
  */
-public class TransactionManage {
+public class TransactionManager {
 
-    private static final Logger log = LoggerFactory.getLogger(TransactionManage.class);
+    private static final Logger log = LoggerFactory.getLogger(TransactionManager.class);
 
     /**
      * 当前持有事务信息
@@ -25,12 +25,12 @@ public class TransactionManage {
      */
     public static Transaction createTransaction() {
         if (isTransaction()) {
-            if (TransactionManage.holder.get().isExistsTransaction()) {
+            if (TransactionManager.holder.get().isExistsTransaction()) {
                 log.debug("获取事务：此次数据源连接已列入当前事务连接池中，直接获取连接");
-                return TransactionManage.holder.get().getTransaction();
+                return TransactionManager.holder.get().getTransaction();
             }
             log.debug("获取事务：列入一个新的数据源连接到当前事务连接池中，并获取连接");
-            return TransactionManage.holder.get().setTransaction(getTransaction());
+            return TransactionManager.holder.get().setTransaction(getTransaction());
         }
         return getTransaction();
     }
@@ -48,10 +48,10 @@ public class TransactionManage {
      * @return 事务信息
      */
     protected static TransactionInfo createTransactionInfo() {
-        if (TransactionManage.holder.get() == null) {
-            TransactionManage.holder.set(new TransactionInfo());
+        if (TransactionManager.holder.get() == null) {
+            TransactionManager.holder.set(new TransactionInfo());
         }
-        return TransactionManage.holder.get();
+        return TransactionManager.holder.get();
     }
 
     /**
@@ -59,15 +59,15 @@ public class TransactionManage {
      * @param type 事务状态
      */
     protected static void changeTransactionInfo(StatusType type) {
-        TransactionManage.holder.get().setSuccessStatus(type);
+        TransactionManager.holder.get().setSuccessStatus(type);
     }
 
     /**
      * 清除当前线程事务信息
      */
     protected static void removeTransactionInfo() {
-        if (TransactionManage.holder.get() != null) {
-            TransactionManage.holder.remove();
+        if (TransactionManager.holder.get() != null) {
+            TransactionManager.holder.remove();
         }
     }
 
@@ -76,7 +76,7 @@ public class TransactionManage {
      * @return 返回布尔值
      */
     public static boolean isTransaction() {
-        return TransactionManage.holder.get() != null;
+        return TransactionManager.holder.get() != null;
     }
 
     /**

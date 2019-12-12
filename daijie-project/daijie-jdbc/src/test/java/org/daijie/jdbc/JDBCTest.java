@@ -4,8 +4,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.daijie.jdbc.datasource.DataSourceManage;
 import org.daijie.jdbc.datasource.DataSourceUtil;
 import org.daijie.jdbc.datasource.SimpleDataSource;
-import org.daijie.jdbc.session.SessionMapperManage;
-import org.daijie.jdbc.transaction.TransactionManage;
+import org.daijie.jdbc.session.SessionMapperManager;
+import org.daijie.jdbc.transaction.TransactionManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,12 +25,15 @@ public class JDBCTest {
     public void init() throws ReflectiveOperationException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("driverClassName", "com.mysql.jdbc.Driver");
-        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8");
+//        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8");
+//        properties.put("username", "root");
+//        properties.put("password", "123456");
+        properties.put("url", "jdbc:mysql://10.13.10.104:3306/test11?useUnicode=true&characterEncoding=UTF8");
         properties.put("username", "root");
-        properties.put("password", "123456");
+        properties.put("password", "Shiji@2018");
         DataSource druidDataSource = DataSourceUtil.getDataSource(DruidDataSource.class, properties);
         DataSourceManage.setDataSource(new SimpleDataSource(druidDataSource));
-        this.userMapper = SessionMapperManage.createSessionMapper(UserMapper.class);
+        this.userMapper = SessionMapperManager.createSessionMapper(UserMapper.class);
     }
 
     /**
@@ -55,7 +58,7 @@ public class JDBCTest {
      */
     @Test
     public void testCGLibProxySRUDTransaction() {
-        this.userService = TransactionManage.registerTransactionManageTarget(UserService.class);
+        this.userService = TransactionManager.registerTransactionManageTarget(UserService.class);
         this.userService.setUserMapper(userMapper);
         this.userService.testCommitTransaction();
         this.userService.testCallbackTransaction();
@@ -66,7 +69,7 @@ public class JDBCTest {
      */
     @Test
     public void testJDKProxySRUDTransaction() {
-        IUserService iUserService = TransactionManage.registerTransactionManageTarget(JDKProxyUserService.class);
+        IUserService iUserService = TransactionManager.registerTransactionManageTarget(JDKProxyUserService.class);
         iUserService.setUserMapper(userMapper);
         iUserService.testCommitTransaction();
         iUserService.testCallbackTransaction();

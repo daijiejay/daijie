@@ -21,6 +21,7 @@
         <module>daijie-swagger-spring-boot-starter</module>
         <module>daijie-shiro-spring-boot-starter</module>
         <module>daijie-jdbc-spring-boot-starter</module>
+        <module>daijie-test-spring-boot-starter</module>
     </modules>
 
     <dependencies>
