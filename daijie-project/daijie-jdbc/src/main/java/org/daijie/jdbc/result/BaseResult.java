@@ -73,7 +73,7 @@ public class BaseResult implements Result {
                 Map<String, ColumnMateData> columns;
                 if (tableMatedata.isCostomResult()) {
                     entity = tableMatedata.getReturnClass().newInstance();
-                    columns = tableMatedata.getColumns();
+                    columns = tableMatedata.getDefaultColumns();
                 } else {
                     entity = tableMatedata.getEntityClass().newInstance();
                     columns =  tableMatedata.getColumns();
