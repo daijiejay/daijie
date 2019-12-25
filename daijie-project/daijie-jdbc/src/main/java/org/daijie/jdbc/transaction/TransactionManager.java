@@ -4,6 +4,9 @@ import org.daijie.jdbc.datasource.DataSourceManage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
+import java.lang.reflect.Constructor;
+
 /**
  * 事务管理
  * @author daijie
@@ -30,26 +33,35 @@ public class TransactionManager {
                 return TransactionManager.holder.get().getTransaction();
             }
             log.debug("获取事务：列入一个新的数据源连接到当前事务连接池中，并获取连接");
-            return TransactionManager.holder.get().setTransaction(getTransaction());
+            Class clz = TransactionManager.holder.get().getTransactionClass();
+            return TransactionManager.holder.get().setTransaction(getTransaction(clz));
         }
-        return getTransaction();
+        return getTransaction(DataSourceTransaction.class);
     }
 
     /**
      * 根据会话连接中定义的指定数据源创建新的事务
      * @return Transaction 具体事务类
      */
-    private static Transaction getTransaction() {
-        return new DataSourceTransaction(DataSourceManage.getDataSource());
+    private static Transaction getTransaction(Class<? extends Transaction> clz) {
+        Transaction transaction = null;
+        try {
+            Constructor<? extends Transaction> constructor = clz.getConstructor(DataSource.class);
+            transaction = constructor.newInstance(DataSourceManage.getDataSource());
+        } catch (Exception e) {
+            log.error(clz.getName() + "初始化失败！", e);
+        }
+        return transaction;
     }
 
     /**
      * 开启事务，创建事务信息
+     * @param transactionClass 指定事务管理类
      * @return 事务信息
      */
-    protected static TransactionInfo createTransactionInfo() {
+    protected static TransactionInfo createTransactionInfo(Class<? extends Transaction> transactionClass) {
         if (TransactionManager.holder.get() == null) {
-            TransactionManager.holder.set(new TransactionInfo());
+            TransactionManager.holder.set(new TransactionInfo(transactionClass));
         }
         return TransactionManager.holder.get();
     }

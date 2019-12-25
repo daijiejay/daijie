@@ -5,6 +5,8 @@ import org.daijie.jdbc.annotation.SelectDataSource;
 import javax.sql.DataSource;
 
 /**
+ * 数据源管理类
+ * 管理多个事务，在启用会话前通过SelectDataSource注解选择指定数据源
  * @author daijie
  * @since 2019/5/28
  */

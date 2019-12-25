@@ -53,6 +53,20 @@ public class BaseResult implements Result {
                 return resultSet.getLong(1);
             } else if (this.returnClass == Integer.class || this.returnClass == int.class) {
                 return resultSet.getInt(1);
+            } else if (this.returnClass == Float.class || this.returnClass == float.class) {
+                return resultSet.getFloat(1);
+            } else if (this.returnClass == Short.class || this.returnClass == short.class) {
+                return resultSet.getShort(1);
+            } else if (this.returnClass == Boolean.class || this.returnClass == boolean.class) {
+                return resultSet.getBoolean(1);
+            } else if (this.returnClass == Byte.class || this.returnClass == byte.class) {
+                return resultSet.getByte(1);
+            } else if (this.returnClass == BigDecimal.class) {
+                return resultSet.getBigDecimal(1);
+            } else if (this.returnClass == String.class) {
+                return resultSet.getString(1);
+            } else if (this.returnClass == Date.class) {
+                return resultSet.getDate(1);
             }
             try {
                 Object entity = null;
@@ -193,7 +207,15 @@ public class BaseResult implements Result {
 
     @Override
     public Object getResult(Object result) throws SQLException {
-        if (result.getClass() == returnClass) {
+        if (result.getClass() == returnClass
+                || (result.getClass() == Integer.class && Integer.TYPE == returnClass)
+                || (result.getClass() == Short.class && Short.TYPE == returnClass)
+                || (result.getClass() == Double.class && Double.TYPE == returnClass)
+                || (result.getClass() == Float.class && Float.TYPE == returnClass)
+                || (result.getClass() == Boolean.class && Boolean.TYPE == returnClass)
+                || (result.getClass() == Character.class && Character.TYPE == returnClass)
+                || (result.getClass() == Byte.class && Byte.TYPE == returnClass)
+                || (result.getClass() == Long.class && Long.TYPE == returnClass)) {
             return result;
         }
         List<Object> resultData = null;

@@ -21,7 +21,7 @@ public abstract class AbstractTransactionInterceptor implements TransactionInter
      */
     public void createTransaction(Method method) {
         if (method.isAnnotationPresent(Transactional.class) || method.getDeclaringClass().isAnnotationPresent(Transactional.class)) {
-            this.transactionInfo = TransactionManager.createTransactionInfo();
+            this.transactionInfo = TransactionManager.createTransactionInfo(DataSourceTransaction.class);
         }
     }
 

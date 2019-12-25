@@ -11,18 +11,29 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author daijie
  * @since 2019/6/3
  */
-public class TransactionInfo<T> {
+public class TransactionInfo {
 
     private volatile int status = 0;
 
     private final AtomicLong atomicLong = new AtomicLong();
+
+    private final Class<? extends Transaction> transactionClass;
 
     /**
      * 当前线程中的所事务集
      */
     private ConcurrentHashMap<String, Transaction> pool = new ConcurrentHashMap<>();
 
-    public TransactionInfo() {
+    public TransactionInfo(Class<? extends Transaction> transactionClass) {
+        this.transactionClass = transactionClass;
+    }
+
+    /**
+     * 获取事务管理类
+     * @return Transaction 事务管理类
+     */
+    public Class<? extends Transaction> getTransactionClass() {
+        return transactionClass;
     }
 
     /**
