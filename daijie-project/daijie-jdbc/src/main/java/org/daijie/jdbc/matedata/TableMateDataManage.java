@@ -80,6 +80,16 @@ public class TableMateDataManage {
             tableName = table.name();
         }
         TableMateData tableMatedata = new TableMateData(tableName, "", entityClass);
+        initTableFields(tableMatedata, entityClass);
+        return tableMatedata;
+    }
+
+    /**
+     * 初始化表元数据字段信息，包括父类继承的字段信息
+     * @param tableMatedata 表元数据
+     * @param entityClass 表映射对象类型
+     */
+    private static void initTableFields(TableMateData tableMatedata, Class entityClass) {
         Field[] fields = entityClass.getDeclaredFields();
         for (Field field : fields) {
             Column column = field.getAnnotation(Column.class);
@@ -93,7 +103,9 @@ public class TableMateDataManage {
                 tableMatedata.setPrimaryKey(columnMateData);
             }
         }
-        return tableMatedata;
+        if (entityClass.getSuperclass() != null && !entityClass.getSuperclass().isInterface()) {
+            initTableFields(tableMatedata, entityClass.getSuperclass());
+        }
     }
 
     /**

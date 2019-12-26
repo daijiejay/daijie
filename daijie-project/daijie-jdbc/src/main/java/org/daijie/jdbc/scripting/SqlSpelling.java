@@ -399,20 +399,47 @@ public class SqlSpelling {
 
            }
         }
-        if (wrapperBuilder.isCondition()) {
-            Iterator<Class> whereClasses = wrapping.keySet().iterator();
-            if (whereClasses.hasNext()) {
-                sql.append(" where ");
-            }
-            while (whereClasses.hasNext()) {
-                Class whereClass = whereClasses.next();
-                Wrapper wrapper = wrapping.get(whereClass);
-                if (isCount) {
-                    wrapper.pageAndOrderClear();
+        if (wrapperBuilder.isCondition() || wrapperBuilder.isEquals()) {
+            sql.append(" where ");
+            if (wrapperBuilder.isEquals()) {
+                Iterator<Class> equalsClasses = joining.keySet().iterator();
+                while (equalsClasses.hasNext()) {
+                    Class equalsClass = equalsClasses.next();
+                    if (joining.get(equalsClass).getJoinType() == MultiWrapper.JoinType.COMMON) {
+                        Map<Class, Map<Class, List<String>>> equaling = joining.get(equalsClass).getJoinWrapper().getEqualing();
+                        Iterator<Class> entityClasses = equaling.keySet().iterator();
+                        while (entityClasses.hasNext()) {
+                            Class entityClass1 = entityClasses.next();
+                            Class entityClass2 = equaling.get(entityClass1).keySet().iterator().next();
+                            Iterator<String> equal = equaling.get(entityClass1).get(entityClass2).iterator();
+                            while (equal.hasNext()) {
+                                String[] equalFileds = equal.next().split(MultiWrapper.EQUAL_FIX);
+                                sql.append(table.getMateData(entityClass1).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(entityClass1).getColumn(equalFileds[0]).getName());
+                                sql.append(" = ");
+                                sql.append(table.getMateData(entityClass2).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(entityClass2).getColumn(equalFileds[1]).getName());
+                                if (equal.hasNext()) {
+                                    sql.append(" add ");
+                                }
+                            }
+                            if (entityClasses.hasNext() || wrapperBuilder.isCondition()) {
+                                sql.append(" add ");
+                            }
+                        }
+                    }
                 }
-                this.wrapperConditions(sql, table.getMateData(whereClass), wrapper, params, true);
-                if (whereClasses.hasNext()) {
-                    sql.append(" add ");
+            }
+            if (wrapperBuilder.isCondition()) {
+                Iterator<Class> whereClasses = wrapping.keySet().iterator();
+                while (whereClasses.hasNext()) {
+                    Class whereClass = whereClasses.next();
+                    Wrapper wrapper = wrapping.get(whereClass);
+                    if (isCount) {
+                        wrapper.pageAndOrderClear();
+                    }
+                    this.wrapperConditions(sql, table.getMateData(whereClass), wrapper, params, true);
+                    if (whereClasses.hasNext()) {
+                        sql.append(" add ");
+                    }
                 }
             }
         }

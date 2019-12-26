@@ -106,6 +106,7 @@ public class UserService /*implements IUserService*/ {
     }
 
     public void testCostomizeMultiWrapper() {
+        //select user_info.email,user_linkman.mobile,user.user_name,user.user_id,user_info.mobile,user_linkman.user_id,user_linkman.id,user_linkman.realname,user.create_date,user.remark from user left join user_info on user.user_id = user_info.user_id left join user_linkman on user.user_id = user_linkman.user_id
         MultiWrapper multiWrapper = MultiWrapper.newWrapper(User.class, null)
                 .andLeftJoin(UserInfo.class, Wrapper.newWrapper())
                 .onEqual(User.class, "userId", "userId")

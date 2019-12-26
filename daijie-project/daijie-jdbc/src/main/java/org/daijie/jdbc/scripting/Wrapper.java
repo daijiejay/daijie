@@ -1,6 +1,8 @@
 package org.daijie.jdbc.scripting;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * SQL条件包装工具
@@ -32,6 +34,33 @@ public class Wrapper {
      */
     protected WrapperBuilder getWrapperBuilder() {
         return wrapperBuilder;
+    }
+
+    /**
+     *  通用附加条件，用于判断达成某个条件后再会加SQL条件
+     * @param obj 需要做判断的具体对象
+     * @param predicate 对具体对象做校验
+     * @param consumer 对条件包装类附加条件
+     * @return 条件包装
+     */
+    public Wrapper and(Object obj, Predicate<Object> predicate, Consumer<Wrapper> consumer) {
+        if(predicate.test(obj)) {
+            consumer.accept(this);
+        }
+        return this;
+    }
+
+    /**
+     *  通用附加条件，用于判断达成某个条件后再会加SQL条件
+     * @param isWrapper 是否需要对条件包装类附加条件
+     * @param consumer 对条件包装类附加条件
+     * @return 条件包装
+     */
+    public Wrapper and(boolean isWrapper, Consumer<Wrapper> consumer) {
+        if(isWrapper) {
+            consumer.accept(this);
+        }
+        return this;
     }
 
     /**

@@ -228,6 +228,19 @@ public class MultiWrapper {
             }
             return false;
         }
+
+        /**
+         * 这个语句中是否有配置主外键关联条件
+         * @return 布尔值
+         */
+        protected boolean isEquals() {
+            for (Class clz : this.joining.keySet()) {
+                if (this.joining.get(clz).getJoinType() == JoinType.COMMON && !this.joining.get(clz).getJoinWrapper().getEqualing().isEmpty()) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     /**
@@ -271,6 +284,14 @@ public class MultiWrapper {
          */
         protected JoinType getJoinType() {
             return this.joinType;
+        }
+
+        /**
+         * 获取多表关联查询配置参数的包装类
+         * @return 当前多表关联查询配置参数的包装类
+         */
+        public JoinWrapper getJoinWrapper() {
+            return joinWrapper;
         }
 
         /**
@@ -449,6 +470,14 @@ public class MultiWrapper {
          * 多表关联查询相关字段条件参数
          */
         private Map<Class, Map<Class, List<String>>> equaling = Maps.newHashMap();
+
+        /**
+         * 获取多表关联查询相关字段条件参数
+         * @return map 多表关联查询相关字段条件参数
+         */
+        public Map<Class, Map<Class, List<String>>> getEqualing() {
+            return equaling;
+        }
 
         /**
          * 构建普通连接包装类
