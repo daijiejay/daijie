@@ -23,8 +23,9 @@ public class UserService /*implements IUserService*/ {
     public void testInsert() {
         User user = new User();
         user.setSalt("222");
-        user.setUserName("test");
-        user.setPassword("test");
+        user.setUserName("test0");
+        user.setPassword("test0");
+        user.setRemark("");
         //测试insert
         Assert.assertTrue(userMapper.insert(user));
         //测试insertSelective
@@ -33,10 +34,12 @@ public class UserService /*implements IUserService*/ {
         User user1 = new User();
         user1.setUserName("test1");
         user1.setPassword("test1");
+        user.setSalt("222");
         list.add(user1);
         User user2 = new User();
         user2.setUserName("test2");
         user2.setPassword("test2");
+        user.setSalt("222");
         list.add(user2);
         //测试insert
         Assert.assertTrue(userMapper.insert(list));
@@ -63,8 +66,15 @@ public class UserService /*implements IUserService*/ {
         User user = new User();
         user.setUserId(users.get(users.size() - 1).getUserId());
         //测试updateById
-        user.setSalt("222");
+        user.setPassword("password1");
+        user.setSalt(null);
         Assert.assertTrue(userMapper.updateById(user));
+        User user2 = new User();
+        user2.setUserId(users.get(users.size() - 2).getUserId());
+        //测试updateById
+        user2.setPassword("password2");
+        user2.setSalt(null);
+        Assert.assertTrue(userMapper.updateSelectiveById(user2));
     }
 
     public void testDelete() {

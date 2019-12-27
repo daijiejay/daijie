@@ -111,6 +111,22 @@ public class SqlSpelling {
      * @return SqlSpelling SQL拼接
      */
     public SqlSpelling updateSql(StringBuilder sql, TableMateData table, Object entity) {
+        Map<String, Object> names = getAllFieldValue(table, entity);
+        if (names.size() > 0) {
+            sql.append("update ").append(table.getName()).append(" set ").append(collectionToDelimitedString(names.entrySet().stream().map(entry -> entry.getKey()).collect(Collectors.toList()), " = ?, "));
+            sql.append(" = ?");
+        }
+        return this;
+    }
+
+    /**
+     * 更新SQL拼接
+     * @param sql SQL语句
+     * @param table 表元数据
+     * @param entity 映射对象
+     * @return SqlSpelling SQL拼接
+     */
+    public SqlSpelling updateSelectiveSql(StringBuilder sql, TableMateData table, Object entity) {
         Map<String, Object> names = getFieldValue(table, entity);
         if (names.size() > 0) {
             sql.append("update ").append(table.getName()).append(" set ").append(collectionToDelimitedString(names.entrySet().stream().map(entry -> entry.getKey()).collect(Collectors.toList()), " = ?, "));

@@ -75,12 +75,27 @@ public interface SessionMapper<T> {
     boolean updateById(T entity);
 
     /**
+     * 根据主键更新（只更新数据不等于null的数据）
+     * @param entity 需要修改的映射对象
+     * @return 是否操作成功
+     */
+    boolean updateSelectiveById(T entity);
+
+    /**
      * 根据条件更新数据
      * @param entity 需要修改的映射对象
      * @param wrapper 条件包装
      * @return 是否操作成功
      */
     boolean updateByWrapper(T entity, Wrapper wrapper);
+
+    /**
+     * 根据条件更新数据（只更新数据不等于null的数据）
+     * @param entity 需要修改的映射对象
+     * @param wrapper 条件包装
+     * @return 是否操作成功
+     */
+    boolean updateSelectiveByWrapper(T entity, Wrapper wrapper);
 
     /**
      * 插入单条数据
@@ -96,7 +111,11 @@ public interface SessionMapper<T> {
      */
     boolean insertSelective(T entity);
 
-
+    /**
+     * 插入多条数据
+     * @param entities 插入数据的映射对象
+     * @return 是否操作成功
+     */
     boolean insert(List<T> entities);
 
     /**

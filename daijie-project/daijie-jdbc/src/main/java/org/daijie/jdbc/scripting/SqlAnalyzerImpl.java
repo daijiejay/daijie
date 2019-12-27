@@ -155,8 +155,13 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            sqlSpelling.updateSql(sql, table, setEntity);
-            setParams(table, setEntity, sqlSpelling);
+            if((method.getAnnotation(Update.class) != null && method.getAnnotation(Update.class).isSelective()) || (method.getAnnotation(Update.class) == null && methodName.startsWith("updateSelective"))) {
+                sqlSpelling.updateSelectiveSql(sql, table, setEntity);
+                setParams(table, setEntity, sqlSpelling);
+            } else {
+                sqlSpelling.updateSql(sql, table, setEntity);
+                setAllParams(table, entity, sqlSpelling);
+            }
             if (wrapper == null) {
                 sqlSpelling.whereSql(sql, table, whereEntity);
                 setParams(table, whereEntity, sqlSpelling);
