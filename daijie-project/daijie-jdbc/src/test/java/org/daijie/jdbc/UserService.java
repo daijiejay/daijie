@@ -81,6 +81,7 @@ public class UserService /*implements IUserService*/ {
         Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andNotIn("userId", Arrays.asList(new String[]{"1"}))));
         Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andLike("remark", "%t%")));
         Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andNotLike("remark", "%t%")));
+        Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andRegexp("remark", "^t")));
         Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andGreaterThan("createDate", "2019-06-29 10:19:02")));
         Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andGreaterThanOrEqualTo("createDate", "2019-06-29 10:19:02")));
         Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andLessThan("createDate", "2019-06-29 10:19:02")));

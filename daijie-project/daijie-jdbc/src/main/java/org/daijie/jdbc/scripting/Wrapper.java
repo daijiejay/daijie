@@ -404,6 +404,28 @@ public class Wrapper {
     }
 
     /**
+     * 且条件，正则表达式匹配
+     * @param property 映射字段
+     * @param regexp 正则表达式
+     * @return 条件包装
+     */
+    public Wrapper andRegexp(String property, String regexp) {
+        this.wrapperBuilder.conditions.add(new Condition(property, regexp, " regexp ", WhereType.AND));
+        return this;
+    }
+
+    /**
+     * 或条件，正则表达式匹配
+     * @param property 映射字段
+     * @param regexp 正则表达式
+     * @return 条件包装
+     */
+    public Wrapper orRegexp(String property, String regexp) {
+        this.wrapperBuilder.conditions.add(new Condition(property, regexp, " regexp ", WhereType.OR));
+        return this;
+    }
+
+    /**
      * 指定映秀对象字段升序排序
      * @param property 映秀对象字段名
      * @return 条件包装
