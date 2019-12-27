@@ -67,7 +67,7 @@ public class SqlSpelling {
      * @return SqlSpelling SQL拼接
      */
     public SqlSpelling multiColumnsSql(StringBuilder sql, TableMateData table) {
-        sql.append(collectionToCommaDelimitedString(table.getDefaultColumns().entrySet().stream().map(entry -> (entry.getValue().getTable() + "." + entry.getValue().getName())).collect(Collectors.toList())));
+        sql.append(collectionToCommaDelimitedString(table.getDefaultColumns().entrySet().stream().map(entry -> (entry.getValue().getName().contains(".") ? entry.getValue().getName() : entry.getValue().getTable() + "." + entry.getValue().getName())).collect(Collectors.toList())));
         return this;
     }
 
