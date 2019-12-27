@@ -304,7 +304,8 @@ public class SqlSpelling {
                     break;
                 case EXISTS:
                     StringBuilder existsSql = new StringBuilder();
-                    existsSql.append(" exists (");
+                    existsSql.append(condition.getFix());
+                    existsSql.append("(");
                     childSelectSql(existsSql, table, TableMateDataManage.initTable(condition.getEntityClass()), condition.getWrapper(), condition.getEqualNames(), params);
                     existsSql.append(")");
                     spells.put(existsSql.toString(), condition.getWhereType());

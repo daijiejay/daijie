@@ -363,7 +363,7 @@ public class Wrapper {
      * @return 条件包装
      */
     public Wrapper andExists(Wrapper wrapper, Class<?> entityClass, String[][] equalNames) {
-        this.wrapperBuilder.conditions.add(new Condition(wrapper, entityClass, equalNames, WhereType.AND));
+        this.wrapperBuilder.conditions.add(new Condition(wrapper, entityClass, equalNames, "exists ", WhereType.AND));
         return this;
     }
 
@@ -375,7 +375,31 @@ public class Wrapper {
      * @return 条件包装
      */
     public Wrapper orExists(Wrapper wrapper, Class<?> entityClass, String[][] equalNames) {
-        this.wrapperBuilder.conditions.add(new Condition(wrapper, entityClass, equalNames, WhereType.OR));
+        this.wrapperBuilder.conditions.add(new Condition(wrapper, entityClass, equalNames, "exists ",WhereType.OR));
+        return this;
+    }
+
+    /**
+     * 且条件，不存在指定映射对象的数据中
+     * @param wrapper 条件包装
+     * @param entityClass 子查询对应的映射对象类
+     * @param equalNames 与子查询对应的映秀对象相等的字段名的二维数组，下标0为父对象字段名，下标2为子对象字段然
+     * @return 条件包装
+     */
+    public Wrapper andNotExists(Wrapper wrapper, Class<?> entityClass, String[][] equalNames) {
+        this.wrapperBuilder.conditions.add(new Condition(wrapper, entityClass, equalNames, "not exists ", WhereType.AND));
+        return this;
+    }
+
+    /**
+     * 或条件，不存在指定映射对象的数据中
+     * @param wrapper 条件包装
+     * @param entityClass 子查询对应的映射对象类
+     * @param equalNames 与子查询对应的映秀对象相等的字段名的二维数组，下标0为父对象字段名，下标2为子对象字段然
+     * @return 条件包装
+     */
+    public Wrapper orNotExists(Wrapper wrapper, Class<?> entityClass, String[][] equalNames) {
+        this.wrapperBuilder.conditions.add(new Condition(wrapper, entityClass, equalNames, "not exists ",WhereType.OR));
         return this;
     }
 
@@ -563,8 +587,9 @@ public class Wrapper {
             this.conditionType = ConditionType.BRACKET;
         }
 
-        protected Condition(Wrapper wrapper, Class<?> entityClass, String[][] equalNames, WhereType whereType) {
+        protected Condition(Wrapper wrapper, Class<?> entityClass, String[][] equalNames, String fix, WhereType whereType) {
             this.equalNames = equalNames;
+            this.fix = fix;
             this.wrapper = wrapper;
             this.entityClass = entityClass;
             this.whereType = whereType;
