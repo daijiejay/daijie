@@ -11,5 +11,15 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Insert {
 
+    /**
+     * 是否忽略null值字段的插入
+     * @return
+     */
     boolean isSelective() default false;
+
+    /**
+     * SQL语句
+     * @return SQL语句
+     */
+    String value();
 }

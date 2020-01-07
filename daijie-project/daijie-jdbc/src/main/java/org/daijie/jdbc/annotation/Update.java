@@ -12,5 +12,15 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Update {
 
+    /**
+     * 是否忽略null值字段的更新
+     * @return
+     */
     boolean isSelective() default false;
+
+    /**
+     * SQL语句
+     * @return SQL语句
+     */
+    String value();
 }

@@ -38,6 +38,17 @@ public class User {
     @Column(name = "create_date")
     private Date createDate;
 
+    public User() {
+    }
+
+    public User(String userName, String password, String salt, String remark, Date createDate) {
+        this.userName = userName;
+        this.password = password;
+        this.salt = salt;
+        this.remark = remark;
+        this.createDate = createDate;
+    }
+
     /**
      * 获取用户ID
      *

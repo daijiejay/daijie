@@ -12,5 +12,15 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Select {
 
+    /**
+     * 是否统计查询
+     * @return 是否统计查询
+     */
     boolean isCount() default false;
+
+    /**
+     * SQL语句
+     * @return SQL语句
+     */
+    String value() default "";
 }

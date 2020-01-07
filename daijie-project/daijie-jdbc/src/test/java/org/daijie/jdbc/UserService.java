@@ -1,5 +1,6 @@
 package org.daijie.jdbc;
 
+import com.google.common.collect.Lists;
 import org.daijie.jdbc.scripting.MultiWrapper;
 import org.daijie.jdbc.scripting.Wrapper;
 import org.junit.Assert;
@@ -127,6 +128,19 @@ public class UserService /*implements IUserService*/ {
                 .endWrapper()
                 .end();
         Assert.assertNotNull(userMapper.selectUserDetail(multiWrapper));
+    }
+
+    public void testCostomizeAnnotation() {
+        User user = new User();
+//        user.setUserId(1);
+        user.setUserName("test");
+//        Assert.assertNotNull(userMapper.selectUserForAnnotation1(user));
+//        Assert.assertNotNull(userMapper.selectUserForAnnotation2(user));
+
+        List<Integer> list1 = Lists.newArrayList();
+        list1.add(1);
+        list1.add(2);
+        Assert.assertNotNull(userMapper.selectUserForAnnotation3(list1));
     }
 
     public void testCommitTransaction() {

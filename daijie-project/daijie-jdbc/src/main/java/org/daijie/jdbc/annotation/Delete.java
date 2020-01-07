@@ -11,4 +11,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface Delete {
+
+    /**
+     * SQL语句
+     * @return SQL语句
+     */
+    String value();
 }

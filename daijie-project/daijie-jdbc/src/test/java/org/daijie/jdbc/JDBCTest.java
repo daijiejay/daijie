@@ -40,14 +40,15 @@ public class JDBCTest {
     public void testSRUDNotTransaction() {
         this.userService = new UserService();
         this.userService.setUserMapper(userMapper);
-        this.userService.testInsert();
-        this.userService.testSelect();
-        this.userService.testUpdate();
-        this.userService.testDelete();
-        this.userService.testSelectWrapper();
-        this.userService.testDeleteWrapper();
-        this.userService.testCostomize();
-        this.userService.testCostomizeMultiWrapper();
+//        this.userService.testInsert();
+//        this.userService.testSelect();
+//        this.userService.testUpdate();
+//        this.userService.testDelete();
+//        this.userService.testSelectWrapper();
+//        this.userService.testDeleteWrapper();
+//        this.userService.testCostomize();
+//        this.userService.testCostomizeMultiWrapper();
+        this.userService.testCostomizeAnnotation();
     }
 
     /**
