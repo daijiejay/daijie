@@ -106,6 +106,7 @@ public class UserService /*implements IUserService*/ {
         Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().page(1, 1)));
         Assert.assertNotNull(userMapper.selectPageByWrapper(Wrapper.newWrapper().page(1, 2)));
         Assert.assertNotNull(userMapper.selectCountByWrapper(Wrapper.newWrapper().andEqualTo("userName", "test")));
+        Assert.assertNotNull(userMapper.selectByWrapper(Wrapper.newWrapper().andEqualTo("userId", 1).and(true, wrapper -> wrapper.andLike("remark", "%t%"))));
     }
 
     public void testDeleteWrapper() {
@@ -119,13 +120,19 @@ public class UserService /*implements IUserService*/ {
 
     public void testCostomizeMultiWrapper() {
         //select user_info.email,user_linkman.mobile,user.user_name,user.user_id,user_info.mobile,user_linkman.user_id,user_linkman.id,user_linkman.realname,user.create_date,user.remark from user left join user_info on user.user_id = user_info.user_id left join user_linkman on user.user_id = user_linkman.user_id
+//        MultiWrapper multiWrapper = MultiWrapper.newWrapper(User.class, null)
+//                .andLeftJoin(UserInfo.class, Wrapper.newWrapper())
+//                .onEqual(User.class, "userId", "userId")
+//                .endWrapper()
+//                .andLeftJoin(UserLinkman.class, Wrapper.newWrapper())
+//                .onEqual(User.class, "userId", "userId")
+//                .endWrapper()
+//                .end();
         MultiWrapper multiWrapper = MultiWrapper.newWrapper(User.class, null)
-                .andLeftJoin(UserInfo.class, Wrapper.newWrapper())
-                .onEqual(User.class, "userId", "userId")
-                .endWrapper()
-                .andLeftJoin(UserLinkman.class, Wrapper.newWrapper())
-                .onEqual(User.class, "userId", "userId")
-                .endWrapper()
+                .andJoin(UserInfo.class, Wrapper.newWrapper())
+                .andJoin(UserLinkman.class, Wrapper.newWrapper())
+                .andEqual(User.class, UserInfo.class, "userId", "userId")
+                .andEqual(User.class, UserLinkman.class, "userId", "userId")
                 .end();
         Assert.assertNotNull(userMapper.selectUserDetail(multiWrapper));
     }

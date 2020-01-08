@@ -54,14 +54,14 @@ public interface SessionMapper<T> {
     PageResult<T> selectPageByWrapper(Wrapper wrapper);
 
     /**
-     * 根据映射对象参数查询多条数据
+     * 根据映射对象参数查询数据的总条数
      * @param entity 条件映射对象
      * @return 返回总条数
      */
     long selectCount(T entity);
 
     /**
-     * 根据映射对象参数查询多条数据
+     * 根据条件包装对象参数查询数据的总条数
      * @param wrapper 条件包装
      * @return 返回总条数
      */

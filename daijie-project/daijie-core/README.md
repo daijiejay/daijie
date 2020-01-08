@@ -54,6 +54,7 @@ public enum LeaveStatus implements OrderEnumProcessFactory<LeaveStatus> {
 	public LeaveStatus[] getEnumTypes() {
 		return LeaveStatus.values();
 	}
+}
 ```
 * 容器使用
 ```java
