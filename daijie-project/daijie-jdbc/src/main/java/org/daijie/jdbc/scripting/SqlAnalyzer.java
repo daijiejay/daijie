@@ -29,28 +29,4 @@ public interface SqlAnalyzer<T> {
      * @param multiWrapper 多表关联条件包装工具
      */
     void generatingSql(MultiTableMateData table, Method method, MultiWrapper multiWrapper);
-
-    /**
-     * 获取数据库脚本操作类型
-     * @return Type 数据库操作类型
-     */
-    SqlExecutor.Type getScriptType();
-
-    /**
-     * 获取SQL语句
-     * @return String SQL语句
-     */
-    String getSql();
-
-    /**
-     * 获取查询总数SQL语句
-     * @return String SQL语句
-     */
-    String getCountSql();
-
-    /**
-     * 获取点位符对应的参数
-     * @return Lst 点位符对应的参数
-     */
-    List<Object> getParams();
 }

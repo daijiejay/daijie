@@ -4,12 +4,14 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.daijie.jdbc.datasource.DataSourceManage;
 import org.daijie.jdbc.datasource.DataSourceUtil;
 import org.daijie.jdbc.datasource.SimpleDataSource;
+import org.daijie.jdbc.executor.SqlExecutor;
 import org.daijie.jdbc.session.SessionMapperManager;
 import org.daijie.jdbc.transaction.TransactionManager;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +33,15 @@ public class JDBCTest {
         DataSource druidDataSource = DataSourceUtil.getDataSource(DruidDataSource.class, properties);
         DataSourceManage.setDataSource(new SimpleDataSource(druidDataSource));
         this.userMapper = SessionMapperManager.createSessionMapper(UserMapper.class);
+    }
+
+    public void testSqlExecutor() {
+        SqlExecutor executor = new SqlExecutor("");
+        try {
+            executor.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

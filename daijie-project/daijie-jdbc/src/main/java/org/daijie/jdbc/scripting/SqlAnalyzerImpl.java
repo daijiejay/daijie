@@ -24,29 +24,9 @@ import java.util.Set;
  * @author daijie
  * @since 2019/5/23
  */
-public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
+public class SqlAnalyzerImpl<T> extends AbstractSqlScript implements SqlAnalyzer<T> {
 
     private final Logger log = LoggerFactory.getLogger(SqlAnalyzerImpl.class);
-
-    /**
-     * SQL脚本操作类型
-     */
-    private SqlExecutor.Type type;
-
-    /**
-     * SQL语句
-     */
-    private String sql;
-
-    /**
-     * 查询总数SQL语句
-     */
-    private String countSql;
-
-    /**
-     * 占位符对应的参数
-     */
-    private List<Object> params = new ArrayList<>();
 
     @Override
     public void generatingSql(TableMateData table, T entity, Method method, Wrapper wrapper) {
@@ -141,26 +121,6 @@ public class SqlAnalyzerImpl<T> implements SqlAnalyzer<T> {
             }
         }
         return parameters;
-    }
-
-    @Override
-    public SqlExecutor.Type getScriptType() {
-        return this.type;
-    }
-
-    @Override
-    public String getSql() {
-        return this.sql;
-    }
-
-    @Override
-    public String getCountSql() {
-        return this.countSql;
-    }
-
-    @Override
-    public List<Object> getParams() {
-        return params;
     }
 
     /**

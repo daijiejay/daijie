@@ -8,9 +8,7 @@ import org.daijie.jdbc.matedata.TableMateDataManage;
 import org.daijie.jdbc.result.BaseResult;
 import org.daijie.jdbc.result.PageResult;
 import org.daijie.jdbc.result.Result;
-import org.daijie.jdbc.scripting.MultiWrapper;
-import org.daijie.jdbc.scripting.SqlAnalyzer;
-import org.daijie.jdbc.scripting.SqlAnalyzerImpl;
+import org.daijie.jdbc.scripting.*;
 import org.daijie.jdbc.scripting.Wrapper;
 import org.daijie.jdbc.transaction.Transaction;
 import org.daijie.jdbc.transaction.TransactionManager;
@@ -20,10 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -42,13 +37,13 @@ public class SqlExecutor implements Executor {
      */
     private final TableMateData tableMatedata;
     /**
-     * SQL分析器
+     * SQL脚本信息
      */
-    private SqlAnalyzer sqlAnalyzer;
+    private SqlScript sqlScript;
     /**
      * 预编译SQL声明
      */
-    private PreparedStatement statement;
+    private Statement statement;
     /**
      *  事务管理
      */
@@ -57,6 +52,17 @@ public class SqlExecutor implements Executor {
      * 查询结果对象映射
      */
     private final Result result;
+
+    /**
+     * 构造SQL执行器
+     * @param fileName SQL文件路径
+     */
+    public SqlExecutor(String fileName) {
+        this.transation = TransactionManager.createTransaction();
+        this.tableMatedata = null;
+        this.result = null;
+        this.sqlScript = new SqlFileReaderImpl(fileName);
+    }
 
     /**
      * 构造SQL执行器
@@ -93,18 +99,20 @@ public class SqlExecutor implements Executor {
 
     @Override
     public Object execute() throws SQLException {
-        log.debug(this.sqlAnalyzer.getSql());
+        log.debug(this.sqlScript.getSql());
         Object result = null;
         try {
-            if (Type.QUERY == this.sqlAnalyzer.getScriptType()) {
+            if (Type.QUERY == this.sqlScript.getScriptType()) {
                 result = executeQuery();
-            } else if (Type.UPDATE == this.sqlAnalyzer.getScriptType()) {
+            } else if (Type.UPDATE == this.sqlScript.getScriptType()) {
                 result = executeUpdate();
                 commit();
+            } else if (Type.BATCH == this.sqlScript.getScriptType()) {
+                result = executeBatch();
             }
         } catch (Exception e) {
-            log.error("SQL执行失败：" + this.sqlAnalyzer.getSql(), e);
-            if (Type.UPDATE == this.sqlAnalyzer.getScriptType()) {
+            log.error("SQL执行失败：" + this.sqlScript.getSql(), e);
+            if (Type.UPDATE == this.sqlScript.getScriptType()) {
                 rollback();
             }
             throw e;
@@ -116,31 +124,40 @@ public class SqlExecutor implements Executor {
 
     @Override
     public Object executeQuery() throws SQLException {
-        if (CacheManage.get(this.tableMatedata.getName(), this.sqlAnalyzer.getSql()) != null) {
-           return this.result.getResult(CacheManage.get(this.tableMatedata.getName(), this.sqlAnalyzer.getSql()));
+        if (CacheManage.get(this.tableMatedata.getName(), this.sqlScript.getSql()) != null) {
+           return this.result.getResult(CacheManage.get(this.tableMatedata.getName(), this.sqlScript.getSql()));
         }
         if (this.result instanceof PageResult) {
-            ((PageResult) this.result).pageResult(executeQuery(this.sqlAnalyzer.getCountSql()));
+            ((PageResult) this.result).pageResult(executeQuery(this.sqlScript.getCountSql()));
             if (((PageResult) this.result).getTotal() == 0) {
                 return this.result;
             }
         }
-        ResultSet resultSet = executeQuery(this.sqlAnalyzer.getSql());
+        ResultSet resultSet = executeQuery(this.sqlScript.getSql());
         Object resultData = this.result.mappingObjectResult(resultSet, this.tableMatedata);
         resultSet.last();
         log.debug("查询条数为：{}", resultSet.getRow());
         if (!CacheManage.isChangeTable(this.tableMatedata.getName())) {
-            CacheManage.set(this.tableMatedata.getName(), this.sqlAnalyzer.getSql(), resultData);
+            CacheManage.set(this.tableMatedata.getName(), this.sqlScript.getSql(), resultData);
         }
         return resultData;
     }
 
     @Override
-    public Object executeUpdate() throws SQLException{
-        int count = executeUpdate(this.sqlAnalyzer.getSql());
+    public Object executeUpdate() throws SQLException {
+        int count = executeUpdate(this.sqlScript.getSql());
         log.debug("变更条数为：{}", count);
         if (count > 0) {
             CacheManage.remove(this.tableMatedata.getName());
+        }
+        return true;
+    }
+
+    @Override
+    public Object executeBatch() throws SQLException {
+        int[] rows = executeBatch(this.sqlScript.getSql());
+        for (int row : rows) {
+            log.debug("变更条数为：{}", row);
         }
         return true;
     }
@@ -149,14 +166,21 @@ public class SqlExecutor implements Executor {
         this.statement = getConnection().prepareStatement(sql);
         createParams();
         log.debug(this.statement.toString());
-        return this.statement.executeQuery();
+        return ((PreparedStatement) this.statement).executeQuery();
     }
 
     private int executeUpdate(String sql) throws SQLException {
         this.statement = getConnection().prepareStatement(sql);
         createParams();
         log.debug(this.statement.toString());
-        return this.statement.executeUpdate();
+        return ((PreparedStatement) this.statement).executeUpdate();
+    }
+
+    private int[] executeBatch(String sql) throws SQLException {
+        this.statement = getConnection().createStatement();
+        this.statement.addBatch(sql);
+        log.debug(this.statement.toString());
+        return this.statement.executeBatch();
     }
 
     @Override
@@ -190,7 +214,7 @@ public class SqlExecutor implements Executor {
      * @param args mapper方法参数
      */
     private void initSqlAnalyzer(Method method, Object[] args) {
-        this.sqlAnalyzer = new SqlAnalyzerImpl<>();
+        SqlAnalyzerImpl sqlAnalyzer = new SqlAnalyzerImpl<>();
         Object entity = null;
         Wrapper wrapper = null;
         MultiWrapper multiWrapper = null;
@@ -213,7 +237,8 @@ public class SqlExecutor implements Executor {
                     }
                 }
             }
-            this.sqlAnalyzer.generatingSql(this.tableMatedata, entity, method, wrapper);
+            sqlAnalyzer.generatingSql(this.tableMatedata, entity, method, wrapper);
+            this.sqlScript = sqlAnalyzer;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -225,8 +250,9 @@ public class SqlExecutor implements Executor {
      * @param multiWrapper 多表查询包装类
      */
     private void initSqlAnalyzer(Method method, MultiWrapper multiWrapper) {
-        this.sqlAnalyzer = new SqlAnalyzerImpl<>();
-        this.sqlAnalyzer.generatingSql((MultiTableMateData) this.tableMatedata, method, multiWrapper);
+        SqlAnalyzerImpl sqlAnalyzer = new SqlAnalyzerImpl<>();
+        sqlAnalyzer.generatingSql((MultiTableMateData) this.tableMatedata, method, multiWrapper);
+        this.sqlScript = sqlAnalyzer;
     }
 
     private MultiWrapper getMultiWrapper(Object[] args) {
@@ -242,15 +268,18 @@ public class SqlExecutor implements Executor {
     }
 
     private void createParams() throws SQLException {
-        log.debug(this.sqlAnalyzer.getParams().toString());
-        int index = 1;
-        for (Object param : this.sqlAnalyzer.getParams()) {
-            this.statement.setObject(index++, param);
-        };
+        if (this.statement instanceof PreparedStatement) {
+            log.debug(this.sqlScript.getParams().toString());
+            int index = 1;
+            for (Object param : this.sqlScript.getParams()) {
+                ((PreparedStatement) this.statement).setObject(index++, param);
+            }
+        }
     }
 
     public enum Type {
         QUERY,
-        UPDATE
+        UPDATE,
+        BATCH
     }
 }

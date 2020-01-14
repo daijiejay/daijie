@@ -41,6 +41,13 @@ public interface Executor {
     Object executeUpdate() throws SQLException;
 
     /**
+     * 批量执行SQL
+     * @return 批量执行结果
+     * @throws SQLException SQL异常
+     */
+    public Object executeBatch() throws SQLException;
+
+    /**
      * 提交事务
      * @throws SQLException SQL异常
      */
