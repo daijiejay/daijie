@@ -27,7 +27,7 @@ public class MapperClassPathBeanDefinitionScanner implements ApplicationContextA
     /**
      * Collections.singletonList(new ContextConfigurationAttributes(testClass))
      * 扫描启动类包路径下的Mapper类，并注册到spring容器
-     * @return
+     * @return bean实例集
      */
     public Set<BeanDefinition> doScan() {
         Set<BeanDefinition> beanDefinitions = new LinkedHashSet();

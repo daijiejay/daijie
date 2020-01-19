@@ -56,6 +56,7 @@ public class ConnectionClientManage {
      * CONCUR_UPDATETABLE 能用结果集更新数据库中的表
      * @param url 连接地址，包含服务器名，数据库名，用户名，密码等相关参数
      * @param driverName 驱动类名
+     * @param properties 获取表信息的相关配置
      * @return 返回查询结果集
      */
     public static List<TableMateData> getMatedata(String url, String driverName, Properties properties) {

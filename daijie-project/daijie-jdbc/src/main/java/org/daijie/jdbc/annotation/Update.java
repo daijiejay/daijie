@@ -14,7 +14,7 @@ public @interface Update {
 
     /**
      * 是否忽略null值字段的更新
-     * @return
+     * @return boolean
      */
     boolean isSelective() default false;
 

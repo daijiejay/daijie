@@ -138,7 +138,7 @@ public class ClassLoaderUtil {
 
     /**
      * 获取应用入口主类
-     * @return
+     * @return 返回应用入口主类
      */
     public static Class<?> getMainApplicationClass() {
         try {

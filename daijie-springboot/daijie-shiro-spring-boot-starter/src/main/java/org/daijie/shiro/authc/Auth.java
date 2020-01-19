@@ -369,7 +369,7 @@ public final class Auth {
 	 * 用公钥解析公钥加密的密码
 	 * @param priKeyCryptograph 私钥加密的密文
 	 * @return String
-	 * @throws Exception
+	 * @throws Exception 解密异常
 	 */
 	public static String decryptByPubKey(String priKeyCryptograph) throws Exception {
 		RSAUtil.set(null, getPublicKey());
@@ -381,7 +381,7 @@ public final class Auth {
 	 * 用私钥解析公钥加密的密码
 	 * @param pubKeyCryptograph 公钥加密的密文
 	 * @return String
-	 * @throws Exception
+	 * @throws Exception 解密异常
 	 */
 	public static String decryptByPriKey(String pubKeyCryptograph) throws Exception {
 		RSAUtil.set(null, getPrivateKey());

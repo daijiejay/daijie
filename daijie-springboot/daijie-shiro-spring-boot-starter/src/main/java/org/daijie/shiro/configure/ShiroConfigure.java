@@ -144,11 +144,7 @@ public class ShiroConfigure {
 		securityManager.setCacheManager(cacheManager);
 		return securityManager;
 	}
-	
-	/**
-	 * @param credentialsMatcher
-	 * @return
-	 */
+
 	@Bean(name = "authorizingRealm")
 	@Primary
 	public AuthorizingRealm initAuthorizingRealm(@Qualifier("credentialsMatcher") CredentialsMatcher credentialsMatcher,

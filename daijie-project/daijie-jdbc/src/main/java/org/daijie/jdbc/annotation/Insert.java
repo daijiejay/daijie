@@ -13,7 +13,7 @@ public @interface Insert {
 
     /**
      * 是否忽略null值字段的插入
-     * @return
+     * @return boolean
      */
     boolean isSelective() default false;
 

@@ -41,8 +41,8 @@ public class PropertiesUtils {
 
     /**
      * 获取配置文件
-     * @param filePath
-     * @return
+     * @param filePath 配置文件路径
+     * @return 返回配置文件信息
      */
     public static Properties getProperties(String filePath) {
         Properties prop = new Properties();

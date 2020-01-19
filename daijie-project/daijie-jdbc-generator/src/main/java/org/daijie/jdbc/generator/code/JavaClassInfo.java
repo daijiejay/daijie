@@ -109,6 +109,7 @@ public class JavaClassInfo {
      * @param parentPackages 父类路径
      * @param classDecorate 类修饰关键字
      * @param className 类名
+     * @param javaAnnotationInfos 类注解信息
      */
     public JavaClassInfo(String targetPackage, Set<String> importPackages, Map<String, String[]> interfacePackages, Map<String, String[]> parentPackages, String classDecorate, String className, List<JavaAnnotationInfo> javaAnnotationInfos) {
         this.targetPackage = targetPackage;

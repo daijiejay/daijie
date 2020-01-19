@@ -17,9 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class JunitRunner extends SpringJUnit4ClassRunner {
 
     /**
-     * Creates a BlockJUnit4ClassRunner to run {@code klass}
-     *
-     * @param klass
+     * 单元测试启动类配置
+     * @param klass 启动类
      * @throws InitializationError if the test class is malformed.
      */
     public JunitRunner(Class<?> klass) throws InitializationError {

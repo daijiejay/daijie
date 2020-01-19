@@ -24,7 +24,7 @@ public class CodeString {
     /**
      * 单行代码拼接
      * @param code 代码块
-     * @return
+     * @return 返回代码拼接工具
      */
     protected CodeString append(String code) {
         if (this.code == null) {
