@@ -322,3 +322,22 @@ private long count;
 @Column(table = "user", name = "name+':'+remark")
 private String remark;
 ```
+### 导入SQL脚本
+#### 本地SQL文件
+```java
+//创建数据库会话
+Map<String, Object> properties = new HashMap<>();
+properties.put("driverClassName", "com.mysql.jdbc.Driver");
+properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8&serverTimezone=UTC");
+properties.put("username", "root");
+properties.put("password", "123456");
+DataSource druidDataSource = DataSourceUtil.getDataSource(DruidDataSource.class, properties);
+DataSourceManage.setDataSource(new SimpleDataSource(druidDataSource));
+new SqlExecutor("D:/user.sql").execute();
+```
+#### 项目resourcesSQL文件
+```java
+//创建数据库会话
+... 
+new SqlExecutor("classpath:user.sql").execute();
+```

@@ -12,6 +12,8 @@ import javax.sql.DataSource;
  */
 public class DataSourceManage {
 
+    public static final String DATA_SOURCE = "dataSource";
+
     private static AbstractDataSource dataSource;
 
     private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();

@@ -178,8 +178,9 @@ public class SqlExecutor implements Executor {
 
     private int[] executeBatch(String sql) throws SQLException {
         this.statement = getConnection().createStatement();
-        this.statement.addBatch(sql);
-        log.debug(this.statement.toString());
+        for (String row : sql.split(";")) {
+            this.statement.addBatch(row);
+        }
         return this.statement.executeBatch();
     }
 

@@ -7,6 +7,7 @@ import org.daijie.jdbc.datasource.SimpleDataSource;
 import org.daijie.jdbc.executor.SqlExecutor;
 import org.daijie.jdbc.session.SessionMapperManager;
 import org.daijie.jdbc.transaction.TransactionManager;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class JDBCTest {
     public void init() throws ReflectiveOperationException {
         Map<String, Object> properties = new HashMap<>();
         properties.put("driverClassName", "com.mysql.jdbc.Driver");
-        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8");
+        properties.put("url", "jdbc:mysql://localhost:3306/demo?characterEncoding=UTF-8&serverTimezone=UTC");
         properties.put("username", "root");
         properties.put("password", "123456");
         DataSource druidDataSource = DataSourceUtil.getDataSource(DruidDataSource.class, properties);
@@ -35,13 +36,19 @@ public class JDBCTest {
         this.userMapper = SessionMapperManager.createSessionMapper(UserMapper.class);
     }
 
+    /**
+     * 测试执行SQL文件
+     */
+    @Test
     public void testSqlExecutor() {
-        SqlExecutor executor = new SqlExecutor("");
+        SqlExecutor executor = new SqlExecutor("D:/user.sql");
+        boolean flag = false;
         try {
-            executor.execute();
+            flag = (boolean) executor.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Assert.assertTrue(flag);
     }
 
     /**

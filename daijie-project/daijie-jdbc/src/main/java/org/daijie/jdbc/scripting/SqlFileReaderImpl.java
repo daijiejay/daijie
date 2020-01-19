@@ -1,6 +1,9 @@
 package org.daijie.jdbc.scripting;
 
+import org.daijie.jdbc.executor.SqlExecutor;
+
 import java.io.*;
+import java.util.regex.Pattern;
 
 /**
  * SQL文件读取内容实现
@@ -16,6 +19,7 @@ public class SqlFileReaderImpl extends AbstractSqlScript implements SqlFileReade
 
     public SqlFileReaderImpl(String fileName) {
         this.fileName = fileName;
+        readSqlFile();
     }
 
     @Override
@@ -34,7 +38,9 @@ public class SqlFileReaderImpl extends AbstractSqlScript implements SqlFileReade
             reader = new BufferedReader(inputStreamReader);
             String tempString = null;
             while ((tempString = reader.readLine()) != null) {
-                sql.append(tempString);
+                if (!tempString.startsWith("--")) {
+                    sql.append(tempString);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,5 +59,10 @@ public class SqlFileReaderImpl extends AbstractSqlScript implements SqlFileReade
             }
         }
         this.sql = sql.toString();
+    }
+
+    @Override
+    public SqlExecutor.Type getScriptType() {
+        return SqlExecutor.Type.BATCH;
     }
 }
