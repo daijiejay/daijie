@@ -12,7 +12,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<shiro>1.4.0</shiro>
+		<shiro>1.5.0</shiro>
 	</properties>
 	<dependencies>
 		<dependency>
