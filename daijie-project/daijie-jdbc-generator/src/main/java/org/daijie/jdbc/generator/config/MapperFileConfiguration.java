@@ -85,14 +85,16 @@ public abstract class MapperFileConfiguration extends AbstractJavaFileConfigurat
     @Override
     public Generator initGenerator() {
         Map<String, String[]> interfacePackages = Maps.newHashMap();
-        if (CollUtil.isNotEmpty(this.interfacePackages)) {
-            String modelName = CodeGeneratorUtil.UnderlineToClassName(this.getTableMateData().getName());
-            for (String className : this.interfacePackages) {
-                interfacePackages.put(className, new String[]{modelName});
-            }
-            this.importPackages.add(this.modelTargetPackage + "." + modelName);
+        String modelName = CodeGeneratorUtil.UnderlineToClassName(this.getTableMateData().getName());
+        for (String className : this.interfacePackages) {
+            interfacePackages.put(className, new String[]{modelName});
         }
-        JavaClassInfo javaClassInfo = new JavaClassInfo(this.getTargetPackage(), this.getImportPackages(), interfacePackages, null, JavaClassInfo.INTERFACE, this.getFileName());
+        Set<String> importPackages = Sets.newHashSet();
+        for (String importPackage : this.importPackages) {
+            importPackages.add(importPackage);
+        }
+        importPackages.add(this.modelTargetPackage + "." + modelName);
+        JavaClassInfo javaClassInfo = new JavaClassInfo(this.getTargetPackage(), importPackages, interfacePackages, null, JavaClassInfo.INTERFACE, this.getFileName());
         return new JavaClassGenerator(javaClassInfo);
     }
 }

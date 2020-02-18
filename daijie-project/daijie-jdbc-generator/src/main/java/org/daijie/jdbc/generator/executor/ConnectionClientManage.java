@@ -67,7 +67,8 @@ public class ConnectionClientManage {
             conn = DriverManager.getConnection(url, properties);
             conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             DatabaseMetaData metaData = conn.getMetaData();
-            ResultSet resultSet = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
+            String database = url.substring(url.lastIndexOf("/") + 1, url.indexOf("?"));
+            ResultSet resultSet = metaData.getTables(database, "%", "%", new String[]{"TABLE"});
             while (resultSet.next()) {
                 String tableName = resultSet.getString("TABLE_NAME");
                 String remarks = resultSet.getString("REMARKS");
