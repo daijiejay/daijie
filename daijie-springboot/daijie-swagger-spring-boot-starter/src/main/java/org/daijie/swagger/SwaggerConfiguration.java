@@ -6,6 +6,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.EnvironmentAware;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.NoSuchElementException;
  * @author daijie_jay
  * @since 2017年12月13日
  */
+@Configuration
 public class SwaggerConfiguration extends ApiInfoDocketFactory implements EnvironmentAware {
 	
 	protected Logger logger = LoggerFactory.getLogger(SwaggerConfiguration.class);

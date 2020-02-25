@@ -44,14 +44,4 @@ public abstract class ModelResultInitialFactory implements Factory {
 	public static <E> ModelResult<E> build(String msg, boolean success, ResultCode code){
 		return build(null, msg, success, code);
 	}
-
-	public static class Result extends ModelResultInitialFactory {
-
-		public static final boolean SUCCESS = true;
-		public static final boolean ERROR = false;
-
-		private static <E> ModelResultWrapper<E> clear(E value){
-			return new ModelResultWrapper<E>(Result.SUCCESS, ResultCode.CODE_200).setData(value);
-		}
-	}
 }

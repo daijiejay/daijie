@@ -1,5 +1,6 @@
 package org.daijie.swagger;
 
+import org.daijie.swagger.result.ModelResultExceptionHandler;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -13,7 +14,7 @@ import java.lang.annotation.*;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE })
 @Documented
-@Import({SwaggerConfiguration.class})
+@Import({SwaggerConfiguration.class, ModelResultExceptionHandler.class})
 @EnableSwagger2
 public @interface EnableMySwagger {
 
