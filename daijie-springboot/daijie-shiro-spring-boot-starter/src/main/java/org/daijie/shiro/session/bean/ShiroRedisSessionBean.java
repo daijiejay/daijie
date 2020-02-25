@@ -1,6 +1,7 @@
 package org.daijie.shiro.session.bean;
 
 import org.daijie.shiro.ShiroSecurity;
+import org.daijie.shiro.configure.ShiroRedisProperties;
 import org.daijie.shiro.session.ShiroRedisSession;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +15,8 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 public class ShiroRedisSessionBean {
 	
 	@Bean
-	public ShiroRedisSession initShiroRedisSession(ShiroSecurity shiroSecurity){
-		return new ShiroRedisSession(shiroSecurity.getCookieName(), shiroSecurity.getSessionTimeOut());
+	public ShiroRedisSession initShiroRedisSession(ShiroSecurity shiroSecurity, ShiroRedisProperties shiroRedisProperties){
+		return new ShiroRedisSession(shiroSecurity.getCookieName(), shiroSecurity.getSessionTimeOut(), shiroRedisProperties.getExpire());
 	}
 	
 	@Bean

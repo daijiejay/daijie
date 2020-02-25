@@ -9,7 +9,7 @@ import java.util.TreeSet;
  * @author daijie
  * @since 2017年6月22日
  */
-public class RedisManager {
+public class ClusterRedisManager {
 
   private JedisCluster jedisCluster;
 
@@ -41,7 +41,7 @@ public class RedisManager {
     this.jedisCluster = jedisCluster;
   }
 
-  public RedisManager() {
+  public ClusterRedisManager() {
 
   }
 

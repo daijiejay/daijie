@@ -25,10 +25,7 @@ import org.daijie.shiro.ShiroSecurity;
 import org.daijie.shiro.TokenCredentialsMatcher;
 import org.daijie.shiro.UserAuthorizingRealm;
 import org.daijie.shiro.filter.CredentialFilter;
-import org.daijie.shiro.redis.BaseRedisManagerFactory;
-import org.daijie.shiro.redis.RedisCacheManager;
-import org.daijie.shiro.redis.RedisManager;
-import org.daijie.shiro.redis.RedisOperator;
+import org.daijie.shiro.redis.*;
 import org.daijie.shiro.session.ClusterRedisSession;
 import org.daijie.shiro.session.RedisSession;
 import org.daijie.shiro.session.RedisSessionFactory;
@@ -264,17 +261,14 @@ public class ShiroConfigure {
 					genericObjectPoolConfig);
 			RedisOperator redisOperator = new RedisOperator();
 			redisOperator.setJedisCluster(jedisCluster);
-			RedisManager redisManager = new RedisManager();
+			ClusterRedisManager redisManager = new ClusterRedisManager();
 			redisManager.setJedisCluster(jedisCluster);
 			redisManager.setRedisOperator(redisOperator);
 			return redisManager;
 		}else{
-			String[] hosts = shiroRedisProperties.getAddress().split(",")[0].split(":");
-			org.crazycake.shiro.RedisManager redisManager = new org.crazycake.shiro.RedisManager();
-			redisManager.setExpire(shiroRedisProperties.getExpire());
+			SingleRedisManager redisManager = new SingleRedisManager();
 			redisManager.setTimeout(shiroRedisProperties.getConnectionTimeout());
-			redisManager.setHost(hosts[0]);
-			redisManager.setPort(Integer.parseInt(hosts[1]));
+			redisManager.setHost(shiroRedisProperties.getAddress());
 			redisManager.setPassword(shiroRedisProperties.getPassword());
 			return redisManager;
 		}
@@ -283,23 +277,23 @@ public class ShiroConfigure {
 	@Bean("redisManagerFactory")
 	public BaseRedisManagerFactory redisManagerFactory(@Qualifier("redisManager") Object redisManager){
 		BaseRedisManagerFactory redisManagerFactory = new BaseRedisManagerFactory();
-		if(redisManager instanceof RedisManager){
-			redisManagerFactory.setClusterRedisManager((RedisManager) redisManager);
+		if(redisManager instanceof ClusterRedisManager){
+			redisManagerFactory.setClusterRedisManager((ClusterRedisManager) redisManager);
 		}else{
-			redisManagerFactory.setSingleRedisManager((org.crazycake.shiro.RedisManager) redisManager);
+			redisManagerFactory.setSingleRedisManager((SingleRedisManager) redisManager);
 		}
 		return redisManagerFactory;
 	}
 	
 	@Bean("cacheManager")
 	public CacheManager cacheManager(@Qualifier("redisManager") Object redisManager){
-		if(redisManager instanceof RedisManager){
+		if(redisManager instanceof ClusterRedisManager){
 			RedisCacheManager cacheManager = new RedisCacheManager();
-			cacheManager.setRedisManager((RedisManager) redisManager);
+			cacheManager.setRedisManager((ClusterRedisManager) redisManager);
 			return cacheManager;
 		}else{
 			org.crazycake.shiro.RedisCacheManager cacheManager = new org.crazycake.shiro.RedisCacheManager();
-			cacheManager.setRedisManager((org.crazycake.shiro.RedisManager) redisManager);
+			cacheManager.setRedisManager((SingleRedisManager) redisManager);
 			return cacheManager;
 		}
 	}

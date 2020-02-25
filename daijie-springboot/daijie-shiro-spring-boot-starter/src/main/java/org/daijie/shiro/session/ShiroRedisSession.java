@@ -32,6 +32,8 @@ public class ShiroRedisSession {
 	
 	private static long sessionTimeOut = 360000;
 
+	private static Integer expire = 360000;
+
 	public static String token = ShiroRedisSession.TOKEN_NAME;
 	
 	public ShiroRedisSession(String token) {
@@ -40,11 +42,12 @@ public class ShiroRedisSession {
 		}
 	}
 	
-	public ShiroRedisSession(String token, long sessionTimeOut) {
+	public ShiroRedisSession(String token, long sessionTimeOut, Integer expire) {
 		if (!StringUtils.isEmpty(token)) {
 			ShiroRedisSession.token = token;
 		}
 		ShiroRedisSession.sessionTimeOut = sessionTimeOut;
+		ShiroRedisSession.expire = expire;
 	}
 
 	@Autowired
@@ -67,7 +70,12 @@ public class ShiroRedisSession {
 				logger.error("redisSession is null!");
 			}else{
 				try {
-					String token = getToken();
+					String token = null;
+					try {
+						token = getToken();
+					} catch (Exception e) {
+
+					}
 					if (token == null) {
 						token = SecurityUtils.getSubject().getSession().getId().toString();
 						isExpire(true);
@@ -194,7 +202,7 @@ public class ShiroRedisSession {
 		public static void set(String key, Object value){
 			if(redisSession instanceof RedisSession){
 				RedisSession redis = (RedisSession) redisSession;
-				redis.getRedisManager().set((key+getToken()).getBytes(), SerializeUtil.serialize(value));
+				redis.getRedisManager().set((key+getToken()).getBytes(), SerializeUtil.serialize(value), ShiroRedisSession.expire);
 			}else if(redisSession instanceof ClusterRedisSession){
 				ClusterRedisSession redis = (ClusterRedisSession) redisSession;
 				redis.getRedisManager().set((key+getToken()).getBytes(), SerializeUtil.serialize(value));

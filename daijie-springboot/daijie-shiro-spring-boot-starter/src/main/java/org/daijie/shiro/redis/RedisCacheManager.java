@@ -22,7 +22,7 @@ public class RedisCacheManager implements CacheManager {
 	@SuppressWarnings("rawtypes")
 	private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<String, Cache>();
 
-	private RedisManager redisManager;
+	private ClusterRedisManager redisManager;
 
 	private String keyPrefix = "shiro_redis_cache:";
 	
@@ -53,11 +53,11 @@ public class RedisCacheManager implements CacheManager {
 		return c;
 	}
 
-	public RedisManager getRedisManager() {
+	public ClusterRedisManager getRedisManager() {
 		return redisManager;
 	}
 
-	public void setRedisManager(RedisManager redisManager) {
+	public void setRedisManager(ClusterRedisManager redisManager) {
 		this.redisManager = redisManager;
 	}
 

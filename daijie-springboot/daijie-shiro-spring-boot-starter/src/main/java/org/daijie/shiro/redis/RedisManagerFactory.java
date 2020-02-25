@@ -11,11 +11,11 @@ public interface RedisManagerFactory {
 	 * 获取集群redis管理工具
 	 * @return RedisManager
 	 */
-	public RedisManager getClusterRedisManager();
+	public ClusterRedisManager getClusterRedisManager();
 	
 	/**
 	 * 获取单机redis管理工具
 	 * @return RedisManager
 	 */
-	public org.crazycake.shiro.RedisManager getSingleRedisManager();
+	public SingleRedisManager getSingleRedisManager();
 }

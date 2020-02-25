@@ -3,7 +3,10 @@ package org.daijie.shiro.redis;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
-import org.crazycake.shiro.SerializeUtils;
+import org.crazycake.shiro.exception.SerializationException;
+import org.crazycake.shiro.serializer.ObjectSerializer;
+import org.crazycake.shiro.serializer.RedisSerializer;
+import org.crazycake.shiro.serializer.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +21,9 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
-	private RedisManager cache;
+	private ClusterRedisManager cache;
+	private RedisSerializer keySerializer = new StringSerializer();
+	private RedisSerializer valueSerializer = new ObjectSerializer();
 	
 	private String keyPrefix = "shiro_redis_session:";
 	
@@ -40,7 +45,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	 * 通过一个JedisManager实例构造RedisCache
 	 * @param cache redis管理工具
 	 */
-	public RedisCache(RedisManager cache){
+	public RedisCache(ClusterRedisManager cache){
 		 if (cache == null) {
 	         throw new IllegalArgumentException("Cache argument cannot be null.");
 	     }
@@ -51,8 +56,8 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	 * @param cache redis管理工具
 	 * @param prefix 前缀名
 	 */
-	public RedisCache(RedisManager cache, 
-				String prefix){
+	public RedisCache(ClusterRedisManager cache,
+					  String prefix){
 		this( cache );
 		this.keyPrefix = prefix;
 	}
@@ -62,12 +67,12 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	 * @param key 键
 	 * @return byte[]
 	 */
-	private byte[] getByteKey(K key){
+	private byte[] getByteKey(K key) throws SerializationException {
 		if(key instanceof String){
 			String preKey = this.keyPrefix + key;
     		return preKey.getBytes();
     	}else{
-    		return SerializeUtils.serialize(key);
+    		return this.keySerializer.serialize(key);
     	}
 	}
  	
@@ -79,8 +84,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	            return null;
 	        }else{
 	        	byte[] rawValue = cache.get(getByteKey(key));
-	        	@SuppressWarnings("unchecked")
-				V value = (V)SerializeUtils.deserialize(rawValue);
+				V value = (V) this.valueSerializer.deserialize(rawValue);
 	        	return value;
 	        }
 		} catch (Throwable t) {
@@ -93,7 +97,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	public V put(K key, V value) throws CacheException {
 		logger.debug("根据key从存储 key [" + key + "]");
 		 try {
-			 	cache.set(getByteKey(key), SerializeUtils.serialize(value));
+			 	cache.set(getByteKey(key), this.valueSerializer.serialize(value));
 	            return value;
 	        } catch (Throwable t) {
 	            throw new CacheException(t);

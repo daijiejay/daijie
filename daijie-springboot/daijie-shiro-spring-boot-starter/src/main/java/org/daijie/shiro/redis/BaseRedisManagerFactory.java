@@ -1,25 +1,26 @@
 package org.daijie.shiro.redis;
 
-public class BaseRedisManagerFactory {
+public class BaseRedisManagerFactory implements RedisManagerFactory {
 
-	private RedisManager clusterRedisManager;
+	private ClusterRedisManager clusterRedisManager;
 	
-	private org.crazycake.shiro.RedisManager SingleRedisManager;
+	private SingleRedisManager SingleRedisManager;
 
-	public RedisManager getClusterRedisManager() {
+	@Override
+	public ClusterRedisManager getClusterRedisManager() {
 		return clusterRedisManager;
 	}
 
-	public void setClusterRedisManager(RedisManager clusterRedisManager) {
+	public void setClusterRedisManager(ClusterRedisManager clusterRedisManager) {
 		this.clusterRedisManager = clusterRedisManager;
 	}
 
-	public org.crazycake.shiro.RedisManager getSingleRedisManager() {
+	@Override
+	public SingleRedisManager getSingleRedisManager() {
 		return SingleRedisManager;
 	}
 
-	public void setSingleRedisManager(
-			org.crazycake.shiro.RedisManager singleRedisManager) {
+	public void setSingleRedisManager(SingleRedisManager singleRedisManager) {
 		SingleRedisManager = singleRedisManager;
 	}
 	

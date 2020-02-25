@@ -11,12 +11,13 @@
     <artifactId>daijie-shiro-spring-boot-starter</artifactId>
 
     <properties>
-        <apache.shiro.version>1.4.0</apache.shiro.version>
-        <crazycake.shiro.redis.version>2.4.2.1-RELEASE</crazycake.shiro.redis.version>
-        <jedis.version>2.9.0</jedis.version>
+        <apache.shiro.version>1.5.0</apache.shiro.version>
+        <crazycake.shiro.redis.version>3.2.3</crazycake.shiro.redis.version>
+        <jedis.version>3.1.0</jedis.version>
         <scheduler.quartz.version>2.2.1</scheduler.quartz.version>
         <commons.pool.version>1.6</commons.pool.version>
         <baomidou.kisso.version>3.7.0</baomidou.kisso.version>
+        <spring.data.redis.version>2.0.0.RELEASE</spring.data.redis.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,12 @@
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
             <version>${crazycake.shiro.redis.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jedis</artifactId>
+                    <groupId>redis.clients</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>
@@ -64,7 +71,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
-            <version>${spring.boot.version}</version>
+            <version>${spring.data.redis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
