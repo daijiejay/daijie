@@ -17,8 +17,13 @@ public class SessionLevelCache extends AbstractCache {
      */
     private ThreadLocal<Set<String>> changedTable = new ThreadLocal();
 
-    public SessionLevelCache() {
-        this.changedTable.set(Sets.newConcurrentHashSet());
+    /**
+     * 检查当前线程记录的已变更的表名对象是否有初始化
+     */
+    private void check() {
+        if (this.changedTable.get() == null) {
+            this.changedTable.set(Sets.newConcurrentHashSet());
+        }
     }
 
     @Override
@@ -48,6 +53,7 @@ public class SessionLevelCache extends AbstractCache {
 
     @Override
     public boolean isChangeTable(String tableName) {
+        check();
         Iterator<String> iterator = this.changedTable.get().iterator();
         while (iterator.hasNext()) {
             if (iterator.next().equals(tableName)) {

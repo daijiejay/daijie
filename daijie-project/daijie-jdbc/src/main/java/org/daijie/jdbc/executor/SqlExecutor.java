@@ -99,7 +99,7 @@ public class SqlExecutor implements Executor {
 
     @Override
     public Object execute() throws SQLException {
-        log.debug(this.sqlScript.getSql());
+        log.debug("SQL脚本：" + this.sqlScript.getSql());
         Object result = null;
         try {
             if (Type.QUERY == this.sqlScript.getScriptType()) {
@@ -165,14 +165,14 @@ public class SqlExecutor implements Executor {
     private ResultSet executeQuery(String sql) throws SQLException {
         this.statement = getConnection().prepareStatement(sql);
         createParams();
-        log.debug(this.statement.toString());
+        log.debug("SQL执行：" + this.statement.toString().substring(this.statement.toString().indexOf(":") + 2));
         return ((PreparedStatement) this.statement).executeQuery();
     }
 
     private int executeUpdate(String sql) throws SQLException {
         this.statement = getConnection().prepareStatement(sql);
         createParams();
-        log.debug(this.statement.toString());
+        log.debug("SQL执行：" + this.statement.toString().substring(this.statement.toString().indexOf(":") + 2));
         return ((PreparedStatement) this.statement).executeUpdate();
     }
 
@@ -270,7 +270,7 @@ public class SqlExecutor implements Executor {
 
     private void createParams() throws SQLException {
         if (this.statement instanceof PreparedStatement) {
-            log.debug(this.sqlScript.getParams().toString());
+            log.debug("SQL参数：" + this.sqlScript.getParams().toString());
             int index = 1;
             for (Object param : this.sqlScript.getParams()) {
                 ((PreparedStatement) this.statement).setObject(index++, param);

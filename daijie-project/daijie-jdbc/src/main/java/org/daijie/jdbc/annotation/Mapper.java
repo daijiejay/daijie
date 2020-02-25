@@ -6,17 +6,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 在声明mapper类上配置指定数据源
+ * 类注解，声明此类为mapper类
  * @author daijie_jay
- * @since 2017年11月20日
+ * @since 2019年02月22日
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SelectDataSource {
+public @interface Mapper {
 
 	/**
-	 * 指定数据源
-	 * @return 指定数据源
+	 * 声明类名称
+	 * @return 类名称
 	 */
-	String name();
+	String name() default "";
 }

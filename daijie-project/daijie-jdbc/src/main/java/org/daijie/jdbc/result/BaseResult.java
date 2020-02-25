@@ -2,6 +2,7 @@ package org.daijie.jdbc.result;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.daijie.jdbc.exception.ResultException;
 import org.daijie.jdbc.matedata.ColumnMateData;
 import org.daijie.jdbc.matedata.MultiTableMateData;
 import org.daijie.jdbc.matedata.TableMateData;
@@ -68,8 +69,8 @@ public class BaseResult implements Result {
             } else if (this.returnClass == Date.class) {
                 return resultSet.getDate(1);
             }
+            Object entity = null;
             try {
-                Object entity = null;
                 Map<String, ColumnMateData> columns;
                 if (tableMatedata.isCostomResult()) {
                     entity = tableMatedata.getReturnClass().newInstance();
@@ -83,7 +84,7 @@ public class BaseResult implements Result {
                     result.add(entity);
                 }
             } catch (Exception e) {
-                log.error("查询结果映射对象失败", e);
+                throw new ResultException(entity.getClass().getName(), e);
             }
         }
         return getResult(result);
