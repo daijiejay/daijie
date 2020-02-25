@@ -16,6 +16,7 @@ public class MysqlTypeConvertor implements TypeConvertor {
             case "int": return "java.lang.Integer";
             case "integer": return "java.lang.Integer";
             case "bigint": return "java.lang.Long";
+            case "bit": return "java.lang.Boolean";
             case "float": return "java.math.BigDecimal";
             case "double": return "java.math.BigDecimal";
             case "decimal": return "java.math.BigDecimal";
