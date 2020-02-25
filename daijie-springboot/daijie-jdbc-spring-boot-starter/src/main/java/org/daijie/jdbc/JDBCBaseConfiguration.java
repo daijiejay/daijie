@@ -59,7 +59,7 @@ public class JDBCBaseConfiguration {
                 throw new IllegalStateException("Only one TransactionManagementConfigurer may exist");
             }
             TransactionManagementConfigurer configurer = configurers.iterator().next();
-            this.txManager = configurer.annotationDrivenTransactionManager();
+            this.txManager = (PlatformTransactionManager) configurer.annotationDrivenTransactionManager();
         }
 
         @Bean
