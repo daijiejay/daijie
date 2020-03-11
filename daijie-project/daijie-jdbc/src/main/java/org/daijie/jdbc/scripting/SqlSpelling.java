@@ -402,15 +402,15 @@ public class SqlSpelling {
                         sql.append(" = ");
                         sql.append(table.getMateData(tableClass).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(equalClass).getColumn(equalFileds[1]).getName());
                        if (equal.hasNext()) {
-                           sql.append(" add ");
+                           sql.append(" and ");
                        }
                    }
                    if (equalClasses.hasNext()) {
-                       sql.append(" add ");
+                       sql.append(" and ");
                    }
                }
-               if (!onCondition.getWrapper().getWrapperBuilder().getConditions().isEmpty()) {
-                   sql.append(" add ");
+               if (onCondition.getWrapper() != null && !onCondition.getWrapper().getWrapperBuilder().getConditions().isEmpty()) {
+                   sql.append(" and ");
                    this.wrapperConditions(sql, table.getMateData(tableClass), onCondition.getWrapper(), params, true);
                }
 
@@ -424,22 +424,28 @@ public class SqlSpelling {
                     Class equalsClass = equalsClasses.next();
                     if (joining.get(equalsClass).getJoinType() == MultiWrapper.JoinType.COMMON) {
                         Map<Class, Map<Class, List<String>>> equaling = joining.get(equalsClass).getJoinWrapper().getEqualing();
-                        Iterator<Class> entityClasses = equaling.keySet().iterator();
-                        while (entityClasses.hasNext()) {
-                            Class entityClass1 = entityClasses.next();
-                            Class entityClass2 = equaling.get(entityClass1).keySet().iterator().next();
-                            Iterator<String> equal = equaling.get(entityClass1).get(entityClass2).iterator();
-                            while (equal.hasNext()) {
-                                String[] equalFileds = equal.next().split(MultiWrapper.EQUAL_FIX);
-                                sql.append(table.getMateData(entityClass1).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(entityClass1).getColumn(equalFileds[0]).getName());
-                                sql.append(" = ");
-                                sql.append(table.getMateData(entityClass2).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(entityClass2).getColumn(equalFileds[1]).getName());
-                                if (equal.hasNext()) {
-                                    sql.append(" add ");
+                        Iterator<Class> entityClasses1 = equaling.keySet().iterator();
+                        while (entityClasses1.hasNext()) {
+                            Class entityClass1 = entityClasses1.next();
+                            Iterator<Class> entityClasses2 = equaling.get(entityClass1).keySet().iterator();
+                            while (entityClasses2.hasNext()) {
+                                Class entityClass2 = entityClasses2.next();
+                                Iterator<String> equal = equaling.get(entityClass1).get(entityClass2).iterator();
+                                while (equal.hasNext()) {
+                                    String[] equalFileds = equal.next().split(MultiWrapper.EQUAL_FIX);
+                                    sql.append(table.getMateData(entityClass1).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(entityClass1).getColumn(equalFileds[0]).getName());
+                                    sql.append(" = ");
+                                    sql.append(table.getMateData(entityClass2).getName()).append(MultiTableMateData.TABLE_COLUMN_FIX).append(table.getMateData(entityClass2).getColumn(equalFileds[1]).getName());
+                                    if (equal.hasNext()) {
+                                        sql.append(" and ");
+                                    }
+                                }
+                                if (entityClasses2.hasNext() || wrapperBuilder.isCondition()) {
+                                    sql.append(" and ");
                                 }
                             }
-                            if (entityClasses.hasNext() || wrapperBuilder.isCondition()) {
-                                sql.append(" add ");
+                            if (entityClasses1.hasNext() || wrapperBuilder.isCondition()) {
+                                sql.append(" and ");
                             }
                         }
                     }
@@ -455,7 +461,7 @@ public class SqlSpelling {
                     }
                     this.wrapperConditions(sql, table.getMateData(whereClass), wrapper, params, true);
                     if (whereClasses.hasNext()) {
-                        sql.append(" add ");
+                        sql.append(" and ");
                     }
                 }
             }

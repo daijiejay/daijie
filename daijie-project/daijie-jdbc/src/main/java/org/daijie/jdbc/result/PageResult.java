@@ -24,8 +24,8 @@ public class PageResult<T> extends BaseResult {
      */
     private List<T> rows;
 
-    public PageResult(Class<?> returnClass, boolean isMulti) {
-        super(returnClass, isMulti);
+    public PageResult(Class<?> returnClass) {
+        super(returnClass);
         this.total = 0L;
         this.rows = new ArrayList<>();
     }

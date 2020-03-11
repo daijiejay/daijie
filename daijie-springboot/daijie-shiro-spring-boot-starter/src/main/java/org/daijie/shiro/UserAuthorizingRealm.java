@@ -13,12 +13,12 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.daijie.common.http.SpringHttpUtil;
 import org.daijie.shiro.authc.Auth;
 import org.daijie.shiro.authc.AuthorizationToken;
 import org.daijie.shiro.authc.UserToken;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 import org.daijie.shiro.util.CookieUtil;
-import org.daijie.shiro.util.HttpConversationUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -97,11 +97,11 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
 		}
 		if(shiroSecurity.isKissoEnable()){
 			SSOToken ssoToken = SSOToken.create()
-					.setIp(HttpConversationUtil.getRequest())
+					.setIp(SpringHttpUtil.getRequest())
 					.setId(1000)
 					.setIssuer(session.getId().toString());
-			SSOHelper.setCookie(HttpConversationUtil.getRequest(), 
-					HttpConversationUtil.getResponse(), 
+			SSOHelper.setCookie(SpringHttpUtil.getRequest(),
+					SpringHttpUtil.getResponse(),
 					ssoToken, 
 					false);
 		}else{

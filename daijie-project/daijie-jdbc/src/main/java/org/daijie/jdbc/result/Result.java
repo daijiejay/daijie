@@ -26,10 +26,4 @@ public interface Result {
      * @throws SQLException SQL异常
      */
     Object getResult(Object result) throws SQLException;
-
-    /**
-     * 是否多表关联查询
-     * @return 返回布尔值
-     */
-    boolean isMulti();
 }

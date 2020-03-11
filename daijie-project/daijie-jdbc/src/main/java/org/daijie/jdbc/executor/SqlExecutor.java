@@ -86,9 +86,9 @@ public class SqlExecutor implements Executor {
             this.initSqlAnalyzer(method, args);
         }
         if (method.getReturnType() == PageResult.class) {
-            this.result = new PageResult(method.getReturnType(), multiWrapper != null);
+            this.result = new PageResult(method.getReturnType());
         } else {
-            this.result = new BaseResult(method.getReturnType(), multiWrapper != null);
+            this.result = new BaseResult(method.getReturnType());
         }
     }
 
@@ -224,7 +224,9 @@ public class SqlExecutor implements Executor {
                 entity = this.tableMatedata.getEntityClass().newInstance();
             } else {
                 for (Object obj : args) {
-                    if (obj.getClass() == this.tableMatedata.getEntityClass()) {
+                    if (this.tableMatedata.getEntityClass().isAssignableFrom(Object.class)) {
+
+                    } else if (obj.getClass() == this.tableMatedata.getEntityClass()) {
                         entity = obj;
                     } else if (obj instanceof List) {
                         entity = obj;

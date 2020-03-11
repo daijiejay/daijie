@@ -8,8 +8,17 @@
         <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>daijie-springcloud</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>daijie-shiro-security-spring-cloud-starter</module>
+        <module>daijie-shiro-oauth2-spring-cloud-starter</module>
+        <module>daijie-common-spring-cloud-starter</module>
+    </modules>
+
+    <properties>
+        <spring.cloud.version>2.2.0.RELEASE</spring.cloud.version>
+    </properties>
 
 
 </project>

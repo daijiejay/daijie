@@ -1,7 +1,7 @@
 package org.daijie.jdbc;
 
 import javax.persistence.Column;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class UserDetailVo {
     @Column(table = "user_info", name = "email")
     private String email;
 
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @Column(table = "user_linkman")
     private List<UserLinkman> userLinkmens;
 

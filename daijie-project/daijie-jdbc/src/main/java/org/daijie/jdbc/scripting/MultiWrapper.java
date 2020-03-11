@@ -496,7 +496,7 @@ public class MultiWrapper {
          */
         public JoinWrapper andJoin(Class<?> entityClass, Wrapper whereWrapper) {
             this.multiWrapper.entityClasses.add(entityClass);
-            this.multiWrapper.wrapperBuilder.andJoin(entityClass, whereWrapper, this.multiWrapper);
+            this.multiWrapper.wrapperBuilder.andJoin(entityClass, whereWrapper, this.multiWrapper).join();
             return this;
         }
 

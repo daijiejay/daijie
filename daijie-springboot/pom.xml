@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+        <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
     </properties>
 
     <modules>
@@ -22,6 +22,7 @@
         <module>daijie-shiro-spring-boot-starter</module>
         <module>daijie-jdbc-spring-boot-starter</module>
         <module>daijie-test-spring-boot-starter</module>
+        <module>daijie-hadoop-spring-boot-starter</module>
     </modules>
 
     <dependencies>

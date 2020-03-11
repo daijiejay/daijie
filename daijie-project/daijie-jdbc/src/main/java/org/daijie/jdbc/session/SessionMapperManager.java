@@ -1,6 +1,7 @@
 package org.daijie.jdbc.session;
 
 import org.daijie.core.util.ClassInfoUtil;
+import org.daijie.jdbc.annotation.Mapper;
 import org.daijie.jdbc.executor.Executor;
 import org.daijie.jdbc.executor.SqlExecutor;
 
@@ -49,7 +50,11 @@ public class SessionMapperManager {
          * @return 具体映射对象类型
          */
         private Class getEntityType() {
-            return ClassInfoUtil.getSuperClassGenricType(sessionMapperClass);
+            if (this.sessionMapperClass.getAnnotation(Mapper.class) != null) {
+                return Object.class;
+            } else {
+                return ClassInfoUtil.getSuperClassGenricType(sessionMapperClass);
+            }
         }
 
         @Override

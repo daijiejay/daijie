@@ -54,7 +54,7 @@ public class TableMateDataManage {
             realityReturnClass = ClassInfoUtil.getSuperClassGenricType(returnClassType);
         }
         tableMatedata = initTable(entityClass);
-        if (entityClass.isAssignableFrom(realityReturnClass) || realityReturnClass.isAssignableFrom(Object.class) || isBaseClass(realityReturnClass)) {
+        if (entityClass.equals(realityReturnClass) || realityReturnClass.equals(Object.class) || isBaseClass(realityReturnClass)) {
             return tableMatedata;
         }
         tableMatedata.setReturnClass(realityReturnClass);

@@ -1,5 +1,7 @@
 package org.daijie.shiro.util;
 
+import org.daijie.common.http.SpringHttpUtil;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +18,7 @@ public class CookieUtil {
 	 * @return String 值
 	 */
 	public static String get(String key) {
-		Cookie cookie[] = HttpConversationUtil.getRequest().getCookies();
+		Cookie cookie[] = SpringHttpUtil.getRequest().getCookies();
 		if (cookie == null || cookie.length == 0) {
 			return null;
 		}
@@ -36,7 +38,7 @@ public class CookieUtil {
 	 * @return HttpServletResponse
 	 */
 	public static HttpServletResponse set(String key, String value, Integer time) {
-		HttpServletResponse response = HttpConversationUtil.getResponse();
+		HttpServletResponse response = SpringHttpUtil.getResponse();
 		Cookie cookie = new Cookie(key, value);
 		if (time != null) {
 			cookie.setMaxAge(time);

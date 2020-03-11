@@ -18,7 +18,8 @@ public class ModelResultExceptionHandler extends ControllerExceptionHandlerResol
     public Object resolveException(HandlerMethod handlerMethod, Exception exception) {
         if(exception instanceof ApiException){
             return Result.build(null, exception.getMessage(), Result.ERROR, ((ApiException) exception).getCode()).toJsonStr();
-        }else if(exception.getMessage() != null && exception.getMessage().contains("org.daijie.shiro.exception.UserExpireException")){
+        }else if(exception.getClass().getName().equals("org.daijie.shiro.exception.UserExpireException")
+                || exception.getClass().getName().equals("org.apache.shiro.authc.AuthenticationException")){
             return Result.build(null, ResultCode.CODE_300.getDescription(), Result.ERROR, ResultCode.CODE_300).toJsonStr();
         }else if(exception.getMessage() != null && exception.getMessage().contains("com.netflix.client.ClientException")){
             return Result.build(null, ResultCode.CODE_501.getDescription(), Result.ERROR, ResultCode.CODE_501).toJsonStr()+exception.getMessage().substring(exception.getMessage().lastIndexOf(":"));

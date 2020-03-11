@@ -5,12 +5,12 @@ import com.baomidou.kisso.SSOHelper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.daijie.common.http.SpringHttpUtil;
 import org.daijie.core.util.encrypt.RSAUtil;
 import org.daijie.shiro.exception.UserExpireException;
 import org.daijie.shiro.session.ShiroRedisSession;
 import org.daijie.shiro.session.ShiroRedisSession.Redis;
 import org.daijie.shiro.util.CookieUtil;
-import org.daijie.shiro.util.HttpConversationUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -111,7 +111,7 @@ public final class Auth {
 		Session session = Redis.getSession();
 		if (session != null) {
 			if(session.getAttribute("kissoEnable") != null && (boolean) session.getAttribute("kissoEnable")){
-				SSOHelper.clearLogin(HttpConversationUtil.getRequest(), HttpConversationUtil.getResponse());
+				SSOHelper.clearLogin(SpringHttpUtil.getRequest(), SpringHttpUtil.getResponse());
 			}
 			Redis.deleteSession();
 			CookieUtil.set(ShiroRedisSession.token, session.getId().toString(), 0);
