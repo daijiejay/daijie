@@ -23,10 +23,11 @@ public class MultiTableMateData extends TableMateData {
 
     /**
      * 构建多表关联查询表元数据属性类
+     * @param tableName 当前对象对应表名
      * @param entityClass 多表关联查询返回映射对象
      */
-    public MultiTableMateData(Class entityClass) {
-        super(entityClass.getName(), "", entityClass);
+    public MultiTableMateData(String tableName, Class entityClass) {
+        super(tableName, "", entityClass);
         this.setReturnClass(entityClass);
     }
 

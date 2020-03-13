@@ -82,7 +82,11 @@ public class SqlExecutor implements Executor {
             this.tableMatedata = TableMateDataManage.initTable(returnClass, multiWrapper);
             this.initSqlAnalyzer(method, multiWrapper);
         } else {
-            this.tableMatedata = TableMateDataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
+            if (entityClass == returnClass || TableMateDataManage.isBaseClass(returnClass) || returnClass.isAssignableFrom(Object.class)) {
+                this.tableMatedata = TableMateDataManage.initTable(entityClass, method.getReturnType(), method.getGenericReturnType());
+            } else {
+                this.tableMatedata = TableMateDataManage.initMultiTable(returnClass);
+            }
             this.initSqlAnalyzer(method, args);
         }
         if (method.getReturnType() == PageResult.class) {
@@ -258,6 +262,11 @@ public class SqlExecutor implements Executor {
         this.sqlScript = sqlAnalyzer;
     }
 
+    /**
+     * 获取方法参数中MultiWrapper类的值
+     * @param args
+     * @return
+     */
     private MultiWrapper getMultiWrapper(Object[] args) {
         if (args == null) {
             return null;
@@ -270,6 +279,10 @@ public class SqlExecutor implements Executor {
         return null;
     }
 
+    /**
+     * JDBC SQL语句占位符对应的参数构建
+     * @throws SQLException
+     */
     private void createParams() throws SQLException {
         if (this.statement instanceof PreparedStatement) {
             log.debug("SQL参数：" + this.sqlScript.getParams().toString());
@@ -280,6 +293,9 @@ public class SqlExecutor implements Executor {
         }
     }
 
+    /**
+     * JDBC SQL执行类型
+     */
     public enum Type {
         QUERY,
         UPDATE,

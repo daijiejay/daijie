@@ -22,6 +22,7 @@ import java.util.Map;
  */
 public class JDBCTest {
     private UserMapper userMapper;
+    private AnnotationMapper annotationMapper;
     private UserService userService;
 
     @Before
@@ -34,6 +35,7 @@ public class JDBCTest {
         DataSource druidDataSource = DataSourceUtil.getDataSource(DruidDataSource.class, properties);
         DataSourceManage.setDataSource(new SimpleDataSource(druidDataSource));
         this.userMapper = SessionMapperManager.createSessionMapper(UserMapper.class);
+        this.annotationMapper = SessionMapperManager.createSessionMapper(AnnotationMapper.class);
     }
 
     /**
@@ -58,6 +60,7 @@ public class JDBCTest {
     public void testSRUDNotTransaction() {
         this.userService = new UserService();
         this.userService.setUserMapper(userMapper);
+        this.userService.setAnnotationMapper(annotationMapper);
         this.userService.testInsert();
         this.userService.testSelect();
         this.userService.testUpdate();

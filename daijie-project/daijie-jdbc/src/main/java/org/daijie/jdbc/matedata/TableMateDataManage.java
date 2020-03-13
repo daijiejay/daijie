@@ -73,7 +73,7 @@ public class TableMateDataManage {
      * @return TableMatedata 表元数据
      */
     public static TableMateData initTable(Class entityClass) {
-        String tableName = null;
+        String tableName = entityClass.getSimpleName();
         Object annotation = entityClass.getAnnotation(Table.class);
         if (annotation instanceof Table) {
             Table table = (Table) entityClass.getAnnotation(Table.class);
@@ -114,8 +114,14 @@ public class TableMateDataManage {
      * @return TableMatedata 多表元数据
      */
     public static MultiTableMateData initMultiTable(Class entityClass) {
-        MultiTableMateData tableMatedata = new MultiTableMateData(entityClass);
-        initMultiTableColumnMataData(tableMatedata, entityClass, null, true);
+        String tableName = entityClass.getSimpleName();
+        Object annotation = entityClass.getAnnotation(Table.class);
+        if (annotation instanceof Table) {
+            Table table = (Table) entityClass.getAnnotation(Table.class);
+            tableName = table.name();
+        }
+        MultiTableMateData tableMatedata = new MultiTableMateData(tableName, entityClass);
+        initMultiTableColumnMataData(tableMatedata, entityClass, tableName, null, true);
         return tableMatedata;
     }
 
@@ -126,13 +132,7 @@ public class TableMateDataManage {
      * @param childrenTableMatedata 子表元数据
      * @param isRoot 是否根节点
      */
-    private static void initMultiTableColumnMataData(MultiTableMateData tableMatedata, Class entityClass, MultiTableMateData childrenTableMatedata, boolean isRoot) {
-        String tableName = null;
-        Object annotation = entityClass.getAnnotation(Table.class);
-        if (annotation instanceof Table) {
-            Table table = (Table) entityClass.getAnnotation(Table.class);
-            tableName = table.name();
-        }
+    private static void initMultiTableColumnMataData(MultiTableMateData tableMatedata, Class entityClass, String tableName, MultiTableMateData childrenTableMatedata, boolean isRoot) {
         Field[] fields = entityClass.getDeclaredFields();
         for (Field field : fields) {
             Column column = field.getAnnotation(Column.class);
@@ -153,8 +153,8 @@ public class TableMateDataManage {
                 } else {
                     fieldClass = field.getDeclaringClass();
                 }
-                childrenTableMatedata = new MultiTableMateData(fieldClass);
-                initMultiTableColumnMataData(tableMatedata, fieldClass, childrenTableMatedata, false);
+                childrenTableMatedata = new MultiTableMateData(columnTable, fieldClass);
+                initMultiTableColumnMataData(tableMatedata, fieldClass, columnTable, childrenTableMatedata, false);
             }
             ColumnMateData columnMateData = new ColumnMateData(columnTable, columnName, fieldClass, field);
             columnMateData.setTableMatedata(childrenTableMatedata);

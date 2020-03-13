@@ -16,9 +16,14 @@ import java.util.List;
 public class UserService /*implements IUserService*/ {
 
     private UserMapper userMapper;
+    private AnnotationMapper annotationMapper;
 
     public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
+    }
+
+    public void setAnnotationMapper(AnnotationMapper annotationMapper) {
+        this.annotationMapper = annotationMapper;
     }
 
     public void testInsert() {
@@ -148,6 +153,8 @@ public class UserService /*implements IUserService*/ {
         list1.add(1);
         list1.add(2);
         Assert.assertNotNull(userMapper.selectUserForAnnotation3(list1));
+        Assert.assertNotNull(annotationMapper.selectUserDetail());
+        Assert.assertTrue(annotationMapper.selectCount() > 0);
     }
 
     public void testCommitTransaction() {
