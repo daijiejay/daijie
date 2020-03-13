@@ -1,6 +1,8 @@
 package org.daijie.jdbc.executor;
 
+import com.google.common.collect.Maps;
 import org.daijie.core.util.ClassInfoUtil;
+import org.daijie.jdbc.annotation.Param;
 import org.daijie.jdbc.cache.CacheManage;
 import org.daijie.jdbc.matedata.MultiTableMateData;
 import org.daijie.jdbc.matedata.TableMateData;
@@ -8,18 +10,20 @@ import org.daijie.jdbc.matedata.TableMateDataManage;
 import org.daijie.jdbc.result.BaseResult;
 import org.daijie.jdbc.result.PageResult;
 import org.daijie.jdbc.result.Result;
-import org.daijie.jdbc.scripting.*;
 import org.daijie.jdbc.scripting.Wrapper;
+import org.daijie.jdbc.scripting.*;
 import org.daijie.jdbc.transaction.Transaction;
 import org.daijie.jdbc.transaction.TransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * SQL执行器的具体实现
@@ -222,32 +226,52 @@ public class SqlExecutor implements Executor {
         SqlAnalyzerImpl sqlAnalyzer = new SqlAnalyzerImpl<>();
         Object entity = null;
         Wrapper wrapper = null;
-        MultiWrapper multiWrapper = null;
         try {
             if (args == null || args.length == 0) {
                 entity = this.tableMatedata.getEntityClass().newInstance();
             } else {
-                for (Object obj : args) {
-                    if (this.tableMatedata.getEntityClass().isAssignableFrom(Object.class)) {
+                Map<String, Object> params = Maps.newHashMap();
+                Annotation[][] annotations = method.getParameterAnnotations();
+                for (int i = 0; i < annotations.length; i++) {
+                    Object param = annotations[i];
+                    Annotation[] paramAnn = annotations[i];
+                    if(param == null || paramAnn.length == 0){
+                        continue;
+                    }
+                    for (Annotation annotation : paramAnn) {
+                        if(annotation.annotationType().equals(Param.class)){
+                            params.put(((Param) annotation).value(), args[i]);
+                        }
+                    }
+                }
+                if (params.size() > 0 && params.size() != args.length) {
+                    throw new SQLException("缺少定义参数名@Param");
+                }
+                if (params.size() > 0) {
+                    entity = params;
+                } else {
+                    for (Object obj : args) {
+                        if (this.tableMatedata.getEntityClass().isAssignableFrom(Object.class)) {
 
-                    } else if (obj.getClass() == this.tableMatedata.getEntityClass()) {
-                        entity = obj;
-                    } else if (obj instanceof List) {
-                        entity = obj;
-                    } else if (obj instanceof Serializable) {
-                        entity = this.tableMatedata.getEntityClass().newInstance();
-                        Field field = this.tableMatedata.getPrimaryKey().getField();
-                        field.setAccessible(true);
-                        field.set(entity, obj);
-                    } else if (obj instanceof Wrapper) {
-                        wrapper = (Wrapper) obj;
+                        } else if (obj.getClass() == this.tableMatedata.getEntityClass()) {
+                            entity = obj;
+                        } else if (obj instanceof List) {
+                            entity = obj;
+                        } else if (obj instanceof Serializable) {
+                            entity = this.tableMatedata.getEntityClass().newInstance();
+                            Field field = this.tableMatedata.getPrimaryKey().getField();
+                            field.setAccessible(true);
+                            field.set(entity, obj);
+                        } else if (obj instanceof Wrapper) {
+                            wrapper = (Wrapper) obj;
+                        }
                     }
                 }
             }
             sqlAnalyzer.generatingSql(this.tableMatedata, entity, method, wrapper);
             this.sqlScript = sqlAnalyzer;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("参数错误：", e);
         }
     }
 
