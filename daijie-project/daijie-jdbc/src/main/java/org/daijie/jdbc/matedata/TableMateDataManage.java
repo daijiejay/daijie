@@ -114,7 +114,7 @@ public class TableMateDataManage {
      * @return TableMatedata 多表元数据
      */
     public static MultiTableMateData initMultiTable(Class entityClass) {
-        String tableName = entityClass.getSimpleName();
+        String tableName = null;
         Object annotation = entityClass.getAnnotation(Table.class);
         if (annotation instanceof Table) {
             Table table = (Table) entityClass.getAnnotation(Table.class);

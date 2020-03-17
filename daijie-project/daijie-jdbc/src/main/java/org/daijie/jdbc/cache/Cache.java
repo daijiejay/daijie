@@ -1,5 +1,7 @@
 package org.daijie.jdbc.cache;
 
+import java.util.List;
+
 /**
  * 查询结果的一些缓存操作
  * @author daijie
@@ -9,19 +11,19 @@ public interface Cache {
 
     /**
      * 缓存查询结果
-     * @param tableName 缓存对应的表名
+     * @param tableNames 缓存对应的表名
      * @param sql sql语句
      * @param resultData 缓存数据
      */
-    void set(String tableName, String sql, Object resultData);
+    void set(List<String> tableNames, String sql, Object resultData);
 
     /**
      * 获取缓存中的查询结果
-     * @param tableName 缓存对应的表名
+     * @param tableNames 缓存对应的表名
      * @param sql sql语句
      * @return 查询结果集
      */
-    Object get(String tableName, String sql);
+    Object get(List<String> tableNames, String sql);
 
     /**
      * 删除缓存数据

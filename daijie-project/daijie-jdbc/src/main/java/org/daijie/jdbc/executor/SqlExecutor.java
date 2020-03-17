@@ -1,5 +1,10 @@
 package org.daijie.jdbc.executor;
 
+import com.alibaba.druid.sql.SQLUtils;
+import com.alibaba.druid.sql.ast.SQLStatement;
+import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlSchemaStatVisitor;
+import com.alibaba.druid.util.JdbcConstants;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.daijie.core.util.ClassInfoUtil;
 import org.daijie.jdbc.annotation.Param;
@@ -24,6 +29,7 @@ import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * SQL执行器的具体实现
@@ -132,8 +138,10 @@ public class SqlExecutor implements Executor {
 
     @Override
     public Object executeQuery() throws SQLException {
-        if (CacheManage.get(this.tableMatedata.getName(), this.sqlScript.getSql()) != null) {
-           return this.result.getResult(CacheManage.get(this.tableMatedata.getName(), this.sqlScript.getSql()));
+        List<String> tableNames = getTables();
+        Object resultData = CacheManage.get(tableNames, this.sqlScript.getSql());
+        if (resultData != null) {
+           return resultData;
         }
         if (this.result instanceof PageResult) {
             ((PageResult) this.result).pageResult(executeQuery(this.sqlScript.getCountSql()));
@@ -142,11 +150,11 @@ public class SqlExecutor implements Executor {
             }
         }
         ResultSet resultSet = executeQuery(this.sqlScript.getSql());
-        Object resultData = this.result.mappingObjectResult(resultSet, this.tableMatedata);
+        resultData = this.result.mappingObjectResult(resultSet, this.tableMatedata);
         resultSet.last();
         log.debug("查询条数为：{}", resultSet.getRow());
-        if (!CacheManage.isChangeTable(this.tableMatedata.getName())) {
-            CacheManage.set(this.tableMatedata.getName(), this.sqlScript.getSql(), resultData);
+        if (!CacheManage.isChangeTable(tableNames)) {
+            CacheManage.set(tableNames, this.sqlScript.getSql(), resultData);
         }
         return resultData;
     }
@@ -315,6 +323,22 @@ public class SqlExecutor implements Executor {
                 ((PreparedStatement) this.statement).setObject(index++, param);
             }
         }
+    }
+
+    /**
+     * 解析获取SQL所有表名
+     * @return
+     */
+    private List<String> getTables() {
+        List<String> tables = Lists.newArrayList();
+        List<SQLStatement> stmtList = SQLUtils.parseStatements(this.sqlScript.getSql(), JdbcConstants.MYSQL);
+        for (int i = 0; i < stmtList.size(); i++) {
+            SQLStatement stmt = stmtList.get(i);
+            MySqlSchemaStatVisitor visitor = new MySqlSchemaStatVisitor();
+            stmt.accept(visitor);
+            tables.addAll(visitor.getTables().keySet().stream().map(name -> name.getName()).collect(Collectors.toList()));
+        }
+        return tables;
     }
 
     /**

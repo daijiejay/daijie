@@ -144,10 +144,10 @@ public class UserService /*implements IUserService*/ {
 
     public void testCostomizeAnnotation() {
         User user = new User();
-//        user.setUserId(1);
+        user.setUserId(1);
         user.setUserName("test");
-//        Assert.assertNotNull(userMapper.selectUserForAnnotation1(user));
-//        Assert.assertNotNull(userMapper.selectUserForAnnotation2(user));
+        Assert.assertNotNull(userMapper.selectUserForAnnotation1(user));
+        Assert.assertNotNull(userMapper.selectUserForAnnotation2(user));
 
         List<Integer> list1 = Lists.newArrayList();
         list1.add(1);
