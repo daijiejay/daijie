@@ -28,11 +28,13 @@ public class SessionLevelCache extends AbstractCache {
 
     @Override
     public void recodeChangedTable(String tableName) {
+        check();
         this.changedTable.get().add(tableName);
     }
 
     @Override
     public void commit() {
+        check();
         for (String tableName : this.changedTable.get()) {
             super.remove(tableName);
         }
@@ -41,6 +43,7 @@ public class SessionLevelCache extends AbstractCache {
 
     @Override
     public void rollback() {
+        check();
         this.clear();
     }
 

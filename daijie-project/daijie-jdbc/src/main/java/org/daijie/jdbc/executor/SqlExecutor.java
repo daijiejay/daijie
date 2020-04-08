@@ -114,6 +114,7 @@ public class SqlExecutor implements Executor {
     @Override
     public Object execute() throws SQLException {
         log.debug("SQL脚本：" + this.sqlScript.getSql());
+        log.debug("SQL参数：" + this.sqlScript.getParams());
         Object result = null;
         try {
             if (Type.QUERY == this.sqlScript.getScriptType()) {
@@ -139,7 +140,7 @@ public class SqlExecutor implements Executor {
     @Override
     public Object executeQuery() throws SQLException {
         List<String> tableNames = getTables();
-        Object resultData = CacheManage.get(tableNames, this.sqlScript.getSql());
+        Object resultData = CacheManage.get(tableNames, this.sqlScript.getSql() + this.sqlScript.getParams());
         if (resultData != null) {
            return resultData;
         }
@@ -154,7 +155,7 @@ public class SqlExecutor implements Executor {
         resultSet.last();
         log.debug("查询条数为：{}", resultSet.getRow());
         if (!CacheManage.isChangeTable(tableNames)) {
-            CacheManage.set(tableNames, this.sqlScript.getSql(), resultData);
+            CacheManage.set(tableNames, this.sqlScript.getSql() + this.sqlScript.getParams(), resultData);
         }
         return resultData;
     }
